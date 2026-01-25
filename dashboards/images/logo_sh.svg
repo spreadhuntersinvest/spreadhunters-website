@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" width="360" height="120">
+  <!-- Fondo transparente -->
+  <rect width="360" height="120" fill="none"/>
+  
+  <!-- Columna azul oscuro (izquierda) -->
+  <rect x="20" y="25" width="28" height="70" rx="4" fill="#001F3F"/>
+  
+  <!-- Columna teal (derecha) -->
+  <rect x="52" y="25" width="28" height="70" rx="4" fill="#00D4D4"/>
+  
+  <!-- Texto "SPREAD" - Blanco para contrastar mejor -->
+  <text x="130" y="58" font-family="Arial, sans-serif" font-weight="700" font-size="36" fill="#FFFFFF">SPREAD</text>
+  
+  <!-- Texto "HUNTERS" - Teal -->
+  <text x="130" y="95" font-family="Arial, sans-serif" font-weight="700" font-size="36" fill="#00D4D4">HUNTERS</text>
+</svg>

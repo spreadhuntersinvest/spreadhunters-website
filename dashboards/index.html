@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#00d7ff">
+    <link rel="icon" type="image/png" href="images/favicon2.png">
+    <link rel="apple-touch-icon" href="images/favicon2.png">
+    <title>Investment Research - Fundamental Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f1419;
+            --bg-secondary: #1a2332;
+            --bg-tertiary: #1a2538;
+            --text-primary: #00d7ff;
+            --text-secondary: #d0d8e0;
+            --text-tertiary: #b0c4de;
+            --accent-positive: #90ee90;
+            --accent-warning: #ffa500;
+            --accent-negative: #ff6b6b;
+             /* TIPOGRAFÍA FLUIDA - NUEVO */
+            --font-size-xs: clamp(0.7rem, 1.2vw, 0.85rem);
+            --font-size-sm: clamp(0.85rem, 1.5vw, 0.95rem);
+            --font-size-base: clamp(0.95rem, 1.8vw, 1rem);
+            --font-size-lg: clamp(1.1rem, 2vw, 1.2rem);
+            --font-size-xl: clamp(1.3rem, 2.5vw, 1.5rem);
+            --font-size-2xl: clamp(1.5rem, 3vw, 1.8rem);
+            --font-size-3xl: clamp(1.8rem, 4vw, 2.2rem);
+
+            /* ESPACIADO RESPONSIVO - NUEVO */
+            --space-xs: clamp(0.5rem, 1vw, 0.75rem);
+            --space-sm: clamp(0.75rem, 1.5vw, 1rem);
+            --space-md: clamp(1rem, 2vw, 1.5rem);
+            --space-lg: clamp(1.5rem, 2.5vw, 2rem);
+            --space-xl: clamp(2rem, 3vw, 2.5rem);
+        }
+
+        body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    
+    /* FONDO: Gradient oscuro + imagen png */
+    background: 
+        linear-gradient(135deg, rgba(15, 20, 25, 0.97) 0%, rgba(26, 35, 50, 0.96) 100%),
+        url('images/Fondo_SpreadHunters_2_negro.png');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    
+    color: var(--text-secondary);
+    min-height: 100vh;
+    padding: var(--space-sm);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+     header 
+        {
+    position: relative;
+    text-align: center;
+    padding: 0px 0px;
+    background: linear-gradient(135deg, rgba(15, 20, 25, 0.95) 0%, rgba(26, 35, 50, 0.95) 100%);
+    border-bottom: 2px solid rgba(0, 215, 255, 0.2);
+    margin-bottom: 20px;  /* ← REDUCIDO de 40px a 20px */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    }
+
+    header::before 
+        {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(15, 20, 25, 0.3) 0%,
+        rgba(15, 20, 25, 0) 50%,
+        rgba(15, 20, 25, 0.3) 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+    }
+
+   header img {
+    position: relative;
+    z-index: 0;
+    width: 90%;
+    max-width: 1200px;
+    aspect-ratio: 6 / 1;
+    object-fit: cover;
+    margin: 0 auto;
+    display: block;
+    filter: brightness(0.95) contrast(1.1);
+    
+    /* ← NUEVO: Bordes redondeados */
+    border-radius: 12px;
+    
+    /* ← NUEVO: Sombra que integra con fondo negro */
+    box-shadow: 
+        inset 0 0 30px rgba(0, 0, 0, 0.2),  /* Sombra interior */
+        0 10px 30px rgba(0, 0, 0, 0.5),     /* Sombra exterior profunda */
+        0 0 40px rgba(50, 184, 198, 0.1);   /* Glow teal sutil */
+    
+    /* ← Transición suave */
+    transition: all 0.3s ease;
+}
+
+/* ← BONUS: Efecto al hover */
+header img:hover {
+    box-shadow: 
+        inset 0 0 30px rgba(0, 0, 0, 0.15),
+        0 15px 40px rgba(0, 0, 0, 0.6),
+        0 0 50px rgba(50, 184, 198, 0.15);
+    filter: brightness(1) contrast(1.15);
+}
+        
+@media (min-width: 640px) {              /* ← NUEVA: 640px para img */
+    header img {
+        width: 95%;
+    }
+}
+        
+@media (min-width: 1024px) {             /* ← MOVIDA AQUÍ: 1024px para img */
+    header img {
+        width: 100%;
+    }
+}
+
+header p {
+    position: relative;
+    z-index: 2;
+    color: #2dd6e6;  /* Teal más brillante */
+    margin-top: var(--space-sm);
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    margin-bottom: 0;
+    padding: 0 var(--space-md) var(--space-xs) var(--space-md);
+    letter-spacing: 0.5px;
+    
+    /* Efecto de resplandor profesional */
+    text-shadow: 
+        0 0 10px rgba(45, 214, 230, 0.4),
+        0 0 20px rgba(45, 214, 230, 0.2),
+        0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ← BONUS: Efecto al hover */
+header p:hover {
+    text-shadow: 
+        0 2px 6px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(50, 184, 198, 0.35);
+}
+    @media (min-width: 640px) {
+        header p 
+            {
+        font-size: var(--font-size-xl);
+            }
+        }
+
+    @media (min-width: 1024px) {
+        header p 
+            {
+         font-size: var(--font-size-2xl);
+            }
+        }
+            /* FILTROS */
+        .filters-section {
+            background: rgba(26, 35, 50, 0.8);
+            border: 1px solid rgba(0, 215, 255, 0.15);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .filters-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-shadow: 
+            0 0 8px rgba(45, 214, 230, 0.3),
+            0 0 16px rgba(45, 214, 230, 0.15);
+        }
+
+        .filters-counter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 215, 255, 0.1);
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 215, 255, 0.2);
+        }
+
+.counter-label {
+    color: var(--text-tertiary);
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.counter-value {
+    color: var(--text-primary);
+    font-size: 1.3em;
+    font-weight: 700;
+    min-width: 25px;
+    text-align: center;
+}
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .filter-btn {
+            padding: 10px 14px;
+            border: 1.5px solid rgba(0, 215, 255, 0.3);
+            background: rgba(26, 35, 50, 0.6);
+            color: var(--text-tertiary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--text-primary);
+            background: rgba(0, 215, 255, 0.1);
+            color: var(--text-primary);
+            transform: scale(1.05);  /* ← NUEVO */
+            box-shadow: 0 5px 15px rgba(0, 215, 255, 0.15);  /* ← NUEVO */
+        }
+
+        .filter-btn.active {
+            background: rgba(0, 215, 255, 0.15);
+            color: var(--text-primary);
+            border-color: var(--text-primary);
+            box-shadow: 0 0 15px rgba(0, 215, 255, 0.2);
+        }
+
+        .clear-filters {
+    padding: 10px 16px;
+    background: rgba(0, 215, 255, 0.2);
+    color: var(--text-primary);
+    border: 1.5px solid rgba(0, 215, 255, 0.4);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.clear-filters:hover {
+    background: rgba(0, 215, 255, 0.35);
+    border-color: rgba(0, 215, 255, 0.6);
+    box-shadow: 0 0 15px rgba(0, 215, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.clear-filters:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.filters-count-badge {
+    display: inline-block;
+    background: rgba(255, 107, 107, 0.3);
+    color: #ff6b6b;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.85em;
+    font-weight: 700;
+    min-width: 24px;
+    text-align: center;
+}
+
+        /* ← NUEVO: SELECTOR DE SORT */
+.sort-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 215, 255, 0.1);
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 215, 255, 0.2);
+}
+
+.sort-label {
+    color: var(--text-tertiary);
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.sort-select {
+    background: rgba(26, 35, 50, 0.8);
+    color: var(--text-primary);
+    border: 1px solid rgba(0, 215, 255, 0.3);
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.sort-select:hover {
+    border-color: var(--text-primary);
+    background: rgba(0, 215, 255, 0.1);
+    box-shadow: 0 0 10px rgba(0, 215, 255, 0.15);
+}
+
+.sort-select:focus {
+    outline: none;
+    border-color: var(--text-primary);
+    box-shadow: 0 0 15px rgba(0, 215, 255, 0.2);
+}
+
+.sort-select option {
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+}
+
+        .filters-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        /* VISTA POR TIPO DE INVERSIÓN */
+        .investment-type-section {
+    margin-bottom: 50px;
+    margin-top: 40px;
+    }
+
+     .investment-type-section:first-of-type {
+    margin-top: 0;
+    }
+
+        .investment-type-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+    margin-top: 60px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(0, 215, 255, 0.2);
+}
+
+.investment-type-section:first-of-type .investment-type-header {
+    margin-top: 40px;
+}
+
+        .investment-type-icon {
+            font-size: 1.4em;
+        }
+
+        .investment-type-title {
+    color: var(--text-primary);
+    font-size: 1.5em;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    text-shadow: 
+        0 0 10px rgba(45, 214, 230, 0.35),
+        0 0 20px rgba(45, 214, 230, 0.2);
+        }
+
+        .investment-type-count {
+            margin-left: auto;
+            background: rgba(0, 215, 255, 0.15);
+            padding: 6px 14px;
+            border-radius: 20px;
+            color: var(--text-primary);
+            font-size: 0.9em;
+            font-weight: 600;
+            border: 1px solid rgba(0, 215, 255, 0.3);
+        }
+
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .research-card {
+            background: rgba(26, 35, 50, 0.6);
+            border: 1px solid rgba(0, 215, 255, 0.15);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+        }
+
+        .research-card:hover {
+            transform: translateY(-8px) scale(1.02);  /* ← AÑADE scale(1.02) */
+            box-shadow: 0 20px 60px rgba(0, 215, 255, 0.25);  /* ← Aumenta opacidad */
+            border-color: rgba(0, 215, 255, 0.5);  /* ← Más visible */
+        }
+
+        .card-header {
+    background: linear-gradient(135deg, rgba(0, 215, 255, 0.1) 0%, rgba(0, 215, 255, 0.02) 100%);
+    color: var(--text-primary);
+    padding: 16px;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-bottom: 1px solid rgba(0, 215, 255, 0.1);
+}
+
+.card-logo {
+    width: 80%;
+    height: 60px;
+    object-fit: contain;
+    margin: 0 auto 10px;
+    filter: brightness(0.9);
+}
+
+.card-ticker {
+    font-size: 0.65em;
+    opacity: 0.7;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    font-weight: 600;
+}
+
+.card-company {
+    font-size: 1.1em;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--text-primary);
+    line-height: 1.3;
+}
+
+.card-sector {
+    font-size: 0.75em;
+    opacity: 0.75;
+    margin-bottom: 0;
+    color: var(--text-tertiary);
+    font-weight: 500;
+}
+
+        .upside-positive {
+            color: var(--accent-positive);
+        }
+
+        .upside-negative {
+            color: var(--accent-negative);
+        }
+
+        .card-body {
+    padding: 14px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+        .card-metrics {
+            margin-bottom: 15px;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 0.9em;
+            border-bottom: 1px solid rgba(0, 215, 255, 0.08);
+        }
+
+        .metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            color: var(--text-tertiary);
+            font-weight: 500;
+        }
+
+        .metric-value {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .card-button {
+    background: rgba(0, 215, 255, 0.15);
+    color: var(--text-primary);
+    border: 1px solid rgba(0, 215, 255, 0.3);
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+    display: block;
+}
+
+.card-button:hover {
+    background: rgba(0, 215, 255, 0.25);
+    border-color: rgba(0, 215, 255, 0.5);
+    box-shadow: 0 0 15px rgba(0, 215, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.card-date {
+    font-size: 0.75em;
+    color: var(--text-tertiary);
+    margin-bottom: 12px;
+    opacity: 0.65;
+    margin-top: auto;
+}
+
+        .no-results {
+            text-align: center;
+            color: var(--text-tertiary);
+            padding: 40px 20px;
+        }
+
+        .no-results h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-tertiary);
+            padding: 20px;
+            border-top: 1px solid rgba(0, 215, 255, 0.1);
+            font-size: 0.9em;
+        }
+
+        footer a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        footer a:hover {
+            opacity: 0.8;
+        }
+        
+        @keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+        to {
+        opacity: 1;
+        transform: translateY(0);
+        }
+    }
+
+    .research-card {
+    animation: fadeIn 0.8s ease-in-out forwards;
+    opacity: 0;
+    }
+
+    /* ← NUEVO: STAGGER EFFECT */
+    .research-card:nth-child(1) { animation-delay: 0.1s; }
+    .research-card:nth-child(2) { animation-delay: 0.2s; }
+    .research-card:nth-child(3) { animation-delay: 0.3s; }
+    .research-card:nth-child(4) { animation-delay: 0.4s; }
+    .research-card:nth-child(5) { animation-delay: 0.5s; }
+    .research-card:nth-child(n+6) { animation-delay: 0.6s; }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .research-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-company {
+                font-size: 1.3em;
+            }
+
+            .filters-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+
+            .investment-type-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .investment-type-count {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+        /* RISK BADGES */
+.risk-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.85em;
+}
+
+.risk-bajo { background: rgba(144, 238, 144, 0.2); color: #90ee90; }
+.risk-medio { background: rgba(255, 165, 0, 0.2); color: #ffa500; }
+.risk-alto { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; }
+
+/* LÍNEA SEPARADORA */
+.card-body {
+    padding: 20px;
+    border-top: 1px solid rgba(0, 215, 255, 0.15);
+}
+
+/* UPSIDE DESTACADO */
+.card-upside {
+    background: rgba(0, 215, 255, 0.1);
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-weight: 700;
+    display: block;
+    font-size: 1.1em;
+    border: 1px solid rgba(0, 215, 255, 0.3);
+    color: var(--accent-positive);
+    text-align: center;
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
+}
+
+/* ← NUEVO: HOVER EFFECT */
+.research-card:hover .card-upside {
+    box-shadow: 0 0 20px rgba(144, 238, 144, 0.4);
+    transform: scale(1.05);
+    background: rgba(0, 215, 255, 0.15);
+    border-color: rgba(144, 238, 144, 0.6);
+}
+
+/* COLOR BAR */
+.research-card { position: relative; }
+.research-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--text-primary);
+    opacity: 0.3;
+}
+
+/* CATEGORY CHIP */
+.card-category {
+    display: inline-block;
+    background: rgba(0, 215, 255, 0.15);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    color: var(--text-tertiary);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+/* BOTÓN MEJORADO */
+.card-button {
+    background: rgba(0, 215, 255, 0.2);
+    border: 1.5px solid rgba(0, 215, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.card-button:hover {
+    background: rgba(0, 215, 255, 0.35);
+    border-color: rgba(0, 215, 255, 0.6);
+    transform: translateY(-2px);
+}
+        /* INDICADORES DE LA TARJETA - GRID 2x2 */
+.card-indicators {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 215, 255, 0.08);
+}
+
+.indicator {
+    background: rgba(0, 215, 255, 0.06);
+    border: 1px solid rgba(0, 215, 255, 0.12);
+    border-radius: 6px;
+    padding: 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.indicator-label {
+    font-size: 0.6em;
+    color: var(--text-tertiary);
+    font-weight: 500;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    opacity: 0.75;
+}
+
+.indicator-value {
+    font-size: 0.95em;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.indicator-subtext {
+    font-size: 0.7em;
+    color: var(--text-tertiary);
+    margin-top: 3px;
+    opacity: 0.6;
+}
+
+/* COLORES DINÁMICOS POR UPSIDE */
+.upside-very-positive {
+    background: rgba(144, 238, 144, 0.15) !important;
+    border-color: rgba(144, 238, 144, 0.3) !important;
+}
+
+.upside-very-positive .indicator-value {
+    color: #00ff00;
+}
+
+.upside-positive {
+    background: rgba(144, 238, 144, 0.1) !important;
+    border-color: rgba(144, 238, 144, 0.2) !important;
+}
+
+.upside-positive .indicator-value {
+    color: #90ee90;
+}
+
+.upside-negative {
+    background: rgba(255, 165, 0, 0.1) !important;
+    border-color: rgba(255, 165, 0, 0.2) !important;
+}
+
+.upside-negative .indicator-value {
+    color: #ffa500;
+}
+
+.upside-very-negative {
+    background: rgba(255, 107, 107, 0.15) !important;
+    border-color: rgba(255, 107, 107, 0.3) !important;
+}
+
+.upside-very-negative .indicator-value {
+    color: #ff4444;
+}
+
+/* INDICADORES ESPECIALES */
+.indicator-date {
+    background: rgba(176, 196, 222, 0.1);
+    border-color: rgba(176, 196, 222, 0.2);
+}
+
+.indicator-date .indicator-value {
+    color: var(--text-tertiary);
+    font-size: 0.95em;
+}
+
+.indicator-target {
+    background: rgba(0, 215, 255, 0.12);
+    border-color: rgba(0, 215, 255, 0.25);
+}
+
+.indicator-target .indicator-value {
+    color: var(--text-primary);
+}
+        /* TOAST NOTIFICATION */
+.toast {
+    background: rgba(50, 184, 198, 0.15);
+    border: 1px solid rgba(50, 184, 198, 0.4);
+    border-left: 4px solid #32b8c6;
+    color: #32b8c6;
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease-out;
+    min-width: 280px;
+}
+
+.toast.success {
+    background: rgba(144, 238, 144, 0.15);
+    border-color: rgba(144, 238, 144, 0.4);
+    border-left-color: #90ee90;
+    color: #90ee90;
+}
+
+.toast.error {
+    background: rgba(255, 107, 107, 0.15);
+    border-color: rgba(255, 107, 107, 0.4);
+    border-left-color: #ff6b6b;
+    color: #ff6b6b;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+}
+
+.toast.fadeOut {
+    animation: slideOut 0.3s ease-out forwards;
+}
+        /* CAJA DIVIDIDA: PRECIO INICIAL + UPSIDE INICIAL */
+    .thesis-metrics {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        background: rgba(0, 215, 255, 0.08);
+        border: 1px solid rgba(0, 215, 255, 0.2);
+        border-radius: 6px;
+        overflow: hidden;
+        margin-bottom: 12px;
+    }
+
+    .thesis-metric {
+        padding: 10px 12px;
+        text-align: center;
+        border-right: 1px solid rgba(0, 215, 255, 0.1);
+    }
+
+    .thesis-metric:last-child {
+        border-right: none;
+    }
+
+    .thesis-metric-label {
+        font-size: 0.65em;
+        color: var(--text-tertiary);
+        font-weight: 500;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        opacity: 0.7;
+    }
+
+    .thesis-metric-value {
+        font-size: 0.9em;
+        font-weight: 700;
+        color: var(--text-secondary);
+    }
+        /* BADGES DE FUENTE DE PRECIO */
+.price-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 0.75em;
+    vertical-align: middle;
+    opacity: 0.8;
+}
+
+.price-badge.api {
+    background: rgba(50, 184, 198, 0.2);
+    border: 1px solid rgba(50, 184, 198, 0.4);
+    color: #32b8c6;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.price-badge.manual {
+    background: rgba(176, 196, 222, 0.2);
+    border: 1px solid rgba(176, 196, 222, 0.4);
+    color: #b0c4de;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+    /* ← NUEVO: ESTILOS ESPECÍFICOS PARA LOGOS */
+    .logo-blanco {
+        filter: brightness(0) invert(1);
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+    <img src="images/Logo_SpeadHunters_2_blanco.png" alt="SpreadHunters">
+    <p>Análisis fundamental de situaciones especiales de inversión</p>
+        </header>
+        <!-- SECCIÓN DE FILTROS -->
+        <div class="filters-section">
+    <div class="filters-header">
+        <div class="filters-title">🔍 Filtrar por tipo de inversión</div>
+        <div class="filters-counter">
+            <span class="counter-label">📊 Researchs Activos:</span>
+            <span class="counter-value" id="totalCounter">0</span>
+        </div>
+    </div>
+    <div class="filters-grid" id="filtersContainer">
+        <!-- Los botones se generarán dinámicamente aquí -->
+    </div>
+            <div class="filters-actions">
+    <div class="sort-container">
+        <span class="sort-label">📊 Ordenar por:</span>
+        <select class="sort-select" id="sortSelect" onchange="handleSortChange()">
+            <option value="default">Orden por defecto</option>
+            <option value="upside-desc">Mayor Upside ↓</option>
+            <option value="upside-asc">Menor Upside ↑</option>
+        </select>
+    </div>
+    <button class="clear-filters" id="clearFiltersBtn" onclick="clearFilters()" disabled>
+        🗑️ Limpiar filtros
+        <span class="filters-count-badge" id="filterCountBadge" style="display: none;">0</span>
+    </button>
+</div>
+
+        <!-- RESULTADOS AGRUPADOS POR TIPO DE INVERSIÓN -->
+        <div id="resultsContainer">
+            <!-- Los resultados se generarán dinámicamente aquí -->
+        </div>
+
+        <footer style="text-align: center; padding: 20px; margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.9em; color: #cbd5e1;">
+    <p>
+        © 2026 Investment Research. Análisis independiente. | 
+        <a href="disclaimer.html" style="color: #0d9488; text-decoration: none; transition: all 0.3s ease;" 
+           onmouseover="this.style.color='#14b8a6'; this.style.textDecoration='underline';" 
+           onmouseout="this.style.color='#0d9488'; this.style.textDecoration='none';">
+            Disclaimer
+        </a> | 
+        <a href="https://spreadhunters.substack.com/?utm_campaign=profile_chips" target="_blank" rel="noopener noreferrer" 
+           style="color: #0d9488; text-decoration: none; transition: all 0.3s ease;" 
+           onmouseover="this.style.color='#14b8a6'; this.style.textDecoration='underline';" 
+           onmouseout="this.style.color='#0d9488'; this.style.textDecoration='none';">
+            📰 Substack
+        </a> | 
+        <a href="https://x.com/Spread_Hunters" target="_blank" rel="noopener noreferrer" 
+           style="color: #0d9488; text-decoration: none; transition: all 0.3s ease;" 
+           onmouseover="this.style.color='#14b8a6'; this.style.textDecoration='underline';" 
+           onmouseout="this.style.color='#0d9488'; this.style.textDecoration='none';">
+            🐦 Twitter/X
+        </a>
+    </p>
+</footer>
+    </div>
+        <!-- TOAST NOTIFICATION -->
+<div id="toastContainer" style="
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+">
+</div>
+
+    <script>
+        // ============================================
+// CONFIGURACIÓN API FINNHUB
+// ============================================
+const FINNHUB_API_KEY = 'd5bvi7pr01qsbmghj0sgd5bvi7pr01qsbmghj0t0';  // ← REEMPLAZA CON TU KEY
+const FINNHUB_BASE_URL = 'https://finnhub.io/api/v1/quote';
+
+// ============================================
+// FUNCIÓN: Calcular upside actual automático
+// ============================================
+function calculateCurrentUpside(currentPriceRaw, fairValueRaw) {
+    if (!currentPriceRaw || !fairValueRaw || currentPriceRaw === 0) {
+        return '—';
+    }
+    
+    const upside = ((fairValueRaw - currentPriceRaw) / currentPriceRaw) * 100;
+    const rounded = upside.toFixed(1);
+    
+    return upside >= 0 ? `+${rounded}%` : `${rounded}%`;
+}
+        // ============================================
+        // FUNCIÓN: Extraer número de string de precio  ← AQUÍ VA
+        // ============================================
+    function extractPriceValue(priceString) {
+        // Extrae solo números y punto decimal
+        // Ejemplo: "PLN9.98" → 9.98
+        const match = priceString.match(/[\d.]+/);
+        return match ? parseFloat(match[0]) : 0;
+}
+
+// ============================================
+// FUNCIÓN: Clasificar color según upside
+// ============================================
+function getUpsideClass(upsidePercent) {
+    const value = parseFloat(upsidePercent.replace('+', '').replace('%', ''));
+    
+    if (value >= 50) return 'upside-very-positive';
+    if (value > 0) return 'upside-positive';
+    if (value < -50) return 'upside-very-negative';
+    return 'upside-negative';
+}
+
+// ============================================
+// FUNCIÓN: Símbolo según dirección
+// ============================================
+function getUpsideSymbol(upsidePercent) {
+    const value = parseFloat(upsidePercent.replace('+', '').replace('%', ''));
+    return value >= 0 ? '📈' : '📉';
+}
+
+// ============================================
+// FUNCIÓN: Obtener precio actual (API o manual) - CON TIMEOUT
+// ============================================
+async function fetchCurrentPrice(research) {
+    try {
+        // 🔑 CLAVE: Timeout de 2 segundos máximo
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000);
+        
+        const response = await fetch(
+            `${FINNHUB_BASE_URL}?symbol=${research.ticker_finnhub}&token=${FINNHUB_API_KEY}`,
+            { signal: controller.signal }
+        );
+        
+        clearTimeout(timeoutId);
+        
+        if (!response.ok) throw new Error('API error');
+        
+        const data = await response.json();
+        
+        if (data.c) {
+            research.currentPriceRaw = data.c;
+            research.currentPrice = `${research.currency}${data.c.toFixed(2)}`;
+            research.upsideActual = calculateCurrentUpside(
+                research.currentPriceRaw, 
+                research.fairValueRaw
+            );
+            
+            research.priceSource = 'api';
+            showToast(`${research.ticker} actualizado: ${research.currentPrice}`);
+            
+            console.log(`✅ API: ${research.ticker} = ${research.currentPrice} | Upside: ${research.upsideActual}`);
+            return research;
+        }
+    } catch (error) {
+        // 🔑 CLAVE: Fallback inmediato sin espera
+        if (error.name === 'AbortError') {
+            console.warn(`⏱️ Timeout: ${research.ticker}, usando fallback`);
+        } else {
+            console.warn(`⚠️ API error para ${research.ticker}: ${error.message}`);
+        }
+    }
+    
+    // Fallback manual (ya estaba en research.currentPrice)
+    research.priceSource = 'manual';
+    console.log(`📌 Manual: ${research.ticker} = ${research.currentPrice} | Upside: ${research.upsideActual}`);
+    return research;
+}
+
+// ============================================
+// FUNCIÓN: Mostrar notificaciones (Toast)
+// ============================================
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toastContainer');
+    
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    const icon = type === 'success' ? '✅' : '❌';
+    toast.innerHTML = `${icon} ${message}`;
+    
+    container.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.add('fadeOut');
+        setTimeout(() => toast.remove(), 300);
+    }, 4000);
+}
+
+// ============================================
+// FUNCIÓN: Cargar todos los precios (CON RACE)
+// ============================================
+async function loadAllPrices() {
+    renderResults(); // Muestra cajas AHORA (vacías o con precios antiguos)
+    
+    // Luego actualiza en background
+    try {
+        const promises = researchesData.map(r => fetchCurrentPrice(r));
+        const results = await Promise.allSettled(promises);
+        
+        // Actualizar solo las que cambiaron
+        const succeeded = results.filter(r => r.status === 'fulfilled').length;
+        console.log(`✅ Actualizadas: ${succeeded}`);
+        
+        renderResults(); // Re-renderizar con nuevos precios
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+        // ============================================
+        // CONFIGURACIÓN DE TIPOS DE INVERSIÓN
+        // ============================================
+        const investmentTypes = {
+            'long-value-growth': { name: 'Long Value-Growth', icon: '📈', description: 'Compañías con crecimiento sólido', color: '#00d7ff' },
+            'spin-offs': { name: 'Spin-offs', icon: '🧩', description: 'Separación de unidades', color: '#00d7ff' },
+            'shorts-situations': { name: 'Short Situations', icon: '📉', description: 'Oportunidades de venta corta', color: '#ff6b6b' },
+            'uplisting': { name: 'Uplisting', icon: '⬆️', description: 'Cambios de bolsa/índice', color: '#90ee90' },
+            'demergers': { name: 'Demergers', icon: '🔀', description: 'Escisiones de empresas', color: '#ffa500' },
+            'tender-offers': { name: 'Tender Offers', icon: '🎯', description: 'Ofertas públicas', color: '#00d7ff' },
+            'turnaround': { name: 'Turnaround', icon: '🔄', description: 'Empresas en recuperación', color: '#ffa500' },
+            'takeover': { name: 'Takeover', icon: '🏢', description: 'Adquisiciones y fusiones', color: '#00d7ff' },
+            'odd-lots': { name: 'Odd Lots', icon: '🤏', description: 'Pequeños números de acciones', color: '#b0c4de' },
+            'merger': { name: 'Merger', icon: '🤝', description: 'Fusiones', color: '#b0c4de' },
+        };
+
+        // ============================================
+        // Array de empresas
+        // ============================================
+        const researchesData = [
+            {
+                id: 'puuilo',
+                path: './puuilo/index.html',
+                type: 'long-value-growth',
+                ticker: 'PUUILO.HE',
+                company: 'Puuilo',
+                sector: 'Retail - Home Décor',
+                logo: 'images/puuilo.png',
+               // NUEVOS CAMPOS
+                thesisDate: '2026-01-15',
+                thesisPrice: '€12.52',
+                fairValue: '€26.62',
+                fairValueRaw: 26.62,
+                upsideInitial: '+113%',
+                ticker_finnhub: 'PUUILO.HE',
+                currentPrice: '€12.69',
+                currency: '€',
+                upsideActual: '+113%',  // Se actualiza con API o manual
+                priceSource: 'manual',
+                riskLevel: 'Medio'
+            },
+            {
+                id: 'qepc',
+                path: './qepc/index.html',
+                type: 'turnaround',
+                ticker: 'QEPC',
+                company: 'Q.E.P. Co., Inc.',
+                sector: 'Herramientas y Accesorios',
+                logo: 'images/qep.png',
+                // NUEVOS CAMPOS
+                thesisDate: '2026-01-10',
+                thesisPrice: '$38',
+                fairValue: '$45.83',
+                fairValueRaw: 45.83,
+                upsideInitial: '+20.6%',
+                ticker_finnhub: 'QEPC',
+                currentPrice: '$41,50',
+                currency: '$',
+                upsideActual: '+20.6%',
+                priceSource: 'manual',
+                riskLevel: 'Bajo'
+            },
+            {
+                id: 'edu',
+                path: './edu/index.html',
+                type: 'long-value-growth',
+                ticker: 'EDU.AX',
+                company: 'EDU Holdings Limited',
+                sector: 'Education Platform',
+                logo: 'images/edu-holdings.png',
+                thesisDate: '2026-01-12',
+                thesisPrice: 'AUD0.82',
+                fairValue: 'AUD2.43',
+                fairValueRaw: 2.43,
+                upsideInitial: '+207%',
+                ticker_finnhub: 'EDU.AX',
+                currentPrice: 'AUD0.94',
+                currency: 'AUD',
+                upsideActual: '+207%',
+                priceSource: 'manual',
+                riskLevel: 'Bajo'
+            },
+            {
+                id: 'caly',
+                path: './modg/index.html',
+                type: 'demergers',
+                ticker: 'CALY',
+                company: 'Callaway Brands',
+                sector: 'Consumo retail',
+                logo: 'images/callaway.png',
+                thesisDate: '2026-01-08',
+                thesisPrice: '$11.88',
+                fairValue: '$22.88',
+                fairValueRaw: 22.88,
+                upsideInitial: '+92.6%',
+                ticker_finnhub: 'CALY',
+                currentPrice: '$12.50',
+                currency: '$',
+                upsideActual: '+92.6%',
+                priceSource: 'manual',
+                riskLevel: 'Bajo'
+            },
+            {
+                id: 'toya',
+                path: './toya/index.html',
+                type: 'long-value-growth',
+                ticker: 'TOA.WA',
+                company: 'TOYA S.A.',
+                sector: 'Herramientas y Accesorios',
+                logo: 'images/toya.png',
+                thesisDate: '2026-01-05',
+                thesisPrice: 'PLN9.26',
+                fairValue: 'PLN14.14',
+                fairValueRaw: 14.14,
+                upsideInitial: '+52.7%',
+                ticker_finnhub: 'TOA.WA',
+                currentPrice: 'PLN9.98',
+                currency: 'PLN',
+                upsideActual: '+52.7%',
+                priceSource: 'manual',
+                riskLevel: 'Bajo'
+            },
+            {
+                id: 'humm',
+                path: './humm/index.html',
+                type: 'takeover',
+                ticker: 'HUM.AX',
+                company: 'Humm Group Ltd',
+                sector: 'Fintech',
+                logo: 'images/humm.png',
+                thesisDate: '2026-01-14',
+                thesisPrice: 'AUD0.74',
+                fairValue: 'AUD1.15',
+                fairValueRaw: 1.15,
+                upsideInitial: '55%',
+                ticker_finnhub: 'HUM.AX',
+                currentPrice: 'AUD0.74',
+                currency: 'AUD',
+                upsideActual: '55%',
+                priceSource: 'manual',
+                riskLevel: 'Medio'
+            },
+             {
+                id: 'inspecs',
+                path: './inspecs/index.html',
+                type: 'takeover',
+                ticker: 'SPEC.L',
+                company: 'Inspecs Group Plc',
+                sector: 'Soluciones globales de óptica',
+                logo: 'images/inspecs.png',
+                thesisDate: '2026-01-14',
+                thesisPrice: 'GBP0.68',
+                fairValue: 'GBP0.84',
+                fairValueRaw: 0.84,
+                upsideInitial: '20%',
+                ticker_finnhub: 'SPEC.L',
+                currentPrice: 'GBP0.68',
+                currency: 'GBP',
+                upsideActual: '20%',
+                priceSource: 'manual',
+                riskLevel: 'Bajo'
+            },
+             {
+                id: 'ely',
+                path: './ely/index.html',
+                type: 'merger',
+                ticker: 'ELY.V',
+                company: 'Electrum Discovery Corp.',
+                sector: 'Canadian mineral explorer',
+                logo: 'images/ely.png',
+                thesisDate: '2026-01-15',
+                thesisPrice: 'CAD0.085',
+                fairValue: 'CAD0.158',
+                fairValueRaw: 0.158,
+                upsideInitial: '+85.9%',
+                ticker_finnhub: 'ELY.V',
+                currentPrice: 'CAD0.10',
+                currency: 'CAD',
+                upsideActual: '70%',
+                priceSource: 'manual',
+                riskLevel: 'Alto'
+            },
+            // Aquí podrás añadir más empresas en el futuro. Decimales en "."
+        ];
+
+     let activeFilters = new Set();
+     let sortBy = 'default'; // ← NUEVA VARIABLE
+
+    // ============================================
+    // RENDERIZADO
+    // ============================================
+ function renderResults() {
+        const container = document.getElementById('resultsContainer');
+        
+        const filtered = activeFilters.size === 0 
+            ? researchesData 
+            : researchesData.filter(r => activeFilters.has(r.type));
+
+        updateCounter(filtered.length);
+
+        if (filtered.length === 0) {
+            container.innerHTML = `<div class="no-results"><h3>📭 No hay análisis con estos filtros</h3></div>`;
+            return;
+        }
+     // ← NUEVO: Recalcular upside actual para todos
+     filtered.forEach(item => {
+        item.currentPriceRaw = extractPriceValue(item.currentPrice);  // ← Automático
+        item.thesisPriceRaw = extractPriceValue(item.thesisPrice);    // ← Automático
+        
+        item.upsideActual = calculateCurrentUpside(
+            item.currentPriceRaw,
+            item.fairValueRaw
+        );
+    });
+
+        const grouped = {};
+        filtered.forEach(r => {
+            if (!grouped[r.type]) grouped[r.type] = [];
+            grouped[r.type].push(r);
+        });
+
+        // SORTING
+        Object.keys(grouped).forEach(typeKey => {
+            const items = grouped[typeKey];
+            
+            if (sortBy === 'upside-desc') {
+    items.sort((a, b) => {
+        const upsideA = parseFloat(a.upsideActual.replace('+', '').replace('%', ''));
+        const upsideB = parseFloat(b.upsideActual.replace('+', '').replace('%', ''));
+        return upsideB - upsideA;
+    });
+} else if (sortBy === 'upside-asc') {
+    items.sort((a, b) => {
+        const upsideA = parseFloat(a.upsideActual.replace('+', '').replace('%', ''));
+        const upsideB = parseFloat(b.upsideActual.replace('+', '').replace('%', ''));
+        return upsideA - upsideB;
+    });
+}
+        });
+
+        // RENDERIZADO
+        container.innerHTML = Object.entries(grouped).map(([typeKey, items]) => {
+            const typeInfo = investmentTypes[typeKey];
+            return `
+                <div class="investment-type-section">
+                    <div class="investment-type-header">
+                        <div class="investment-type-icon">${typeInfo.icon}</div>
+                        <div class="investment-type-title">${typeInfo.name}</div>
+                        <div class="investment-type-count">${items.length} análisis</div>
+                    </div>
+                    <div class="research-grid">
+                        ${items.map(item => `
+                            <a href="${item.path}" class="research-card">
+    <div class="card-header">
+    <img src="${item.logo}" alt="${item.company}" class="card-logo ${['ELY.V', 'EMPRESA2', 'EMPRESA3'].includes(item.ticker) ? 'logo-blanco' : ''}">
+    <div class="card-ticker">${item.ticker}</div>
+    <div class="card-company">${item.company}</div>
+    <div class="card-sector">${item.sector}</div>
+</div>
+    
+    <div class="card-body">
+        <div class="card-indicators">
+            <!-- INDICADOR 1: Fecha Tesis -->
+            <div class="indicator indicator-date">
+                <div class="indicator-label">📅 Fecha Tesis</div>
+                <div class="indicator-value">${item.thesisDate}</div>
+            </div>
+            
+            <!-- INDICADOR 2: Precio Objetivo -->
+            <div class="indicator indicator-target">
+                <div class="indicator-label">🎯 Precio Objetivo</div>
+                <div class="indicator-value">${item.fairValue}</div>
+            </div>
+            
+            <!-- INDICADOR 3: Precio Actual -->
+            <div class="indicator" style="grid-column: 1 / -1;">
+    <div class="indicator-label">💰 Precio Actual</div>
+    <div class="indicator-value">
+        ${item.currentPrice}
+        <span class="price-badge ${item.priceSource === 'api' ? 'api' : 'manual'}" title="${item.priceSource === 'api' ? 'Actualizado desde API' : 'Precio manual'}">
+            ${item.priceSource === 'api' ? '🌐 API' : '📌 Manual'}
+        </span>
+    </div>
+</div>
+            
+            <!-- INDICADOR 4: PRECIO INICIAL + UPSIDE INICIAL -->
+            <div class="thesis-metrics" style="grid-column: 1 / -1;">
+    <div class="thesis-metric">
+        <div class="thesis-metric-label">💵 Precio Inicial</div>
+        <div class="thesis-metric-value">${item.thesisPrice}</div>
+    </div>
+    <div class="thesis-metric">
+        <div class="thesis-metric-label">📊 Upside Inicial</div>
+        <div class="thesis-metric-value" style="color: var(--accent-positive);">
+            ${item.upsideInitial}
+        </div>
+    </div>
+</div>
+            
+            <!-- INDICADOR 5: Upside ACTUAL (Automático) -->
+            <div class="indicator ${getUpsideClass(item.upsideActual)}" style="grid-column: 1 / -1;">
+                <div class="indicator-label">
+                    ${getUpsideSymbol(item.upsideActual)} Upside/Downside ACTUAL
+                </div>
+                <div class="indicator-value" style="font-size: 1.3em;">
+                    ${item.upsideActual}
+                </div>
+                <div class="indicator-subtext">Ahora mismo</div>
+            </div>
+        </div>
+
+        <!-- RIESGO -->
+        <div style="margin-top: 12px; margin-bottom: 20px; text-align: center;">
+    <span class="risk-badge ${item.riskLevel === 'Bajo' ? 'risk-bajo' : item.riskLevel === 'Medio' ? 'risk-medio' : 'risk-alto'}">
+        ⚠️ Riesgo: ${item.riskLevel}
+    </span>
+</div>
+
+        <span class="card-button">▶ VER ANÁLISIS COMPLETO →</span>
+    </div>
+</a>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        // SCROLL SUAVE
+        if (activeFilters.size > 0) {
+            setTimeout(() => {
+                document.querySelector('.investment-type-section')?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 100);
+        }
+    }
+
+    function updateCounter(count) {
+        const counterElement = document.getElementById('totalCounter');
+        counterElement.textContent = count;
+        counterElement.style.transition = 'all 0.3s ease';
+        counterElement.style.transform = 'scale(1.1)';
+        setTimeout(() => {
+            counterElement.style.transform = 'scale(1)';
+        }, 150);
+    }
+
+    function renderFilters() {
+    const container = document.getElementById('filtersContainer');
+    container.innerHTML = Object.entries(investmentTypes).map(([key, type]) => `
+        <button 
+            class="filter-btn ${activeFilters.has(key) ? 'active' : ''}" 
+            onclick="toggleFilter('${key}')"
+            title="${type.description}"
+        >
+            ${type.icon} ${type.name}
+        </button>
+    `).join('');
+    }
+
+   function toggleFilter(typeKey) {
+    if (activeFilters.has(typeKey)) {
+        activeFilters.delete(typeKey);
+    } else {
+        activeFilters.add(typeKey);
+    }
+    updateClearButton();
+    renderResults();
+    renderFilters();
+}
+
+    function clearFilters() {
+    activeFilters.clear();
+    updateClearButton();
+    renderFilters();
+    renderResults();
+}
+    function handleSortChange() {
+    const sortSelect = document.getElementById('sortSelect');
+    sortBy = sortSelect.value;
+    renderResults();
+    }
+        function updateClearButton() {
+    const btn = document.getElementById('clearFiltersBtn');
+    const badge = document.getElementById('filterCountBadge');
+    const count = activeFilters.size;
+    
+    if (count === 0) {
+        btn.disabled = true;
+        badge.style.display = 'none';
+    } else {
+        btn.disabled = false;
+        badge.textContent = count;
+        badge.style.display = 'inline-block';
+    }
+}
+        
+        // INICIAR
+        document.addEventListener('DOMContentLoaded', () => {
+    updateClearButton();
+    renderFilters();
+    loadAllPrices();  // ← Esta línea carga precios y renderiza
+});
+    </script>
+</body>
+</html>

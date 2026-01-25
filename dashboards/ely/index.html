@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electrum Discovery (ELY.V) - Análisis de Situación Especial | SpreadHunters</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* COLORES PRIMARIOS - Alineados con SpreadHunters */
+            --primary-color: #00d7ff;           /* Cyan brillante */
+            --secondary-color: #1a2332;         /* Azul oscuro base */
+            --accent-color: #4A8B9B;            /* Azul teal claro */
+           
+            /* COLORES FUNCIONALES */
+            --success-color: #90ee90;           /* Verde */
+            --danger-color: #ff6b6b;            /* Rojo */
+            --warning-color: #ffa500;           /* Naranja */
+            --info-color: #00d7ff;              /* Cyan */
+         
+            /* FONDOS */
+            --dark-bg: #1a2332;                 /* Azul principal */
+            --darker-bg: #0f1419;               /* Azul muy oscuro */
+            --card-bg: #1a2538;                 /* Azul cards */
+            --light-bg: #E8E8E8;                /* Igual que CALY */
+         
+            /* TEXTO */
+            --text-primary: #d0d8e0;            /* Gris claro */
+            --text-secondary: #b0c4de;          /* Gris medio */
+            --text-tertiary: #808080;           /* Gris oscuro */
+         
+            /* BORDES */
+            --border-color: #2d3d4d;            /* Borde azulado */
+            --border-light: #3d5570;            /* Borde azul claro */
+            
+            --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html, body {
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--secondary-color) 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ========================================
+        LOGO NAVBAR FIJO
+        ======================================== */
+        .logo-navbar {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 900;
+            background: none;
+            padding: 0;
+            border: none;
+            backdrop-filter: none;
+            pointer-events: none;
+        }
+
+        .logo-navbar-img {
+            width: 160px;
+            height: auto;
+            filter: none;
+            display: block;
+        }
+
+        @media (max-width: 1024px) {
+            .logo-navbar { top: 15px; left: 15px; }
+            .logo-navbar-img { width: 105px; }
+        }
+
+        @media (max-width: 768px) {
+            .logo-navbar { top: 15px; left: 15px; }
+            .logo-navbar-img { width: 95px; }
+        }
+
+        @media (max-width: 480px) {
+            .logo-navbar { top: 12px; left: 12px; }
+            .logo-navbar-img { width: 85px; }
+        }
+
+        /* ========================================
+        HEADER PROFESSIONAL - BLOOMBERG STYLE
+        ======================================== */
+        header {
+            margin: 0;
+            padding: 50px 20px;
+            background: transparent;
+            border-bottom: 1px solid rgba(74, 127, 127, 0.1);
+            backdrop-filter: blur(3px);
+            position: relative;
+            z-index: 2;
+        }
+
+        header .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Logo de la Compañía */
+        .logo-company {
+            max-height: 70px;
+            max-width: 150px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Título Principal */
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0;
+            letter-spacing: 1px;
+            line-height: 1.3;
+        }
+
+        /* Subtítulo */
+        header p.subtitle {
+            font-size: 1rem;
+            color: #e0e0e0;
+            margin: 10px 0 0;
+            font-weight: 400;
+            max-width: 600px;
+        }
+
+        header p.date {
+            font-size: 0.95em;
+            color: var(--text-secondary);
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(74, 127, 127, 0.1);
+            width: 100%;
+        }
+
+        @media (max-width: 1024px) {
+            .logo-company {
+                max-height: 70px;
+                max-width: 150px;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 30px 15px;
+            }
+
+            header h1 {
+                font-size: 1.4rem;
+            }
+
+            .logo-company {
+                max-height: 65px;
+                max-width: 130px;
+            }
+
+            header p.subtitle {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 20px 15px;
+            }
+
+            header h1 {
+                font-size: 1.1rem;
+            }
+
+            .logo-company {
+                max-height: 55px;
+                max-width: 110px;
+            }
+
+            header p.subtitle {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* NAVEGACIÓN DE TABS */
+        .tabs-container {
+            margin-bottom: 40px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            border-bottom: 2px solid var(--border-light);
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--secondary-color) 100%);
+        }
+
+        .nav-tab {
+            padding: 16px 24px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.95em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+        }
+
+        .nav-tab:hover {
+            color: var(--primary-color);
+            background: rgba(0, 215, 255, 0.05);
+        }
+
+        .nav-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            background: rgba(0, 215, 255, 0.1);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .metrics-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            border-left: 4px solid var(--primary-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            border-left-color: var(--primary-color);
+        }
+
+        .metric-card.highlight {
+            border-left-color: var(--success-color);
+        }
+
+        .metric-label {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .metric-value.positive {
+            color: var(--success-color);
+        }
+
+        .metric-value.negative {
+            color: var(--danger-color);
+        }
+
+        .metric-value.warning {
+            color: var(--warning-color);
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            border-top: 1px solid var(--border-light);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        h3 {
+            color: var(--primary-color);
+            font-size: 1.3em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        h3:first-child {
+            margin-top: 0;
+        }
+
+        .subsection {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(74, 139, 155, 0.1);
+            border-left: 3px solid var(--primary-color);
+            border-radius: 4px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        p, li {
+            margin-bottom: 12px;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        ul, ol {
+            margin-left: 25px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        table th {
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--secondary-color) 100%);
+            color: var(--primary-color);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid var(--border-light);
+        }
+
+        table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        table tr:nth-child(even) {
+            background: rgba(26, 37, 56, 0.5);
+        }
+
+        table tr:hover {
+            background: rgba(74, 139, 155, 0.2);
+        }
+
+        .risk-box {
+            background: rgba(255, 165, 0, 0.1);
+            border-left: 4px solid var(--warning-color);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .risk-box h4 {
+            color: var(--warning-color);
+            margin-bottom: 10px;
+        }
+
+        .success-box {
+            background: rgba(144, 238, 144, 0.1);
+            border-left: 4px solid var(--success-color);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .success-box h4 {
+            color: var(--success-color);
+            margin-bottom: 10px;
+        }
+
+        .info-box {
+            background: rgba(0, 215, 255, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .info-box h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .info-box p, .info-box ul {
+            color: var(--text-primary);
+        }
+
+        .highlight-text {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .strong-text {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 30px;
+        }
+
+        .timeline-marker {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--darker-bg);
+            font-weight: bold;
+            margin-right: 20px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .timeline-marker::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 60px;
+            background: var(--primary-color);
+            left: 50%;
+            top: 40px;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item:last-child .timeline-marker::after {
+            display: none;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .timeline-desc {
+            color: var(--text-primary);
+            font-size: 0.95em;
+        }
+
+        .conclusion {
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--secondary-color) 100%);
+            color: var(--text-primary);
+            padding: 40px;
+            border-radius: 8px;
+            margin-top: 40px;
+            border-top: 3px solid var(--primary-color);
+        }
+
+        .conclusion h2 {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .conclusion h3 {
+            color: var(--primary-color);
+        }
+
+        .conclusion p, .conclusion ul {
+            color: var(--text-primary);
+        }
+
+        .conclusion-box {
+            background: rgba(0, 215, 255, 0.1);
+            padding: 20px;
+            border-radius: 4px;
+            margin: 15px 0;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .conclusion-box strong {
+            color: var(--primary-color);
+        }
+
+        .disclaimer {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            padding: 25px;
+            margin-top: 40px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .disclaimer h3 {
+            color: var(--primary-color);
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .disclaimer-text {
+            margin-bottom: 10px;
+            line-height: 1.7;
+            color: var(--text-primary);
+        }
+
+        .disclaimer-footer {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .disclaimer-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .disclaimer-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            border-top: 1px solid var(--border-color);
+            margin-top: 40px;
+        }
+
+        .comparison-row {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .comparison-col {
+            flex: 1;
+            background: rgba(26, 37, 56, 0.8);
+            padding: 20px;
+            border-radius: 4px;
+            border-left: 3px solid var(--primary-color);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .comparison-col strong {
+            display: block;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .comparison-col p {
+            color: var(--text-primary);
+        }
+
+        .chart-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .chart-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            section {
+                padding: 25px;
+            }
+
+            .comparison-row {
+                flex-direction: column;
+            }
+
+            table {
+                font-size: 0.85em;
+            }
+
+            table th, table td {
+                padding: 10px;
+            }
+
+            .nav-tab {
+                padding: 12px 16px;
+                font-size: 0.85em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo en esquina superior izquierda -->
+    <div class="logo-navbar">
+        <a target="_blank" style="pointer-events: auto; display: block;">
+            <img src="../images/logo_sh.svg" alt="SpreadHunters" class="logo-navbar-img">
+        </a>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="header-title-section">
+                <div class="company-title-row">
+                    <img src="https://raw.githubusercontent.com/spreadhuntersinvest/SpreadHunters.researchs/main/images/ely.png" alt="Electrum Discovery Logo" class="logo-company">
+                    <h1>ANÁLISIS SITUACIÓN ESPECIAL<br><span style="font-size: 0.6em; color: var(--text-secondary); font-weight: 400;">Electrum Discovery Corp. (TSX-V: ELY.V)</span></h1>
+                </div>
+                <p class="subtitle">Posición LONG | Merger con MinRex Resources Ltd. (ASX: MRR)</p>
+            </div>
+            <div class="ticker-info">
+                <span><strong>Análisis:</strong> 6 enero 2026</span>
+                <span><strong>Entrada:</strong> CAD 0,085/acción</span>
+                <span><strong>Cierre Esperado:</strong> Marzo 2026</span>
+            </div>
+        </header>
+
+        <div class="metrics-overview">
+            <div class="metric-card highlight">
+                <div class="metric-label">Precio de Entrada</div>
+                <div class="metric-value">CAD 0,0850</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Valor Teórico (MRR @ 0,0170 AUD)</div>
+                <div class="metric-value positive">CAD 0,1580</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Spread Bruto</div>
+                <div class="metric-value positive">+85,9%</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Horizonte Temporal</div>
+                <div class="metric-value">~90 días</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Retorno Esperado (Neto)</div>
+                <div class="metric-value positive">+28–35%</div>
+            </div>
+            <div class="metric-card warning">
+                <div class="metric-label">Probabilidad Éxito</div>
+                <div class="metric-value">~93–95%</div>
+            </div>
+        </div>
+
+        <!-- NAVEGACIÓN DE TABS -->
+        <div class="tabs-container">
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-tab="tab-1">Resumen Ejecutivo</button>
+                <button class="nav-tab" data-tab="tab-2">Métricas Clave</button>
+                <button class="nav-tab" data-tab="tab-3">Tesis de Inversión</button>
+                <button class="nav-tab" data-tab="tab-4">Cronología</button>
+                <button class="nav-tab" data-tab="tab-5">Probabilidades & Riesgos</button>
+                <button class="nav-tab" data-tab="tab-6">Análisis Comparativo</button>
+                <button class="nav-tab" data-tab="tab-7">Catalizadores</button>
+                <button class="nav-tab" data-tab="tab-8">Riesgos a Monitorear</button>
+                <button class="nav-tab" data-tab="tab-9">Conclusión</button>
+            </div>
+        </div>
+
+        <!-- TAB 1: RESUMEN EJECUTIVO -->
+        <div id="tab-1" class="tab-content active">
+            <section>
+                <h2>1. RESUMEN EJECUTIVO</h2>
+                
+                <div class="subsection">
+                    <p><strong>Tesis de Inversión:</strong> Posición LONG en ELY.V aprovechando el diferencial de precios antes del cierre de la fusión. Dado que la disponibilidad de corto en MRR.AX fue limitada, se ejecutó una posición directional larga esperando la revaluación al cierre del deal y la posterior cotización en ASX.</p>
+                </div>
+
+                <h3>Contexto Operacional</h3>
+                <p>El <span class="highlight-text">6 de enero de 2026</span>, Electrum Discovery Corp. (TSX-V: ELY.V, cotización en Canadá a CAD 0,085) y MinRex Resources Limited (ASX: MRR, cotización en Australia a AUD 0,0170) anunciaron un acuerdo de fusión definitivo mediante plan de arreglo (<em>plan of arrangement</em>) aprobado por la corte británica de Columbia.</p>
+
+                <p>La estructura del deal es la siguiente:</p>
+                <ul>
+                    <li>Los accionistas de Electrum recibirán <span class="highlight-text">7,9 acciones de MinRex</span> por cada acción de Electrum.</li>
+                    <li>La entidad combinada seguirá cotizando en ASX bajo el ticker <strong>MRR</strong>.</li>
+                    <li>Pro-forma: capitalización bursátil de <strong>~A$28 millones</strong>, cash de <strong>~A$8 millones</strong>, <strong>sin deuda</strong>.</li>
+                    <li>Post-cierre: Electrum poseerá ~49,3% del grupo combinado; MinRex ~50,7%.</li>
+                    <li>Cierre esperado: <strong>Marzo de 2026</strong> (sujeto a aprobaciones regulatorias y judicial).</li>
+                </ul>
+
+                <h3>Estrategia Ejecutada</h3>
+                <p><span class="strong-text">Estrategia Original Prevista:</span> Posición larga en ELY.V con cobertura corta en MRR.AX en ratio 1:7,9.</p>
+                <p><span class="strong-text">Estrategia Ejecutada:</span> Posición LONG pura en ELY.V debido a:</p>
+                <ul>
+                    <li>Indisponibilidad de acciones de MRR.AX para corto (micro-cap, hard-to-borrow).</li>
+                </ul>
+
+                <div class="info-box">
+                    <h4>⚠ Nota Importante</h4>
+                    <p>Esta inversión es apropiada <strong>únicamente</strong> para inversores sofisticados que comprendan los riesgos de:</p>
+                    <ul>
+                        <li>Eventos corporativos binarios (fallo del deal).</li>
+                        <li>Retrasos regulatorios y judiciales.</li>
+                        <li>Volatilidad extrema en micro-caps.</li>
+                        <li>Liquidez limitada en ambos valores.</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <!-- TAB 2: MÉTRICAS CLAVE -->
+        <div id="tab-2" class="tab-content">
+            <section>
+                <h2>2. MÉTRICAS CLAVE</h2>
+
+                <h3>Análisis del Spread</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Métrica</th>
+                            <th>Valor</th>
+                            <th>Observaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Precio ELY.V (entrada)</td>
+                            <td><strong>CAD 0,0850</strong></td>
+                            <td>Precio de compra 6 enero 2026</td>
+                        </tr>
+                        <tr>
+                            <td>Precio MRR.AX (fecha análisis)</td>
+                            <td><strong>AUD 0,0170</strong></td>
+                            <td>Valor de referencia 6 enero 2026</td>
+                        </tr>
+                        <tr>
+                            <td>Tipo CAD/AUD</td>
+                            <td><strong>0,85</strong></td>
+                            <td>Supuesto para análisis</td>
+                        </tr>
+                        <tr>
+                            <td>Valor implícito ELY (7,9 × MRR)</td>
+                            <td><strong>CAD 0,1580</strong></td>
+                            <td>= 7,9 × 0,0170 ÷ 0,85</td>
+                        </tr>
+                        <tr>
+                            <td><span class="highlight-text">Spread Bruto</span></td>
+                            <td><span class="highlight-text">+85,9%</span></td>
+                            <td>= (0,1580 – 0,0850) ÷ 0,0850</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Spread Neto (ajustado costes)</strong></td>
+                            <td><strong>+28–35%</strong></td>
+                            <td>Tras comisiones, FX, market timing</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>P&L Proyectado (por 100 acciones @ 0,085)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Escenario</th>
+                            <th>Precio MRR al Cierre</th>
+                            <th>Shares Recibidas</th>
+                            <th>Valor Recibido (CAD)</th>
+                            <th>Coste de Entrada</th>
+                            <th>P&L Bruto</th>
+                            <th>P&L Neto*</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Base (Flat)</strong></td>
+                            <td>AUD 0,0170</td>
+                            <td>790</td>
+                            <td>CAD 15.800</td>
+                            <td>CAD 8.500</td>
+                            <td>+CAD 7.300</td>
+                            <td><span class="highlight-text">+35%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Alcista (+20%)</strong></td>
+                            <td>AUD 0,0204</td>
+                            <td>790</td>
+                            <td>CAD 18.960</td>
+                            <td>CAD 8.500</td>
+                            <td>+CAD 10.460</td>
+                            <td><span class="highlight-text">+53%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bajista (–10%)</strong></td>
+                            <td>AUD 0,0153</td>
+                            <td>790</td>
+                            <td>CAD 14.220</td>
+                            <td>CAD 8.500</td>
+                            <td>+CAD 5.720</td>
+                            <td><span class="highlight-text">+29%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: var(--danger-color);">Fallo Deal</strong></td>
+                            <td><strong style="color: var(--danger-color);">MRR N/A</strong></td>
+                            <td><strong style="color: var(--danger-color);">0</strong></td>
+                            <td>–</td>
+                            <td>CAD 8.500</td>
+                            <td><strong style="color: var(--danger-color);">–CAD 4.250 a –5.950</strong></td>
+                            <td><span class="highlight-text" style="color: var(--danger-color);">–25% a –50%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Distribución de Probabilidades y Valor Esperado</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Escenario</th>
+                            <th>Probabilidad</th>
+                            <th>P&L Esperado (sobre CAD 8.500)</th>
+                            <th>Aportación al EV</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Deal Cierra, MRR +15%</td>
+                            <td>30%</td>
+                            <td>+CAD 8.000</td>
+                            <td>+CAD 2.400</td>
+                        </tr>
+                        <tr>
+                            <td>Deal Cierra, MRR Flat</td>
+                            <td>40%</td>
+                            <td>+CAD 6.200</td>
+                            <td>+CAD 2.480</td>
+                        </tr>
+                        <tr>
+                            <td>Deal Cierra, MRR –10%</td>
+                            <td>22%</td>
+                            <td>+CAD 2.500</td>
+                            <td>+CAD 0.550</td>
+                        </tr>
+                        <tr>
+                            <td>Deal Falla (~50% ELY cae)</td>
+                            <td>8%</td>
+                            <td>–CAD 4.250</td>
+                            <td>–CAD 0.340</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><strong>VALOR ESPERADO</strong></td>
+                            <td colspan="2"><strong style="color: var(--success-color);">+CAD 5.090 (+59,8%)</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+
+        <!-- TAB 3: TESIS DE INVERSIÓN -->
+        <div id="tab-3" class="tab-content">
+            <section>
+                <h2>3. TESIS DE INVERSIÓN</h2>
+
+                <h3>3.1 Racionalidad Económica de la Fusión</h3>
+                <p>Según la información de Investor Relations de ambas empresas:</p>
+                
+                <div class="subsection">
+                    <strong>Valor de Electrum (Activos Principales):</strong>
+                    <ul>
+                        <li><strong>Novo Tlamino Project (Serbia):</strong> Recurso inferido de <span class="highlight-text">670.000 oz Au Eq</span> (7,1 Mt @ 2,5 g/t Au + 38 g/t Ag). Cuenta con PEA 2021 que muestra: Ingresos US$458M, OpEx US$181M, Margen Operativo 61%, NPV8 Pre-tax US$101M, IRR 49%.</li>
+                        <li><strong>Timok East Project (Serbia):</strong> 210 km² de prospección en cinturón metalogénico Tethyan, cerca de historic Bor Mining Complex. Anomalía Bambino con assays de 3,1% Cu y 2,5 g/t Au.</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <strong>Valor de MinRex (Activos Principales):</strong>
+                    <ul>
+                        <li><strong>Sofala Gold Project (NSW, Australia):</strong> Recurso inferido JORC >350.000 oz Au @ 1,6 g/t.</li>
+                        <li><strong>Portafolio Lachlan Fold Belt:</strong> Mt. Pleasant, Sunny Corner, Queenslander (exploración temprana).</li>
+                        <li><strong>Posición de Caja:</strong> ~A$8 millones (post-fusión), sin deuda.</li>
+                    </ul>
+                </div>
+
+                <h3>3.2 Razón Estratégica (Management IR)</h3>
+                <p>Según Dr. Elena Clarici (CEO, Electrum) y James Pearce (Director, MinRex):</p>
+                <ul>
+                    <li><strong>Escala y Diversificación:</strong> Combinar 670 koz Au Eq en Serbia + 350 koz Au en Australia crea una compañía exploradora de tamaño medio con geografía y commodities diversificados.</li>
+                    <li><strong>Revalorización de Mercado:</strong> Activos de Electrum "undervalued" en TSX-V (~micro-cap); ASX es "home natural" para mining companies con proyectos europeos/australianos, con investor base más sofisticada.</li>
+                    <li><strong>Acceso a Capital:</strong> Listing en ASX abre puerta a socios estratégicos, majors, y financiación project-level con validación minera australiana.</li>
+                    <li><strong>Merger of Equals Structure:</strong> Ambas empresas aportan activos/equipos; no es takeover. Post-cierre: Electrum shareholders ~49%, MinRex shareholders ~51%. Recomendación unánime del board.</li>
+                </ul>
+
+                <h3>3.3 Oportunidad de Revalorización en ELY</h3>
+                <p>El spread bruto de 85,9% refleja el "deal discount" – compensación por:</p>
+                <ul>
+                    <li>Riesgo regulatorio/judicial (court approval, TSX-V/ASX sign-off).</li>
+                    <li>Riesgo binario de fallo (estimado ~5–8%).</li>
+                    <li>Liquidez limitada en ELY.V (micro-cap extrema; volumen 150k acciones/día vs. market cap ~6M CAD).</li>
+                    <li>Time decay: cada día que pasa sin cierre reduce el retorno anualizado.</li>
+                </ul>
+
+                <p>Sin embargo, el deal cuenta con:</p>
+                <div class="success-box">
+                    <h4>✓ Fortalezas del Deal</h4>
+                    <ul>
+                        <li><strong>Voting Support Agreements:</strong> Insiders de Electrum con ~28% del capital ya votaron a favor (según IR).</li>
+                        <li><strong>Recomendación Unánime del Board:</strong> Ambos boards recomiendan a accionistas votar SÍ.</li>
+                        <li><strong>Friendly Deal:</strong> No hay oposición conocida de accionistas principales; es transacción mutuamente beneficiosa.</li>
+                        <li><strong>Aprobaciones Esperadas:</strong> Court approval BC, TSX-V, ASX, shareholder votes scheduled para Feb-Mar 2026.</li>
+                        <li><strong>Financiamientos:</strong> No requiere financiación adicional; pro-forma con A$8M cash.</li>
+                    </ul>
+                </div>
+
+                <h3>3.4 Por Qué Posición LONG en Lugar de Arbitrage Cubierto</h3>
+                <p>Estrategia original (LONG ELY + SHORT MRR @ 1:7,9) fue descartada por:</p>
+                <div class="risk-box">
+                    <h4>⚠ Problemas de Ejecución – Short MRR.AX</h4>
+                    <ul>
+                        <li><strong>Hard-to-Borrow:</strong> MRR es micro-cap ASX (~A$18M market cap); stock lending muy limitado o no disponible.</li>
+                        <li><strong>Slippage:</strong> Entrar 790k de 1.4M volumen diario = ~56% = movimiento importante; salida aún más complicada.</li>
+                    </ul>
+                </div>
+
+                <p>Por tanto, <span class="highlight-text">posición LONG pura en ELY</span> fue el trade-off razonable: asume riesgo direccional de MRR (no hedgeado), pero evita fricción operativa y costes prohibitivos del short.</p>
+            </section>
+        </div>
+
+        <!-- TAB 4: CRONOLOGÍA -->
+        <div id="tab-4" class="tab-content">
+            <section>
+                <h2>4. CRONOLOGÍA Y CATALIZADORES</h2>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker">1</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">5–6 enero 2026</div>
+                            <div class="timeline-desc"><strong>Anuncio de Deal & Trading Halt.</strong> ASX y TSX-V emiten annuncios conjuntos; MRR se pone en trading halt; ELY probablemente también (en algunas jurisdicciones).</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">2</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">6 enero 2026</div>
+                            <div class="timeline-desc"><strong>Compra de ELY.V @ CAD 0,085.</strong> Se ejecuta posición LONG tras anuncio. Inicio del período de arbitrage.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">3</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">6–8 enero 2026</div>
+                            <div class="timeline-desc"><strong>Investor Conference Call.</strong> Dr. Elena Clarici y James Pearce presentan detalles del merger, PEA updates, timeline. Q&A con institutional investors. (Grabación disponible en IR sites).</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">4</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">Enero–Febrero 2026</div>
+                            <div class="timeline-desc"><strong>Documentación & Preparación.</strong> Envo de management proxy circulars a accionistas; preparación para shareholder meetings.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">5</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">Febrero–Marzo 2026</div>
+                            <div class="timeline-desc"><strong>Electrum Shareholder Meeting (Special Meeting).</strong> Votación para aprobar arrangement resolution. Requisito: 66⅔% de votos (plus minorías según MI 61-101). Insiders (~28%) ya comprometidos = muy probable aprobación.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">6</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">Febrero–Marzo 2026</div>
+                            <div class="timeline-desc"><strong>Court Approval (BC Supreme Court).</strong> Hearing ante juez; aprobación de plan of arrangement. Ruta típica: oposición baja en deals amistosos; court aprueba si proceso equitativo.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">7</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">Febrero–Marzo 2026</div>
+                            <div class="timeline-desc"><strong>Aprobaciones Regulatorias.</strong> TSX-V (Canadá), ASX (Australia), ASIC (si aplica). Típicamente expeditas en deals amistosos.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">8</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">Marzo 2026</div>
+                            <div class="timeline-desc"><strong>Cierre del Deal (Closing).</strong> ELY shareholders reciben 7,9 MRR por cada ELY; acciones de ELY se convierten automáticamente en MRR. Posición LONG ELY se liquida/convierte en MRR.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">9</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">Post-Marzo 2026</div>
+                            <div class="timeline-desc"><strong>Deslistado de ELY & ASX Cotización de MRR.</strong> ELY se delista de TSX-V, Frankfurt, OTCQB. MRR sigue cotizando en ASX; posición ahora en MRR (no hedgeada, asume riesgo de precio de MRR post-cierre).</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- TAB 5: PROBABILIDADES & RIESGOS -->
+        <div id="tab-5" class="tab-content">
+            <section>
+                <h2>5. PROBABILIDADES DE CIERRE Y ANÁLISIS DE RIESGOS</h2>
+
+                <h3>5.1 Matriz de Probabilidades (Modelo Base)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Evento</th>
+                            <th>Probabilidad Estimada</th>
+                            <th>Drivers / Notas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Shareholder Approval (Electrum)</strong></td>
+                            <td><strong>98%</strong></td>
+                            <td>Insiders ~28% ya votaron SÍ; board recomendación unánime; deal friendly; no oposición conocida.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Court Approval (BC Supreme Court)</strong></td>
+                            <td><strong>97%</strong></td>
+                            <td>Deals amistosos con soporte de insiders rara vez son rechazados por corte; procedimiento típico en BC.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aprobaciones Regulatorias (TSX-V, ASX, ASIC)</strong></td>
+                            <td><strong>96%</strong></td>
+                            <td>No hay red flags conocidos; ambas compañías operan bajo régimen regulatorio establecido.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cierre del Deal (Combinado)</strong></td>
+                            <td><strong>92–95%</strong></td>
+                            <td>Producto de probabilidades independientes (~0.98 × 0.97 × 0.96). Riesgo de fallo ~5–8%.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Timing (Cierre Marzo 2026)</strong></td>
+                            <td><strong>70–75%</strong></td>
+                            <td>Riesgo de extensión: delays judiciales, problemas regulatorios menores. Extensión típica: +1–2 meses.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>5.2 Riesgos Identificados</h3>
+
+                <div class="risk-box">
+                    <h4>🔴 RIESGOS CRÍTICOS</h4>
+                    <ul>
+                        <li><strong>Fallo del Deal (~5–8%):</strong> Si deal no se cierra, ELY típicamente cae 40–60%. Drivers potenciales:
+                            <ul>
+                                <li>Court rechaza arrangement (muy poco probable).</li>
+                                <li>Reguladores (ASX/TSX-V) deniegan aprobación (raro).</li>
+                                <li>Shareholder vote falla (muy poco probable dado soporte del 28% de insiders).</li>
+                                <li>Condiciones de cierre incumplidas (ej: caja de MinRex cae significativamente).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Time Decay / Retrasos (~20–30% probabilidad de extensión >2 meses):</strong> Si deal no cierra en Marzo, cada mes extra reduce retorno anualizado ~30–40%. Ejemplo:
+                            <ul>
+                                <li>Cierre Marzo 2026: 90 días → +35% → ~142% anualizado.</li>
+                                <li>Cierre Mayo 2026: 150 días → +21% → ~51% anualizado.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Riesgo de Precio MRR Post-Deal:</strong> Aunque ELY se convierte a MRR al cierre, si decides mantener la posición (no vender en cierre), quedas expuesto a riesgo de precio de MRR, que es volátil micro-cap.</li>
+                    </ul>
+                </div>
+
+                <div class="risk-box">
+                    <h4>⚠️ RIESGOS OPERATIVOS</h4>
+                    <ul>
+                        <li><strong>Liquidez Limitada en ELY.V:</strong> Market cap ~CAD 6M; volumen ~150k acciones/día. Posición de 100k acciones = 66% del volumen diario promedio. Significa:
+                            <ul>
+                                <li>Slippage al salir (si no esperas a cierre del deal).</li>
+                                <li>Dificultad para escalar posición.</li>
+                                <li>Bid-ask spreads amplios (típicamente 2–5%).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Riesgo de Cambio (FX CAD/AUD):</strong> Valor teórico de ELY depende del tipo CAD/AUD (asumido 0,85 en análisis). Si CAD se aprecia vs AUD, spread se reduce; si se deprecia, spread mejora. Sensibilidad ~1% en FX ≈ ±1,4% en spread.</li>
+                        <li><strong>Volatilidad Extrema en Micro-Caps:</strong> Precios en TSX-V micro-caps pueden fluctuar 10–20% en sesiones individuales. Genera mark-to-market volatility, especialmente si broker requiere margin.</li>
+                    </ul>
+                </div>
+
+                <h3>5.3 Modelo de Sensibilidad</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Supuesto Clave</th>
+                            <th>Escenario Base</th>
+                            <th>Caso Alcista</th>
+                            <th>Caso Bajista</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Precio MRR al Cierre</strong></td>
+                            <td>AUD 0,0170</td>
+                            <td>AUD 0,0204 (+20%)</td>
+                            <td>AUD 0,0153 (–10%)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Spread Neto Resultante</strong></td>
+                            <td>+35%</td>
+                            <td>+53%</td>
+                            <td>+29%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Timing (Cierre)</strong></td>
+                            <td>Marzo 2026 (90d)</td>
+                            <td>Marzo 2026 (90d) [más rápido]</td>
+                            <td>Mayo 2026 (150d) [retraso 2m]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Retorno Anualizado</strong></td>
+                            <td>~142%</td>
+                            <td>~214%</td>
+                            <td>~71%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Probabilidad</strong></td>
+                            <td>40%</td>
+                            <td>30%</td>
+                            <td>22%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+
+        <!-- TAB 6: ANÁLISIS COMPARATIVO -->
+        <div id="tab-6" class="tab-content">
+            <section>
+                <h2>6. ANÁLISIS COMPARATIVO: ARBITRAGE VS LONG PURO</h2>
+
+                <div class="comparison-row">
+                    <div class="comparison-col">
+                        <strong>Estrategia Original (Arbitrage Cubierto)</strong>
+                        <p><strong>Estructura:</strong> LONG 100k ELY @ 0,085 + SHORT 790k MRR @ 0,017 (1:7,9).</p>
+                        <p><strong>Capital:</strong> CAD 8.500 cash (LONG) + CAD 23.700 margin (SHORT) = CAD 32.200 total.</p>
+                        <p><strong>Upside Esperado:</strong> +30–35% (spread capturado, protegido de movimientos MRR).</p>
+                        <p><strong>Downside Limitado:</strong> ~–5% si deal falla (hedge cubre mayoría de loss en ELY).</p>
+                        <p><strong>Problema Crítico:</strong> Hard-to-borrow MRR; fees 25–40% anual = +2000–3000 CAD en costes anuales. Prohibitivo para 90 días.</p>
+                    </div>
+                    <div class="comparison-col">
+                        <strong>Estrategia Ejecutada (LONG Puro)</strong>
+                        <p><strong>Estructura:</strong> LONG 100k ELY @ 0,085, sin hedge.</p>
+                        <p><strong>Capital:</strong> CAD 8.500 cash.</p>
+                        <p><strong>Upside Esperado:</strong> +35–53% si deal cierra (beneficia de movimientos alcistas MRR).</p>
+                        <p><strong>Downside en Fallo:</strong> –25% a –50% si deal falla (sin hedge).</p>
+                        <p><strong>Ventaja:</strong> Simplifica ejecución, evita costes de borrow prohibitivos, retorno potencial mayor si MRR alcista.</p>
+                        <p><strong>Desventaja:</strong> Riesgo binario desprotegido; asume apreciación MRR o al menos estabilidad.</p>
+                    </div>
+                </div>
+
+                <h3>Conclusión del Análisis Comparativo</h3>
+                <p>La decisión de cambiar a LONG puro fue racional dado el contexto:</p>
+                <ul>
+                    <li><strong>Costes prohibitivos del hedge:</strong> Borrow fee 25–40% anual > spread neto esperado (~35%).</li>
+                    <li><strong>Riesgo de recall:</strong> Riesgo material de no poder mantener hedge hasta cierre.</li>
+                    <li><strong>Upside capturado:</strong> LONG puro permite capturar movimientos alcistas de MRR (realista post-merger si deal aprobado).</li>
+                    <li><strong>Retorno esperado similar:</strong> Valor esperado de LONG puro (~60%) es comparable a arbitrage cubierto (~35%) tras ajustar probabilidades.</li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- TAB 7: CATALIZADORES -->
+        <div id="tab-7" class="tab-content">
+            <section>
+                <h2>7. CATALIZADORES Y EVENTOS CLAVE</h2>
+
+                <h3>Catalizadores Positivos (Alcistas para ELY)</h3>
+                <ul>
+                    <li><strong>Aprobación de Shareholder (Feb-Mar 2026):</strong> Cuando Electrum shareholders votan SÍ (highly likely), spread se reduce significativamente (~30–50% de los arbitragistas venden).</li>
+                    <li><strong>Aprobación Judicial (Feb-Mar 2026):</strong> Court approval remueve riesgo legal mayor; spread converge hacia 0.</li>
+                    <li><strong>Aprobaciones Regulatorias (TSX-V, ASX):</strong> Cada aprobación reduce probabilidad de fallo e incrementa confianza del mercado.</li>
+                    <li><strong>Resultados Positivos de Exploración (Electrum):</strong> Si pre-cierre Timok East o Novo Tlamino publican drill results positivos, reevaluación alcista de activos; potencial para MRR apreciarse, beneficiando ELY.</li>
+                    <li><strong>Anuncios de Socios / Joint Ventures:</strong> Si post-anuncio, combined company anuncia joint venture o partner estratégico, re-rating posible.</li>
+                </ul>
+
+                <h3>Catalizadores Negativos (Bajistas para ELY)</h3>
+                <ul>
+                    <li><strong>Rechazo de Shareholder / Condiciones No Cumplidas:</strong> Si voting falla (unlikely) o condiciones de cierre incumplidas, ELY cae 40–60%.</li>
+                    <li><strong>Rechazo Judicial:</strong> BC Supreme Court deniega arrangement (muy raro, ~1–2%).</li>
+                    <li><strong>Aprobación Regulatoria Denegada:</strong> TSX-V o ASX deniegan (raro, <1%).</li>
+                    <li><strong>Resultados de Exploración Decepcionantes:</strong> Timok East drilling results weak, o Sofala expandido less than expected → reevaluación bajista; MRR baja; spread crece (malo para arbitragistas).</li>
+                    <li><strong>Cambios Económicos Macroeconómicos:</strong> Crisis de liquidez, colapso de precios de commodities, problema de riesgo-país en Serbia/Australia.</li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- TAB 8: RIESGOS A MONITOREAR -->
+        <div id="tab-8" class="tab-content">
+            <section>
+                <h2>8. RIESGOS ESPECÍFICOS A MONITOREAR</h2>
+
+                <h3>Riesgos Geopolíticos / Macro</h3>
+                <ul>
+                    <li><strong>Serbia:</strong> Estabilidad política aceptable; sin riesgo material conocido. Pero transiciones políticas pueden afectar permisos de exploración.</li>
+                    <li><strong>Australia:</strong> Jurisdicción de bajo riesgo. ASX listings muy líquidas y protegidas.</li>
+                    <li><strong>Precios de Commodities:</strong> Oro relativamente estable; pero caída >10% podría afectar sentimiento hacia exploradores.</li>
+                </ul>
+
+                <h3>Riesgos Específicos de la Operación</h3>
+                <ul>
+                    <li><strong>Cambios en Condiciones Financieras:</strong> Si MinRex quema cash rápidamente pre-cierre, o si descubrimientos afectan valuación, ratio de canje podría renegociarse (raro pero posible).</li>
+                    <li><strong>Litigios / Demandas:</strong> Shareholder litigation post-anuncio (ej. "deal undervalued") podría retrasar cierre 1–3 meses.</li>
+                    <li><strong>Cambios de Management / Board:</strong> Si CEO o director clave renuncia pre-cierre, podría afectar confianza en deal. Riesgo bajo pero presente.</li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- TAB 9: CONCLUSIÓN -->
+        <div id="tab-9" class="tab-content">
+            <section>
+                <div class="conclusion">
+                    <h2>9. CONCLUSIÓN</h2>
+
+                    <div class="conclusion-box">
+                        <strong>Tesis Validada:</strong> La inversión LONG en ELY.V realizada el 6 enero 2026 @ CAD 0,085 ofrece un <strong>perfil retorno/riesgo razonable</strong> para inversores sofisticados con horizonte de 90 días y tolerancia para riesgo binario.
+                    </div>
+
+                    <div class="conclusion-box">
+                        <strong>Valor Esperado Positivo:</strong> EV de ~+59,8% (~CAD 5.090 sobre inversión inicial de CAD 8.500), equivalentes a ~239% anualizado, asumiendo deal cierra en Marzo 2026.
+                    </div>
+
+                    <div class="conclusion-box">
+                        <strong>Riesgos Acotados pero Presentes:</strong>
+                        <ul style="margin: 10px 0; padding-left: 20px;">
+                            <li>Riesgo de fallo del deal: ~5–8% (pérdida potencial –25% a –50% si ocurre).</li>
+                            <li>Riesgo de time decay: retrasos de 1–2 meses son comunes; cada mes reduce retorno anualizado ~30–40%.</li>
+                            <li>Riesgo operativo: liquidez limitada en ELY, slippage al salir, volatilidad de micro-cap.</li>
+                        </ul>
+                    </div>
+
+                    <h3 style="color: white; margin-top: 30px;">Recomendación</h3>
+                    <p>✓ <strong>MANTENER POSICIÓN LONG</strong> en ELY.V con plan de salida al cierre del deal (conversión automática a MRR) o si se alcanza spread de <20% (punto de indiferencia donde otros arbitragistas probablemente venderán).</p>
+
+                    <p><strong>Monitoreo Recomendado:</strong></p>
+                    <ul>
+                        <li>Seguimiento de aprobaciones regulatorias (TSX-V, ASX, court) a través de IR de ambas empresas.</li>
+                        <li>Alertas en resultados de exploración (Timok East, Novo Tlamino) que podrían afectar valuación de MRR.</li>
+                        <li>Monitoreo del tipo CAD/AUD (sensibilidad ±1% FX ≈ ±1,4% spread).</li>
+                        <li>Watch para litigios o shareholder disputes (descarga de proxy circulars del IR).</li>
+                        <li>Plan B: Si spread converge a <15%, o si deal signaling falla, considerar salida anticipada con pérdida limitada.</li>
+                    </ul>
+
+                    <p style="margin-top: 20px;"><strong style="color: var(--primary-color);">Horizonte Temporal:</strong> 90 días (Marzo 2026 cierre esperado).</p>
+                    <p style="margin-top: 10px;"><strong style="color: var(--primary-color);">Probabilidad de Éxito:</strong> 93–95% (deal cierra); Upside ~35–53%.</p>
+                </div>
+            </section>
+        </div>
+
+        <!-- FOOTER -->
+          <footer>
+            		<div class="container">
+             		   <p><strong>Disclaimer:</strong> Este análisis se proporciona únicamente con propósitos informativos y educativos. No constituye asesoramiento financiero ni recomendación personalizada de inversión. Consulte con un asesor financiero profesional antes de tomar decisiones de inversión.</p>
+               		 <p style="margin-top: 20px; font-size: 0.85rem;">
+                    📅  Fecha de Publicación: 6 de enero de 2026 | Actualización: 15 de enero de 2026 | <strong>📊 Fuentes:</strong> Información basada en IR pública de Electrum Discovery Corp. y MinRex Resources Ltd.</p>
+                	<p style="margin-top: 15px;">
+                    	🔗 <a href="https://spreadhuntersinvest.github.io/SpreadHunters.researchs/" style="color: var(--primary-color); text-decoration: none;">SpreadHunters Investment Research</a> | 📋 <a href="https://substack.com/@spreadhunters" style="color: var(--primary-color); text-decoration: none;">Substack</a> | 𝕏 <a href="https://x.com/Spread_Hunters" style="color: var(--primary-color); text-decoration: none;">Twitter/X</a>
+                	</p>
+                	<p>© 2026 SpreadHunters. Todos los derechos reservados.</p>
+            		</div>
+        		</footer>
+    </div>
+
+    <script>
+        // Manejo de navegación de tabs
+        document.querySelectorAll('.nav-tab').forEach(button => {
+            button.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                
+                // Remover clase active de todos los botones y contenidos
+                document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                
+                // Añadir clase active al botón y contenido clickeados
+                this.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+                
+                // Scroll hacia arriba
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
+

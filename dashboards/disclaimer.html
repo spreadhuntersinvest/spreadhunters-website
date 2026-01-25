@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disclaimer - Spread Hunters Investment Research</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%);
+            background-attachment: fixed;
+            color: #f8fafc;
+            min-height: 100vh;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid rgba(13, 148, 136, 0.3);
+            padding-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: #0d9488;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(13, 148, 136, 0.3);
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.8;
+            color: #cbd5e1;
+        }
+
+        .disclaimer-content {
+            display: grid;
+            gap: 30px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid #0d9488;
+            padding: 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-left-color: #14b8a6;
+        }
+
+        .section h2 {
+            font-size: 1.3em;
+            color: #0d9488;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h2::before {
+            content: "▶";
+            font-size: 0.8em;
+        }
+
+        .section p {
+            font-size: 0.95em;
+            color: #e2e8f0;
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+
+        .section ul, .section ol {
+            margin-left: 20px;
+            color: #e2e8f0;
+            font-size: 0.95em;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            background: rgba(13, 148, 136, 0.2);
+            border-left: 3px solid #0d9488;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .highlight.warning {
+            background: rgba(239, 68, 68, 0.2);
+            border-left-color: #ef4444;
+            color: #fca5a5;
+        }
+
+        .footer-disclaimer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9em;
+            color: #94a3b8;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: rgba(13, 148, 136, 0.2);
+            border: 1.5px solid #0d9488;
+            color: #0d9488;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background: #0d9488;
+            color: white;
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="javascript:history.back()" class="back-button">← Volver atrás</a>
+
+        <header>
+            <h1>📋 Disclaimer Legal</h1>
+            <p>Spread Hunters Investment Research</p>
+        </header>
+
+        <div class="disclaimer-content">
+            <!-- Sección 1 -->
+            <div class="section">
+                <h2>Sobre Spread Hunters</h2>
+                <p>
+                    Spread Hunters es una plataforma de investigación de inversiones independiente dedicada al análisis 
+                    de oportunidades especiales de inversión, incluyendo arbitraje de fusiones, ofertas públicas de adquisición 
+                    (M&A), operaciones de separación corporativa y situaciones especiales. Los análisis y posiciones presentadas 
+                    reflejan opiniones e investigaciones independientes.
+                </p>
+            </div>
+
+            <!-- Sección 2 -->
+            <div class="section">
+                <h2>Naturaleza Educativa de los Contenidos</h2>
+                <p>
+                    Todos los contenidos, análisis, gráficos y datos presentados en esta plataforma son de naturaleza 
+                    educativa e informativa únicamente. No constituyen recomendaciones de inversión, asesoramiento financiero 
+                    profesional, solicitud de compra/venta de valores, ni una oferta para entrar en cualquier transacción financiera.
+                </p>
+                <div class="highlight warning">
+                    ⚠️ No somos asesores financieros autorizados ni brokers regulados.
+                </div>
+            </div>
+
+            <!-- Sección 3 -->
+            <div class="section">
+                <h2>Riesgos de Inversión</h2>
+                <p>
+                    La inversión en mercados de valores conlleva riesgos significativos. Incluyen, pero no se limitan a:
+                </p>
+                <ul>
+                    <li><strong>Riesgo de pérdida de capital:</strong> Usted puede perder parte o la totalidad de su inversión</li>
+                    <li><strong>Volatilidad:</strong> Los precios pueden fluctuar significativamente en cortos períodos</li>
+                    <li><strong>Riesgo de liquidez:</strong> Pueden existir dificultades para vender valores en mercados ilíquidos</li>
+                    <li><strong>Riesgo sistémico:</strong> Eventos macroeconómicos pueden afectar todos los mercados</li>
+                    <li><strong>Riesgo de crédito:</strong> Riesgo de incumplimiento de emisores</li>
+                    <li><strong>Riesgo de microcap:</strong> Las acciones pequeñas presentan volatilidad y riesgo más elevados</li>
+                </ul>
+            </div>
+
+            <!-- Sección 4 -->
+            <div class="section">
+                <h2>Limitaciones de los Datos y Análisis</h2>
+                <p>
+                    Aunque nos esforzamos por la precisión, los datos pueden contener errores o retrasos. Nuestros análisis se basan en:
+                </p>
+                <ul>
+                    <li>Información pública disponible (filings SEC, informes de bolsas, noticias)</li>
+                    <li>Supuestos que pueden cambiar o resultar incorrectos</li>
+                    <li>Modelos financieros que pueden no reflejar resultados reales</li>
+                    <li>Interpretaciones personales que otros analistas pueden no compartir</li>
+                </ul>
+                <div class="highlight">
+                    ℹ️ Recomendamos verificar datos independientemente mediante fuentes oficiales.
+                </div>
+            </div>
+
+            <!-- Sección 5 -->
+            <div class="section">
+                <h2>Conflictos de Interés</h2>
+                <p>
+                    El autor de Spread Hunters puede mantener posiciones activas (largas o cortas) en los valores analizados. 
+                    Los análisis reflejan nuestras opiniones independientes, pero es posible que tengamos interés financiero directo 
+                    en los resultados descritos.
+                </p>
+                <div class="highlight warning">
+                    ⚠️ Tenga en cuenta esto al evaluar nuestros análisis.
+                </div>
+            </div>
+
+            <!-- Sección 6 -->
+            <div class="section">
+                <h2>No Hay Garantías</h2>
+                <p>
+                    No garantizamos:
+                </p>
+                <ul>
+                    <li>Que las tesis propuestas se materializarán</li>
+                    <li>Rentabilidad de las posiciones analizadas</li>
+                    <li>Que los precios alcanzarán los objetivos proyectados</li>
+                    <li>Que los eventos catalíticos ocurrirán según lo estimado</li>
+                    <li>La disponibilidad continua de la plataforma o servicios</li>
+                </ul>
+            </div>
+
+            <!-- Sección 7 -->
+            <div class="section">
+                <h2>Decisiones de Inversión Personales</h2>
+                <p>
+                    Toda decisión de inversión debe ser suya, basada en:
+                </p>
+                <ul>
+                    <li>Su propia investigación y debido diligencia</li>
+                    <li>Su situación financiera personal</li>
+                    <li>Su perfil de riesgo y horizonte de inversión</li>
+                    <li>Asesoramiento profesional (si es necesario)</li>
+                </ul>
+                <p style="margin-top: 15px;">
+                    <strong>No realice inversiones basadas únicamente en nuestro análisis.</strong>
+                </p>
+            </div>
+
+            <!-- Sección 8 -->
+            <div class="section">
+                <h2>Regulación y Jurisdicción</h2>
+                <p>
+                    Esta plataforma está disponible únicamente para propósitos educativos. No cumple con regulaciones 
+                    de valores en ninguna jurisdicción específica. Los usuarios deben cumplir con todas las leyes y regulaciones 
+                    aplicables en su país/región de residencia.
+                </p>
+                <p style="margin-top: 15px;">
+                    <strong>Spread Hunters no está registrado como asesor de inversiones ni broker en ninguna jurisdicción.</strong>
+                </p>
+            </div>
+
+            <!-- Sección 9 -->
+            <div class="section">
+                <h2>Limitación de Responsabilidad</h2>
+                <p>
+                    En ningún caso Spread Hunters será responsable por:
+                </p>
+                <ul>
+                    <li>Pérdidas financieras resultantes del uso de esta plataforma</li>
+                    <li>Daños directos, indirectos, incidentales o consecuentes</li>
+                    <li>Errores u omisiones en los contenidos</li>
+                    <li>Decisiones de inversión basadas en nuestros análisis</li>
+                </ul>
+            </div>
+
+            <!-- Sección 10 -->
+            <div class="section">
+                <h2>Cambios en este Disclaimer</h2>
+                <p>
+                    Nos reservamos el derecho de actualizar este disclaimer en cualquier momento sin previo aviso. 
+                    El uso continuado de la plataforma constituye aceptación de cualquier cambio.
+                </p>
+                <p style="margin-top: 15px; font-style: italic;">
+                    <strong>Última actualización:</strong> Enero 2026
+                </p>
+            </div>
+
+            <!-- Sección Final -->
+            <div class="section" style="background: rgba(13, 148, 136, 0.15); border-left-color: #0d9488;">
+                <h2>Contacto y Preguntas</h2>
+                <p>
+                    Si tiene preguntas sobre este disclaimer o sobre nuestras prácticas de investigación, 
+                    por favor contacte a través de los canales disponibles en la plataforma.
+                </p>
+                <p style="margin-top: 15px; color: #94a3b8; font-size: 0.9em;">
+                    <strong>Acuerdo:</strong> Al usar Spread Hunters, usted reconoce haber leído y aceptado 
+                    los términos de este disclaimer.
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-disclaimer">
+            <p>© 2026 Spread Hunters Investment Research. Todos los derechos reservados.</p>
+            <p style="margin-top: 10px; font-size: 0.85em;">
+                Este disclaimer debe leerse en conjunto con nuestros Términos de Servicio (si aplica).
+            </p>
+        </div>
+    </div>
+</body>
+</html>
