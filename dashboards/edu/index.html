@@ -81,42 +81,49 @@
             transition: width 0.3s ease;
         }
 
-        /* ========================================
-           LOGO NAVBAR
-           ======================================== */
-        .logo-navbar {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 900;
-            background: none;
-            padding: 0;
-            border: none;
-            backdrop-filter: none;
-            pointer-events: none;
-        }
+            /* ========================================
+               LOGO NAVBAR
+               ======================================== */
+            .logo-navbar {
+              position: fixed;
+              top: 20px;
+              left: 20px;
+              z-index: 900;
+              background: none;
+              padding: 0;
+              border: none;
+              backdrop-filter: none;
+            
+              /* Si quieres que NO sea clicable, deja esto en none.
+                 Si quieres que sea clicable, cámbialo a auto (ver nota abajo). */
+              pointer-events: none;
+            }
+            
+            .logo-navbar-img {
+              width: 190px;      /* ⬅️ antes 160px (más grande) */
+              height: auto;
+              filter: none;
+              display: block;
+            }
+            
+            /* Laptop / Tablet grande */
+            @media (max-width: 1024px) {
+              .logo-navbar { top: 15px; left: 15px; }
+              .logo-navbar-img { width: 125px; }  /* ⬅️ antes 105px */
+            }
+            
+            /* Tablet */
+            @media (max-width: 768px) {
+              .logo-navbar { top: 15px; left: 15px; }
+              .logo-navbar-img { width: 112px; }  /* ⬅️ antes 95px */
+            }
+            
+            /* Mobile */
+            @media (max-width: 480px) {
+              .logo-navbar { top: 12px; left: 12px; }
+              .logo-navbar-img { width: 100px; }  /* ⬅️ antes 85px */
+            }
 
-        .logo-navbar-img {
-            width: 160px;
-            height: auto;
-            filter: none;
-            display: block;
-        }
-
-        @media (max-width: 1024px) {
-            .logo-navbar { top: 15px; left: 15px; }
-            .logo-navbar-img { width: 105px; }
-        }
-
-        @media (max-width: 768px) {
-            .logo-navbar { top: 15px; left: 15px; }
-            .logo-navbar-img { width: 95px; }
-        }
-
-        @media (max-width: 480px) {
-            .logo-navbar { top: 12px; left: 12px; }
-            .logo-navbar-img { width: 85px; }
-        }
 
         /* ========================================
            HEADER PROFESIONAL
