@@ -693,6 +693,49 @@
         .card li {
             margin-bottom: 4px;
         }
+                    /* ========================================
+                       COMPACTACIÓN REAL DE CAJAS
+                       (reduce padding + ajusta tipografía interna)
+                       ======================================== */
+            
+            /* Menos “aire” dentro de cajas */
+            .card,
+            .highlight-item,
+            .alert {
+              padding: 14px 16px !important;  /* antes 18/16-18 */
+            }
+            
+            /* Tipografía un poco más compacta dentro de cajas */
+            .card,
+            .highlight-item,
+            .alert {
+              line-height: 1.5;
+            }
+            
+            /* Evita espacios extra cuando haya saltos o elementos vacíos */
+            .card > *:last-child,
+            .highlight-item > *:last-child,
+            .alert > *:last-child {
+              margin-bottom: 0 !important;
+            }
+            
+            /* Si hay listas dentro */
+            .card ul,
+            .highlight-item ul,
+            .alert ul {
+              padding-left: 18px;  /* recupera indent limpio */
+              margin: 6px 0 0 !important;
+            }
+            .card li,
+            .highlight-item li,
+            .alert li {
+              margin: 0 0 4px 0 !important;
+            }
+            .card li:last-child,
+            .highlight-item li:last-child,
+            .alert li:last-child {
+              margin-bottom: 0 !important;
+            }
 
     </style>
 </head>
