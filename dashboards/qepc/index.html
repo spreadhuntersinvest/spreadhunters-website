@@ -149,11 +149,12 @@
         }
 
         .company-title-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 25px;
-            flex-wrap: wrap;
+              display: flex;
+              flex-direction: column;   /* ⬅️ logo arriba, título debajo */
+              align-items: center;
+              justify-content: center;
+              gap: 12px;                /* separación logo-título */
+              text-align: center;
         }
 
         .logo-company {
@@ -164,6 +165,7 @@
             object-fit: contain;
             filter: none; /* por defecto: respeta colores originales */
             display: block;
+            margin: 0;               /* por si algún margen lo desplaza */
         }
 
 /* Opcional: usa esta clase SOLO si necesitas adaptar un logo claro a fondo oscuro */
