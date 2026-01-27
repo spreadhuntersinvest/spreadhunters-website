@@ -737,6 +737,21 @@
               margin-bottom: 0 !important;
             }
 
+                /* Lista compacta dentro de cards */
+        .card ul.compact-list{
+          margin: 6px 0 0 !important;     /* controla el hueco arriba */
+          padding-left: 18px !important;  /* indent limpio */
+          list-style-position: outside;
+        }
+        
+        .card ul.compact-list li{
+          margin: 0 0 6px 0 !important;
+        }
+        
+        .card ul.compact-list li:last-child{
+          margin-bottom: 0 !important;
+        }
+
     </style>
 </head>
 <body>
@@ -1103,11 +1118,10 @@
 
         <!-- Conclusión -->
         <section id="conclusion" class="fade-in">
-          <h2>Conclusiones</h2>
-        
+          <h2>Conclusiones</h2> 
           <div class="card">
             <h3>Lecturas clave del análisis</h3>
-            <ul style="margin-left: 20px; margin-top: 10px;">
+            <ul class="compact-list">
               <li><strong>Transformación operacional:</strong> mejora de márgenes tras la desinversión 2023–2025.</li>
               <li><strong>Estructura financiera:</strong> posición de caja neta relevante respecto al precio de mercado.</li>
               <li><strong>Valuación relativa:</strong> múltiplos actuales frente a referencias de transacciones comparables.</li>
@@ -1135,8 +1149,8 @@
                 📅 Análisis Actualizado: Enero 2026 | 📊 Fuentes: OTC Markets, SEC Filings, Management Presentations
             </p>
             <p style="margin-top: 15px;">
-                🔗 <a href="https://spreadhuntersinvest.github.io/" target="_blank" rel="noopener noreferrer">SpreadHunters Investment Research</a>
-                | 📝 <a href="https:spreadhunters.es" target="_blank" rel="noopener noreferrer">Substack</a>
+                🔗 <a href="https://spreadhunters.es" target="_blank" rel="noopener noreferrer">SpreadHunters Investment Research</a>
+                | 📝 <a href="https://substack.com/@spreadhunters" target="_blank" rel="noopener noreferrer">Substack</a>
                 | 𝕏 <a href="https://x.com/Spread_Hunters" target="_blank" rel="noopener noreferrer">Twitter/X</a>
             </p>
         </div>
