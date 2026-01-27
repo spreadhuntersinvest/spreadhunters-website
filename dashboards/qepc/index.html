@@ -683,19 +683,19 @@
             <div class="investment-metrics">
                 <div class="metric-card">
                     <div class="metric-label">PRECIO ACTUAL</div>
-                    <div class="metric-value cyan">$32.00</div>
+                    <div class="metric-value cyan" id="priceCurrent">$32.00</div>
                     <div class="metric-subtitle">OTC Markets</div>
                 </div>
                 
                 <div class="metric-card">
                     <div class="metric-label">FAIR VALUE</div>
-                    <div class="metric-value cyan">$46.15</div>
+                    <div class="metric-value cyan" id="fairValue">$46.15</div>
                     <div class="metric-subtitle">Base Case</div>
                 </div>
                 
                 <div class="metric-card">
                     <div class="metric-label">UPSIDE POTENCIAL</div>
-                    <div class="metric-value green">+44.2%</div>
+                    <div class="metric-value green" id="upsidePct">—</div>
                     <div class="metric-subtitle">vs Comparables M&A</div>
                 </div>
                
@@ -1318,6 +1318,44 @@
                 }
             }
         });
+                function parseMoney(text) {
+            // "$32.00" -> 32.00   |   "32" -> 32
+            const cleaned = String(text).replace(/[^\d.,-]/g, '').replace(',', '.');
+            const value = Number(cleaned);
+            return Number.isFinite(value) ? value : NaN;
+          }
+        
+          function formatPct(value) {
+            const sign = value >= 0 ? '+' : '';
+            return `${sign}${value.toFixed(1)}%`;
+          }
+        
+          function updateUpside() {
+            const elPrice = document.getElementById('priceCurrent');
+            const elFair  = document.getElementById('fairValue');
+            const elUps   = document.getElementById('upsidePct');
+        
+            if (!elPrice || !elFair || !elUps) return;
+        
+            const price = parseMoney(elPrice.textContent);
+            const fair  = parseMoney(elFair.textContent);
+        
+            if (!Number.isFinite(price) || !Number.isFinite(fair) || price <= 0) {
+              elUps.textContent = '—';
+              elUps.classList.remove('green', 'red');
+              return;
+            }
+        
+            const upside = ((fair / price) - 1) * 100;
+            elUps.textContent = formatPct(upside);
+        
+            // Color automático
+            elUps.classList.toggle('green', upside >= 0);
+            elUps.classList.toggle('red', upside < 0);
+          }
+        
+          // Llamada inicial
+          updateUpside();
     </script>
 </body>
 </html>
