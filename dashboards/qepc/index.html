@@ -352,17 +352,16 @@
             padding-left: 20px;
         }
 
-        section h3 {
-            font-size: 1.25rem;
-            margin: 30px 0 15px;
-            color: var(--text-primary);
-        }
-
-        section h4 {
-            font-size: 1.0rem;
-            margin: 15px 0 10px;
-            color: var(--text-primary);
-        }
+                    section > h3 {
+              font-size: 1.25rem;
+              margin: 30px 0 15px;
+              color: var(--text-primary);
+            }
+            section > h4 {
+              font-size: 1.0rem;
+              margin: 15px 0 10px;
+              color: var(--text-primary);
+            }
 
        @media (max-width: 768px){
           .page-title{ font-size: 1.4rem; }
@@ -693,64 +692,60 @@
         .card li {
             margin-bottom: 4px;
         }
-                    /* ========================================
-                       COMPACTACIÓN REAL DE CAJAS
-                       (reduce padding + ajusta tipografía interna)
-                       ======================================== */
-            
-            /* Menos “aire” dentro de cajas */
-            .card,
-            .highlight-item,
-            .alert {
-              padding: 14px 16px !important;  /* antes 18/16-18 */
-            }
-            
-            /* Tipografía un poco más compacta dentro de cajas */
-            .card,
-            .highlight-item,
-            .alert {
-              line-height: 1.5;
-            }
-            
-            /* Evita espacios extra cuando haya saltos o elementos vacíos */
-            .card > *:last-child,
-            .highlight-item > *:last-child,
-            .alert > *:last-child {
-              margin-bottom: 0 !important;
-            }
-            
-            /* Si hay listas dentro */
-            .card ul,
-            .highlight-item ul,
-            .alert ul {
-              padding-left: 18px;  /* recupera indent limpio */
-              margin: 6px 0 0 !important;
-            }
-            .card li,
-            .highlight-item li,
-            .alert li {
-              margin: 0 0 4px 0 !important;
-            }
-            .card li:last-child,
-            .highlight-item li:last-child,
-            .alert li:last-child {
-              margin-bottom: 0 !important;
-            }
+                    /* ===========================
+                       COMPACTACIÓN CONSISTENTE
+                       =========================== */
+                    
+                    /* Menos padding */
+                    .card, .highlight-item, .alert{
+                      padding: 14px 16px !important;
+                      line-height: 1.5;
+                    }
+                    
+                    /* Títulos dentro de cajas */
+                    .card h3, .card h4,
+                    .highlight-item h4{
+                      margin: 0 0 8px !important;
+                    }
+                    
+                    /* Párrafos dentro de cajas */
+                    .card p, .highlight-item p, .alert p{
+                      margin: 0 0 8px !important;
+                    }
+                    
+                    /* Último hijo sin margen extra */
+                    .card > *:last-child,
+                    .highlight-item > *:last-child,
+                    .alert > *:last-child{
+                      margin-bottom: 0 !important;
+                    }
+                    
+                    /* Listas */
+                    .card ul, .highlight-item ul, .alert ul{
+                      margin: 6px 0 0 !important;
+                      padding-left: 18px !important;
+                    }
+                    .card li, .highlight-item li, .alert li{
+                      margin: 0 0 4px 0 !important;
+                    }
+                    .card li:last-child,
+                    .highlight-item li:last-child,
+                    .alert li:last-child{
+                      margin-bottom: 0 !important;
+                    }
 
-                /* Lista compacta dentro de cards */
-        .card ul.compact-list{
-          margin: 6px 0 0 !important;     /* controla el hueco arriba */
-          padding-left: 18px !important;  /* indent limpio */
-          list-style-position: outside;
-        }
-        
-        .card ul.compact-list li{
-          margin: 0 0 6px 0 !important;
-        }
-        
-        .card ul.compact-list li:last-child{
-          margin-bottom: 0 !important;
-        }
+        /* Mata inline margins dentro de cards para que el layout sea consistente */
+            .card p[style],
+            .card ul[style]{
+              margin-top: 6px !important;
+              margin-bottom: 8px !important;
+            }
+            
+            /* Ajusta indent sin margin-left inline */
+            .card ul[style]{
+              margin-left: 0 !important;
+              padding-left: 18px !important;
+            }
 
     </style>
 </head>
