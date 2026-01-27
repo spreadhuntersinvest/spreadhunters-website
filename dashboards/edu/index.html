@@ -82,7 +82,7 @@
         }
 
             /* ========================================
-               LOGO NAVBAR
+               LOGO NAVBAR (SVG – escala por altura)
                ======================================== */
             .logo-navbar {
               position: fixed;
@@ -93,35 +93,31 @@
               padding: 0;
               border: none;
               backdrop-filter: none;
-            
-              /* Si quieres que NO sea clicable, deja esto en none.
-                 Si quieres que sea clicable, cámbialo a auto (ver nota abajo). */
-              pointer-events: none;
+              pointer-events: none; /* no clicable */
             }
             
             .logo-navbar-img {
-              width: 190px;      /* ⬅️ antes 160px (más grande) */
-              height: auto;
-              filter: none;
+              height: 44px;   /* ⬅️ MÁS grande (antes ~38–40 visuales) */
+              width: auto;
               display: block;
             }
             
             /* Laptop / Tablet grande */
             @media (max-width: 1024px) {
               .logo-navbar { top: 15px; left: 15px; }
-              .logo-navbar-img { width: 125px; }  /* ⬅️ antes 105px */
+              .logo-navbar-img { height: 38px; }
             }
             
             /* Tablet */
             @media (max-width: 768px) {
               .logo-navbar { top: 15px; left: 15px; }
-              .logo-navbar-img { width: 112px; }  /* ⬅️ antes 95px */
+              .logo-navbar-img { height: 34px; }
             }
             
             /* Mobile */
             @media (max-width: 480px) {
               .logo-navbar { top: 12px; left: 12px; }
-              .logo-navbar-img { width: 100px; }  /* ⬅️ antes 85px */
+              .logo-navbar-img { height: 30px; }
             }
 
 
