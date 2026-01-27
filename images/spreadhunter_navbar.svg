@@ -1,0 +1,24 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="44" viewBox="0 0 240 44" role="img" aria-label="Spread Hunters">
+  <!-- Colores -->
+  <!-- Navy: #0B1F5B  |  Teal: #1FC3C8 -->
+
+  <!-- Icono: 2 barras -->
+  <g transform="translate(0,6)">
+    <rect x="0" y="0" width="10" height="32" rx="1" fill="#0B1F5B"></rect>
+    <rect x="14" y="0" width="10" height="32" rx="1" fill="#1FC3C8"></rect>
+  </g>
+
+  <!-- Texto (subido y alineado con el centro del icono) -->
+  <g transform="translate(36,4)">
+    <!-- SPREAD -->
+    <text x="0" y="18" font-family="Montserrat, Poppins, system-ui, -apple-system, Segoe UI, Arial, sans-serif" font-size="18" font-weight="800" letter-spacing="0.6" fill="#FFFFFF">
+      SPREAD
+    </text>
+
+    <!-- HUNTERS -->
+    <text x="0" y="36" font-family="Montserrat, Poppins, system-ui, -apple-system, Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="1.6" fill="#1FC3C8">
+      HUNTERS
+    </text>
+  </g>
+</svg>
