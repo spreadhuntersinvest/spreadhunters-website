@@ -1171,8 +1171,13 @@
                         block: 'start'
                     });
                 }
-                document.querySelectorAll('.nav-tabs a').forEach(link => {
-                    link.classList.remove('active');
+                const navLinks = document.querySelectorAll('.nav-tabs a');
+                navLinks.forEach(link => link.classList.remove('active'));
+                
+                // Solo marcar active si el click viene del menú
+                if (this.closest('.nav-tabs')) {
+                  this.classList.add('active');
+                }
                 });
                 this.classList.add('active');
             });
