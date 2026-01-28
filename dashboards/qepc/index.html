@@ -747,409 +747,437 @@
               padding-left: 18px !important;
             }
 
+        /* Evita que los anchors queden tapados por la nav sticky */
+        section { scroll-margin-top: 90px; }
+        
+@media (max-width: 768px){
+  section { scroll-margin-top: 120px; }
+}
+        
+        /* Utilidades sencillas para evitar inline */
+        .mt-15 { margin-top: 15px; }
+        .mt-20 { margin-top: 20px; }
+        .mt-30 { margin-top: 30px; }
+        .text-center { text-align: center; }
+        
+        /* Clase usada en Riesgos */
+        .warning { color: var(--warning-color); }
+        
+        /* Lista compacta usada en Conclusión */
+        .compact-list { margin: 6px 0 0; padding-left: 18px; }
+        .compact-list li { margin: 0 0 4px 0; }
+        .compact-list li:last-child { margin-bottom: 0; }
+        
+        /* Alturas de charts sin inline */
+        .chart-350 { height: 350px; }
+
     </style>
 </head>
 <body>
-    <div id="top"></div>
-    <!-- Barra de progreso -->
-    <div class="progress-bar" id="progressBar"></div>
+   <div id="top"></div>
 
-    <!-- Logo -->
-    <div class="logo-navbar">
-        <img src="../../images/spreadhunter_navbar.svg" alt="SpreadHunters" class="logo-navbar-img">
+  <!-- Barra de progreso -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- Logo -->
+  <div class="logo-navbar">
+    <img src="../../images/spreadhunter_navbar.svg" alt="SpreadHunters" class="logo-navbar-img">
+  </div>
+
+  <!-- Header -->
+  <header class="header-professional">
+    <div class="container">
+      <div class="header-title-section">
+        <div class="company-title-row">
+          <img src="../company-logos/qep.png" alt="Q.E.P. Logo" class="logo-company">
+          <h1 class="page-title">Q.E.P. Co., Inc. (OTC: QEPC)</h1>
+        </div>
+        <p class="page-subtitle">Deep Value: Transformación de Márgenes Completada + Arbitraje de Múltiplos</p>
+      </div>
+
+      <div class="investment-metrics">
+        <div class="metric-card">
+          <div class="metric-label">PRECIO ACTUAL</div>
+          <div class="metric-value cyan" id="priceCurrent">41.50$</div>
+          <div class="metric-subtitle">OTC Markets</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">FAIR VALUE</div>
+          <div class="metric-value cyan" id="fairValue">$46.15</div>
+          <div class="metric-subtitle">Base Case</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">UPSIDE POTENCIAL</div>
+          <div class="metric-value green" id="upsidePct">—</div>
+          <div class="metric-subtitle">vs Comparables M&A</div>
+        </div>
+      </div>
     </div>
+  </header>
 
-    <!-- Header -->
-    <header class="header-professional">
-        <div class="container">
-            <div class="header-title-section">
-                <div class="company-title-row">
-                    <img src="../company-logos/qep.png" alt="Q.E.P. Logo" class="logo-company">
-                    <h1 class="page-title">Q.E.P. Co., Inc. (OTC: QEPC)</h1>
-                </div>
-                <p class="page-subtitle">Deep Value: Transformación de Márgenes Completada + Arbitraje de Múltiplos</p>
-            </div>
-            
-            <div class="investment-metrics">
-                <div class="metric-card">
-                    <div class="metric-label">PRECIO ACTUAL</div>
-                    <div class="metric-value cyan" id="priceCurrent">41.50$</div>
-                    <div class="metric-subtitle">OTC Markets</div>
-                </div>
-                
-                <div class="metric-card">
-                    <div class="metric-label">FAIR VALUE</div>
-                    <div class="metric-value cyan" id="fairValue">$46.15</div>
-                    <div class="metric-subtitle">Base Case</div>
-                </div>
-                
-                <div class="metric-card">
-                    <div class="metric-label">UPSIDE POTENCIAL</div>
-                    <div class="metric-value green" id="upsidePct">—</div>
-                    <div class="metric-subtitle">vs Comparables M&A</div>
-                </div>
-               
-            </div>
+  <!-- Navegación -->
+  <nav class="nav-tabs">
+    <div class="container">
+      <ul>
+        <li><a href="#resumen" class="active">Resumen</a></li>
+        <li><a href="#empresa">Empresa</a></li>
+        <li><a href="#transformacion">Transformación Operacional</a></li>
+        <li><a href="#valuation">Valuación</a></li>
+        <li><a href="#catalysts">Catalizadores</a></li>
+        <li><a href="#riesgos">Riesgos</a></li>
+        <li><a href="#conclusion">Conclusión</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Contenido -->
+  <main class="container">
+
+    <!-- Resumen Ejecutivo -->
+    <section id="resumen" class="fade-in">
+      <h2>Resumen</h2>
+
+      <div class="alert alert-success">
+        <strong>Tesis de Inversión:</strong> Q.E.P. Co. es un fabricante líder de herramientas de instalación de suelos que completó exitosamente una transformación de márgenes tras desinvertir negocios internacionales de baja rentabilidad (2023-2025). Cotiza a descuento masivo vs comparables M&A (4.5x EBITDA vs 8-10x), generando una oportunidad de deep value con múltiplos de arbitraje claros.
+      </div>
+
+      <div class="highlights">
+        <div class="highlight-item">
+          <h4>✓ Transformación Completada</h4>
+          <p>Márgenes brutos 30% → 35.5% (+550 bps). Margen EBITDA 6.6% → 8.6%. Cambio estructural, no temporal.</p>
         </div>
-    </header>
-
-    <!-- Navegación -->
-    <nav class="nav-tabs">
-        <div class="container">
-            <ul>
-                <li><a href="#resumen" class="active">Resumen</a></li>
-                <li><a href="#empresa">Empresa</a></li>
-                <li><a href="#transformacion">Transformación Operacional</a></li>
-                <li><a href="#valuation">Valuación</a></li>
-                <li><a href="#catalysts">Catalizadores</a></li>
-                <li><a href="#riesgos">Riesgos</a></li>
-            </ul>
+        <div class="highlight-item">
+          <h4>✓ Deep Value Pricing</h4>
+          <p>EV/EBITDA 4.5x vs M&A comps 8-10x (Descuento 55%). Caja neta $8.77/acción ignorada por mercado.</p>
         </div>
-    </nav>
-
-    <!-- Contenido -->
-    <main class="container">
-        
-        <!-- Resumen Ejecutivo -->
-        <section id="resumen" class="fade-in">
-            <h2>Resumen</h2>
-            
-            <div class="alert alert-success">
-                <strong>Tesis de Inversión:</strong> Q.E.P. Co. es un fabricante líder de herramientas de instalación de suelos que completó exitosamente una transformación de márgenes tras desinvertir negocios internacionales de baja rentabilidad (2023-2025). Cotiza a descuento masivo vs comparables M&A (4.5x EBITDA vs 8-10x), generando una oportunidad de deep value con múltiplos de arbitraje claros.
-            </div>
-
-            <div class="highlights">
-                <div class="highlight-item">
-                    <h4>✓ Transformación Completada</h4>
-                    <p>Márgenes brutos 30% → 35.5% (+550 bps). Margen EBITDA 6.6% → 8.6%. Cambio estructural, no temporal.</p>
-                </div>
-                <div class="highlight-item">
-                    <h4>✓ Deep Value Pricing</h4>
-                    <p>EV/EBITDA 4.5x vs M&A comps 8-10x (Descuento 55%). Caja neta $8.77/acción ignorada por mercado.</p>
-                </div>
-                <div class="highlight-item">
-                    <h4>✓ Catalizadores M&A</h4>
-                    <p>Potencial comprador a 7-8x EBITDA = $55-75/acción. Familia Gould alineada (49.5% stake).</p>
-                </div>
-                <div class="highlight-item">
-                    <h4>✓ Crecimiento Mercado</h4>
-                    <p>TAM 5-6% CAGR. Líder en nicho defensible. Renovación inmobiliaria USA como driver secular.</p>
-                </div>
-            </div>
-
-            <h3>Métricas Clave</h3>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="label">Descuento a Múltiplos</div>
-                    <div class="value">55%</div>
-                    <div class="change positive">4.5x vs 10.1x comps</div>
-                </div>
-                <div class="stat-card">
-                    <div class="label">Caja Neta / Acción</div>
-                    <div class="value">$8.77</div>
-                    <div class="change positive">27% del precio</div>
-                </div>
-                <div class="stat-card">
-                    <div class="label">Margen Bruto</div>
-                    <div class="value">35.5%</div>
-                    <div class="change positive">+550 bps transformation</div>
-                </div>
-                <div class="stat-card">
-                    <div class="label">EBITDA Margin</div>
-                    <div class="value">8.6%</div>
-                    <div class="change">Upside a 10%+</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Descripción de Empresa -->
-        <section id="empresa" class="fade-in">
-            <h2>Descripción de la Empresa</h2>
-            
-            <div class="card">
-                <h3>Quiénes Son</h3>
-                <p style="margin-bottom: 15px;">Fundada en 1979, <strong>Q.E.P. Co.</strong> es el fabricante líder de herramientas especializadas para instalación de suelos (pisos, azulejos, etc.). Tras completar una estrategia de desinversión (2023-2025), se transformó en una empresa pure-play norteamericana de márgenes elevados y visibilidad mejorada.</p>
-                
-                <h4>Cartera de Productos</h4>
-                <ul style="margin-left: 20px; margin-top: 10px;">
-                    <li><strong>Herramientas de Instalación:</strong> Cortadoras, sierras, sistemas de nivelación (Marcas: LASH®, QEP®, Brutus®)</li>
-                    <li><strong>Adhesivos y Contrapisos:</strong> Roberts®, Capitol®, Premix-Marbletite (PMM)</li>
-                    <li><strong>Canales:</strong> Home Depot (68% ventas), distribuidores profesionales, E-commerce</li>
-                </ul>
-            </div>
-
-            <h3>Estructura Accionarial - Alineamiento Directiva</h3>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Accionista</th>
-                            <th>Participación</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Familia Gould</strong></td>
-                            <td class="positive">49.5%</td>
-                        </tr>
-                        <tr>
-                            <td><strong>CEO & Management</strong></td>
-                            <td class="positive">~2.3%</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Flotante Público</strong></td>
-                            <td>~48.2%</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="alert alert-info">
-                <strong>Insight:</strong> Control accionista alineado con minoría. Familia Gould posee casi 50%, asegurando decisiones favorables a shareholders en potencial M&A o retorno de capital.
-            </div>
-        </section>
-
-        <!-- Transformación Operacional -->
-        <section id="transformacion" class="fade-in">
-            <h2>Transformación Operacional (2023-2025)</h2>
-
-            <h3>Estrategia de Desinversión: Calidad sobre Volumen</h3>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Métrica</th>
-                            <th>FY 2022</th>
-                            <th>FY 2024</th>
-                            <th>FY 2025 (Actual)</th>
-                            <th>Cambio</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Ingresos ($M)</strong></td>
-                            <td>$446.0</td>
-                            <td>$252.0</td>
-                            <td>$243.8</td>
-                            <td class="negative">-45%</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Margen Bruto</strong></td>
-                            <td>30.0%</td>
-                            <td>32.5%</td>
-                            <td>35.5%</td>
-                            <td class="positive">+550 bps</td>
-                        </tr>
-                        <tr>
-                            <td><strong>EBITDA Margin</strong></td>
-                            <td>6.6%</td>
-                            <td>6.3%</td>
-                            <td>8.6%</td>
-                            <td class="positive">+200 bps</td>
-                        </tr>
-                        <tr>
-                            <td><strong>EBITDA ($M)</strong></td>
-                            <td>$29.4</td>
-                            <td>$15.9</td>
-                            <td>$21.0</td>
-                            <td class="positive">+32% vs 2024</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <h3>Transformación Visual: Márgenes Brutos y EBITDA</h3>
-            <div class="chart-grid">
-                <div class="chart-container">
-                    <canvas id="marginTransformation"></canvas>
-                </div>
-                <div class="chart-container">
-                    <canvas id="ebitdaGrowth"></canvas>
-                </div>
-            </div>
-
-            <div class="alert alert-success">
-                <strong>Clave de Transformación:</strong> Desinversión de operaciones de bajo margen (negocios internacionales) generó -45% en ingresos pero +550 bps en margen bruto y +32% en EBITDA absoluto. Cambio estructural completado, no ciclical.
-            </div>
-        </section>
-
-        <!-- Valuación -->
-        <section id="valuation" class="fade-in">
-            <h2>Análisis de Valuación y Múltiplos</h2>
-
-            <h3>Arbitraje de Múltiplos: QEPC vs Transacciones Comparables</h3>
-            <div class="chart-container" style="height: 350px;">
-                <canvas id="multipleComparison"></canvas>
-            </div>
-
-            <h3>Escenarios de Precio Objetivo</h3>
-            <div class="card">
-                <table style="width: 100%;">
-                    <tbody>
-                        <tr style="border-bottom: 1px solid var(--border-color);">
-                            <td><strong>Escenario</strong></td>
-                            <td><strong>EV/EBITDA</strong></td>
-                            <td><strong>Cálculo</strong></td>
-                            <td><strong>Price Target</strong></td>
-                            <td><strong>Upside</strong></td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid var(--border-color);">
-                            <td>Bear Case</td>
-                            <td>5.0x</td>
-                            <td>5.0 × $21M + $28.5M</td>
-                            <td class="negative">$38.70</td>
-                            <td class="negative">+21%</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid var(--border-color);">
-                            <td><strong>Base Case</strong></td>
-                            <td><strong>6.0x</strong></td>
-                            <td><strong>6.0 × $21M + $28.5M</strong></td>
-                            <td class="positive"><strong>$46.15</strong></td>
-                            <td class="positive"><strong>+44.2%</strong></td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid var(--border-color);">
-                            <td>Conservative (Comps)</td>
-                            <td>7.0x</td>
-                            <td>7.0 × $21M + $28.5M</td>
-                            <td class="positive">$53.80</td>
-                            <td class="positive">+68%</td>
-                        </tr>
-                        <tr>
-                            <td>Bull Case (M&A)</td>
-                            <td>8.5x</td>
-                            <td>8.5 × $21M + $28.5M</td>
-                            <td class="positive">$63.50</td>
-                            <td class="positive">+98%</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <h3>Sensibilidad de Price Target</h3>
-            <div class="chart-container" style="height: 350px;">
-                <canvas id="priceSensitivity"></canvas>
-            </div>
-
-            <div class="alert alert-warning">
-                <strong>Análisis de Múltiplos:</strong> QEPC cotiza a 4.5x EBITDA vs promedio transacciones 10.1x (descuento 55%). Aplicando un múltiplo conservador de 6.0x (descuento aún al mercado), se obtiene fair value de $46.15, implicando 44% de upside.
-            </div>
-        </section>
-
-        <!-- Catalizadores -->
-        <section id="catalysts" class="fade-in">
-            <h2>Catalizadores Potenciales</h2>
-
-            <div class="highlights">
-                <div class="highlight-item">
-                    <h4>Expansión de Márgenes (Corto Plazo)</h4>
-                    <p>Si EBITDA margin alcanza 10%+ (vs actual 8.6%), fair value salta a $55-65/acción. Margen de mejora identificable es de solo 140 bps.</p>
-                </div>
-                <div class="highlight-item">
-                    <h4>Adquisición Estratégica (Medio Plazo)</h4>
-                    <p>Múltiplos históricos M&A en herramientas/distribución: 7-8x EBITDA. A 7x: $53.80. A 8.5x: $63.50 (+50-100% upside).</p>
-                </div>
-                <div class="highlight-item">
-                    <h4>Retorno de Capital (Medio Plazo)</h4>
-                    <p>Caja neta $28.5M (+$8.77/acción). Dividendo especial o programa recompra de acciones es viable sin tensionar balance.</p>
-                </div>
-                <div class="highlight-item">
-                    <h4>Consolidación de Nicho (Largo Plazo)</h4>
-                    <p>Familia Gould podría facilitar consolidación con competidores más pequeños, acelerando crecimiento orgánico y múltiplo expansion.</p>
-                </div>
-            </div>
-
-            <div class="alert alert-info">
-                <strong>Timeline Esperado:</strong> Catalizadores de márgenes visibles en Q1-Q2 2026 (resultados FY2025). Interés M&A podría activarse en 12-18 meses conforme se reafirma transformación.
-            </div>
-        </section>
-
-        <!-- Riesgos -->
-        <section id="riesgos" class="fade-in">
-            <h2>Análisis de Riesgos</h2>
-
-            <h3>Riesgos Principales</h3>
-
-            <div class="card">
-                <h4>🔴 Risk #1: Concentración en Home Depot (68% ventas) - ALTO</h4>
-                <p><strong>Escenario:</strong> Cambio de términos, reducción de shelf space, o nueva competencia. Impacta ~65% de ingresos.</p>
-                <p style="margin-top: 10px;"><strong>Mitigantes:</strong> Liderazgo de marca, relación 20+ años, productos complementarios, QEPC es distribuidor clave.</p>
-                <p style="margin-top: 10px;"><strong>Probability:</strong> <span class="warning" style="color: var(--warning-color);">25-30%</span></p>
-            </div>
-
-            <div class="card">
-                <h4>🟡 Risk #2: Riesgo Macroeconómico - MEDIO</h4>
-                <p><strong>Escenario:</strong> Desaceleración en construcción/renovaciones USA reduce demanda.</p>
-                <p style="margin-top: 10px;"><strong>Impacto:</strong> Revenue growth cae a 0-2%. EBITDA margin comprime si costos no se ajustan.</p>
-                <p style="margin-top: 10px;"><strong>Mitigantes:</strong> TAM crece 5-6% CAGR. Segmento profesional más resiliente que DIY. COVID +23% (2020).</p>
-                <p style="margin-top: 10px;"><strong>Probability:</strong> <span class="warning" style="color: var(--warning-color);">20-25%</span></p>
-            </div>
-
-            <div class="card">
-                <h4>🟡 Risk #3: Micro-Cap Liquidity Risk - BAJO-MEDIO</h4>
-                <p><strong>Escenario:</strong> OTC con flotante limitada (~3.26M acciones). Entrada/salida de posiciones grandes impacta precio.</p>
-                <p style="margin-top: 10px;"><strong>Mitigantes:</strong> Estructura de accionariado controlada (Familia Gould 49.5%). Potencial facilidad si comprador estratégico ingresa.</p>
-                <p style="margin-top: 10px;"><strong>Probability:</strong> <span class="positive">15-20%</span></p>
-            </div>
-
-            <h3>Upside Risks</h3>
-
-            <div class="card">
-                <h4>🟢 Upside #1: M&A o Consolidación (ALTO)</h4>
-                <p><strong>Scenario:</strong> Comprador estratégico a 7-8x EBITDA = $55-75/acción. Familia Gould puede facilitar venta facilitada.</p>
-                <p style="margin-top: 10px;"><strong>Probability:</strong> <span class="positive">30-35%</span></p>
-            </div>
-
-            <div class="card">
-                <h4>🟢 Upside #2: Margin Expansion to 10%+ (MEDIO)</h4>
-                <p><strong>Scenario:</strong> Operaciones mejoradas, mix shift a mayor margen. EBITDA $21M → $25M+.</p>
-                <p style="margin-top: 10px;"><strong>Impacto:</strong> Fair value: $55-65/acción.</p>
-                <p style="margin-top: 10px;"><strong>Probability:</strong> <span class="positive">25-30%</span></p>
-            </div>
-
-            <div class="alert alert-success">
-                <strong>🛡️ Risk/Reward Profile:</strong> Downside acotado por caja neta y múltiplos bajos. Upside claro vía M&A o margin expansion. Ratio riesgo/recompensa favorable 1:2 mínimo.
-            </div>
-        </section>
-
-        <!-- Conclusión -->
-        <section id="conclusion" class="fade-in">
-          <h2>Conclusiones</h2> 
-          <div class="card">
-            <h3>Lecturas clave del análisis</h3>
-            <ul class="compact-list">
-              <li><strong>Transformación operacional:</strong> mejora de márgenes tras la desinversión 2023–2025.</li>
-              <li><strong>Estructura financiera:</strong> posición de caja neta relevante respecto al precio de mercado.</li>
-              <li><strong>Valuación relativa:</strong> múltiplos actuales frente a referencias de transacciones comparables.</li>
-              <li><strong>Catalizadores:</strong> margen, retorno de capital, y posibles escenarios corporativos (si aplican).</li>
-              <li><strong>Riesgos:</strong> concentración de cliente, ciclo macro y liquidez (micro-cap).</li>
-            </ul>
-          </div>
-        
-          <div class="alert alert-info" style="margin-top: 20px;">
-            <strong>Nota metodológica:</strong> Las cifras y escenarios presentados son ilustrativos y dependen de supuestos (márgenes, múltiplos, crecimiento) que pueden variar.
-          </div>
-        
-          <div style="text-align: center; margin-top: 30px;">
-            <a href="#top" class="btn btn-success">⬆ Volver al inicio</a>
-          </div>
-        </section>
-
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p><strong>Disclaimer:</strong> Este análisis se proporciona únicamente con propósitos informativos y educativos. No constituye asesoramiento financiero ni recomendación personalizada de inversión.</p>
-            <p style="margin-top: 20px; font-size: 0.85rem;">
-                📅 Análisis Actualizado: Enero 2026 | 📊 Fuentes: OTC Markets, SEC Filings, Management Presentations
-            </p>
-            <p style="margin-top: 15px;">
-                🔗 <a href="https://spreadhunters.es" target="_blank" rel="noopener noreferrer">SpreadHunters Investment Research</a>
-                | 📝 <a href="https://substack.com/@spreadhunters" target="_blank" rel="noopener noreferrer">Substack</a>
-                | 𝕏 <a href="https://x.com/Spread_Hunters" target="_blank" rel="noopener noreferrer">Twitter/X</a>
-            </p>
+        <div class="highlight-item">
+          <h4>✓ Catalizadores M&A</h4>
+          <p>Potencial comprador a 7-8x EBITDA = $55-75/acción. Familia Gould alineada (49.5% stake).</p>
         </div>
-    </footer>
+        <div class="highlight-item">
+          <h4>✓ Crecimiento Mercado</h4>
+          <p>TAM 5-6% CAGR. Líder en nicho defensible. Renovación inmobiliaria USA como driver secular.</p>
+        </div>
+      </div>
+
+      <h3>Métricas Clave</h3>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="label">Descuento a Múltiplos</div>
+          <div class="value">55%</div>
+          <div class="change positive">4.5x vs 10.1x comps</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Caja Neta / Acción</div>
+          <div class="value">$8.77</div>
+          <div class="change positive">27% del precio</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Margen Bruto</div>
+          <div class="value">35.5%</div>
+          <div class="change positive">+550 bps transformation</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">EBITDA Margin</div>
+          <div class="value">8.6%</div>
+          <div class="change">Upside a 10%+</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Empresa -->
+    <section id="empresa" class="fade-in">
+      <h2>Descripción de la Empresa</h2>
+
+      <div class="card">
+        <h3>Quiénes Son</h3>
+        <p>Fundada en 1979, <strong>Q.E.P. Co.</strong> es el fabricante líder de herramientas especializadas para instalación de suelos (pisos, azulejos, etc.). Tras completar una estrategia de desinversión (2023-2025), se transformó en una empresa pure-play norteamericana de márgenes elevados y visibilidad mejorada.</p>
+
+        <h4>Cartera de Productos</h4>
+        <ul>
+          <li><strong>Herramientas de Instalación:</strong> Cortadoras, sierras, sistemas de nivelación (Marcas: LASH®, QEP®, Brutus®)</li>
+          <li><strong>Adhesivos y Contrapisos:</strong> Roberts®, Capitol®, Premix-Marbletite (PMM)</li>
+          <li><strong>Canales:</strong> Home Depot (68% ventas), distribuidores profesionales, E-commerce</li>
+        </ul>
+      </div>
+
+      <h3>Estructura Accionarial - Alineamiento Directiva</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Accionista</th>
+              <th>Participación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Familia Gould</strong></td>
+              <td class="positive">49.5%</td>
+            </tr>
+            <tr>
+              <td><strong>CEO & Management</strong></td>
+              <td class="positive">~2.3%</td>
+            </tr>
+            <tr>
+              <td><strong>Flotante Público</strong></td>
+              <td>~48.2%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="alert alert-info">
+        <strong>Insight:</strong> Control accionista alineado con minoría. Familia Gould posee casi 50%, asegurando decisiones favorables a shareholders en potencial M&A o retorno de capital.
+      </div>
+    </section>
+
+    <!-- Transformación -->
+    <section id="transformacion" class="fade-in">
+      <h2>Transformación Operacional (2023-2025)</h2>
+
+      <h3>Estrategia de Desinversión: Calidad sobre Volumen</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Métrica</th>
+              <th>FY 2022</th>
+              <th>FY 2024</th>
+              <th>FY 2025 (Actual)</th>
+              <th>Cambio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Ingresos ($M)</strong></td>
+              <td>$446.0</td>
+              <td>$252.0</td>
+              <td>$243.8</td>
+              <td class="negative">-45%</td>
+            </tr>
+            <tr>
+              <td><strong>Margen Bruto</strong></td>
+              <td>30.0%</td>
+              <td>32.5%</td>
+              <td>35.5%</td>
+              <td class="positive">+550 bps</td>
+            </tr>
+            <tr>
+              <td><strong>EBITDA Margin</strong></td>
+              <td>6.6%</td>
+              <td>6.3%</td>
+              <td>8.6%</td>
+              <td class="positive">+200 bps</td>
+            </tr>
+            <tr>
+              <td><strong>EBITDA ($M)</strong></td>
+              <td>$29.4</td>
+              <td>$15.9</td>
+              <td>$21.0</td>
+              <td class="positive">+32% vs 2024</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Transformación Visual: Márgenes Brutos y EBITDA</h3>
+      <div class="chart-grid">
+        <div class="chart-container">
+          <canvas id="marginTransformation"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="ebitdaGrowth"></canvas>
+        </div>
+      </div>
+
+      <div class="alert alert-success">
+        <strong>Clave de Transformación:</strong> Desinversión de operaciones de bajo margen (negocios internacionales) generó -45% en ingresos pero +550 bps en margen bruto y +32% en EBITDA absoluto. Cambio estructural completado, no ciclical.
+      </div>
+    </section>
+
+    <!-- Valuación -->
+    <section id="valuation" class="fade-in">
+      <h2>Análisis de Valuación y Múltiplos</h2>
+
+      <h3>Arbitraje de Múltiplos: QEPC vs Transacciones Comparables</h3>
+      <div class="chart-container chart-350">
+        <canvas id="multipleComparison"></canvas>
+      </div>
+
+      <h3>Escenarios de Precio Objetivo</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Escenario</th>
+              <th>EV/EBITDA</th>
+              <th>Cálculo</th>
+              <th>Price Target</th>
+              <th>Upside</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Bear Case</td>
+              <td>5.0x</td>
+              <td>5.0 × $21M + $28.5M</td>
+              <td class="negative">$38.70</td>
+              <td class="negative">+21%</td>
+            </tr>
+            <tr>
+              <td><strong>Base Case</strong></td>
+              <td><strong>6.0x</strong></td>
+              <td><strong>6.0 × $21M + $28.5M</strong></td>
+              <td class="positive"><strong>$46.15</strong></td>
+              <td class="positive"><strong>+44.2%</strong></td>
+            </tr>
+            <tr>
+              <td>Conservative (Comps)</td>
+              <td>7.0x</td>
+              <td>7.0 × $21M + $28.5M</td>
+              <td class="positive">$53.80</td>
+              <td class="positive">+68%</td>
+            </tr>
+            <tr>
+              <td>Bull Case (M&A)</td>
+              <td>8.5x</td>
+              <td>8.5 × $21M + $28.5M</td>
+              <td class="positive">$63.50</td>
+              <td class="positive">+98%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Sensibilidad de Price Target</h3>
+      <div class="chart-container chart-350">
+        <canvas id="priceSensitivity"></canvas>
+      </div>
+
+      <div class="alert alert-warning">
+        <strong>Análisis de Múltiplos:</strong> QEPC cotiza a 4.5x EBITDA vs promedio transacciones 10.1x (descuento 55%). Aplicando un múltiplo conservador de 6.0x (descuento aún al mercado), se obtiene fair value de $46.15, implicando 44% de upside.
+      </div>
+    </section>
+
+    <!-- Catalizadores -->
+    <section id="catalysts" class="fade-in">
+      <h2>Catalizadores Potenciales</h2>
+
+      <div class="highlights">
+        <div class="highlight-item">
+          <h4>Expansión de Márgenes (Corto Plazo)</h4>
+          <p>Si EBITDA margin alcanza 10%+ (vs actual 8.6%), fair value salta a $55-65/acción. Margen de mejora identificable es de solo 140 bps.</p>
+        </div>
+        <div class="highlight-item">
+          <h4>Adquisición Estratégica (Medio Plazo)</h4>
+          <p>Múltiplos históricos M&A en herramientas/distribución: 7-8x EBITDA. A 7x: $53.80. A 8.5x: $63.50 (+50-100% upside).</p>
+        </div>
+        <div class="highlight-item">
+          <h4>Retorno de Capital (Medio Plazo)</h4>
+          <p>Caja neta $28.5M (+$8.77/acción). Dividendo especial o programa recompra de acciones es viable sin tensionar balance.</p>
+        </div>
+        <div class="highlight-item">
+          <h4>Consolidación de Nicho (Largo Plazo)</h4>
+          <p>Familia Gould podría facilitar consolidación con competidores más pequeños, acelerando crecimiento orgánico y múltiplo expansion.</p>
+        </div>
+      </div>
+
+      <div class="alert alert-info">
+        <strong>Timeline Esperado:</strong> Catalizadores de márgenes visibles en Q1-Q2 2026 (resultados FY2025). Interés M&A podría activarse en 12-18 meses conforme se reafirma transformación.
+      </div>
+    </section>
+
+    <!-- Riesgos -->
+    <section id="riesgos" class="fade-in">
+      <h2>Análisis de Riesgos</h2>
+
+      <h3>Riesgos Principales</h3>
+
+      <div class="card">
+        <h4>🔴 Risk #1: Concentración en Home Depot (68% ventas) - ALTO</h4>
+        <p><strong>Escenario:</strong> Cambio de términos, reducción de shelf space, o nueva competencia. Impacta ~65% de ingresos.</p>
+        <p><strong>Mitigantes:</strong> Liderazgo de marca, relación 20+ años, productos complementarios, QEPC es distribuidor clave.</p>
+        <p><strong>Probability:</strong> <span class="warning">25-30%</span></p>
+      </div>
+
+      <div class="card">
+        <h4>🟡 Risk #2: Riesgo Macroeconómico - MEDIO</h4>
+        <p><strong>Escenario:</strong> Desaceleración en construcción/renovaciones USA reduce demanda.</p>
+        <p><strong>Impacto:</strong> Revenue growth cae a 0-2%. EBITDA margin comprime si costos no se ajustan.</p>
+        <p><strong>Mitigantes:</strong> TAM crece 5-6% CAGR. Segmento profesional más resiliente que DIY. COVID +23% (2020).</p>
+        <p><strong>Probability:</strong> <span class="warning">20-25%</span></p>
+      </div>
+
+      <div class="card">
+        <h4>🟡 Risk #3: Micro-Cap Liquidity Risk - BAJO-MEDIO</h4>
+        <p><strong>Escenario:</strong> OTC con flotante limitada (~3.26M acciones). Entrada/salida de posiciones grandes impacta precio.</p>
+        <p><strong>Mitigantes:</strong> Estructura de accionariado controlada (Familia Gould 49.5%). Potencial facilidad si comprador estratégico ingresa.</p>
+        <p><strong>Probability:</strong> <span class="positive">15-20%</span></p>
+      </div>
+
+      <h3>Upside Risks</h3>
+
+      <div class="card">
+        <h4>🟢 Upside #1: M&A o Consolidación (ALTO)</h4>
+        <p><strong>Scenario:</strong> Comprador estratégico a 7-8x EBITDA = $55-75/acción. Familia Gould puede facilitar venta facilitada.</p>
+        <p><strong>Probability:</strong> <span class="positive">30-35%</span></p>
+      </div>
+
+      <div class="card">
+        <h4>🟢 Upside #2: Margin Expansion to 10%+ (MEDIO)</h4>
+        <p><strong>Scenario:</strong> Operaciones mejoradas, mix shift a mayor margen. EBITDA $21M → $25M+.</p>
+        <p><strong>Impacto:</strong> Fair value: $55-65/acción.</p>
+        <p><strong>Probability:</strong> <span class="positive">25-30%</span></p>
+      </div>
+
+      <div class="alert alert-success">
+        <strong>🛡️ Risk/Reward Profile:</strong> Downside acotado por caja neta y múltiplos bajos. Upside claro vía M&A o margin expansion. Ratio riesgo/recompensa favorable 1:2 mínimo.
+      </div>
+    </section>
+
+    <!-- Conclusión -->
+    <section id="conclusion" class="fade-in">
+      <h2>Conclusiones</h2>
+
+      <div class="card">
+        <h3>Lecturas clave del análisis</h3>
+        <ul class="compact-list">
+          <li><strong>Transformación operacional:</strong> mejora de márgenes tras la desinversión 2023–2025.</li>
+          <li><strong>Estructura financiera:</strong> posición de caja neta relevante respecto al precio de mercado.</li>
+          <li><strong>Valuación relativa:</strong> múltiplos actuales frente a referencias de transacciones comparables.</li>
+          <li><strong>Catalizadores:</strong> margen, retorno de capital, y posibles escenarios corporativos (si aplican).</li>
+          <li><strong>Riesgos:</strong> concentración de cliente, ciclo macro y liquidez (micro-cap).</li>
+        </ul>
+      </div>
+
+      <div class="alert alert-info mt-20">
+        <strong>Nota metodológica:</strong> Las cifras y escenarios presentados son ilustrativos y dependen de supuestos (márgenes, múltiplos, crecimiento) que pueden variar.
+      </div>
+
+      <div class="text-center mt-30">
+        <a href="#top" class="btn btn-success">⬆ Volver al inicio</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p><strong>Disclaimer:</strong> Este análisis se proporciona únicamente con propósitos informativos y educativos. No constituye asesoramiento financiero ni recomendación personalizada de inversión.</p>
+      <p class="mt-20" style="font-size: 0.85rem;">
+        📅 Análisis Actualizado: Enero 2026 | 📊 Fuentes: OTC Markets, SEC Filings, Management Presentations
+      </p>
+      <p class="mt-15">
+        🔗 <a href="https://spreadhunters.es" target="_blank" rel="noopener noreferrer">SpreadHunters Investment Research</a>
+        | 📝 <a href="https://substack.com/@spreadhunters" target="_blank" rel="noopener noreferrer">Substack</a>
+        | 𝕏 <a href="https://x.com/Spread_Hunters" target="_blank" rel="noopener noreferrer">Twitter/X</a>
+      </p>
+    </div>
+  </footer>
 
     <script>
   // Scroll Progress Bar
