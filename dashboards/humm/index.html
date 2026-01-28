@@ -355,6 +355,15 @@
   .nav-tabs ul::-webkit-scrollbar-track { background: rgba(15, 20, 25, 0.35); }
   .nav-tabs ul::-webkit-scrollbar-thumb { background: rgba(0, 215, 255, 0.55); border-radius: 6px; }
 }
+        
+:root{ --nav-offset: 110px; }
+html{ scroll-padding-top: var(--nav-offset); }
+section{ scroll-margin-top: var(--nav-offset); }
+
+/* (opcional) override del offset en móvil */
+@media (max-width: 768px){
+  :root{ --nav-offset: 120px; }
+}
 
 @media (max-width: 480px) {
   .nav-tabs { padding: 8px 0; }
