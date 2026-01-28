@@ -1,1155 +1,942 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inspecs Group (SPEC.L) - Análisis de Arbitraje de Fusiones</title>
-    <meta name="description" content="Análisis exhaustivo de la oportunidad de arbitraje de fusiones en Inspecs Group. Deal a 84p con diferencial actual de 20%.">
-    
-    <style>
-        :root {
-            --primary-color: #00d7ff;
-            --secondary-color: #1a2332;
-            --accent-color: #4A8B9B;
-            --success-color: #90ee90;
-            --danger-color: #ff6b6b;
-            --warning-color: #ffa500;
-            --info-color: #00d7ff;
-            --dark-bg: #1a2332;
-            --darker-bg: #0f1419;
-            --card-bg: #1a2538;
-            --text-primary: #d0d8e0;
-            --text-secondary: #b0c4de;
-            --text-tertiary: #808080;
-            --border-color: #2d3d4d;
-            --border-light: #3d5570;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, rgba(26, 35, 50, 0.95) 0%, rgba(30, 50, 80, 0.95) 100%);
-            background-color: #1a2332;
-            color: var(--text-primary);
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* LOGO NAVBAR */
-        .logo-navbar {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 900;
-            background: none;
-            padding: 0;
-            border: none;
-            pointer-events: none;
-        }
-
-        .logo-navbar-img {
-            width: 160px;
-            height: auto;
-            display: block;
-        }
-
-        @media (max-width: 1024px) {
-            .logo-navbar { top: 15px; left: 15px; }
-            .logo-navbar-img { width: 105px; }
-        }
-
-        @media (max-width: 768px) {
-            .logo-navbar { top: 15px; left: 15px; }
-            .logo-navbar-img { width: 95px; }
-        }
-
-        @media (max-width: 480px) {
-            .logo-navbar { top: 12px; left: 12px; }
-            .logo-navbar-img { width: 85px; }
-        }
-
-        /* HEADER PROFESSIONAL */
-        .header-professional {
-            margin: 0;
-            padding: 50px 20px;
-            background: transparent;
-            border-bottom: 1px solid rgba(74, 127, 127, 0.1);
-            backdrop-filter: blur(3px);
-            position: relative;
-            z-index: 2;
-        }
-
-        .header-professional .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            gap: 20px;
-        }
-
-        .logo-company {
-            max-height: 70px;
-            max-width: 150px;
-            width: auto;
-            height: auto;
-            object-fit: contain;
-            filter: brightness(4) contrast(1.5) invert(1) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-            display: block;
-            margin: 0 auto;
-        }
-
-        .page-title {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #ffffff;
-            margin: 0;
-            letter-spacing: 1px;
-            line-height: 1.3;
-        }
-
-        .page-subtitle {
-            font-size: 1rem;
-            color: #e0e0e0;
-            margin: 10px 0 0;
-            font-weight: 400;
-            max-width: 600px;
-        }
-
-        @media (max-width: 768px) {
-            .header-professional {
-                padding: 30px 15px;
-            }
-            .page-title {
-                font-size: 1.4rem;
-            }
-            .logo-company {
-                max-height: 65px;
-                max-width: 130px;
-            }
-            .page-subtitle {
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header-professional {
-                padding: 20px 15px;
-            }
-            .page-title {
-                font-size: 1.1rem;
-            }
-            .page-subtitle {
-                font-size: 0.8rem;
-            }
-        }
-
-        /* INVESTMENT METRICS */
-        .investment-metrics {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-            width: 100%;
-        }
-
-        .metric-card {
-            background: linear-gradient(135deg, rgba(26, 35, 50, 0.6) 0%, rgba(30, 50, 80, 0.6) 100%);
-            border: 2px solid rgba(0, 215, 255, 0.3);
-            border-radius: 12px;
-            padding: 18px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .metric-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, rgba(0, 215, 255, 0.5) 0%, rgba(0, 215, 255, 0) 100%);
-        }
-
-        .metric-card:hover {
-            border-color: rgba(0, 215, 255, 0.6);
-            background: linear-gradient(135deg, rgba(26, 35, 50, 0.8) 0%, rgba(30, 50, 80, 0.8) 100%);
-            box-shadow: 0 0 20px rgba(0, 215, 255, 0.2);
-        }
-
-        .metric-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-
-        .metric-value {
-            font-size: 1.7rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-            letter-spacing: -0.5px;
-        }
-
-        .metric-value.cyan {
-            color: #00d7ff;
-        }
-
-        .metric-value.green {
-            color: #90ee90;
-        }
-
-        .metric-subtitle {
-            font-size: 0.8rem;
-            color: var(--text-tertiary);
-            font-weight: 400;
-        }
-
-        @media (max-width: 1024px) {
-            .investment-metrics {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .investment-metrics {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-            .metric-value {
-                font-size: 1.4rem;
-            }
-        }
-
-        /* NAVIGATION TABS */
-        .nav-tabs {
-            background: var(--card-bg);
-            padding: 20px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 2px solid var(--border-color);
-        }
-
-        .nav-tabs ul {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .nav-tabs a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .nav-tabs a:hover,
-        .nav-tabs a.active {
-            background: var(--primary-color);
-            color: var(--dark-bg);
-        }
-
-        /* MAIN CONTENT */
-        main {
-            margin-bottom: 60px;
-        }
-
-        section {
-            padding: 60px 0;
-            border-bottom: 1px solid var(--border-color);
-            position: relative;
-            z-index: 1;
-        }
-
-        section h2 {
-            font-size: 2rem;
-            margin-bottom: 30px;
-            color: var(--primary-color);
-            border-left: 4px solid var(--success-color);
-            padding-left: 20px;
-        }
-
-        section h3 {
-            font-size: 1.5rem;
-            margin: 30px 0 15px;
-            color: var(--text-primary);
-        }
-
-        h4 {
-            font-size: 1.1rem;
-            color: var(--text-primary);
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        p {
-            color: var(--text-primary);
-            margin-bottom: 15px;
-            font-size: 1rem;
-            line-height: 1.7;
-        }
-
-        strong {
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        /* CARDS */
-        .card {
-            background: rgba(26, 35, 50, 0.85);
-            border-radius: 8px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            border-color: var(--primary-color);
-            box-shadow: 0 1px 3px rgba(74, 127, 127, 0.05);
-        }
-
-        /* ALERTS */
-        .alert {
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 4px solid;
-            backdrop-filter: blur(10px);
-        }
-
-        .alert-success {
-            background: rgba(74, 155, 111, 0.08);
-            border-color: var(--success-color);
-        }
-
-        .alert-warning {
-            background: rgba(255, 165, 0, 0.15);
-            border-color: var(--warning-color);
-        }
-
-        .alert-info {
-            background: rgba(0, 212, 212, 0.15);
-            border-color: var(--primary-color);
-        }
-
-        .alert-danger {
-            background: rgba(255, 107, 107, 0.1);
-            border-color: var(--danger-color);
-        }
-
-        .alert strong {
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        /* HIGHLIGHTS */
-        .highlights {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-
-        .highlight-item {
-            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(0, 212, 212, 0.1) 100%);
-            padding: 25px;
-            border-radius: 12px;
-            border-left: 4px solid var(--primary-color);
-            backdrop-filter: blur(10px);
-        }
-
-        .highlight-item h4 {
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-
-        .highlight-item p {
-            color: var(--text-secondary);
-            margin: 0;
-            font-size: 0.95rem;
-        }
-
-        /* STATS GRID */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-
-        .stat-card {
-            background: rgba(26, 35, 50, 0.8);
-            padding: 25px;
-            border-radius: 12px;
-            text-align: center;
-            border: 2px solid var(--border-color);
-            backdrop-filter: blur(10px);
-        }
-
-        .stat-card .label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
-
-        .stat-card .value {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 5px;
-        }
-
-        .stat-card .change {
-            font-size: 0.9rem;
-        }
-
-        .positive {
-            color: var(--success-color);
-        }
-
-        .negative {
-            color: var(--danger-color);
-        }
-
-        /* TABLES */
-        .table-responsive {
-            overflow-x: auto;
-            margin: 30px 0;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: var(--card-bg);
-            border-radius: 8px;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-        }
-
-        thead {
-            background: #1A1F2E;
-            border-bottom: 2px solid var(--primary-color);
-        }
-
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        th {
-            color: var(--text-secondary);
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.5px;
-        }
-
-        tr:hover {
-            background: rgba(74, 127, 127, 0.05);
-        }
-
-        /* TIMELINE */
-        .timeline {
-            position: relative;
-            padding: 20px 0;
-        }
-
-        .timeline-item {
-            position: relative;
-            padding-left: 40px;
-            margin-bottom: 30px;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 16px;
-            height: 16px;
-            background: var(--primary-color);
-            border-radius: 50%;
-            border: 3px solid var(--dark-bg);
-        }
-
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            left: 7px;
-            top: 16px;
-            width: 2px;
-            height: calc(100% + 14px);
-            background: var(--border-color);
-        }
-
-        .timeline-item:last-child::after {
-            display: none;
-        }
-
-        .timeline-date {
-            color: var(--primary-color);
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        /* BUTTONS */
-        .btn {
-            background: var(--primary-color);
-            color: var(--dark-bg);
-            border: 1px solid var(--primary-color);
-            padding: 10px 24px;
-            border-radius: 4px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn:hover {
-            background: var(--secondary-color);
-            border-color: var(--primary-color);
-        }
-
-        .btn-success {
-            background: var(--success-color);
-            color: var(--dark-bg);
-        }
-
-        /* FOOTER */
-        footer {
-            background: var(--card-bg);
-            padding: 40px 0;
-            text-align: center;
-            margin-top: 60px;
-            border-top: 2px solid var(--border-color);
-            backdrop-filter: blur(10px);
-        }
-
-        footer p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            section {
-                padding: 40px 0;
-            }
-            section h2 {
-                font-size: 1.6rem;
-            }
-            .highlights {
-                grid-template-columns: 1fr;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* ANIMATIONS */
-        .fade-in {
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .progress-bar {
-            background: var(--success-color);
-            height: 2px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 999;
-        }
-
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(15, 20, 25, 0.5);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary-color);
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-color);
-        }
-    </style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Inspecs Group (SPEC.L) - Análisis de Arbitraje de Fusiones</title>
+<meta content="Análisis exhaustivo de la oportunidad de arbitraje de fusiones en Inspecs Group. Deal a 84p con diferencial actual de 20%." name="description"/>
+<style>/* ========================================
+   SISTEMA DE VARIABLES - COLORES GLOBALES
+   ======================================== */
+:root {
+  --primary-color: #00d7ff;           /* Cyan brillante */
+  --secondary-color: #1a2332;         /* Azul oscuro base */
+  --accent-color: #4A8B9B;            /* Azul teal claro */
+
+  --success-color: #90ee90;           /* Verde */
+  --danger-color: #ff6b6b;            /* Rojo */
+  --warning-color: #ffa500;           /* Naranja */
+  --info-color: #00d7ff;              /* Cyan */
+
+  --dark-bg: #1a2332;                 /* Azul principal */
+  --darker-bg: #0f1419;               /* Azul muy oscuro */
+  --card-bg: #1a2538;                 /* Azul para cards */
+  --light-bg: #E8E8E8;                /* Fondo claro */
+
+  --text-primary: #d0d8e0;            /* Gris claro */
+  --text-secondary: #b0c4de;          /* Gris medio */
+  --text-tertiary: #808080;           /* Gris oscuro */
+
+  --border-color: #2d3d4d;            /* Borde azulado */
+  --border-light: #3d5570;            /* Borde azul claro */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body{
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: linear-gradient(135deg, rgba(26, 35, 50, 0.95) 0%, rgba(30, 50, 80, 0.95) 100%);
+  background-color: var(--dark-bg);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+.container{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Barra de progreso */
+.progress-bar{
+  background: var(--success-color);
+  height: 2px;
+  width: 0%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  transition: width 0.3s ease;
+}
+
+/* Logo navbar */
+.logo-navbar{
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 900;
+  background: none;
+  padding: 0;
+  border: none;
+  backdrop-filter: none;
+  pointer-events: none;
+}
+.logo-navbar-img{
+  height: 44px;
+  width: auto;
+  display: block;
+}
+@media (max-width: 768px){
+  .logo-navbar{ top: 15px; left: 15px; }
+  .logo-navbar-img{ height: 34px; }
+}
+@media (max-width: 480px){
+  .logo-navbar{ top: 12px; left: 12px; }
+  .logo-navbar-img{ height: 30px; }
+}
+
+/* Header */
+.header-professional{
+  margin: 0;
+  padding: 50px 20px;
+  background: transparent;
+  border-bottom: 1px solid rgba(74, 127, 127, 0.1);
+  backdrop-filter: blur(3px);
+  position: relative;
+  z-index: 2;
+}
+.header-professional .container{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  gap: 20px;
+}
+.company-title-row{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap: 12px;
+  text-align:center;
+}
+.logo-company{
+  max-height: 70px;
+  max-width: 150px;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  display:block;
+  margin:0;
+  filter: brightness(4) contrast(1.5) invert(1) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+.page-title{
+  font-size: 1.65rem;
+  font-weight: 700;
+  color:#fff;
+  letter-spacing: 1px;
+  line-height: 1.3;
+}
+.page-subtitle{
+  font-size: 0.95rem;
+  color:#e0e0e0;
+  margin: 10px 0 0;
+  font-weight: 400;
+  max-width: 680px;
+}
+@media (max-width: 768px){
+  .header-professional{ padding: 30px 15px; }
+  .page-title{ font-size: 1.4rem; }
+  .logo-company{ max-height: 65px; max-width: 130px; }
+  .page-subtitle{ font-size: 0.9rem; }
+}
+@media (max-width: 480px){
+  .header-professional{ padding: 20px 15px; }
+  .page-title{ font-size: 1.15rem; }
+  .logo-company{ max-height: 55px; max-width: 110px; }
+  .page-subtitle{ font-size: 0.85rem; }
+}
+
+/* Métricas */
+.investment-metrics{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+  width: 100%;
+}
+.metric-card{
+  background: linear-gradient(135deg, rgba(26, 35, 50, 0.6) 0%, rgba(30, 50, 80, 0.6) 100%);
+  border: 2px solid rgba(0, 215, 255, 0.3);
+  border-radius: 12px;
+  padding: 18px;
+  text-align:center;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow:hidden;
+}
+.metric-card::before{
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0;
+  height:2px;
+  background: linear-gradient(90deg, rgba(0, 215, 255, 0.5) 0%, rgba(0, 215, 255, 0) 100%);
+}
+.metric-card:hover{
+  border-color: rgba(0, 215, 255, 0.6);
+  background: linear-gradient(135deg, rgba(26, 35, 50, 0.8) 0%, rgba(30, 50, 80, 0.8) 100%);
+  box-shadow: 0 0 20px rgba(0, 215, 255, 0.2);
+}
+.metric-label{
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.metric-value{
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+  letter-spacing: -0.5px;
+}
+.metric-value.cyan{ color: var(--primary-color); }
+.metric-value.green{ color: var(--success-color); }
+.metric-value.red{ color: var(--danger-color); }
+.metric-subtitle{
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  font-weight: 400;
+}
+@media (max-width: 768px){
+  .investment-metrics{ grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .metric-card{ padding: 15px; }
+  .metric-value{ font-size: 1.3rem; }
+}
+@media (max-width: 480px){
+  .investment-metrics{ grid-template-columns: 1fr; }
+}
+
+/* Nav tabs */
+.nav-tabs{
+  background: var(--card-bg);
+  padding: 20px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 2px solid var(--border-color);
+}
+.nav-tabs ul{
+  list-style:none;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.nav-tabs a{
+  color: var(--text-secondary);
+  text-decoration:none;
+  padding: 10px 20px;
+  border-radius:6px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+.nav-tabs a:hover,
+.nav-tabs a.active{
+  background: var(--primary-color);
+  color: var(--dark-bg);
+}
+@media (max-width: 768px){
+  .nav-tabs{ padding: 10px 0; }
+  .nav-tabs ul{
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 8px;
+    padding: 0 12px 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .nav-tabs li{ flex: 0 0 auto; }
+  .nav-tabs a{
+    padding: 7px 12px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+  .nav-tabs ul::-webkit-scrollbar{ height: 6px; }
+  .nav-tabs ul::-webkit-scrollbar-track{ background: rgba(15, 20, 25, 0.35); }
+  .nav-tabs ul::-webkit-scrollbar-thumb{ background: rgba(0, 215, 255, 0.55); border-radius: 6px; }
+}
+@media (max-width: 480px){
+  .nav-tabs{ padding: 8px 0; }
+  .nav-tabs ul{ padding: 0 10px 6px; gap: 6px; }
+  .nav-tabs a{ padding: 6px 10px; font-size: 0.80rem; }
+}
+
+/* Secciones */
+main{ margin-bottom: 60px; }
+section{
+  padding: 60px 0;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  z-index: 1;
+  scroll-margin-top: 90px;
+}
+@media (max-width: 768px){ section{ scroll-margin-top: 120px; padding: 45px 0; } }
+
+section h2{
+  font-size: 1.35rem;
+  margin-bottom: 30px;
+  color: var(--primary-color);
+  border-left: 4px solid var(--success-color);
+  padding-left: 20px;
+}
+section h3{
+  font-size: 1.25rem;
+  margin: 30px 0 15px;
+  color: var(--text-primary);
+}
+section h4, h4{
+  font-size: 1.0rem;
+  margin: 15px 0 10px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+@media (max-width: 768px){
+  section h2{ font-size: 1.25rem; }
+  section h3{ font-size: 1.1rem; }
+}
+
+/* Cards, alerts, highlights, stats */
+.card{
+  background: rgba(26, 35, 50, 0.85);
+  border-radius: 8px;
+  padding: 18px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+.alert{
+  padding: 16px 18px;
+  border-radius: 8px;
+  margin: 20px 0;
+  border-left: 4px solid;
+  backdrop-filter: blur(10px);
+  color: var(--text-primary);
+}
+.alert-success{ background: rgba(74, 155, 111, 0.08); border-color: var(--success-color); }
+.alert-warning{ background: rgba(255, 165, 0, 0.15); border-color: var(--warning-color); }
+.alert-info{ background: rgba(0, 212, 212, 0.15); border-color: var(--primary-color); }
+.alert-danger{ background: rgba(255, 107, 107, 0.15); border-color: var(--danger-color); }
+.alert strong{ color:#fff; }
+
+.highlights{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+}
+.highlight-item{
+  background: linear-gradient(135deg, var(--card-bg) 0%, rgba(0, 212, 212, 0.1) 100%);
+  padding: 18px;
+  border-radius: 12px;
+  border-left: 4px solid var(--primary-color);
+  backdrop-filter: blur(10px);
+}
+.highlight-item h4{ color: var(--primary-color); margin-bottom: 8px; }
+.highlight-item p{ color: var(--text-primary); line-height: 1.6; margin: 0; }
+
+.stats-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+}
+.stat-card{
+  background: rgba(26, 35, 50, 0.8);
+  padding: 25px;
+  border-radius: 12px;
+  text-align:center;
+  border: 2px solid var(--border-color);
+  backdrop-filter: blur(10px);
+}
+.stat-card .label{
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+.stat-card .value{
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.stat-card .change{ font-size: 0.9rem; margin-top: 5px; }
+
+.positive{ color: var(--success-color); }
+.negative{ color: var(--danger-color); }
+.warning{ color: var(--warning-color); }
+
+@media (max-width: 768px){
+  .highlights{ grid-template-columns: 1fr; }
+  .stats-grid{ grid-template-columns: 1fr; }
+}
+
+/* Tablas */
+.table-responsive{ overflow-x: auto; margin: 30px 0; border-radius: 8px; }
+table{
+  width:100%;
+  border-collapse: collapse;
+  background: var(--card-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+thead{ background:#1A1F2E; border-bottom: 2px solid var(--primary-color); }
+th, td{ padding: 15px; text-align:left; border-bottom: 1px solid var(--border-color); }
+th{
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+tr:hover{ background: rgba(74, 127, 127, 0.05); }
+
+/* Timeline (preservada) */
+.timeline{ position: relative; padding: 20px 0; }
+.timeline-item{ position: relative; padding-left: 40px; margin-bottom: 30px; }
+.timeline-item::before{
+  content:'';
+  position:absolute;
+  left:0; top:0;
+  width: 16px; height: 16px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  border: 3px solid var(--dark-bg);
+}
+.timeline-item::after{
+  content:'';
+  position:absolute;
+  left:7px; top:16px;
+  width: 2px;
+  height: calc(100% + 14px);
+  background: var(--border-color);
+}
+.timeline-item:last-child::after{ display:none; }
+.timeline-date{ color: var(--primary-color); font-weight: 600; margin-bottom: 5px; }
+
+/* Botones */
+.btn{
+  background: var(--primary-color);
+  color: var(--dark-bg);
+  border: 1px solid var(--primary-color);
+  padding: 10px 24px;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+}
+.btn:hover{
+  background: var(--secondary-color);
+  border-color: var(--accent-color);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+.btn-success{ font-size: 0.9rem; padding: 8px 18px; border-radius: 6px; }
+.btn-success:hover{ background: #00b868; }
+
+/* Footer */
+footer{
+  background: var(--card-bg);
+  padding: 40px 0;
+  text-align:center;
+  margin-top: 60px;
+  border-top: 2px solid var(--border-color);
+  position: relative;
+  z-index: 1;
+}
+footer p{
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin: 10px 0;
+}
+footer a{ color: var(--primary-color); text-decoration:none; }
+
+/* Scrollbar */
+::-webkit-scrollbar{ width: 10px; }
+::-webkit-scrollbar-track{ background: rgba(15, 20, 25, 0.5); }
+::-webkit-scrollbar-thumb{ background: var(--primary-color); border-radius: 5px; }
+
+/* Animaciones */
+.fade-in{ animation: fadeIn 0.6s ease-out; }
+@keyframes fadeIn{
+  from{ opacity: 0; transform: translateY(20px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
+
+/* Compactación consistente */
+.card, .highlight-item, .alert{
+  padding: 14px 16px !important;
+  line-height: 1.5;
+}
+.card h3, .card h4, .highlight-item h4{ margin: 0 0 8px !important; }
+.card p, .highlight-item p, .alert p{ margin: 0 0 8px !important; }
+.card > *:last-child, .highlight-item > *:last-child, .alert > *:last-child{ margin-bottom: 0 !important; }
+
+.card ul, .highlight-item ul, .alert ul{
+  margin: 6px 0 0 !important;
+  padding-left: 18px !important;
+}
+.card li, .highlight-item li, .alert li{ margin: 0 0 4px 0 !important; }
+.card li:last-child, .highlight-item li:last-child, .alert li:last-child{ margin-bottom: 0 !important; }
+
+/* Utilidades */
+.mt-15{ margin-top: 15px; }
+.mt-20{ margin-top: 20px; }
+.mt-30{ margin-top: 30px; }
+.text-center{ text-align: center; }
+</style>
 </head>
-<body>
-    <!-- Progress Bar -->
-    <div class="progress-bar" id="progressBar"></div>
-
-    <!-- Logo SpreadHunters -->
-    <div class="logo-navbar">
-        <img src="../images/logo_sh.svg" alt="SpreadHunters" class="logo-navbar-img">
-    </div>
-
-    <!-- Header -->
-    <header class="header-professional">
-        <div class="container">
-            <img src="../images/inspecs.png" alt="Inspecs Group" class="logo-company">
-            <h1 class="page-title">Inspecs Group (SPEC.L)</h1>
-            <p class="page-subtitle">Análisis de Oportunidad de Arbitraje de Fusiones - Oferta Bidco 1125 @ 84p</p>
-
-            <div class="investment-metrics">
-                <div class="metric-card">
-                    <div class="metric-label">Precio Actual</div>
-                    <div class="metric-value cyan">68-70p</div>
-                    <div class="metric-subtitle">14 enero 2026</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">Fair Value (Oferta)</div>
-                    <div class="metric-value cyan">84p</div>
-                    <div class="metric-subtitle">Bidco 1125</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">Upside Potencial</div>
-                    <div class="metric-value green">24%</div>
-                    <div class="metric-subtitle">90 días (Q1 2026)</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">Recomendación</div>
-                    <div class="metric-value green">COMPRA</div>
-                    <div class="metric-subtitle">Horizonte 90 días</div>
-                </div>
+<body><div id="top"></div>
+<!-- Progress Bar -->
+<div class="progress-bar" id="progressBar"></div>
+<!-- Logo SpreadHunters -->
+<div class="logo-navbar">
+<img alt="SpreadHunters" class="logo-navbar-img" src="../images/logo_sh.svg"/>
+</div>
+<!-- Header -->
+<header class="header-professional">
+<div class="container">
+<div class="company-title-row"><img alt="Inspecs Group" class="logo-company" src="../images/inspecs.png"/><h1 class="page-title">Inspecs Group (SPEC.L)</h1></div><p class="page-subtitle">Análisis de Oportunidad de Arbitraje de Fusiones - Oferta Bidco 1125 @ 84p</p>
+<div class="investment-metrics"><div class="metric-card"><div class="metric-label">PRECIO ACTUAL</div><div class="metric-value cyan" id="priceCurrent">68-70p</div><div class="metric-subtitle">14 enero 2026</div></div><div class="metric-card"><div class="metric-label">FAIR VALUE (OFERTA)</div><div class="metric-value cyan" id="fairValue">84p</div><div class="metric-subtitle">Bidco 1125</div></div><div class="metric-card"><div class="metric-label">UPSIDE POTENCIAL</div><div class="metric-value green" id="upsidePct">—</div><div class="metric-subtitle">90 días (Q1 2026)</div></div><div class="metric-card"><div class="metric-label">RECOMENDACIÓN</div><div class="metric-value green">COMPRA</div><div class="metric-subtitle">Horizonte 90 días</div></div></div>
+</div>
+</header>
+<!-- Navigation -->
+<nav class="nav-tabs">
+<div class="container">
+<ul>
+<li><a class="active" href="#resumen">Resumen</a></li>
+<li><a href="#tesis">Tesis</a></li>
+<li><a href="#cronologia">Cronología</a></li>
+<li><a href="#safilo">Safilo</a></li>
+<li><a href="#riesgos">Riesgos</a></li>
+<li><a href="#estrategias">Estrategias</a></li>
+</ul>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="container">
+<!-- RESUMEN EJECUTIVO -->
+<section class="fade-in" id="resumen">
+<h2>📊 Resumen Ejecutivo</h2>
+<div class="alert alert-success">
+<strong>Tesis de Inversión</strong>
+                Oportunidad de arbitraje de fusiones institucional con diferencial de 20% (68-70p → 84p) impulsada por: (1) Safilo como accionista interno 25% forzado a votar SÍ, (2) Probabilidad real 88-92% vs 70% implícito en mercado, (3) Catalizador Scheme Document 15 enero.
             </div>
-        </div>
-    </header>
-
-    <!-- Navigation -->
-    <nav class="nav-tabs">
-        <div class="container">
-            <ul>
-                <li><a href="#resumen" class="active">Resumen</a></li>
-                <li><a href="#tesis">Tesis</a></li>
-                <li><a href="#cronologia">Cronología</a></li>
-                <li><a href="#safilo">Safilo</a></li>
-                <li><a href="#riesgos">Riesgos</a></li>
-                </ul>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="container">
-        
-        <!-- RESUMEN EJECUTIVO -->
-        <section id="resumen" class="fade-in">
-            <h2>📊 Resumen Ejecutivo</h2>
-
-            <div class="alert alert-success">
-                <strong>Tesis de Inversión</strong>
-                Oportunidad de arbitraje de fusiones institucional con diferencial de 20-25% (68-70p → 84p) impulsada por: (1) Safilo como accionista interno 25% forzado a votar SÍ, (2) Probabilidad real 88-92% vs 70% implícito en mercado, (3) Catalizador Scheme Document 15 enero.
-            </div>
-
-            <div class="highlights">
-                <div class="highlight-item">
-                    <h4>🎯 Diferencial Anormal</h4>
-                    <p>20% spread vs 3-8% típico en deals M&A maduros. Mercado está subvalorando 18-22 puntos de probabilidad.</p>
-                </div>
-                <div class="highlight-item">
-                    <h4>🔒 Safilo = Aliado Forzado</h4>
-                    <p>Compró 25% a 86.8p. Si falla deal: pierde £10M+. DEBE votar SÍ. Directors 19% + Safilo 25% = 44% garantizado.</p>
-                </div>
-                <div class="highlight-item">
-                    <h4>⚡ Catalizador</h4>
-                    <p>Scheme Document (15 ene) aclarará MACs. Mercado procesará que Safilo está dentro.</p>
-                </div>
-            </div>
-
-            <h3>Métricas Clave de la Inversión</h3>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="label">Spread Actual</div>
-                    <div class="value">24%%</div>
-                    <div class="change positive">vs 3-8% normal</div>
-                </div>
-                <div class="stat-card">
-                    <div class="label">Prob. Cierre Real</div>
-                    <div class="value">88-92%</div>
-                    <div class="change positive">vs 70% implicado</div>
-                </div>
-                <div class="stat-card">
-                    <div class="label">Retorno Terminal</div>
-                    <div class="value">24%</div>
-                    <div class="change positive">90 días = 81% anual</div>
-                </div>
-                <div class="stat-card">
-                    <div class="label">Riesgo Real</div>
-                    <div class="value">5-10%</div>
-                    <div class="change positive">Safilo de facto dentro</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- NUEVA SECCIÓN: SCHEME DOCUMENT UPDATE (15 ENERO) -->
-<section id="scheme-document" class="fade-in" style="background: linear-gradient(135deg, rgba(0, 215, 255, 0.05) 0%, rgba(74, 155, 111, 0.05) 100%); padding: 60px 0; border: 2px solid rgba(0, 215, 255, 0.3); border-radius: 12px; margin-top: -1px;">
-    <div class="container">
-        <h2 style="color: #00d7ff; margin-bottom: 30px;">🔴 ACTUALIZACIÓN 15 ENERO 2026: SCHEME DOCUMENT PUBLICADO</h2>
-
-        <div class="alert alert-success" style="border-left: 4px solid #90ee90; background: rgba(74, 155, 111, 0.1); margin-bottom: 30px;">
-            <strong style="color: #90ee90; font-size: 1.1rem;">✅ STATUS: COMPLETAMENTE LIMPIO — SIN RED FLAGS</strong>
-            <p style="margin-top: 10px; color: #d0d8e0;">El Scheme Document de 42,569 caracteres publicado hoy revela términos estándar, MACs normales, y confirmación de alineación de accionistas. <strong>PROBABILIDAD DE CIERRE REVISADA AL ALZA: 92-96% (vs 70% implícito en precio).</strong></p>
-        </div>
-
-        <h3 style="color: #ffffff; margin-top: 30px; margin-bottom: 20px;">📋 Hallazgos Clave del Documento</h3>
-
-        <div class="highlights">
-            <div class="highlight-item" style="background: linear-gradient(135deg, rgba(0, 215, 255, 0.1) 0%, rgba(74, 127, 127, 0.1) 100%); border-left: 4px solid #00d7ff;">
-                <h4 style="color: #00d7ff;">Estructura Confirmada</h4>
-                <p style="margin: 0; color: #d0d8e0;">✅ Recomendación junta unánime<br>✅ Términos 84p cash + alternativa securities<br>✅ Scheme of Arrangement Part 26 Companies Act<br>✅ Votación: 9 febrero 2026</p>
-            </div>
-
-            <div class="highlight-item" style="background: linear-gradient(135deg, rgba(144, 238, 144, 0.1) 0%, rgba(74, 127, 127, 0.1) 100%); border-left: 4px solid #90ee90;">
-                <h4 style="color: #90ee90;">MACs & Condiciones</h4>
-                <p style="margin: 0; color: #d0d8e0;">✅ MACs estándar (NO ampliadas)<br>✅ Court sanction rutinario<br>✅ NSI Act 2021 favorable<br>✅ Financiamiento sponsors disponible</p>
-            </div>
-
-            <div class="highlight-item" style="background: linear-gradient(135deg, rgba(74, 155, 111, 0.1) 0%, rgba(74, 127, 127, 0.1) 100%); border-left: 4px solid #90ee90;">
-                <h4 style="color: #90ee90;">Safilo Confirmado Dentro</h4>
-                <p style="margin: 0; color: #d0d8e0;">✅ 25% posición confirmada en documento<br>✅ Poder de veto material (75% threshold)<br>✅ Alineación forzada: pierde £10-11M si falla<br>✅ DEBE votar SÍ (económicamente inaceptable no hacerlo)</p>
-            </div>
-        </div>
-
-        <h3 style="color: #ffffff; margin-top: 40px; margin-bottom: 20px;">📊 Riesgos Revisados (POST-DOCUMENTO)</h3>
-
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th style="color: #00d7ff;">Riesgo</th>
-                        <th style="color: #00d7ff;">Antes</th>
-                        <th style="color: #00d7ff;">Después</th>
-                        <th style="color: #00d7ff;">Cambio</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Voto Falla (75%)</strong></td>
-                        <td><span style="color: #ff6b6b;">8-10%</span></td>
-                        <td><span style="color: #90ee90;">5-8%</span></td>
-                        <td>✅ Bajó</td>
-                    </tr>
-                    <tr>
-                        <td><strong>MAC Invocation</strong></td>
-                        <td><span style="color: #ff6b6b;">12-15%</span></td>
-                        <td><span style="color: #90ee90;">10-12%</span></td>
-                        <td>✅ Bajó</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Court Rechaza</strong></td>
-                        <td><span style="color: #ff6b6b;">1-2%</span></td>
-                        <td><span style="color: #90ee90;">1-2%</span></td>
-                        <td>↔ Neutral</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Financiamiento Falla</strong></td>
-                        <td><span style="color: #ff6b6b;">3-5%</span></td>
-                        <td><span style="color: #90ee90;">3-5%</span></td>
-                        <td>↔ Neutral</td>
-                    </tr>
-                    <tr style="background: rgba(0, 215, 255, 0.1); font-weight: bold;">
-                        <td style="color: #00d7ff;">TOTAL COMPUESTO</td>
-                        <td><span style="color: #ff6b6b;">10-15%</span></td>
-                        <td><span style="color: #90ee90;">8-10%</span></td>
-                        <td style="color: #90ee90;">✅ Bajó 2-5pp</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="alert alert-info" style="margin-top: 30px; background: rgba(0, 212, 212, 0.15); border-left: 4px solid #00d7ff;">
-            <strong style="color: #00d7ff;">Conclusión Scheme Document</strong>
-            <p style="margin-top: 10px; color: #d0d8e0;">El documento ha CONFIRMADO Y REFORZADO la tesis. No hay sorpresas negativas. Mercado debe ajustar 70p → 76-82p en próximas 2 semanas cuando procese que Safilo 25% está dentro garantizado.</p>
-        </div>
-    </div>
+<div class="highlights">
+<div class="highlight-item">
+<h4>🎯 Diferencial Anormal</h4>
+<p>20% spread vs 3-8% típico en deals M&amp;A maduros. Mercado está subvalorando 18-22 puntos de probabilidad.</p>
+</div>
+<div class="highlight-item">
+<h4>🔒 Safilo = Aliado Forzado</h4>
+<p>Compró 25% a 86.8p. Si falla deal: pierde £10M+. DEBE votar SÍ. Directors 19% + Safilo 25% = 44% garantizado.</p>
+</div>
+<div class="highlight-item">
+<h4>⚡ Catalizador Mañana</h4>
+<p>Scheme Document (15 ene) aclarará MACs. Mercado procesará Safilo dentro. Precio: 70p → 76-82p en 2 semanas.</p>
+</div>
+</div>
+<h3>Métricas Clave de la Inversión</h3>
+<div class="stats-grid">
+<div class="stat-card">
+<div class="label">Spread Actual</div>
+<div class="value">20%</div>
+<div class="change positive">vs 3-8% normal</div>
+</div>
+<div class="stat-card">
+<div class="label">Prob. Cierre Real</div>
+<div class="value">88-92%</div>
+<div class="change positive">vs 70% implicado</div>
+</div>
+<div class="stat-card">
+<div class="label">Retorno Terminal</div>
+<div class="value">20%</div>
+<div class="change positive">90 días = 81% anual</div>
+</div>
+<div class="stat-card">
+<div class="label">Riesgo Real</div>
+<div class="value">5-10%</div>
+<div class="change positive">Safilo de facto dentro</div>
+</div>
+</div>
 </section>
-
-        <!-- TESIS DE INVERSIÓN -->
-        <section id="tesis" class="fade-in">
-            <h2>💡 Tesis de Inversión</h2>
-
-            <div class="card">
-                <h3>¿Por qué esta oportunidad es extraordinaria?</h3>
-                <p>Inspecs Group está siendo adquirida por Bidco 1125 (Luke Johnson + Ian Livingstone) a <strong>84 peniques por acción</strong>. La acción cotiza actualmente a <strong>68-70p</strong>, creando un <strong>diferencial de 20-25%</strong>.</p>
-
-                <p>Lo extraordinario es que <strong>Safilo Group compró 25% del capital el 15-18 de diciembre a 86.8p</strong>. Esto crea una dinámica única donde Safilo está DENTRO del deal como accionista interno, no fuera como especulador.</p>
-
-                <p>Si el deal falla, Safilo pierde £10-12 millones. Esto la obliga de facto a votar SÍ en el Scheme Meeting (febrero) y presionar internamente para asegurar completación.</p>
-
-                <p>El mercado aún no ha procesado completamente esta implicación, dejando el spread en 24% cuando la probabilidad real de cierre es 88-92%.</p>
-            </div>
-
-            <div class="alert alert-info">
-                <strong>Diferencial de Probabilidad = Arbitraje</strong>
+<!-- TESIS DE INVERSIÓN -->
+<section class="fade-in" id="tesis">
+<h2>💡 Tesis de Inversión</h2>
+<div class="card">
+<h3>¿Por qué esta oportunidad es extraordinaria?</h3>
+<p>Inspecs Group está siendo adquirida por Bidco 1125 (Luke Johnson + Ian Livingstone) a <strong>84 peniques por acción</strong>. La acción cotiza actualmente a <strong>68-70p</strong>, creando un <strong>diferencial de 20%</strong>.</p>
+<p>Lo extraordinario es que <strong>Safilo Group compró 25% del capital el 15-18 de diciembre a 86.8p</strong>. Esto crea una dinámica única donde Safilo está DENTRO del deal como accionista interno, no fuera como especulador.</p>
+<p>Si el deal falla, Safilo pierde £10-12 millones. Esto la obliga de facto a votar SÍ en el Scheme Meeting (febrero) y presionar internamente para asegurar completación.</p>
+<p>El mercado aún no ha procesado completamente esta implicación, dejando el spread en 20% cuando la probabilidad real de cierre es 88-92%.</p>
+</div>
+<div class="alert alert-info">
+<strong>Diferencial de Probabilidad = Arbitraje</strong>
                 El mercado está precificando 30% riesgo de no-cierre. El riesgo real es 5-10% (Safilo forzado dentro). Esa diferencia de 18-22 puntos es la oportunidad.
             </div>
-
-            <h3>Los 3 Pilares del Setup</h3>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Pilar</th>
-                            <th>Situación</th>
-                            <th>Impacto</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Oferta Vinculante</strong></td>
-                            <td>Rule 2.7 anunciada 10 dic, recomendada unánimemente</td>
-                            <td>Deal es firme, sponsors comprometidos</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Safilo 25% Dentro</strong></td>
-                            <td>Compró a 86.8p (premium vs 84p oferta)</td>
-                            <td>Alineación forzada, voto garantizado SÍ</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Directors Irrevocables</strong></td>
-                            <td>19% del capital con undertakings</td>
-                            <td>44% total garantizado + Safilo = fácil 75%</td>
-                        </tr>
-                    </tbody>
-                </table>
+<h3>Los 3 Pilares del Setup</h3>
+<div class="table-responsive">
+<table>
+<thead>
+<tr>
+<th>Pilar</th>
+<th>Situación</th>
+<th>Impacto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Oferta Vinculante</strong></td>
+<td>Rule 2.7 anunciada 10 dic, recomendada unánimemente</td>
+<td>Deal es firme, sponsors comprometidos</td>
+</tr>
+<tr>
+<td><strong>Safilo 25% Dentro</strong></td>
+<td>Compró a 86.8p (premium vs 84p oferta)</td>
+<td>Alineación forzada, voto garantizado SÍ</td>
+</tr>
+<tr>
+<td><strong>Directors Irrevocables</strong></td>
+<td>19% del capital con undertakings</td>
+<td>44% total garantizado + Safilo = fácil 75%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- CRONOLOGÍA -->
+<section class="fade-in" id="cronologia">
+<h2>📅 Cronología Completa del Deal</h2>
+<div class="timeline">
+<div class="timeline-item">
+<div class="timeline-date">23 Oct 2025 - Rule 2.4: 3 Ofertas</div>
+<div>Inspecs recibe propuestas no-vinculantes de H2 Equity, Risk Capital + Ian Livingstone, y Safilo. Precio: 40.5p</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-date">Noviembre 2025 - Deadline Extendido</div>
+<div>Deadline original extendido de 20 nov a 18 dic. Pujadores siguen en due diligence. Precio: 73p</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-date">10 Dic 2025 - Rule 2.7: Oferta Binding 84p</div>
+<div><strong>BIDCO 1125 anuncia oferta vinculante a 84p.</strong> Junta recomienda unánimemente. Precio sube a 82-85p. Directors dan irrevocables (19% capital).</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-date">14 Dic 2025 - Safilo Rule 2.8 Withdrawal</div>
+<div>Safilo anuncia "sin intención de hacer oferta" y entra en lock-out 6 meses. Pero... no vende acciones.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-date">15-18 Dic 2025 - 🔑 SAFILO COMPRA 25% @ 86.8p</div>
+<div><strong>MOVIMIENTO CRÍTICO:</strong> Tras retirada formal, Safilo compra 25% por £21.7M en mercado abierto. Premium sobre oferta 84p: 2.8p. Safilo se transforma de competidor externo a accionista interno con poder de veto.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-date">18 Dic 2025 - H2 Equity Rule 2.8 Withdrawal</div>
+<div>H2 (que había ofrecido matching 84p) anuncia salida formal. <strong>Acción cae 82p → 70p.</strong> Mercado interpreta como reducción competencia = mayor riesgo deal.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-date">14 Ene 2026 - HOY: Pre-Scheme Document</div>
+<div>Acción en 68-70p. Mercado aún no ha procesado completamente que Safilo 25% está dentro y forzado a votar SÍ. Spread 20% vs probabilidad real 5-10% fallo.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-date">15 Ene 2026 - ⚡ CATALIZADOR: Scheme Document</div>
+<div>Documento detallado con MACs, términos, timeline. Mercado verá que Safilo está dentro. <strong>Precio esperado: 76-82p en 2 semanas</strong> (información arbitrage).</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-date">Febrero 2026 - Court Meeting + General Meeting</div>
+<div>Accionistas votan. Safilo 25% + Directors 19% + Safilo undertakings = 44% garantizado. <strong>75% threshold muy probable.</strong> Precio: 80-83p.</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-date">Marzo 2026 - Court Sanction + Effective Date</div>
+<div>Aprobación legal final. Settlement a <strong>84p</strong>.</div>
+</div>
+</div>
+</section>
+<!-- SAFILO -->
+<section class="fade-in" id="safilo">
+<h2>🔒 Safilo: De Competidor a Aliado Forzado</h2>
+<div class="card">
+<h3>El Movimiento Crítico: 15-18 Diciembre</h3>
+<p>Tras anunciar su retirada formal del proceso competitivo (Rule 2.8), Safilo <strong>INMEDIATAMENTE compra 25% en mercado abierto a 86.8p.</strong> Este no es arbitraje financiero—es un movimiento de control estratégico.</p>
+<h3 class="mt-30">¿Por qué Safilo pagó PREMIUM (86.8p vs oferta 84p)?</h3>
+<p>Safilo no está jugando arbitraje puro. Está comprando <strong>poder de veto + participación en upside privado.</strong></p>
+</div>
+<div class="table-responsive">
+<table>
+<thead>
+<tr>
+<th>Si Deal Cierra</th>
+<th>Si Deal Falla</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Opción 1:</strong> Recibe 84p cash<br/>Pérdida: -2.8p × 25% = -£700k<br/><br/><strong>Opción 2:</strong> Elige Alternative Offer<br/>1 acción Topco privado + Loan Notes<br/>Participación en upside operativo<br/><br/><strong>Neto:</strong> Aceptable, estratégico</td>
+<td><strong>Acción cae a 45-50p</strong><br/>Pérdida: 86.8p - 45p = 41.8p<br/>Por 25% capital = £10-12M pérdida total<br/><br/><strong>CATASTRÓFICO</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="alert alert-warning">
+<strong>Conclusión: Safilo está obligado de facto a votar SÍ y presionar internamente para cierre. No tiene opción.</strong>
+</div>
+<h3>Implicación para Probabilidad de Cierre</h3>
+<div class="table-responsive">
+<table>
+<thead>
+<tr>
+<th>Votantes</th>
+<th>Capital %</th>
+<th>Posición</th>
+<th>Razón</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Directors Irrevocables</strong></td>
+<td>19%</td>
+<td class="positive">SÍ</td>
+<td>Undertakings formales</td>
+</tr>
+<tr>
+<td><strong>Safilo Group</strong></td>
+<td>25%</td>
+<td class="positive">SÍ</td>
+<td>Forzado (pierde £10M si no)</td>
+</tr>
+<tr style="background: rgba(16, 185, 129, 0.1);">
+<td><strong>TOTAL GARANTIZADO</strong></td>
+<td><strong>44%</strong></td>
+<td class="positive"><strong>SÍ</strong></td>
+<td><strong>Más de 1/3 del capital</strong></td>
+</tr>
+<tr>
+<td><strong>Threshold para pasar</strong></td>
+<td>75%</td>
+<td>-</td>
+<td>Scheme standard UK</td>
+</tr>
+<tr>
+<td><strong>Faltaría</strong></td>
+<td>31%</td>
+<td>-</td>
+<td>De ~75M acciones restantes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="alert alert-success">
+<strong>Con 44% garantizado, solo necesita 31% más de accionistas pequeños para pasar 75%. MUY PROBABLE.</strong>
+</div>
+</section>
+<!-- RIESGOS -->
+<section class="fade-in" id="riesgos">
+<h2>⚠️ Análisis de Riesgos</h2>
+<h3>Riesgos Cuantificados</h3>
+<div class="table-responsive">
+<table>
+<thead>
+<tr>
+<th>Factor de Riesgo</th>
+<th>Probabilidad Real</th>
+<th>Mercado Implícito</th>
+<th>Diferencia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Voto Accionista Falla (75% threshold)</td>
+<td class="positive">5-8%</td>
+<td>20%</td>
+<td class="positive">+12-15%</td>
+</tr>
+<tr>
+<td>MAC Invocation (operativo deteriora)</td>
+<td>10-15%</td>
+<td>15%</td>
+<td>0-5%</td>
+</tr>
+<tr>
+<td>Financiamiento (sponsors unable)</td>
+<td class="positive">3-5%</td>
+<td>8%</td>
+<td class="positive">+3-5%</td>
+</tr>
+<tr>
+<td>Regulatorio/CMA (deal blocked)</td>
+<td class="positive">2-3%</td>
+<td>5%</td>
+<td class="positive">+2-3%</td>
+</tr>
+<tr style="background: rgba(255, 107, 107, 0.1);">
+<td><strong>Fallo Total Compuesto</strong></td>
+<td class="positive"><strong>5-10%</strong></td>
+<td><strong>30%</strong></td>
+<td class="positive"><strong>+18-22%</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="alert alert-danger">
+<strong>Red Flags Críticas</strong>
+                Salir posición inmediatamente si: (1) Scheme Document revela MACs &gt;15% decline EBITDA, (2) H2 2025 guidance peor &gt;30% decline EBITDA, (3) Safilo señala hesitación voto, (4) Bidco anuncia incertidumbre financiamiento.
             </div>
-        </section>
+<h3>Operativo: La Preocupación Real</h3>
+<div class="card">
+<p>Inspecs mostró en H1 2025:</p>
+<ul class="list-unstyled">
+<li><strong style="color: #ff6b6b;">Revenue: -3%</strong> YoY a £97.6M</li>
+<li><strong style="color: #ff6b6b;">EBITDA: -18%</strong> a £9.0M</li>
+<li><strong style="color: #ff6b6b;">EPS: -47%</strong> diluted</li>
+<li><strong style="color: #ff6b6b;">Margen bruto: -80bps</strong> a 51.8%</li>
+</ul>
+<p class="mt-20">Este deterioro es <strong>real y justifica ALGÚN descuento.</strong> Pero mercado está siendo demasiado conservador. Si H2 muestra trayectoria similar, riesgo MAC se vuelve material. Esto debe monitorearse cercanamente en Scheme Document (15 ene).</p>
+</div>
+</section>
+<!-- ESTRATEGIAS -->
+<section class="fade-in" id="estrategias">
+<h2>⚡ Estrategias de Arbitraje</h2>
+<h3>Las Tres Opciones</h3>
+<div class="highlights">
+<div class="highlight-item">
+<h4>A. Información (2-3 semanas)</h4>
+<p><strong>Compra:</strong> 70p hoy | <strong>Venta:</strong> 76-82p | <strong>Retorno:</strong> 8-17% en 14 días | <strong>Anual:</strong> 200-440%</p>
+</div>
+<div class="highlight-item">
+<h4>B. Terminal (90 días)</h4>
+<p><strong>Compra:</strong> 70p hoy | <strong>Venta:</strong> 84p | <strong>Retorno:</strong> 20% en 90 días | <strong>Anual:</strong> 81%</p>
+</div>
+<div class="highlight-item">
+<h4>C. Híbrido/Ladder (RECOMENDADO)</h4>
+<p><strong>50%:</strong> 70p → 76-78p (7d) | <strong>30%:</strong> 70p → 80-82p (21d) | <strong>20%:</strong> 70p → 84p (90d) | <strong>Retorno blended:</strong> 13-20%</p>
+</div>
+</div>
+<div class="text-center mt-30"><a class="btn btn-success" href="#top">⬆ Volver al inicio</a></div></section>
+</main>
+<!-- Footer -->
+<footer><div class="container"><p><strong>Disclaimer:</strong> Este análisis se proporciona únicamente con propósitos informativos y educativos. No constituye asesoramiento financiero ni recomendación personalizada de inversión.</p><p class="mt-20 footer-meta">📅 Análisis Actualizado: Enero 2026 | 📊 Fuentes: Investegate RNS, LSE, Takeover Panel</p><p class="mt-15">🔗 <a href="https://spreadhunters.es" rel="noopener noreferrer" target="_blank">SpreadHunters Investment Research</a> | 📝 <a href="https://substack.com/@spreadhunters" rel="noopener noreferrer" target="_blank">Substack</a> | 𝕏 <a href="https://x.com/Spread_Hunters" rel="noopener noreferrer" target="_blank">Twitter/X</a></p></div></footer>
+<script>// Scroll Progress Bar
+window.addEventListener('scroll', function () {
+  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+  const bar = document.getElementById("progressBar");
+  if (bar) bar.style.width = scrolled + "%";
+});
 
-        <!-- CRONOLOGÍA -->
-        <section id="cronologia" class="fade-in">
-            <h2>📅 Cronología Completa del Deal</h2>
+// Smooth Scroll (y "active" solo desde menú)
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    const href = this.getAttribute('href');
+    if (!href || href === '#') return;
 
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-date">23 Oct 2025 - Rule 2.4: 3 Ofertas</div>
-                    <div>Inspecs recibe propuestas no-vinculantes de H2 Equity, Risk Capital + Ian Livingstone, y Safilo. Precio: 40.5p</div>
-                </div>
+    const target = document.querySelector(href);
+    if (!target) return;
 
-                <div class="timeline-item">
-                    <div class="timeline-date">Noviembre 2025 - Deadline Extendido</div>
-                    <div>Deadline original extendido de 20 nov a 18 dic. Pujadores siguen en due diligence. Precio: 73p</div>
-                </div>
+    e.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-                <div class="timeline-item">
-                    <div class="timeline-date">10 Dic 2025 - Rule 2.7: Oferta Binding 84p</div>
-                    <div><strong>BIDCO 1125 anuncia oferta vinculante a 84p.</strong> Junta recomienda unánimemente. Precio sube a 82-85p. Directors dan irrevocables (19% capital).</div>
-                </div>
+    if (this.closest('.nav-tabs')) {
+      document.querySelectorAll('.nav-tabs a').forEach(link => link.classList.remove('active'));
+      this.classList.add('active');
+    }
+  });
+});
 
-                <div class="timeline-item">
-                    <div class="timeline-date">14 Dic 2025 - Safilo Rule 2.8 Withdrawal</div>
-                    <div>Safilo anuncia "sin intención de hacer oferta" y entra en lock-out 6 meses. Pero... no vende acciones.</div>
-                </div>
+// Fade-in animations (IntersectionObserver)
+const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+const observer = new IntersectionObserver(function (entries) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, observerOptions);
 
-                <div class="timeline-item">
-                    <div class="timeline-date">15-18 Dic 2025 - 🔑 SAFILO COMPRA 25% @ 86.8p</div>
-                    <div><strong>MOVIMIENTO CRÍTICO:</strong> Tras retirada formal, Safilo compra 25% por £21.7M en mercado abierto. Premium sobre oferta 84p: 2.8p. Safilo se transforma de competidor externo a accionista interno con poder de veto.</div>
-                </div>
+document.querySelectorAll('.fade-in').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+  observer.observe(el);
+});
 
-                <div class="timeline-item">
-                    <div class="timeline-date">18 Dic 2025 - H2 Equity Rule 2.8 Withdrawal</div>
-                    <div>H2 (que había ofrecido matching 84p) anuncia salida formal. <strong>Acción cae 82p → 70p.</strong> Mercado interpreta como reducción competencia = mayor riesgo deal.</div>
-                </div>
+// Active nav on scroll
+window.addEventListener('scroll', function () {
+  let current = '';
+  document.querySelectorAll('section').forEach(section => {
+    const sectionTop = section.offsetTop;
+    if (window.pageYOffset >= (sectionTop - 200)) current = section.getAttribute('id');
+  });
 
-                <div class="timeline-item">
-                    <div class="timeline-date">14 Ene 2026 - HOY: Pre-Scheme Document</div>
-                    <div>Acción en 68-70p. Mercado aún no ha procesado completamente que Safilo 25% está dentro y forzado a votar SÍ. Spread 20% vs probabilidad real 5-10% fallo.</div>
-                </div>
+  document.querySelectorAll('.nav-tabs a').forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href')?.slice(1) === current) link.classList.add('active');
+  });
+});
 
-                <div class="timeline-item">
-                    <div class="timeline-date">15 Ene 2026 - ⚡ CATALIZADOR: Scheme Document</div>
-                    <div>Documento detallado con MACs, términos, timeline. Mercado verá que Safilo está dentro. <strong>Precio esperado: 76-82p en 2 semanas</strong> (información arbitrage).</div>
-                </div>
+// ---------- Upside automático ----------
+// Soporta formatos tipo "41.50$", "84p", "68-70p", "€12,34", etc.
+function parseMoneyOrRange(text) {
+  const raw = String(text ?? '');
+  const matches = raw.match(/-?\d+(?:[.,]\d+)?/g);
+  if (!matches || matches.length === 0) return NaN;
 
-                <div class="timeline-item">
-                    <div class="timeline-date">Febrero 2026 - Court Meeting + General Meeting</div>
-                    <div>Accionistas votan. Safilo 25% + Directors 19% + Safilo undertakings = 44% garantizado. <strong>75% threshold muy probable.</strong> Precio: 80-83p.</div>
-                </div>
+  const nums = matches
+    .map(s => Number(String(s).replace(',', '.')))
+    .filter(n => Number.isFinite(n));
 
-                <div class="timeline-item">
-                    <div class="timeline-date">Marzo 2026 - Court Sanction + Effective Date</div>
-                    <div>Aprobación legal final. Settlement a <strong>84p</strong>.</div>
-                </div>
-            </div>
-        </section>
+  if (nums.length === 0) return NaN;
+  if (nums.length === 1) return nums[0];
 
-        <!-- SAFILO -->
-        <section id="safilo" class="fade-in">
-            <h2>🔒 Safilo: De Competidor a Aliado Forzado</h2>
+  // Si hay rango (p.ej. "68-70p"), devuelve media para tener un número operativo
+  const avg = nums.reduce((a,b) => a + b, 0) / nums.length;
+  return avg;
+}
 
-            <div class="card">
-                <h3>El Movimiento Crítico: 15-18 Diciembre</h3>
-                <p>Tras anunciar su retirada formal del proceso competitivo (Rule 2.8), Safilo <strong>INMEDIATAMENTE compra 25% en mercado abierto a 86.8p.</strong> Este no es arbitraje financiero—es un movimiento de control estratégico.</p>
+function formatPct(value) {
+  const sign = value >= 0 ? '+' : '';
+  return `${sign}${value.toFixed(1)}%`;
+}
 
-                <h3 style="margin-top: 30px;">¿Por qué Safilo pagó PREMIUM (86.8p vs oferta 84p)?</h3>
-                <p>Safilo no está jugando arbitraje puro. Está comprando <strong>poder de veto + participación en upside privado.</strong></p>
-            </div>
+function updateUpside() {
+  const elPrice = document.getElementById('priceCurrent');
+  const elFair = document.getElementById('fairValue');
+  const elUps = document.getElementById('upsidePct');
+  if (!elPrice || !elFair || !elUps) return;
 
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Si Deal Cierra</th>
-                            <th>Si Deal Falla</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Opción 1:</strong> Recibe 84p cash<br>Pérdida: -2.8p × 25% = -£700k<br><br><strong>Opción 2:</strong> Elige Alternative Offer<br>1 acción Topco privado + Loan Notes<br>Participación en upside operativo<br><br><strong>Neto:</strong> Aceptable, estratégico</td>
-                            <td><strong>Acción cae a 45-50p</strong><br>Pérdida: 86.8p - 45p = 41.8p<br>Por 25% capital = £10-12M pérdida total<br><br><strong>CATASTRÓFICO</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+  const price = parseMoneyOrRange(elPrice.textContent);
+  const fair = parseMoneyOrRange(elFair.textContent);
 
-            <div class="alert alert-warning">
-                <strong>Conclusión: Safilo está obligado de facto a votar SÍ y presionar internamente para cierre. No tiene opción.</strong>
-            </div>
+  if (!Number.isFinite(price) || !Number.isFinite(fair) || price <= 0) {
+    elUps.textContent = '—';
+    elUps.classList.remove('green', 'red');
+    return;
+  }
 
-            <h3>Implicación para Probabilidad de Cierre</h3>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Votantes</th>
-                            <th>Capital %</th>
-                            <th>Posición</th>
-                            <th>Razón</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Directors Irrevocables</strong></td>
-                            <td>19%</td>
-                            <td class="positive">SÍ</td>
-                            <td>Undertakings formales</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Safilo Group</strong></td>
-                            <td>25%</td>
-                            <td class="positive">SÍ</td>
-                            <td>Forzado (pierde £10M si no)</td>
-                        </tr>
-                        <tr style="background: rgba(16, 185, 129, 0.1);">
-                            <td><strong>TOTAL GARANTIZADO</strong></td>
-                            <td><strong>44%</strong></td>
-                            <td class="positive"><strong>SÍ</strong></td>
-                            <td><strong>Más de 1/3 del capital</strong></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Threshold para pasar</strong></td>
-                            <td>75%</td>
-                            <td>-</td>
-                            <td>Scheme standard UK</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Faltaría</strong></td>
-                            <td>31%</td>
-                            <td>-</td>
-                            <td>De ~75M acciones restantes</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+  const upside = ((fair / price) - 1) * 100;
+  elUps.textContent = formatPct(upside);
+  elUps.classList.toggle('green', upside >= 0);
+  elUps.classList.toggle('red', upside < 0);
+}
 
-            <div class="alert alert-success">
-                <strong>Con 44% garantizado, solo necesita 31% más de accionistas pequeños para pasar 75%. MUY PROBABLE.</strong>
-            </div>
-        </section>
+// Observa cambios DOM (incluye cambios manuales por DevTools/JS)
+const priceNode = document.getElementById('priceCurrent');
+const fairNode = document.getElementById('fairValue');
 
-        <!-- RIESGOS -->
-        <section id="riesgos" class="fade-in">
-            <h2>⚠️ Análisis de Riesgos</h2>
+if (priceNode) new MutationObserver(updateUpside).observe(priceNode, { childList: true, subtree: true, characterData: true });
+if (fairNode) new MutationObserver(updateUpside).observe(fairNode, { childList: true, subtree: true, characterData: true });
 
-            <h3>Riesgos Cuantificados</h3>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Factor de Riesgo</th>
-                            <th>Probabilidad Real</th>
-                            <th>Mercado Implícito</th>
-                            <th>Diferencia</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Voto Accionista Falla (75% threshold)</td>
-                            <td class="positive">5-8%</td>
-                            <td>20%</td>
-                            <td class="positive">+12-15%</td>
-                        </tr>
-                        <tr>
-                            <td>MAC Invocation (operativo deteriora)</td>
-                            <td>10-15%</td>
-                            <td>15%</td>
-                            <td>0-5%</td>
-                        </tr>
-                        <tr>
-                            <td>Financiamiento (sponsors unable)</td>
-                            <td class="positive">3-5%</td>
-                            <td>8%</td>
-                            <td class="positive">+3-5%</td>
-                        </tr>
-                        <tr>
-                            <td>Regulatorio/CMA (deal blocked)</td>
-                            <td class="positive">2-3%</td>
-                            <td>5%</td>
-                            <td class="positive">+2-3%</td>
-                        </tr>
-                        <tr style="background: rgba(255, 107, 107, 0.1);">
-                            <td><strong>Fallo Total Compuesto</strong></td>
-                            <td class="positive"><strong>5-10%</strong></td>
-                            <td><strong>30%</strong></td>
-                            <td class="positive"><strong>+18-22%</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <h3>Operativo: La Preocupación Real</h3>
-            <div class="card">
-                <p>Inspecs mostró en H1 2025:</p>
-                <ul style="list-style: none; padding-left: 0;">
-                    <li><strong style="color: #ff6b6b;">Revenue: -3%</strong> YoY a £97.6M</li>
-                    <li><strong style="color: #ff6b6b;">EBITDA: -18%</strong> a £9.0M</li>
-                    <li><strong style="color: #ff6b6b;">EPS: -47%</strong> diluted</li>
-                    <li><strong style="color: #ff6b6b;">Margen bruto: -80bps</strong> a 51.8%</li>
-                </ul>
-
-                <p style="margin-top: 20px;">Este deterioro es <strong>real y justifica ALGÚN descuento.</strong> Pero mercado está siendo demasiado conservador. Si H2 muestra trayectoria similar, riesgo MAC se vuelve material. Esto debe monitorearse cercanamente en Scheme Document (15 ene).</p>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p><strong>Disclaimer:</strong> Este análisis se proporciona únicamente con propósitos informativos y educativos. No constituye asesoramiento financiero ni recomendación personalizada de inversión. Consulte con un asesor financiero profesional antes de tomar decisiones de inversión.</p>
-            <p style="margin-top: 20px; font-size: 0.85rem;">
-                📅 Análisis Actualizado: Enero 2026 | 📊 Fuentes: Humm Group Analysis FY25 (Documento Oficial), ASX Filings, Presentaciones Corporativas
-            </p>
-            <p style="margin-top: 15px;">
-                🔗 <a href="https://spreadhuntersinvest.github.io/" style="color: var(--primary-color); text-decoration: none;">SpreadHunters Investment Research</a> | 📋 <a href="https://substack.com/home" style="color: var(--primary-color); text-decoration: none;">Substack</a> | 𝕏 <a href="https://twitter.com/" style="color: var(--primary-color); text-decoration: none;">Twitter/X</a>
-            </p>
-        </div>
-    </footer>
-
-    <script>
-        // Scroll Progress Bar
-        window.addEventListener('scroll', function() {
-            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            var scrolled = (winScroll / height) * 100;
-            document.getElementById("progressBar").style.width = scrolled + "%";
-        });
-
-        // Smooth Scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-                
-                document.querySelectorAll('.nav-tabs a').forEach(link => {
-                    link.classList.remove('active');
-                });
-                this.classList.add('active');
-            });
-        });
-
-        // Intersection Observer para animaciones
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in').forEach(element => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(20px)';
-            element.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-            observer.observe(element);
-        });
-
-        // Update active nav on scroll
-        window.addEventListener('scroll', function() {
-            let current = '';
-            const sections = document.querySelectorAll('section');
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (pageYOffset >= (sectionTop - 200)) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            document.querySelectorAll('.nav-tabs a').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').slice(1) === current) {
-                    link.classList.add('active');
-                }
-            });
-        });
-    </script>
-</body>
+updateUpside();
+</script></body>
 </html>
