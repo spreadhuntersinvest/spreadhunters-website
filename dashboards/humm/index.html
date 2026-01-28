@@ -3,37 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Humm Group (ASX: HUM) - Análisis de Inversión | SpreadHunters</title>
-    <meta name="description" content="Análisis exhaustivo de Humm Group: turnaround operativo completado, transformación financiera, EGM febrero 2026 con catalizador binario.">
+    <title>Humm Group (HUM) - Análisis de Inversión | Event-Driven EGM</title>
+    <meta name="description" content="Análisis exhaustivo del turnaround operativo de Humm Group y catalizador EGM del 19 febrero 2026. Valoración DCF, SOTP, matriz de escenarios y tesis event-driven.">
     
     <style>
+/* ========================================
+           SISTEMA DE VARIABLES - COLORES GLOBALES
+           ======================================== */
         :root {
-             /* COLORES PRIMARIOS - Alineados con SpreadHunters */
-    		--primary-color: #00d7ff;           /* Cyan brillante */
-   		--secondary-color: #1a2332;         /* Azul oscuro base */
-   		--accent-color: #4A8B9B;            /* Azul teal claro */
-    
-    		/* COLORES FUNCIONALES */
-    		--success-color: #90ee90;           /* Verde */
-    		--danger-color: #ff6b6b;            /* Rojo */
-    		--warning-color: #ffa500;           /* Naranja */
-    		--info-color: #00d7ff;              /* Cyan */
-
-    		/* FONDOS */
-    		--dark-bg: #1a2332;                 /* Azul principal */
-    		--darker-bg: #0f1419;               /* Azul muy oscuro */
-    		--card-bg: #1a2538;                 /* Azul cards */
-    		--light-bg: #E8E8E8;                /* Igual que CALY */
-
-    		/* TEXTO */
-   		 --text-primary: #d0d8e0;            /* Gris claro */
-    		--text-secondary: #b0c4de;          /* Gris medio */
-    		--text-tertiary: #808080;           /* Gris oscuro */
-
-    		/* BORDES */
-    		--border-color: #2d3d4d;            /* Borde azulado */
-    		--border-light: #3d5570;            /* Borde azul claro */
-        }    
+            /* COLORES PRIMARIOS - Identidad SpreadHunters */
+            --primary-color: #00d7ff;           /* Cyan brillante */
+            --secondary-color: #1a2332;         /* Azul oscuro base */
+            --accent-color: #4A8B9B;            /* Azul teal claro */
+            
+            /* COLORES FUNCIONALES */
+            --success-color: #90ee90;           /* Verde */
+            --danger-color: #ff6b6b;            /* Rojo */
+            --warning-color: #ffa500;           /* Naranja */
+            --info-color: #00d7ff;              /* Cyan */
+        
+            /* FONDOS */
+            --dark-bg: #1a2332;                 /* Azul principal */
+            --darker-bg: #0f1419;               /* Azul muy oscuro */
+            --card-bg: #1a2538;                 /* Azul para cards */
+            --light-bg: #E8E8E8;                /* Fondo claro */
+        
+            /* TEXTO */
+            --text-primary: #d0d8e0;            /* Gris claro */
+            --text-secondary: #b0c4de;          /* Gris medio */
+            --text-tertiary: #808080;           /* Gris oscuro */
+            
+            /* BORDES */
+            --border-color: #2d3d4d;            /* Borde azulado */
+            --border-light: #3d5570;            /* Borde azul claro */
+        }
 
         * {
             margin: 0;
@@ -41,17 +44,20 @@
             box-sizing: border-box;
         }
 
-        body {
-    		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    		background: linear-gradient(135deg, rgba(26, 35, 50, 0.95) 0%, rgba(30, 50, 80, 0.95) 100%);
-    		background-color: #1a2332;   /* mismo dark-bg */
-    		color: var(--text-primary);
-    		line-height: 1.6;
-   		 margin: 0;
-   		 padding: 0;
-   		 min-height: 100vh;
-		}
+        html {
+            scroll-behavior: smooth;
+        }
 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.95) 0%, rgba(30, 50, 80, 0.95) 100%);
+            background-color: #1a2332;
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
 
         .container {
             max-width: 1200px;
@@ -61,31 +67,70 @@
             z-index: 1;
         }
 
-        .logo-navbar {
+        /* ========================================
+           BARRA DE PROGRESO
+           ======================================== */
+        .progress-bar {
+            background: var(--success-color);
+            height: 2px;
+            width: 0%;
             position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 900;
-            background: none;
-            padding: 0;
-            border: none;
-            backdrop-filter: none;
-            pointer-events: none;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: width 0.3s ease;
         }
 
-        .logo-navbar-img {
-            width: 120px;
-            height: auto;
-            filter: none;
-            display: block;
-        }
+        /* ========================================
+               LOGO NAVBAR (SVG – escala por altura)
+               ======================================== */
+            .logo-navbar {
+              position: fixed;
+              top: 20px;
+              left: 20px;
+              z-index: 900;
+              background: none;
+              padding: 0;
+              border: none;
+              backdrop-filter: none;
+              pointer-events: none; /* no clicable */
+            }
+            
+            .logo-navbar-img {
+              height: 44px;   /* ⬅️ MÁS grande (antes ~38–40 visuales) */
+              width: auto;
+              display: block;
+            }
+            
+            /* Laptop / Tablet grande */
+            @media (max-width: 1024px) {
+              .page-title { font-size: 1.55rem; } 
+              .logo-company { max-height: 70px; max-width: 150px; }
+            }
+            
+            /* Tablet */
+            @media (max-width: 768px) {
+              .logo-navbar { top: 15px; left: 15px; }
+              .logo-navbar-img { height: 34px; }
+            }
+            
+            /* Mobile */
+            @media (max-width: 480px) {
+              .logo-navbar { top: 12px; left: 12px; }
+              .logo-navbar-img { height: 30px; }
+            }
 
+
+
+        /* ========================================
+           HEADER PROFESIONAL
+           ======================================== */
         .header-professional {
-            margin: 0;                    
+            margin: 0;
             padding: 50px 20px;
-            background: transparent;      
-            border-bottom: 1px solid rgba(74, 127, 127, 0.1);  
-            backdrop-filter: blur(3px);   
+            background: transparent;
+            border-bottom: 1px solid rgba(74, 127, 127, 0.1);
+            backdrop-filter: blur(3px);
             position: relative;
             z-index: 2;
         }
@@ -100,8 +145,40 @@
             margin: 0 auto;
         }
 
+        .header-title-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .company-title-row {
+              display: flex;
+              flex-direction: column;   /* ⬅️ logo arriba, título debajo */
+              align-items: center;
+              justify-content: center;
+              gap: 12px;                /* separación logo-título */
+              text-align: center;
+        }
+
+        .logo-company {
+            max-height: 70px;
+            max-width: 150px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: none; /* por defecto: respeta colores originales */
+            display: block;
+            margin: 0;               /* por si algún margen lo desplaza */
+        }
+
+/* Opcional: usa esta clase SOLO si necesitas adaptar un logo claro a fondo oscuro */
+.logo-company--on-dark {
+            filter: brightness(4) contrast(1.5) invert(1) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
         .page-title {
-            font-size: 2.2rem;
+            font-size: 1.65rem;
             font-weight: 700;
             color: #ffffff;
             margin: 0;
@@ -110,37 +187,115 @@
         }
 
         .page-subtitle {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: #e0e0e0;
             margin: 10px 0 0;
             font-weight: 400;
-            max-width: 600px;
+            max-width: 680px;
         }
 
-        .ticker-info {
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            flex-wrap: wrap;
-            font-size: 0.95rem;
-            color: #e0e0e0;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(74, 127, 127, 0.1);
+        @media (max-width: 1024px) {
+            .page-title { font-size: 1.8rem; }
+            .logo-company { max-height: 70px; max-width: 150px; }
+        }
+
+        @media (max-width: 768px) {
+            .header-professional { padding: 30px 15px; }
+            .page-title { font-size: 1.4rem; }
+            .logo-company { max-height: 65px; max-width: 130px; }
+            .page-subtitle { font-size: 0.9rem; }
+        }
+
+        /* ========================================
+           TARJETAS DE MÉTRICAS
+           ======================================== */
+        .investment-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
             width: 100%;
         }
 
-        .ticker-info span {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .metric-card {
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.6) 0%, rgba(30, 50, 80, 0.6) 100%);
+            border: 2px solid rgba(0, 215, 255, 0.3);
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .ticker-info strong {
-            color: #ffffff;
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(0, 215, 255, 0.5) 0%, rgba(0, 215, 255, 0) 100%);
+        }
+
+        .metric-card:hover {
+            border-color: rgba(0, 215, 255, 0.6);
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.8) 0%, rgba(30, 50, 80, 0.8) 100%);
+            box-shadow: 0 0 20px rgba(0, 215, 255, 0.2);
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
             font-weight: 600;
         }
 
+        .metric-value {
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .metric-value.cyan {
+            color: #00d7ff;
+        }
+
+        .metric-value.green {
+            color: #90ee90;
+        }
+
+        .metric-value.red {
+            color: #ff6b6b;
+        }
+
+        .metric-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            font-weight: 400;
+        }
+
+        @media (max-width: 768px) {
+            .investment-metrics { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .metric-card { padding: 15px; }
+            .metric-value { font-size: 1.3rem; }
+        }
+
+        @media (max-width: 480px) {
+              .header-professional { padding: 20px 15px; }
+              .page-title { font-size: 1.15rem; }
+              .logo-company { max-height: 55px; max-width: 110px; }
+              .company-title-row { gap: 10px; }
+              .page-subtitle { font-size: 0.85rem; }
+            }
+
+        /* ========================================
+           NAVEGACIÓN DE PESTAÑAS
+           ======================================== */
         .nav-tabs {
             background: var(--card-bg);
             padding: 20px 0;
@@ -173,6 +328,43 @@
             color: var(--dark-bg);
         }
 
+       @media (max-width: 768px) {
+  .nav-tabs { padding: 10px 0; }
+
+  .nav-tabs ul {
+    flex-direction: row;          /* antes: column */
+    justify-content: flex-start;  /* en vez de center */
+    flex-wrap: nowrap;            /* una sola fila */
+    overflow-x: auto;             /* scroll horizontal */
+    overflow-y: hidden;
+    gap: 8px;
+    padding: 0 12px 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-tabs li { flex: 0 0 auto; }
+
+  .nav-tabs a {
+    padding: 7px 12px;            /* más compacto */
+    font-size: 0.85rem;
+    white-space: nowrap;          /* evita salto de línea */
+  }
+
+  /* opcional: scrollbar horizontal discreta */
+  .nav-tabs ul::-webkit-scrollbar { height: 6px; }
+  .nav-tabs ul::-webkit-scrollbar-track { background: rgba(15, 20, 25, 0.35); }
+  .nav-tabs ul::-webkit-scrollbar-thumb { background: rgba(0, 215, 255, 0.55); border-radius: 6px; }
+}
+
+@media (max-width: 480px) {
+  .nav-tabs { padding: 8px 0; }
+  .nav-tabs ul { padding: 0 10px 6px; gap: 6px; }
+  .nav-tabs a { padding: 6px 10px; font-size: 0.80rem; }
+}
+
+        /* ========================================
+           SECCIONES
+           ======================================== */
         section {
             padding: 60px 0;
             border-bottom: 1px solid var(--border-color);
@@ -181,35 +373,70 @@
         }
 
         section h2 {
-            font-size: 2rem;
+            font-size: 1.35rem;
             margin-bottom: 30px;
             color: var(--primary-color);
             border-left: 4px solid var(--success-color);
             padding-left: 20px;
         }
 
-        section h3 {
-            font-size: 1.5rem;
-            margin: 30px 0 15px;
-            color: var(--text-primary);
+                    section > h3 {
+              font-size: 1.25rem;
+              margin: 30px 0 15px;
+              color: var(--text-primary);
+            }
+            section > h4 {
+              font-size: 1.0rem;
+              margin: 15px 0 10px;
+              color: var(--text-primary);
+            }
+
+       @media (max-width: 768px){
+          .page-title{ font-size: 1.4rem; }
+          .page-subtitle{ font-size: 0.9rem; }
+          section h2{ font-size: 1.25rem; }
+          section h3{ font-size: 1.1rem; }
         }
 
+        /* ========================================
+           TARJETAS Y GRÁFICOS
+           ======================================== */
         .card {
-    		background: rgba(26, 35, 50, 0.85);
-    		border-radius: 8px;
-    		padding: 25px;
-    		margin-bottom: 20px;
-    		border: 1px solid var(--border-color);
-    		backdrop-filter: blur(10px);
-    		transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
-        
-        .card:hover {
-            	border-color: var(--primary-color);
-    		box-shadow: 0 1px 3px rgba(74, 127, 127, 0.05);
+            background: rgba(26, 35, 50, 0.85);
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         }
 
+        .chart-container {
+            background: rgba(26, 35, 50, 0.85);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            position: relative;
+            height: 400px;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        @media (max-width: 768px) {
+            .chart-grid { grid-template-columns: 1fr; }
+            .chart-container { height: 300px; }
+        }
+
+        /* ========================================
+           GRILLA DE ESTADÍSTICAS
+           ======================================== */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -218,14 +445,12 @@
         }
 
         .stat-card {
-            background: var(--card-bg);
+            background: rgba(26, 35, 50, 0.8);
             padding: 25px;
             border-radius: 12px;
             text-align: center;
             border: 2px solid var(--border-color);
             backdrop-filter: blur(10px);
-            position: relative;
-            z-index: 1;
         }
 
         .stat-card .label {
@@ -255,9 +480,13 @@
             color: var(--danger-color);
         }
 
+        /* ========================================
+           TABLAS
+           ======================================== */
         .table-responsive {
             overflow-x: auto;
             margin: 30px 0;
+            border-radius: 8px;
         }
 
         table {
@@ -273,13 +502,13 @@
             background: #1A1F2E;
             border-bottom: 2px solid var(--primary-color);
         }
-    
+
         th, td {
             padding: 15px;
             text-align: left;
             border-bottom: 1px solid var(--border-color);
         }
-    
+
         th {
             color: var(--text-secondary);
             font-weight: 600;
@@ -287,13 +516,16 @@
             font-size: 0.75rem;
             letter-spacing: 0.5px;
         }
-    
+
         tr:hover {
             background: rgba(74, 127, 127, 0.05);
         }
 
+        /* ========================================
+           CAJAS DE ALERTA
+           ======================================== */
         .alert {
-            padding: 20px;
+            padding: 16px 18px;
             border-radius: 8px;
             margin: 20px 0;
             border-left: 4px solid;
@@ -301,22 +533,36 @@
         }
 
         .alert-success {
-    		background: rgba(74, 155, 111, 0.08);
-    		border-color: var(--success-color);
-    		border-left: 3px solid var(--success-color);
-    		border-radius: 4px;
+            background: rgba(74, 155, 111, 0.08);
+            border-color: var(--success-color);
+            color: var(--text-primary);
         }
 
         .alert-warning {
             background: rgba(255, 165, 0, 0.15);
             border-color: var(--warning-color);
+            color: var(--text-primary);
         }
 
         .alert-info {
             background: rgba(0, 212, 212, 0.15);
             border-color: var(--primary-color);
+            color: var(--text-primary);
         }
 
+        .alert-danger {
+            background: rgba(255, 107, 107, 0.15);
+            border-color: var(--danger-color);
+            color: var(--text-primary);
+        }
+
+        .alert strong {
+            color: #ffffff;
+        }
+
+        /* ========================================
+           HIGHLIGHTS
+           ======================================== */
         .highlights {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -326,75 +572,39 @@
 
         .highlight-item {
             background: linear-gradient(135deg, var(--card-bg) 0%, rgba(0, 212, 212, 0.1) 100%);
-            padding: 25px;
+            padding: 18px;
             border-radius: 12px;
             border-left: 4px solid var(--primary-color);
             backdrop-filter: blur(10px);
-            position: relative;
-            z-index: 1;
         }
 
         .highlight-item h4 {
             color: var(--primary-color);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-size: 1.1rem;
         }
 
-        .timeline {
-            position: relative;
-            padding: 20px 0;
-            z-index: 1;
+        .highlight-item p {
+            color: var(--text-primary);
+            line-height: 1.6;
         }
 
-        .timeline-item {
-            position: relative;
-            padding-left: 40px;
-            margin-bottom: 30px;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 16px;
-            height: 16px;
-            background: var(--primary-color);
-            border-radius: 50%;
-            border: 3px solid var(--dark-bg);
-        }
-
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            left: 7px;
-            top: 16px;
-            width: 2px;
-            height: calc(100% + 14px);
-            background: var(--border-color);
-        }
-
-        .timeline-item:last-child::after {
-            display: none;
-        }
-
-        .timeline-date {
-            color: var(--primary-color);
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
+        /* ========================================
+           BOTONES
+           ======================================== */
         .btn {
             background: var(--primary-color);
-            color: var(--text-primary);
+            color: var(--dark-bg);
             border: 1px solid var(--primary-color);
             padding: 10px 24px;
             border-radius: 4px;
             font-weight: 500;
             transition: all 0.2s ease;
             cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
         }
-        
+
         .btn:hover {
             background: var(--secondary-color);
             border-color: var(--accent-color);
@@ -402,10 +612,18 @@
         }
 
         .btn-success {
-            background: var(--success-color);
-            color: var(--dark-bg);
+            font-size: 0.9rem;
+            padding: 8px 18px;
+            border-radius: 6px;
         }
 
+        .btn-success:hover {
+            background: #00b868;
+        }
+
+        /* ========================================
+           FOOTER
+           ======================================== */
         footer {
             background: var(--card-bg);
             padding: 40px 0;
@@ -414,14 +632,38 @@
             border-top: 2px solid var(--border-color);
             position: relative;
             z-index: 1;
-            backdrop-filter: blur(10px);
         }
 
         footer p {
             color: var(--text-secondary);
             font-size: 0.9rem;
+            margin: 10px 0;
         }
 
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        /* ========================================
+           SCROLLBAR
+           ======================================== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 20, 25, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+
+        /* ========================================
+           ANIMACIONES
+           ======================================== */
         .fade-in {
             animation: fadeIn 0.6s ease-out;
         }
@@ -437,76 +679,183 @@
             }
         }
 
-        .progress-bar {
-            background: var(--success-color);
-            height: 2px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(15, 20, 25, 0.5);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary-color);
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--secondary-color);
-        }
-
         @media (max-width: 768px) {
-            .header-professional {
-                padding: 30px 15px;
-            }
-            .page-title {
-                font-size: 1.4rem;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            .nav-tabs ul {
-                flex-direction: column;
-                align-items: center;
-            }
-            section {
-                padding: 40px 0;
+            .container {
+                padding: 0 15px;
             }
         }
-    </style>
+
+            /* ========================================
+           AJUSTE FINO DE ESPACIADO EN CAJAS (COMPACTO)
+           ======================================== */
+        
+        /* Títulos dentro de cajas */
+        .card h3,
+        .card h4,
+        .highlight-item h4 {
+            margin-bottom: 8px; /* antes 10–15px */
+        }
+        
+        /* Texto */
+        .card p,
+        .highlight-item p,
+        .alert p {
+            margin-bottom: 8px;
+            line-height: 1.55; /* ligeramente más compacto */
+        }
+        
+        /* Último párrafo sin espacio extra */
+        .card p:last-child,
+        .highlight-item p:last-child,
+        .alert p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Listas dentro de cards */
+        .card ul {
+            margin-top: 6px;
+            margin-bottom: 0;
+        }
+        
+        .card li {
+            margin-bottom: 4px;
+        }
+                    /* ===========================
+                       COMPACTACIÓN CONSISTENTE
+                       =========================== */
+                    
+                    /* Menos padding */
+                    .card, .highlight-item, .alert{
+                      padding: 14px 16px !important;
+                      line-height: 1.5;
+                    }
+                    
+                    /* Títulos dentro de cajas */
+                    .card h3, .card h4,
+                    .highlight-item h4{
+                      margin: 0 0 8px !important;
+                    }
+                    
+                    /* Párrafos dentro de cajas */
+                    .card p, .highlight-item p, .alert p{
+                      margin: 0 0 8px !important;
+                    }
+                    
+                    /* Último hijo sin margen extra */
+                    .card > *:last-child,
+                    .highlight-item > *:last-child,
+                    .alert > *:last-child{
+                      margin-bottom: 0 !important;
+                    }
+                    
+                    /* Listas */
+                    .card ul, .highlight-item ul, .alert ul{
+                      margin: 6px 0 0 !important;
+                      padding-left: 18px !important;
+                    }
+                    .card li, .highlight-item li, .alert li{
+                      margin: 0 0 4px 0 !important;
+                    }
+                    .card li:last-child,
+                    .highlight-item li:last-child,
+                    .alert li:last-child{
+                      margin-bottom: 0 !important;
+                    }
+
+        /* Mata inline margins dentro de cards para que el layout sea consistente */
+            .card p[style],
+            .card ul[style]{
+              margin-top: 6px !important;
+              margin-bottom: 8px !important;
+            }
+            
+            /* Ajusta indent sin margin-left inline */
+            .card ul[style]{
+              margin-left: 0 !important;
+              padding-left: 18px !important;
+            }
+
+        /* Evita que los anchors queden tapados por la nav sticky */
+        section { scroll-margin-top: 90px; }
+        
+@media (max-width: 768px){
+  section { scroll-margin-top: 120px; }
+}
+        
+        /* Utilidades sencillas para evitar inline */
+        .mt-15 { margin-top: 15px; }
+        .mt-20 { margin-top: 20px; }
+        .mt-30 { margin-top: 30px; }
+        .text-center { text-align: center; }
+        
+        /* Clase usada en Riesgos */
+        .warning { color: var(--warning-color); }
+        
+        /* Lista compacta usada en Conclusión */
+        .compact-list { margin: 6px 0 0; padding-left: 18px; }
+        .compact-list li { margin: 0 0 4px 0; }
+        .compact-list li:last-child { margin-bottom: 0; }
+        
+        /* Alturas de charts sin inline */
+        .chart-350 { height: 350px; }
+/* ========================================
+   AJUSTES ESPECÍFICOS DE ESTA TESIS
+   ======================================== */
+.card--success{
+  background: linear-gradient(135deg, var(--card-bg) 0%, rgba(144, 238, 144, 0.10) 100%);
+  border: 2px solid var(--success-color);
+}
+.card--success h3{ color: var(--success-color); }
+.card--success p{ font-size: 1.05rem; line-height: 1.75; }
+
+.strong-success{ color: var(--success-color); font-size: 1.15rem; }
+.divider-top{ border-top: 1px solid var(--border-color); padding-top: 20px; }
+
+</style>
 </head>
 <body>
-    <div class="progress-bar" id="progressBar"></div>
+   <div id="top"></div>
+
+<div class="progress-bar" id="progressBar"></div>
 
     <div class="logo-navbar">
-        <svg class="logo-navbar-img" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
-            <rect x="10" y="10" width="15" height="40" fill="#041427" rx="2"/>
-            <rect x="28" y="10" width="15" height="40" fill="#00E0D1" rx="2"/>
-            <text x="50" y="33" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#FFFFFF">SPREAD</text>
-            <text x="50" y="48" font-family="Arial, sans-serif" font-size="14" font-weight="600" fill="#00E0D1">HUNTERS</text>
-        </svg>
+        <img src="../images/logo_sh.svg" alt="SpreadHunters" class="logo-navbar-img">
     </div>
 
     <header class="header-professional">
         <div class="container">
             <div class="header-title-section">
-                <h1 class="page-title">Humm Group (ASX: HUM)</h1>
-                <p class="page-subtitle">Análisis de Inversión: El Turnaround Completado & EGM del 19 Febrero 2026</p>
+                <div class="company-title-row">
+                    <img src="../images/humm.png" alt="Humm Group Logo" class="logo-company logo-company--on-dark">
+                    <h1 class="page-title">Humm Group (HUM)</h1>
+                </div>
+                <p class="page-subtitle">Análisis Event-Driven: Turnaround Operativo + Catalizador EGM 19 Febrero</p>
             </div>
             
-            <div class="ticker-info">
-                <span><strong>Ticker:</strong> ASX: HUM</span>
-                <span><strong>Precio Actual:</strong> A$0.745 (Marzo 2025)</span>
-                <span><strong>Valor Objetivo 12M:</strong> A$1.00-1.15</span>
-                <span><strong>Upside Esperado:</strong> +35-55%</span>
+            <div class="investment-metrics">
+                <div class="metric-card">
+                    <div class="metric-label">PRECIO ACTUAL</div>
+                    <div class="metric-value cyan" id="priceCurrent">A$0.745</div>
+                    <div class="metric-subtitle">ASX: HUM</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">FAIR VALUE (BASE)</div>
+                    <div class="metric-value cyan" id="fairValue">A$1.15</div>
+                    <div class="metric-subtitle">Sum-of-Parts</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">UPSIDE POTENCIAL</div>
+                    <div class="metric-value green" id="upsidePct">—</div>
+                    <div class="metric-subtitle">6M / 31% Anualizado</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">RECOMENDACIÓN</div>
+                    <div class="metric-value green">COMPRA FUERTE</div>
+                    <div class="metric-subtitle">18 Meses Horizonte</div>
+                </div>
             </div>
         </div>
     </header>
@@ -516,10 +865,11 @@
             <ul>
                 <li><a href="#resumen" class="active">Resumen Ejecutivo</a></li>
                 <li><a href="#turnaround">Turnaround Operativo</a></li>
-                <li><a href="#valorizacion">Valoración</a></li>
-                <li><a href="#segmentos">Segmentos</a></li>
-                <li><a href="#escenarios">Escenarios</a></li>
+                <li><a href="#segmentos">Análisis Segmentos</a></li>
+                <li><a href="#valoracion">Valoración</a></li>
+                <li><a href="#escenarios">Matriz Escenarios</a></li>
                 <li><a href="#riesgos">Riesgos</a></li>
+                <li><a href="#conclusion">Conclusión</a></li>
             </ul>
         </div>
     </nav>
@@ -530,12 +880,12 @@
             <h2>📊 Resumen Ejecutivo</h2>
             
             <div class="alert alert-success">
-                <strong>🎯 Tesis de Inversión:</strong> Humm Group ha completado un turnaround operativo excepcional: de pérdidas de A$170.3M en FY22 a A$52.9M en cash profit en FY25. El mercado sigue descontando un descuento de gobernanza del 40-43%, ignorando que el negocio operativo está saneado y generando cash. El EGM del 19 febrero es un catalizador binario con asimetría favorable. <strong>Retorno esperado ponderado: +15.5% en 6 meses (31% anualizado).</strong>
+                <strong>🎯 Tesis de Inversión:</strong> Humm Group ha completado un turnaround operativo excepcional: de pérdidas de A$170.3M en FY22 a A$52.9M en cash profit en FY25. El mercado sigue descontando un descuento de gobernanza del 40-43%, ignorando que el negocio operativo está saneado y generando cash. El EGM del 19 febrero es un catalizador binario con asimetría favorable. Retorno esperado ponderado: <strong>+15.5% en 6 meses (31% anualizado).</strong>
             </div>
 
             <div class="highlights">
                 <div class="highlight-item">
-                    <h4>🏦 Transformación Operativa</h4>
+                    <h4>🏦 Transformación Operativa Confirmada</h4>
                     <p>De A$170.3M en pérdidas (FY22) a A$52.9M cash profit (FY25). NPAT statutory A$39.6M. Revenue A$653.6M (+5.8% YoY).</p>
                 </div>
                 <div class="highlight-item">
@@ -552,13 +902,8 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="label">Cash Profit</div>
-                    <div class="value">A$52.9M</div>
+                    <div class="value positive">A$52.9M</div>
                     <div class="change positive">+56% vs FY24</div>
-                </div>
-                <div class="stat-card">
-                    <div class="label">P/E ex-Cash</div>
-                    <div class="value">5.98x</div>
-                    <div class="change negative">-40% a -43% vs pares</div>
                 </div>
                 <div class="stat-card">
                     <div class="label">AUM</div>
@@ -566,9 +911,14 @@
                     <div class="change positive">+10% YoY</div>
                 </div>
                 <div class="stat-card">
-                    <div class="label">Expected Return</div>
-                    <div class="value">+15.5%</div>
-                    <div class="change positive">6 meses ponderado</div>
+                    <div class="label">Net Interest Margin</div>
+                    <div class="value">5.4%</div>
+                    <div class="change positive">vs 5.0% FY23</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Loss/ANR</div>
+                    <div class="value">1.7%</div>
+                    <div class="change positive">Bajo vs Sector</div>
                 </div>
             </div>
         </section>
@@ -577,7 +927,7 @@
             <h2>📈 Turnaround Operativo: Del Caos a la Estabilidad</h2>
             
             <div class="card">
-                <h3>Progresión FY22-FY25</h3>
+                <h3>Progresión FY22-FY25: Evidencia de Recuperación</h3>
                 <div class="table-responsive">
                     <table>
                         <thead>
@@ -605,7 +955,7 @@
                                 <td>A$26.6M</td>
                                 <td>A$4.8B</td>
                                 <td>5.0%</td>
-                                <td>N/A</td>
+                                <td>—</td>
                             </tr>
                             <tr>
                                 <td><strong>FY24</strong></td>
@@ -613,15 +963,15 @@
                                 <td>A$33.8M</td>
                                 <td>A$5.0B</td>
                                 <td>5.2%</td>
-                                <td>4.2%</td>
+                                <td>+4.2%</td>
                             </tr>
-                            <tr style="background: rgba(74, 155, 111, 0.1);">
+                            <tr style="background: rgba(144, 238, 144, 0.1);">
                                 <td><strong>FY25</strong></td>
-                                <td><strong>A$39.6M</strong></td>
-                                <td><strong class="positive">A$52.9M</strong></td>
-                                <td><strong>A$5.5B</strong></td>
-                                <td><strong>5.4%</strong></td>
-                                <td><strong class="positive">+10.0%</strong></td>
+                                <td class="positive">A$39.6M</td>
+                                <td class="positive">A$52.9M</td>
+                                <td class="positive">A$5.5B</td>
+                                <td class="positive">5.4%</td>
+                                <td class="positive">+10.0%</td>
                             </tr>
                         </tbody>
                     </table>
@@ -629,11 +979,74 @@
             </div>
 
             <div class="alert alert-info">
-                <strong>🎯 Narrativa Crítica:</strong> El turnaround no es un "hope case". Es CONFIRMADO: En 3 años, la empresa pasó de pérdidas catastróficas a cash profit de A$52.9M. AUM crece consistentemente (+10% en FY25), NIM expande (5.0% → 5.4%), Cost/income mejora (64% → 52.4%). La empresa ya es operativamente rentable sin necesidad de catalizadores.
+                <strong>📌 Narrativa Crítica:</strong> El turnaround NO es un "hope case". Es CONFIRMADO: En 3 años, la empresa pasó de pérdidas catastróficas (A$170.3M) a cash profit de A$52.9M. AUM crece consistentemente (+10% en FY25), NIM expande (5.0% → 5.4%), Cost/income mejora (64% → 52.4%). La empresa ya es operativamente rentable sin necesidad de catalizadores.
             </div>
         </section>
 
-        <section id="valorizacion" class="fade-in">
+        <section id="segmentos" class="fade-in">
+            <h2>🎯 Análisis de Segmentos (FY25) - DATOS OFICIALES</h2>
+            
+            <div class="card">
+                <h3>Estructura de Tres Segmentos: 2 Rentables + 1 Overhead</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Segmento</th>
+                                <th>Cash Profit</th>
+                                <th>% Total</th>
+                                <th>AUM</th>
+                                <th>Loss/ANR</th>
+                                <th>YoY Growth</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Commercial</strong></td>
+                                <td class="positive">A$45.3M</td>
+                                <td>85.6%</td>
+                                <td>A$3.3B</td>
+                                <td class="positive">1.0%</td>
+                                <td class="positive">+12%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Consumer</strong></td>
+                                <td class="positive">A$24.8M</td>
+                                <td>46.9%</td>
+                                <td>A$2.15B</td>
+                                <td>1.8%</td>
+                                <td class="positive">+39%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Corporate</strong></td>
+                                <td class="negative">−A$17.2M</td>
+                                <td class="negative">−32.5%</td>
+                                <td>—</td>
+                                <td>—</td>
+                                <td>—</td>
+                            </tr>
+                            <tr style="background: rgba(0, 215, 255, 0.1);">
+                                <td><strong>TOTAL GRUPO</strong></td>
+                                <td class="positive">A$52.9M</td>
+                                <td>100%</td>
+                                <td>A$5.5B</td>
+                                <td>1.7%</td>
+                                <td class="positive">+10%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="alert alert-success">
+                <strong>✅ Estructura Correcta de Segmentos FY25:</strong><br><br>
+                <strong>Commercial (A$45.3M | 85.6%):</strong> Motor del grupo. BNPL B2B AU/NZ. Loss/ANR excelente 1.0% vs sector 1.5-2.0%.<br><br>
+                <strong>Consumer (A$24.8M | 46.9%):</strong> Crecimiento fuerte +39% YoY. BNPL retail, tarjetas, operaciones internacionales (Ireland rentable, UK equilibrio, Canada reposicionándose). Loss/ANR mejorando 2.4% → 1.8%.<br><br>
+                <strong>Corporate (−A$17.2M | −32.5%):</strong> Overhead/costes centrales, NO negocio perdedor. Incluye salarios centrales, compliance, AASB16 depreciation. CTI mejorando 58.2% → 51.7%.
+            </div>
+        </section>
+
+        <section id="valoracion" class="fade-in">
             <h2>💎 Valoración Integral</h2>
             
             <div class="card">
@@ -659,10 +1072,10 @@
                             </tr>
                             <tr>
                                 <td><strong>P/E ex-Cash</strong></td>
-                                <td><strong>5.98x</strong></td>
+                                <td class="negative">5.98x</td>
                                 <td>9.5-10.5x</td>
-                                <td class="negative"><strong>-40% a -43%</strong></td>
-                                <td><strong>ESTRUCTURAL</strong></td>
+                                <td class="negative">-40% a -43%</td>
+                                <td>ESTRUCTURAL</td>
                             </tr>
                             <tr>
                                 <td><strong>P/NTA</strong></td>
@@ -678,39 +1091,77 @@
                                 <td class="negative">-40%</td>
                                 <td>GOBERNANZA</td>
                             </tr>
-                            <tr style="background: rgba(139, 74, 74, 0.1);">
-                                <td colspan="5"><strong>Conclusión:</strong> Extremadamente barata. Descuento 100% causado por gobernanza (Abercrombie underperformance −80% vs ASX 200 +55%), NO por fundamental operativo.</td>
+                            <tr style="background: rgba(144, 238, 144, 0.1);">
+                                <td colspan="5"><strong>✅ Conclusión:</strong> Extremadamente barata. Descuento 100% causado por gobernanza (Abercrombie underperformance −80% vs ASX 200 +55%), NO por fundamentals operativos.</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <h3>2. Suma de Partes (Sum-of-Parts) - Valoración Intrínseca</h3>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="label">Efectivo Neto</div>
-                    <div class="value">A$0.13</div>
-                    <div class="change">Por acción</div>
-                </div>
-                <div class="stat-card">
-                    <div class="label">Commercial (A$45.3M x 12x)</div>
-                    <div class="value">A$1.10</div>
-                    <div class="change">BNPL B2B estable</div>
-                </div>
-                <div class="stat-card">
-                    <div class="label">Consumer (A$24.8M x 8x)</div>
-                    <div class="value">A$0.41</div>
-                    <div class="change">Crecimiento +39% YoY</div>
-                </div>
-                <div class="stat-card">
-                    <div class="label">Suma Bruta</div>
-                    <div class="value">A$1.64</div>
-                    <div class="change">Antes descuentos</div>
+            <div class="card">
+                <h3>2. Suma de Partes (Sum-of-Parts) - Valoración Intrínseca</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Segmento</th>
+                                <th>Cash Profit FY25</th>
+                                <th>Múltiplo Aplicable</th>
+                                <th>Valor</th>
+                                <th>% del Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Commercial</strong></td>
+                                <td>A$45.3M</td>
+                                <td>13x (Core BNPL)</td>
+                                <td class="positive">A$588M</td>
+                                <td>51%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Consumer</strong></td>
+                                <td>A$24.8M</td>
+                                <td>11x (Growth, Risk)</td>
+                                <td class="positive">A$273M</td>
+                                <td>24%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Corporate Savings</strong></td>
+                                <td>−A$17.2M (Overhead)</td>
+                                <td>8x (Cost Reduction)</td>
+                                <td class="positive">A$138M</td>
+                                <td>12%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cash/Deuda Neta</strong></td>
+                                <td>—</td>
+                                <td>—</td>
+                                <td class="positive">A$99M</td>
+                                <td>9%</td>
+                            </tr>
+                            <tr style="background: rgba(0, 215, 255, 0.1);">
+                                <td colspan="3"><strong>ENTERPRISE VALUE TOTAL</strong></td>
+                                <td style="font-weight: 700; font-size: 1.1rem; color: #90ee90;">A$1,098M</td>
+                                <td style="font-weight: 700;">100%</td>
+                            </tr>
+                            <tr style="background: rgba(0, 215, 255, 0.1);">
+                                <td colspan="3"><strong>ACCIONES DILUIDAS (FY25)</strong></td>
+                                <td style="font-weight: 700; font-size: 1rem;">954M</td>
+                                <td>—</td>
+                            </tr>
+                            <tr style="background: rgba(144, 238, 144, 0.1);">
+                                <td colspan="3"><strong>VALOR POR ACCIÓN (SOTP BASE CASE)</strong></td>
+                                <td style="font-weight: 700; font-size: 1.2rem; color: #90ee90;">A$1.15</td>
+                                <td style="font-weight: 700; color: #90ee90;">+54.4%</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <div class="card" style="margin-top: 20px;">
+            <div class="card">
                 <h3>3. Valoración DCF - Escenarios de Flujo Libre</h3>
                 <div class="table-responsive">
                     <table>
@@ -729,11 +1180,11 @@
                                 <td>8.5% WACC</td>
                                 <td class="positive">A$1.35</td>
                             </tr>
-                            <tr>
+                            <tr style="background: rgba(0, 215, 255, 0.1);">
                                 <td><strong>Base (AUM +8% p.a., NIM 5.2%)</strong></td>
                                 <td>A$58M</td>
                                 <td>9.0% WACC</td>
-                                <td>A$1.15</td>
+                                <td style="font-weight: 700; font-size: 1.1rem; color: #00d7ff;">A$1.15</td>
                             </tr>
                             <tr>
                                 <td><strong>Bear (AUM +4% p.a., NIM 4.9%)</strong></td>
@@ -747,82 +1198,15 @@
             </div>
         </section>
 
-        <section id="segmentos" class="fade-in">
-            <h2>🎯 Análisis de Segmentos (FY25) - DATOS OFICIALES</h2>
-            
-            <div class="card">
-                <h3>Estructura de Tres Segmentos: 2 Rentables + 1 Overhead</h3>
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Segmento</th>
-                                <th>Cash Profit</th>
-                                <th>% Total</th>
-                                <th>AUM</th>
-                                <th>Crédito (Loss/ANR)</th>
-                                <th>YoY Growth</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Commercial</strong></td>
-                                <td><strong class="positive">A$45.3M</strong></td>
-                                <td><strong>85.6%</strong></td>
-                                <td>A$3.3B</td>
-                                <td>1.0%</td>
-                                <td class="positive">+12%</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Consumer</strong></td>
-                                <td><strong class="positive">A$24.8M</strong></td>
-                                <td><strong>46.9%</strong></td>
-                                <td>A$2.15B</td>
-                                <td>1.8%</td>
-                                <td class="positive">+39%</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Corporate</strong></td>
-                                <td class="negative"><strong>−A$17.2M</strong></td>
-                                <td class="negative"><strong>−32.5%</strong></td>
-                                <td>---</td>
-                                <td>---</td>
-                                <td>Centro costes</td>
-                            </tr>
-                            <tr style="background: rgba(16, 185, 129, 0.1);">
-                                <td><strong>TOTAL GRUPO</strong></td>
-                                <td><strong class="positive">A$52.9M</strong></td>
-                                <td><strong>100%</strong></td>
-                                <td><strong>A$5.5B</strong></td>
-                                <td><strong>1.7%</strong></td>
-                                <td class="positive"><strong>+10%</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="alert alert-success">
-                <strong>✅ Estructura Correcta de Segmentos FY25:</strong> 
-                <ul style="margin-top: 15px; margin-left: 20px; font-size: 0.95rem; line-height: 1.8;">
-                    <li><strong>Commercial (A$45.3M | 85.6%):</strong> Motor del grupo. BNPL B2B AU/NZ. Loss/ANR excelente 1.0% vs sector 1.5-2.0%.</li>
-                    <li><strong>Consumer (A$24.8M | 46.9%):</strong> Crecimiento fuerte +39% YoY. BNPL retail, tarjetas, operaciones internacionales (Ireland rentable, UK equilibrio, Canada reposicionándose). Loss/ANR mejorando 2.4% → 1.8%.</li>
-                    <li><strong>Corporate (−A$17.2M | −32.5%):</strong> Overhead/costes centrales, NO negocio perdedor. Incluye salarios centrales, compliance, AASB16 depreciation. CTI mejorando 58.2% → 51.7%.</li>
-                </ul>
-            </div>
-        </section>
-
         <section id="escenarios" class="fade-in">
-            <h2>📊 Matriz de Escenarios (Weighted Return) - EGM 19 Febrero 2026</h2>
+            <h2>🎯 Matriz de Escenarios (Weighted Return)</h2>
             
-            <div class="alert alert-success" style="margin-bottom: 30px;">
-                <strong>📊 Lectura Clave de Probabilidades:</strong>
-                <ul style="margin-top: 15px; margin-left: 20px; font-size: 0.95rem; line-height: 1.9;">
-                    <li><strong>80% de probabilidad de resultado POSITIVO:</strong> EGM éxito en cualquiera de sus formas (capital return, takeover base, takeover premium)</li>
-                    <li><strong>15% riesgo de fracaso EGM:</strong> Status quo si Abercrombie retiene control</li>
-                    <li><strong>5% de gradual rerating:</strong> Mejora operativa sin catalizador EGM</li>
-                    <li><strong>Retorno esperado ponderado: +15.5% en 6 meses</strong> es atractivo dada la asimetría clara (downside limitado a A$0.63 = −15% desde entrada)</li>
-                </ul>
+            <div class="alert alert-success">
+                <strong>📊 Lectura Clave de Probabilidades:</strong><br>
+                <strong>80% de probabilidad de resultado POSITIVO:</strong> EGM éxito en cualquiera de sus formas (capital return, takeover base, takeover premium)<br>
+                <strong>15% riesgo de fracaso EGM:</strong> Status quo si Abercrombie retiene control<br>
+                <strong>5% de gradual rerating:</strong> Mejora operativa sin catalizador EGM<br>
+                <strong>Retorno esperado ponderado: +15.5% en 6 meses (31% anualizado)</strong> es atractivo dada la asimetría clara (downside limitado a A$0.63 = −15% desde entrada)
             </div>
 
             <div class="card">
@@ -856,14 +1240,14 @@
                             <tr>
                                 <td><strong>EGM Éxito + Takeover (Premium)</strong></td>
                                 <td>15%</td>
-                                <td class="positive">A$0.95</td>
+                                <td>A$0.95</td>
                                 <td class="positive">+25%</td>
                                 <td class="positive">+3.8%</td>
                             </tr>
                             <tr>
                                 <td><strong>Status Quo (EGM Falla)</strong></td>
                                 <td>15%</td>
-                                <td class="negative">A$0.63</td>
+                                <td>A$0.63</td>
                                 <td class="negative">-15%</td>
                                 <td class="negative">-2.3%</td>
                             </tr>
@@ -874,20 +1258,17 @@
                                 <td class="positive">+20%</td>
                                 <td class="positive">+1.0%</td>
                             </tr>
-                            <tr style="background: rgba(74, 155, 111, 0.15); font-weight: bold; font-size: 1.05rem;">
-                                <td>WEIGHTED EXPECTED RETURN (6 MESES)</td>
-                                <td><strong>100%</strong></td>
-                                <td>---</td>
-                                <td>---</td>
-                                <td class="positive"><strong>+15.5%</strong></td>
+                            <tr style="background: rgba(0, 215, 255, 0.1);">
+                                <td colspan="4"><strong>WEIGHTED EXPECTED RETURN (6 MESES)</strong></td>
+                                <td style="font-weight: 700; font-size: 1.1rem; color: #90ee90;">+15.5%</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <h3>Estructura de Votación EGM - Dinámicas Críticas</h3>
-            <div class="card" style="margin-top: 20px;">
+            <div class="card">
+                <h3>Estructura de Votación EGM - Dinámicas Críticas</h3>
                 <div class="table-responsive">
                     <table>
                         <thead>
@@ -934,26 +1315,13 @@
                 </div>
             </div>
 
-            <h3>Timeline de Catalizadores</h3>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-date">🔴 19 de Febrero 2026</div>
-                    <div><strong>EGM - Board Spill Vote</strong>. Binario: +35-55% si ganan activistas | -10-20% si pierde.</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">📅 Feb-Mar 2026</div>
-                    <div>Si ganadores: Implementación plan activistas (dividendo especial, buyback announcement).</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">📅 Abr-May 2026</div>
-                    <div>Evaluación Credit Corp o potencial takeover a A$0.85-1.00.</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">📅 Jun 2026</div>
-                    <div>FY26 interims/guidance. Confirmación de momentum operativo.</div>
-                </div>
+            <div class="alert alert-info">
+                <strong>🎯 Interpretación del Escenario Ponderado:</strong><br>
+                • El retorno esperado de +15.5% en 6 meses es conservador y <strong>NO incluye beneficios operativos adicionales</strong><br>
+                • Asimetría clara: Downside máximo −15% (A$0.63) vs Upside múltiple (+30% capital return scenario)<br>
+                • 80% de outcomes positivos vs 15% downside = 5.3:1 risk/reward favorable<br><br>
+                <strong>Recomendaciones:</strong> Entrada A$0.70-0.75 | Stop loss A$0.60 | Target 6M A$0.86+ | Target 12M A$1.00-1.15
             </div>
-
         </section>
 
         <section id="riesgos" class="fade-in">
@@ -984,28 +1352,28 @@
                                 <td><strong>Regulación BNPL</strong></td>
                                 <td>ALTA (ya en efecto)</td>
                                 <td>Bajo-Medio</td>
-                                <td class="negative">🟡 BAJO</td>
+                                <td class="warning">🟡 BAJO</td>
                                 <td>Humm ya cumple estándares; otras compañías más afectadas</td>
                             </tr>
                             <tr>
                                 <td><strong>Deterioro Crédito</strong></td>
                                 <td>Media</td>
                                 <td>Medio</td>
-                                <td class="negative">🟡 MEDIO</td>
+                                <td class="warning">🟡 MEDIO</td>
                                 <td>Disciplina probada (1.7% vs sector 2.0-2.5%). Buffers suficientes.</td>
                             </tr>
                             <tr>
                                 <td><strong>Canada Losses</strong></td>
                                 <td>Media-Alta</td>
                                 <td>Bajo</td>
-                                <td class="negative">🟢 BAJO</td>
+                                <td class="positive">🟢 BAJO</td>
                                 <td>Operación menor (~5% ingresos). Post-EGM tiene opciones.</td>
                             </tr>
                             <tr>
                                 <td><strong>No Takeover</strong></td>
                                 <td>Media</td>
                                 <td>Bajo</td>
-                                <td class="negative">🟢 BAJO</td>
+                                <td class="positive">🟢 BAJO</td>
                                 <td>Capital returns desde balance suficientes. Stand-alone también atractivo.</td>
                             </tr>
                         </tbody>
@@ -1013,99 +1381,183 @@
                 </div>
             </div>
 
-            <div class="alert alert-info">
-                <strong>🛡️ Protección al Downside en Contexto:</strong> 
-                <ul style="margin-top: 10px; margin-left: 20px; line-height: 1.8;">
-                    <li>Downside máximo en worst-case (EGM falla + deterioro operativo): A$0.63 = −15%</li>
-                    <li>Upside ponderado +15.5% en 6 meses crea asimetría 5.3:1</li>
-                    <li>Valor intrínseco DCF base case: A$1.15 actúa como floor para precios normales</li>
-                    <li>80% de outcomes positivos vs 15% riesgo real = márgenes de seguridad claros</li>
-                </ul>
+            <div class="alert alert-warning">
+                <strong>🛡️ Protección al Downside en Contexto:</strong><br>
+                • Downside máximo en worst-case (EGM falla + deterioro operativo): A$0.63 = −15%<br>
+                • Upside ponderado +15.5% en 6 meses crea asimetría 5.3:1<br>
+                • Valor intrínseco DCF base case: A$1.15 actúa como floor para precios normales<br>
+                • 80% de outcomes positivos vs 15% riesgo real = márgenes de seguridad claros
             </div>
         </section>
 
         <section id="conclusion" class="fade-in">
             <h2>📌 Conclusión de Inversión</h2>
             
-            <div class="card" style="background: linear-gradient(135deg, var(--card-bg) 0%, rgba(74, 155, 111, 0.1) 100%); border: 2px solid var(--success-color);">
-                <p style="font-size: 1.1rem; line-height: 1.8; margin-top: 20px;">
-    Humm Group presenta una <strong>oportunidad asimétrica event-driven</strong> con resolución binaria en el corto plazo (EGM 19 febrero 2026). Cada inversor debe valorar si este perfil de riesgo/recompensa encaja con sus objetivos y tolerancia al riesgo.
-</p>
-                <p style="font-size: 1.1rem; line-height: 1.8; margin-top: 20px;">
+            <div class="card card--success">
+                <h3>Recomendación: COMPRA FUERTE 🎯</h3>
+                <p>
                     Humm Group presenta una <strong>oportunidad asimétrica event-driven</strong> con 40 días hasta resolución binaria (EGM 19 febrero 2026). El mercado descuenta un "descuento de gobernanza" del 40-43%, ignorando que el turnaround operativo está CONFIRMADO, el balance está mejorando, y la generación de cash se acelera.
                 </p>
-                <p style="font-size: 1.1rem; line-height: 1.8; margin-top: 20px;">
-                    <strong>Nuestro análisis valida:</strong> Base case A$1.15 por acción (sum-of-parts conservador). Potencial de A$1.55+ si activistas ganan EGM. Retorno esperado ponderado +15.5% en 6 meses (31% anualizado) es conservador.
+                <p>
+                    Nuestro análisis valida: <strong class="strong-success">Base case A$1.15 por acción</strong> (sum-of-parts conservador). Potencial de A$1.55+ si activistas ganan EGM. <strong>Retorno esperado ponderado +15.5% en 6 meses</strong> (31% anualizado) es conservador.
                 </p>
-                <p style="font-size: 1.1rem; line-height: 1.8; margin-top: 20px;">
-                    <strong>Riesgo/Recompensa: 3:1 (favorable)</strong> | <strong>Convicción: Alta</strong> | <strong>Horizonte: 6-18 meses</strong>
-                </p>
+                <div class="mt-30 divider-top">
+                    <p>
+                        <strong>Riesgo/Recompensa:</strong> 3:1 (favorable) | <strong>Convicción:</strong> Alta | <strong>Horizonte:</strong> 6-18 meses
+                    </p>
+                </div>
             </div>
 
-            <div style="text-align: center; margin-top: 40px;">
-                <a href="#resumen" class="btn btn-success">⬆ Volver al Inicio</a>
+            <div class="text-center mt-30">
+                <a href="#top" class="btn btn-success">⬆ Volver al inicio</a>
             </div>
         </section>
 
     </main>
 
-    <footer>
-        <div class="container">
-            <p><strong>Disclaimer:</strong> Este análisis se proporciona únicamente con propósitos informativos y educativos. No constituye asesoramiento financiero ni recomendación personalizada de inversión. Consulte con un asesor financiero profesional antes de tomar decisiones de inversión.</p>
-            <p style="margin-top: 20px; font-size: 0.85rem;">
-                📅 Análisis Actualizado: Enero 2026 | 📊 Fuentes: Humm Group Analysis FY25 (Documento Oficial), ASX Filings, Presentaciones Corporativas
-            </p>
-            <p style="margin-top: 15px;">
-                🔗 <a href="https://spreadhuntersinvest.github.io/SpreadHunters.researchs/" style="color: var(--primary-color); text-decoration: none;">SpreadHunters Investment Research</a> | 📋 <a href="https://substack.com/@spreadhunters" style="color: var(--primary-color); text-decoration: none;"> | 𝕏 <a href="https://x.com/Spread_Hunters" style="color: var(--primary-color); text-decoration: none;">Twitter/X</a>
-            </p>
-        </div>
-    </footer>
+    <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p><strong>Disclaimer:</strong> Este análisis se proporciona únicamente con propósitos informativos y educativos. No constituye asesoramiento financiero ni recomendación personalizada de inversión. Consulte con un asesor financiero profesional antes de tomar decisiones de inversión.</p>
+      <p class="mt-20" style="font-size: 0.85rem;">
+        📅 Análisis Actualizado: 14 de enero de 2026 | 📊 Fuentes: ASX Filings, Reportes FY25, Presentaciones de la Compañía
+      </p>
+      <p class="mt-15">
+        🔗 <a href="https://spreadhunters.es" target="_blank" rel="noopener noreferrer">SpreadHunters Investment Research</a>
+        | 📝 <a href="https://substack.com/@spreadhunters" target="_blank" rel="noopener noreferrer">Substack</a>
+        | 𝕏 <a href="https://x.com/Spread_Hunters" target="_blank" rel="noopener noreferrer">Twitter/X</a>
+      </p>
+    </div>
+  </footer>
 
     <script>
-        window.addEventListener('scroll', function() {
-            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            var scrolled = (winScroll / height) * 100;
-            document.getElementById("progressBar").style.width = scrolled + "%";
-        });
+  // Scroll Progress Bar
+  window.addEventListener('scroll', function () {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+    const bar = document.getElementById("progressBar");
+    if (bar) bar.style.width = scrolled + "%";
+  });
 
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-                
-                document.querySelectorAll('.nav-tabs a').forEach(link => {
-                    link.classList.remove('active');
-                });
-                this.classList.add('active');
-            });
-        });
+  // Smooth Scroll (y "active" solo desde menú)
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (!href || href === '#') return;
 
-        window.addEventListener('scroll', function() {
-            let current = '';
-            const sections = document.querySelectorAll('section');
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (pageYOffset >= (sectionTop - 200)) {
-                    current = section.getAttribute('id');
-                }
-            });
+      const target = document.querySelector(href);
+      if (!target) return;
 
-            document.querySelectorAll('.nav-tabs a').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').slice(1) === current) {
-                    link.classList.add('active');
-                }
-            });
-        });
-    </script>
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      if (this.closest('.nav-tabs')) {
+        document.querySelectorAll('.nav-tabs a').forEach(link => link.classList.remove('active'));
+        this.classList.add('active');
+      }
+    });
+  });
+
+  // Fade-in animations
+  const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+  const observer = new IntersectionObserver(function (entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.fade-in').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+    observer.observe(el);
+  });
+
+  // Active nav on scroll
+  window.addEventListener('scroll', function () {
+    let current = '';
+    document.querySelectorAll('section').forEach(section => {
+      const sectionTop = section.offsetTop;
+      if (window.pageYOffset >= (sectionTop - 200)) current = section.getAttribute('id');
+    });
+
+    document.querySelectorAll('.nav-tabs a').forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href')?.slice(1) === current) link.classList.add('active');
+    });
+  });
+
+  // ---------- Upside automático ----------
+  function normalizeNumberString(s) {
+    // Mantiene dígitos, separadores y signo. Ej: "A$1,234.56" o "1.234,56"
+    const raw = String(s).replace(/[^\d.,-]/g, '').trim();
+    if (!raw) return '';
+
+    const lastDot = raw.lastIndexOf('.');
+    const lastComma = raw.lastIndexOf(',');
+
+    // Si hay ambos, el separador decimal es el más a la derecha.
+    if (lastDot !== -1 && lastComma !== -1) {
+      const decimalSep = lastDot > lastComma ? '.' : ',';
+      const thousandsSep = decimalSep === '.' ? ',' : '.';
+      const noThousands = raw.split(thousandsSep).join('');
+      return decimalSep === ',' ? noThousands.replace(',', '.') : noThousands;
+    }
+
+    // Si solo hay coma, úsala como decimal (convención ES)
+    if (lastComma !== -1 && lastDot === -1) return raw.replace(',', '.');
+
+    return raw;
+  }
+
+  function parseMoney(text) {
+    const cleaned = normalizeNumberString(text);
+    const value = Number(cleaned);
+    return Number.isFinite(value) ? value : NaN;
+  }
+
+  function formatPct(value) {
+    const sign = value >= 0 ? '+' : '';
+    return `${sign}${value.toFixed(1)}%`;
+  }
+
+  function updateUpside() {
+    const elPrice = document.getElementById('priceCurrent');
+    const elFair = document.getElementById('fairValue');
+    const elUps = document.getElementById('upsidePct');
+    if (!elPrice || !elFair || !elUps) return;
+
+    const price = parseMoney(elPrice.textContent);
+    const fair = parseMoney(elFair.textContent);
+
+    if (!Number.isFinite(price) || !Number.isFinite(fair) || price <= 0) {
+      elUps.textContent = '—';
+      elUps.classList.remove('green', 'red');
+      return;
+    }
+
+    const upside = ((fair / price) - 1) * 100;
+    elUps.textContent = formatPct(upside);
+    elUps.classList.toggle('green', upside >= 0);
+    elUps.classList.toggle('red', upside < 0);
+  }
+
+  // Recalcula al cargar
+  updateUpside();
+
+  // Recalcula si se cambia el texto manualmente en runtime (DevTools, scripts, etc.)
+  const priceNode = document.getElementById('priceCurrent');
+  const fairNode = document.getElementById('fairValue');
+  if (priceNode) new MutationObserver(updateUpside).observe(priceNode, { childList: true, subtree: true, characterData: true });
+  if (fairNode) new MutationObserver(updateUpside).observe(fairNode, { childList: true, subtree: true, characterData: true });
+
+  // (Opcional) si algún día haces el campo editable:
+  // priceNode?.addEventListener('input', updateUpside);
+  // fairNode?.addEventListener('input', updateUpside);
+</script>
 </body>
 </html>
