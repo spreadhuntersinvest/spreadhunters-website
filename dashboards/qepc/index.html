@@ -1152,305 +1152,256 @@
     </footer>
 
     <script>
-        // Scroll Progress Bar
-        window.addEventListener('scroll', function() {
-            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            var scrolled = (winScroll / height) * 100;
-            document.getElementById("progressBar").style.width = scrolled + "%";
-        });
+  // Scroll Progress Bar
+  window.addEventListener('scroll', function () {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+    const bar = document.getElementById("progressBar");
+    if (bar) bar.style.width = scrolled + "%";
+  });
 
-        // Smooth Scroll
-                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                  anchor.addEventListener('click', function (e) {
-                    const href = this.getAttribute('href');
-                    if (!href || href === '#') return;
-                
-                    e.preventDefault();
-                
-                    const target = document.querySelector(href);
-                    if (target) {
-                      target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                      });
-                    }
-                
-                    // Solo marcar active si el click viene del menú
-                    if (this.closest('.nav-tabs')) {
-                      document.querySelectorAll('.nav-tabs a').forEach(link => link.classList.remove('active'));
-                      this.classList.add('active');
-                    }
-                  });
-                });
+  // Smooth Scroll (y "active" solo desde menú)
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (!href || href === '#') return;
 
-        // Fade-in animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+      const target = document.querySelector(href);
+      if (!target) return;
 
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-        document.querySelectorAll('.fade-in').forEach(element => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(20px)';
-            element.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-            observer.observe(element);
-        });
+      if (this.closest('.nav-tabs')) {
+        document.querySelectorAll('.nav-tabs a').forEach(link => link.classList.remove('active'));
+        this.classList.add('active');
+      }
+    });
+  });
 
-        // Active nav on scroll
-        window.addEventListener('scroll', function() {
-            let current = '';
-            const sections = document.querySelectorAll('section');
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (pageYOffset >= (sectionTop - 200)) {
-                    current = section.getAttribute('id');
-                }
-            });
-            document.querySelectorAll('.nav-tabs a').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').slice(1) === current) {
-                    link.classList.add('active');
-                }
-            });
-        });
+  // Fade-in animations
+  const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+  const observer = new IntersectionObserver(function (entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, observerOptions);
 
-        // ========================================
-        // CHART.JS CONFIGURATION
-        // ========================================
-        Chart.defaults.color = '#b0c4de';
-        Chart.defaults.borderColor = '#2d3d4d';
+  document.querySelectorAll('.fade-in').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+    observer.observe(el);
+  });
 
-        // 1. Margin Transformation
-        const ctxMargin = document.getElementById('marginTransformation').getContext('2d');
-        new Chart(ctxMargin, {
-            type: 'bar',
-            data: {
-                labels: ['FY 2022', 'FY 2024', 'FY 2025'],
-                datasets: [
-                    {
-                        label: 'Margen Bruto %',
-                        data: [30.0, 32.5, 35.5],
-                        backgroundColor: 'rgba(0, 215, 255, 0.7)',
-                        borderColor: '#00d7ff',
-                        borderWidth: 2
-                    },
-                    {
-                        label: 'EBITDA Margin %',
-                        data: [6.6, 6.3, 8.6],
-                        backgroundColor: 'rgba(144, 238, 144, 0.7)',
-                        borderColor: '#90ee90',
-                        borderWidth: 2
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { labels: { color: '#b0c4de', font: { size: 12 } } },
-                    title: {
-                        display: true,
-                        text: 'Transformación de Márgenes',
-                        color: '#ffffff',
-                        font: { size: 14, weight: 'bold' }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 40,
-                        grid: { color: '#2d3d4d', drawBorder: false },
-                        ticks: { color: '#b0c4de', callback: function(v) { return v + '%'; } }
-                    },
-                    x: { grid: { display: false }, ticks: { color: '#b0c4de' } }
-                }
-            }
-        });
+  // Active nav on scroll
+  window.addEventListener('scroll', function () {
+    let current = '';
+    document.querySelectorAll('section').forEach(section => {
+      const sectionTop = section.offsetTop;
+      if (window.pageYOffset >= (sectionTop - 200)) current = section.getAttribute('id');
+    });
 
-        // 2. EBITDA Growth
-        const ctxEbitda = document.getElementById('ebitdaGrowth').getContext('2d');
-        new Chart(ctxEbitda, {
-            type: 'line',
-            data: {
-                labels: ['FY 2022', 'FY 2024', 'FY 2025'],
-                datasets: [{
-                    label: 'EBITDA ($M)',
-                    data: [29.4, 15.9, 21.0],
-                    borderColor: '#00d7ff',
-                    backgroundColor: 'rgba(0, 215, 255, 0.1)',
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4,
-                    pointBackgroundColor: '#00d7ff',
-                    pointBorderColor: '#ffffff',
-                    pointBorderWidth: 2,
-                    pointRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { labels: { color: '#b0c4de' } },
-                    title: {
-                        display: true,
-                        text: 'EBITDA Absoluto: Recuperación Post-Desinversión',
-                        color: '#ffffff',
-                        font: { size: 14, weight: 'bold' }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: { color: '#2d3d4d' },
-                        ticks: { color: '#b0c4de', callback: function(v) { return '$' + v + 'M'; } }
-                    },
-                    x: { grid: { display: false }, ticks: { color: '#b0c4de' } }
-                }
-            }
-        });
+    document.querySelectorAll('.nav-tabs a').forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href')?.slice(1) === current) link.classList.add('active');
+    });
+  });
 
-        // 3. Multiple Comparison
-        const ctxMultiple = document.getElementById('multipleComparison').getContext('2d');
-        new Chart(ctxMultiple, {
-            type: 'bar',
-            data: {
-                labels: ['QEPC\n(Actual)', 'M&A\nPromedio', 'Comparable\nBajo', 'Comparable\nMedio'],
-                datasets: [{
-                    label: 'EV/EBITDA',
-                    data: [4.5, 10.1, 8.0, 9.5],
-                    backgroundColor: [
-                        'rgba(255, 107, 107, 0.7)',
-                        'rgba(144, 238, 144, 0.7)',
-                        'rgba(255, 165, 0, 0.7)',
-                        'rgba(0, 215, 255, 0.7)'
-                    ],
-                    borderColor: [
-                        '#ff6b6b',
-                        '#90ee90',
-                        '#ffa500',
-                        '#00d7ff'
-                    ],
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    title: {
-                        display: true,
-                        text: 'Arbitraje de Múltiplos: 55% Descuento vs M&A Comps',
-                        color: '#ffffff',
-                        font: { size: 14, weight: 'bold' }
-                    }
-                },
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        max: 12,
-                        grid: { color: '#2d3d4d' },
-                        ticks: { color: '#b0c4de' }
-                    },
-                    y: { grid: { display: false }, ticks: { color: '#b0c4de' } }
-                }
-            }
-        });
+  // ---------- Upside automático ----------
+  function parseMoney(text) {
+    const cleaned = String(text).replace(/[^\d.,-]/g, '').replace(',', '.');
+    const value = Number(cleaned);
+    return Number.isFinite(value) ? value : NaN;
+  }
 
-        // 4. Price Sensitivity
-        const ctxSensitivity = document.getElementById('priceSensitivity').getContext('2d');
-        new Chart(ctxSensitivity, {
-            type: 'line',
-            data: {
-                labels: ['5.0x\n(Bear)', '5.5x', '6.0x\n(Base)', '6.5x', '7.0x\n(Cons)', '7.5x', '8.5x\n(M&A)'],
-                datasets: [{
-                    label: 'Price Target ($)',
-                    data: [38.7, 42.4, 46.15, 50.0, 53.8, 58.0, 63.5],
-                    borderColor: '#00d7ff',
-                    backgroundColor: 'rgba(0, 215, 255, 0.1)',
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4,
-                    pointBackgroundColor: '#00d7ff',
-                    pointBorderColor: '#ffffff',
-                    pointBorderWidth: 2,
-                    pointRadius: 5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { labels: { color: '#b0c4de' } },
-                    title: {
-                        display: true,
-                        text: 'Sensibilidad de Precio Objetivo a EV/EBITDA',
-                        color: '#ffffff',
-                        font: { size: 14, weight: 'bold' }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 70,
-                        grid: { color: '#2d3d4d' },
-                        ticks: { color: '#b0c4de', callback: function(v) { return '$' + v; } }
-                    },
-                    x: { grid: { display: false }, ticks: { color: '#b0c4de' } }
-                }
-            }
-        });
-                function parseMoney(text) {
-            // "$32.00" -> 32.00   |   "32" -> 32
-            const cleaned = String(text).replace(/[^\d.,-]/g, '').replace(',', '.');
-            const value = Number(cleaned);
-            return Number.isFinite(value) ? value : NaN;
+  function formatPct(value) {
+    const sign = value >= 0 ? '+' : '';
+    return `${sign}${value.toFixed(1)}%`;
+  }
+
+  function updateUpside() {
+    const elPrice = document.getElementById('priceCurrent');
+    const elFair = document.getElementById('fairValue');
+    const elUps = document.getElementById('upsidePct');
+    if (!elPrice || !elFair || !elUps) return;
+
+    const price = parseMoney(elPrice.textContent);
+    const fair = parseMoney(elFair.textContent);
+
+    if (!Number.isFinite(price) || !Number.isFinite(fair) || price <= 0) {
+      elUps.textContent = '—';
+      elUps.classList.remove('green', 'red');
+      return;
+    }
+
+    const upside = ((fair / price) - 1) * 100;
+    elUps.textContent = formatPct(upside);
+    elUps.classList.toggle('green', upside >= 0);
+    elUps.classList.toggle('red', upside < 0);
+  }
+
+  // Si algún día cambias el precio via DOM, esto lo recalcula automáticamente
+  const priceNode = document.getElementById('priceCurrent');
+  const fairNode = document.getElementById('fairValue');
+  if (priceNode) new MutationObserver(updateUpside).observe(priceNode, { childList: true, subtree: true, characterData: true });
+  if (fairNode) new MutationObserver(updateUpside).observe(fairNode, { childList: true, subtree: true, characterData: true });
+
+  // ---------- Charts (robustos) ----------
+  function getCtx(id) {
+    const el = document.getElementById(id);
+    if (!el) return null;
+    const ctx = el.getContext && el.getContext('2d');
+    return ctx || null;
+  }
+
+  function initCharts() {
+    if (typeof Chart === 'undefined') {
+      console.warn('Chart.js no está cargado (Chart undefined).');
+      return;
+    }
+
+    Chart.defaults.color = '#b0c4de';
+    Chart.defaults.borderColor = '#2d3d4d';
+
+    // 1. Margin Transformation
+    const ctxMargin = getCtx('marginTransformation');
+    if (ctxMargin) {
+      new Chart(ctxMargin, {
+        type: 'bar',
+        data: {
+          labels: ['FY 2022', 'FY 2024', 'FY 2025'],
+          datasets: [
+            { label: 'Margen Bruto %', data: [30.0, 32.5, 35.5], backgroundColor: 'rgba(0, 215, 255, 0.7)', borderColor: '#00d7ff', borderWidth: 2 },
+            { label: 'EBITDA Margin %', data: [6.6, 6.3, 8.6], backgroundColor: 'rgba(144, 238, 144, 0.7)', borderColor: '#90ee90', borderWidth: 2 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: '#b0c4de', font: { size: 12 } } },
+            title: { display: true, text: 'Transformación de Márgenes', color: '#ffffff', font: { size: 14, weight: 'bold' } }
+          },
+          scales: {
+            y: { beginAtZero: true, max: 40, grid: { color: '#2d3d4d', drawBorder: false }, ticks: { color: '#b0c4de', callback: v => v + '%' } },
+            x: { grid: { display: false }, ticks: { color: '#b0c4de' } }
           }
-        
-          function formatPct(value) {
-            const sign = value >= 0 ? '+' : '';
-            return `${sign}${value.toFixed(1)}%`;
+        }
+      });
+    }
+
+    // 2. EBITDA Growth
+    const ctxEbitda = getCtx('ebitdaGrowth');
+    if (ctxEbitda) {
+      new Chart(ctxEbitda, {
+        type: 'line',
+        data: {
+          labels: ['FY 2022', 'FY 2024', 'FY 2025'],
+          datasets: [{
+            label: 'EBITDA ($M)',
+            data: [29.4, 15.9, 21.0],
+            borderColor: '#00d7ff',
+            backgroundColor: 'rgba(0, 215, 255, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: '#00d7ff',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: '#b0c4de' } },
+            title: { display: true, text: 'EBITDA Absoluto: Recuperación Post-Desinversión', color: '#ffffff', font: { size: 14, weight: 'bold' } }
+          },
+          scales: {
+            y: { beginAtZero: true, grid: { color: '#2d3d4d' }, ticks: { color: '#b0c4de', callback: v => '$' + v + 'M' } },
+            x: { grid: { display: false }, ticks: { color: '#b0c4de' } }
           }
-        
-          function updateUpside() {
-            const elPrice = document.getElementById('priceCurrent');
-            const elFair  = document.getElementById('fairValue');
-            const elUps   = document.getElementById('upsidePct');
-        
-            if (!elPrice || !elFair || !elUps) return;
-        
-            const price = parseMoney(elPrice.textContent);
-            const fair  = parseMoney(elFair.textContent);
-        
-            if (!Number.isFinite(price) || !Number.isFinite(fair) || price <= 0) {
-              elUps.textContent = '—';
-              elUps.classList.remove('green', 'red');
-              return;
-            }
-        
-            const upside = ((fair / price) - 1) * 100;
-            elUps.textContent = formatPct(upside);
-        
-            // Color automático
-            elUps.classList.toggle('green', upside >= 0);
-            elUps.classList.toggle('red', upside < 0);
+        }
+      });
+    }
+
+    // 3. Multiple Comparison
+    const ctxMultiple = getCtx('multipleComparison');
+    if (ctxMultiple) {
+      new Chart(ctxMultiple, {
+        type: 'bar',
+        data: {
+          labels: ['QEPC\n(Actual)', 'M&A\nPromedio', 'Comparable\nBajo', 'Comparable\nMedio'],
+          datasets: [{
+            label: 'EV/EBITDA',
+            data: [4.5, 10.1, 8.0, 9.5],
+            backgroundColor: ['rgba(255, 107, 107, 0.7)', 'rgba(144, 238, 144, 0.7)', 'rgba(255, 165, 0, 0.7)', 'rgba(0, 215, 255, 0.7)'],
+            borderColor: ['#ff6b6b', '#90ee90', '#ffa500', '#00d7ff'],
+            borderWidth: 2
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            title: { display: true, text: 'Arbitraje de Múltiplos: 55% Descuento vs M&A Comps', color: '#ffffff', font: { size: 14, weight: 'bold' } }
+          },
+          scales: {
+            x: { beginAtZero: true, max: 12, grid: { color: '#2d3d4d' }, ticks: { color: '#b0c4de' } },
+            y: { grid: { display: false }, ticks: { color: '#b0c4de' } }
           }
-        
-          // Llamada inicial
-          updateUpside();
-    </script>
+        }
+      });
+    }
+
+    // 4. Price Sensitivity
+    const ctxSensitivity = getCtx('priceSensitivity');
+    if (ctxSensitivity) {
+      new Chart(ctxSensitivity, {
+        type: 'line',
+        data: {
+          labels: ['5.0x\n(Bear)', '5.5x', '6.0x\n(Base)', '6.5x', '7.0x\n(Cons)', '7.5x', '8.5x\n(M&A)'],
+          datasets: [{
+            label: 'Price Target ($)',
+            data: [38.7, 42.4, 46.15, 50.0, 53.8, 58.0, 63.5],
+            borderColor: '#00d7ff',
+            backgroundColor: 'rgba(0, 215, 255, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: '#00d7ff',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 5
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: '#b0c4de' } },
+            title: { display: true, text: 'Sensibilidad de Precio Objetivo a EV/EBITDA', color: '#ffffff', font: { size: 14, weight: 'bold' } }
+          },
+          scales: {
+            y: { beginAtZero: true, max: 70, grid: { color: '#2d3d4d' }, ticks: { color: '#b0c4de', callback: v => '$' + v } },
+            x: { grid: { display: false }, ticks: { color: '#b0c4de' } }
+          }
+        }
+      });
+    }
+  }
+
+  // Arranque “seguro”
+  updateUpside();
+  initCharts();
+</script>
 </body>
 </html>
