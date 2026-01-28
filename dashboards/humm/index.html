@@ -101,25 +101,24 @@
               width: auto;
               display: block;
             }
-            
-            /* Laptop / Tablet grande */
-            @media (max-width: 1024px) {
-              .page-title { font-size: 1.55rem; } 
-              .logo-company { max-height: 70px; max-width: 150px; }
-            }
-            
-            /* Tablet */
-            @media (max-width: 768px) {
-              .logo-navbar { top: 15px; left: 15px; }
-              .logo-navbar-img { height: 34px; }
-            }
-            
-            /* Mobile */
-            @media (max-width: 480px) {
-              .logo-navbar { top: 12px; left: 12px; }
-              .logo-navbar-img { height: 30px; }
-            }
 
+              /* Laptop / Tablet grande */
+                    @media (max-width: 1024px) {
+                      .page-title { font-size: 1.55rem; }
+                      .logo-company { max-height: 70px; max-width: 150px; }
+                    }
+                    
+                    /* Tablet */
+                    @media (max-width: 768px) {
+                      .logo-navbar { top: 15px; left: 15px; }
+                      .logo-navbar-img { height: 34px; }
+                    }
+                    
+                    /* Mobile */
+                    @media (max-width: 480px) {
+                      .logo-navbar { top: 12px; left: 12px; }
+                      .logo-navbar-img { height: 30px; }
+                    }
 
 
         /* ========================================
@@ -195,7 +194,7 @@
         }
 
         @media (max-width: 1024px) {
-            .page-title { font-size: 1.8rem; }
+            .page-title { font-size: 1.55rem; }
             .logo-company { max-height: 70px; max-width: 150px; }
         }
 
@@ -328,14 +327,14 @@
             color: var(--dark-bg);
         }
 
-       @media (max-width: 768px) {
+       @media (max-width: 1024px) {
   .nav-tabs { padding: 10px 0; }
 
   .nav-tabs ul {
-    flex-direction: row;          /* antes: column */
-    justify-content: flex-start;  /* en vez de center */
-    flex-wrap: nowrap;            /* una sola fila */
-    overflow-x: auto;             /* scroll horizontal */
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
     overflow-y: hidden;
     gap: 8px;
     padding: 0 12px 6px;
@@ -345,12 +344,11 @@
   .nav-tabs li { flex: 0 0 auto; }
 
   .nav-tabs a {
-    padding: 7px 12px;            /* más compacto */
+    padding: 7px 12px;
     font-size: 0.85rem;
-    white-space: nowrap;          /* evita salto de línea */
+    white-space: nowrap;
   }
 
-  /* opcional: scrollbar horizontal discreta */
   .nav-tabs ul::-webkit-scrollbar { height: 6px; }
   .nav-tabs ul::-webkit-scrollbar-track { background: rgba(15, 20, 25, 0.35); }
   .nav-tabs ul::-webkit-scrollbar-thumb { background: rgba(0, 215, 255, 0.55); border-radius: 6px; }
@@ -783,13 +781,6 @@ section{ scroll-margin-top: var(--nav-offset); }
               margin-left: 0 !important;
               padding-left: 18px !important;
             }
-
-        /* Evita que los anchors queden tapados por la nav sticky */
-        section { scroll-margin-top: 90px; }
-        
-@media (max-width: 768px){
-  section { scroll-margin-top: 120px; }
-}
         
         /* Utilidades sencillas para evitar inline */
         .mt-15 { margin-top: 15px; }
