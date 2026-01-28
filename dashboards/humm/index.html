@@ -848,7 +848,10 @@
                 <div class="metric-card">
                     <div class="metric-label">UPSIDE POTENCIAL</div>
                     <div class="metric-value green" id="upsidePct">—</div>
-                    <div class="metric-subtitle">6M / 31% Anualizado</div>
+                    <div class="metric-subtitle">
+                      <span id="horizonMonths" contenteditable="true">6</span>M /
+                      <span id="annualizedPct">—</span> Anualizado
+                    </div>
                 </div>
                 
             </div>
@@ -1521,38 +1524,55 @@
   }
 
   function updateUpside() {
-    const elPrice = document.getElementById('priceCurrent');
-    const elFair = document.getElementById('fairValue');
-    const elUps = document.getElementById('upsidePct');
-    if (!elPrice || !elFair || !elUps) return;
+  const elPrice = document.getElementById('priceCurrent');
+  const elFair = document.getElementById('fairValue');
+  const elUps = document.getElementById('upsidePct');
 
-    const price = parseMoney(elPrice.textContent);
-    const fair = parseMoney(elFair.textContent);
+  // NUEVO: elementos para anualizado
+  const elMonths = document.getElementById('horizonMonths');
+  const elAnn = document.getElementById('annualizedPct');
 
-    if (!Number.isFinite(price) || !Number.isFinite(fair) || price <= 0) {
-      elUps.textContent = '—';
-      elUps.classList.remove('green', 'red');
-      return;
-    }
+  if (!elPrice || !elFair || !elUps) return;
 
-    const upside = ((fair / price) - 1) * 100;
-    elUps.textContent = formatPct(upside);
-    elUps.classList.toggle('green', upside >= 0);
-    elUps.classList.toggle('red', upside < 0);
+  const price = parseMoney(elPrice.textContent);
+  const fair = parseMoney(elFair.textContent);
+
+  // Upside simple
+  if (!Number.isFinite(price) || !Number.isFinite(fair) || price <= 0) {
+    elUps.textContent = '—';
+    elUps.classList.remove('green', 'red');
+    if (elAnn) elAnn.textContent = '—';
+    return;
   }
 
-  // Recalcula al cargar
-  updateUpside();
+  const upside = ((fair / price) - 1) * 100;
+  elUps.textContent = formatPct(upside);
+  elUps.classList.toggle('green', upside >= 0);
+  elUps.classList.toggle('red', upside < 0);
 
-  // Recalcula si se cambia el texto manualmente en runtime (DevTools, scripts, etc.)
-  const priceNode = document.getElementById('priceCurrent');
-  const fairNode = document.getElementById('fairValue');
-  if (priceNode) new MutationObserver(updateUpside).observe(priceNode, { childList: true, subtree: true, characterData: true });
-  if (fairNode) new MutationObserver(updateUpside).observe(fairNode, { childList: true, subtree: true, characterData: true });
+  // NUEVO: anualizado (CAGR)
+  if (elMonths && elAnn) {
+    const months = Number(String(elMonths.textContent).replace(',', '.'));
+    if (!Number.isFinite(months) || months <= 0) {
+      elAnn.textContent = '—';
+    } else {
+      const annualized = (Math.pow(fair / price, 12 / months) - 1) * 100;
+      elAnn.textContent = formatPct(annualized);
+    }
+  }
+}
 
-  // (Opcional) si algún día haces el campo editable:
-  // priceNode?.addEventListener('input', updateUpside);
-  // fairNode?.addEventListener('input', updateUpside);
+// Recalcula al cargar
+updateUpside();
+
+// Recalcula si se cambia el texto manualmente en runtime
+const priceNode = document.getElementById('priceCurrent');
+const fairNode = document.getElementById('fairValue');
+const monthsNode = document.getElementById('horizonMonths');
+
+if (priceNode) new MutationObserver(updateUpside).observe(priceNode, { childList: true, subtree: true, characterData: true });
+if (fairNode) new MutationObserver(updateUpside).observe(fairNode, { childList: true, subtree: true, characterData: true });
+if (monthsNode) new MutationObserver(updateUpside).observe(monthsNode, { childList: true, subtree: true, characterData: true });
 </script>
 </body>
 </html>
