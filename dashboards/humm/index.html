@@ -15,6 +15,7 @@
             --primary-color: #00d7ff;           /* Cyan brillante */
             --secondary-color: #1a2332;         /* Azul oscuro base */
             --accent-color: #4A8B9B;            /* Azul teal claro */
+            --nav-offset: 0px;
             
             /* COLORES FUNCIONALES */
             --success-color: #90ee90;           /* Verde */
@@ -46,6 +47,7 @@
 
         html {
             scroll-behavior: smooth;
+            scroll-padding-top: calc(var(--nav-offset) + 16px);
         }
 
         body {
@@ -293,82 +295,70 @@
             }
 
         /* ========================================
-           NAVEGACIÓN DE PESTAÑAS
-           ======================================== */
-        .nav-tabs {
-            background: var(--card-bg);
-            padding: 20px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 2px solid var(--border-color);
-        }
-
-        .nav-tabs ul {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .nav-tabs a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .nav-tabs a:hover,
-        .nav-tabs a.active {
-            background: var(--primary-color);
-            color: var(--dark-bg);
-        }
-
-       @media (max-width: 1024px) {
-  .nav-tabs { padding: 10px 0; }
-
-  .nav-tabs ul {
-    flex-direction: row;
-    justify-content: flex-start;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
-    gap: 8px;
-    padding: 0 12px 6px;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .nav-tabs li { flex: 0 0 auto; }
-
-  .nav-tabs a {
-    padding: 7px 12px;
-    font-size: 0.85rem;
-    white-space: nowrap;
-  }
-
-  .nav-tabs ul::-webkit-scrollbar { height: 6px; }
-  .nav-tabs ul::-webkit-scrollbar-track { background: rgba(15, 20, 25, 0.35); }
-  .nav-tabs ul::-webkit-scrollbar-thumb { background: rgba(0, 215, 255, 0.55); border-radius: 6px; }
-}
-        
-:root{ --nav-offset: 110px; }
-html{ scroll-padding-top: var(--nav-offset); }
-section{ scroll-margin-top: var(--nav-offset); }
-
-/* (opcional) override del offset en móvil */
-@media (max-width: 768px){
-  :root{ --nav-offset: 120px; }
+   NAVEGACIÓN DE PESTAÑAS (RESPONSIVE 100%)
+   ======================================== */
+.nav-tabs{
+  background: var(--card-bg);
+  padding: 20px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 2px solid var(--border-color);
 }
 
-@media (max-width: 480px) {
-  .nav-tabs { padding: 8px 0; }
-  .nav-tabs ul { padding: 0 10px 6px; gap: 6px; }
-  .nav-tabs a { padding: 6px 10px; font-size: 0.80rem; }
+/* ✅ Una sola fila SIEMPRE (evita que el sticky “crezca” y tape títulos) */
+.nav-tabs ul{
+  list-style: none;
+  display: flex;
+  justify-content: center;
+
+  flex-wrap: nowrap;        /* clave */
+  overflow-x: auto;         /* scroll horizontal si no cabe */
+  overflow-y: hidden;
+
+  gap: 10px;
+  padding: 0 12px 6px;
+  -webkit-overflow-scrolling: touch;
 }
 
+.nav-tabs li{ flex: 0 0 auto; }
+
+.nav-tabs a{
+  color: var(--text-secondary);
+  text-decoration: none;
+
+  display: block;
+  white-space: nowrap;      /* evita saltos de línea en el texto */
+
+  padding: 10px 20px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.nav-tabs a:hover,
+.nav-tabs a.active{
+  background: var(--primary-color);
+  color: var(--dark-bg);
+}
+
+/* Scrollbar discreta */
+.nav-tabs ul::-webkit-scrollbar{ height: 6px; }
+.nav-tabs ul::-webkit-scrollbar-track{ background: rgba(15,20,25,.35); }
+.nav-tabs ul::-webkit-scrollbar-thumb{ background: rgba(0,215,255,.55); border-radius: 6px; }
+
+/* Compactación en tablet/móvil */
+@media (max-width: 1024px){
+  .nav-tabs{ padding: 10px 0; }
+  .nav-tabs ul{ justify-content: flex-start; gap: 8px; }
+  .nav-tabs a{ padding: 7px 12px; font-size: .85rem; }
+}
+
+@media (max-width: 480px){
+  .nav-tabs{ padding: 8px 0; }
+  .nav-tabs ul{ padding: 0 10px 6px; gap: 6px; }
+  .nav-tabs a{ padding: 6px 10px; font-size: .80rem; }
+}
         /* ========================================
            SECCIONES
            ======================================== */
@@ -404,6 +394,8 @@ section{ scroll-margin-top: var(--nav-offset); }
           section h2{ font-size: 1.25rem; }
           section h3{ font-size: 1.1rem; }
         }
+
+        section { scroll-margin-top: calc(var(--nav-offset) + 16px); }
 
         /* ========================================
            TARJETAS Y GRÁFICOS
@@ -1438,24 +1430,41 @@ section{ scroll-margin-top: var(--nav-offset); }
     if (bar) bar.style.width = scrolled + "%";
   });
 
-  // Smooth Scroll (y "active" solo desde menú)
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      const href = this.getAttribute('href');
-      if (!href || href === '#') return;
+  // --- Calcula offset real del navbar sticky ---
+function setNavOffset(){
+  const nav = document.querySelector('.nav-tabs');
+  if(!nav) return;
+  document.documentElement.style.setProperty('--nav-offset', nav.offsetHeight + 'px');
+}
+window.addEventListener('load', setNavOffset);
+window.addEventListener('resize', setNavOffset);
 
-      const target = document.querySelector(href);
-      if (!target) return;
+// Smooth Scroll con offset real (evita que el sticky tape los títulos)
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    const href = this.getAttribute('href');
+    if (!href || href === '#') return;
 
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const target = document.querySelector(href);
+    if (!target) return;
 
-      if (this.closest('.nav-tabs')) {
-        document.querySelectorAll('.nav-tabs a').forEach(link => link.classList.remove('active'));
-        this.classList.add('active');
-      }
-    });
+    e.preventDefault();
+
+    setNavOffset(); // por si cambió la altura (wrap, zoom, etc.)
+    const nav = document.querySelector('.nav-tabs');
+    const navH = nav ? nav.offsetHeight : 0;
+    const extra = 16;
+
+    const y = target.getBoundingClientRect().top + window.pageYOffset - navH - extra;
+    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+
+    // Activo solo si viene del menú
+    if (this.closest('.nav-tabs')) {
+      document.querySelectorAll('.nav-tabs a').forEach(link => link.classList.remove('active'));
+      this.classList.add('active');
+    }
   });
+});
 
   // Fade-in animations
   const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
@@ -1475,19 +1484,25 @@ section{ scroll-margin-top: var(--nav-offset); }
     observer.observe(el);
   });
 
-  // Active nav on scroll
-  window.addEventListener('scroll', function () {
-    let current = '';
-    document.querySelectorAll('section').forEach(section => {
-      const sectionTop = section.offsetTop;
-      if (window.pageYOffset >= (sectionTop - 200)) current = section.getAttribute('id');
-    });
+  // Active nav on scroll (con offset real del navbar)
+window.addEventListener('scroll', function () {
+  let current = '';
 
-    document.querySelectorAll('.nav-tabs a').forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('href')?.slice(1) === current) link.classList.add('active');
-    });
+  const nav = document.querySelector('.nav-tabs');
+  const navH = nav ? nav.offsetHeight : 0;   // altura real del sticky
+  const extra = 40;                          // margen extra para que el cambio sea natural
+  const threshold = navH + extra;
+
+  document.querySelectorAll('section').forEach(section => {
+    const sectionTop = section.offsetTop;
+    if (window.scrollY >= (sectionTop - threshold)) current = section.id;
   });
+
+  document.querySelectorAll('.nav-tabs a').forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href')?.slice(1) === current) link.classList.add('active');
+  });
+});
 
   // ---------- Upside automático ----------
   function normalizeNumberString(s) {
