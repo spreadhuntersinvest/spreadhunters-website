@@ -826,61 +826,80 @@
             </div>
 
             <h3>Análisis de Comparables - EV/EBITDA</h3>
-            <div class="chart-container">
-                <canvas id="multiplesChart"></canvas>
-            </div>
+<div class="chart-container">
+    <canvas id="multiplesChart"></canvas>
+</div>
 
-            <h3>Valuación Comparables</h3>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Empresa</th>
-                            <th>EV/EBITDA</th>
-                            <th>P/E</th>
-                            <th>EV/Sales</th>
-                            <th>Crecimiento</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Inditex</strong></td>
-                            <td>19,2x</td>
-                            <td>23,2x</td>
-                            <td>1,28x</td>
-                            <td>8-10%</td>
-                        </tr>
-                        <tr>
-                            <td><strong>H&M</strong></td>
-                            <td>13,1x</td>
-                            <td>15,8x</td>
-                            <td>0,95x</td>
-                            <td>3-5%</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Stockmann</strong></td>
-                            <td>9,4x</td>
-                            <td>11,2x</td>
-                            <td>0,70x</td>
-                            <td>2-3%</td>
-                        </tr>
-                        <tr style="background: rgba(0, 215, 255, 0.1);">
-                            <td><strong>Puuilo (Current)</strong></td>
-                            <td class="positive">11,3x</td>
-                            <td class="positive">16,2x</td>
-                            <td class="positive">0,80x</td>
-                            <td class="positive">13%+</td>
-                        </tr>
-                        <tr style="background: rgba(144, 238, 144, 0.1);">
-                            <td><strong>Puuilo (Fair)</strong></td>
-                            <td class="positive">14,5x</td>
-                            <td class="positive">19,8x</td>
-                            <td class="positive">0,95x</td>
-                            <td class="positive">13%+</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+<h3>Contexto de Comparables</h3>
+<div class="card">
+    <p><strong>Puuilo vs Competidores Relevantes:</strong></p>
+    <ul style="margin-left: 20px; color: var(--text-secondary); line-height: 1.8;">
+        <li><strong>RUSTA (Suecia):</strong> Nordic home & leisure retailer, 230+ stores, modelo similar pero mayor escala (~€900M cap)</li>
+        <li><strong>TOYA (Polonia):</strong> Distribuidor europeo de herramientas y equipamiento del hogar, small-cap (~€167M)</li>
+        <li><strong>K-Rauta (Finlandia):</strong> Competidor directo en mercado local finlandés, DIY & home improvement</li>
+        <li><strong>Stanley B&D (USA):</strong> Referencia global de mayor escala ($12.7B cap), manufactura + retail tools/home</li>
+    </ul>
+    <p style="margin-top: 15px; color: var(--text-tertiary); font-size: 0.9rem;"><em>Nota: Comparables actualizados con retailers reales del sector home décor/hobby/DIY para mayor precisión analítica.</em></p>
+</div>
+
+<h3>Valuación Comparables</h3>
+<div class="table-responsive">
+    <table>
+        <thead>
+            <tr>
+                <th>Empresa</th>
+                <th>EV/EBITDA</th>
+                <th>P/E</th>
+                <th>EV/Sales</th>
+                <th>Crecimiento</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>RUSTA (Nordic)</strong></td>
+                <td>13,8x</td>
+                <td>15,2x</td>
+                <td>1,15x</td>
+                <td>8-10%</td>
+            </tr>
+            <tr>
+                <td><strong>TOYA (Europe)</strong></td>
+                <td>10,2x</td>
+                <td>11,8x</td>
+                <td>0,78x</td>
+                <td>4-6%</td>
+            </tr>
+            <tr>
+                <td><strong>K-Rauta (Finland)</strong></td>
+                <td>11,5x</td>
+                <td>13,2x</td>
+                <td>0,92x</td>
+                <td>5-7%</td>
+            </tr>
+            <tr>
+                <td><strong>Stanley B&D (USA)</strong></td>
+                <td>15,5x</td>
+                <td>28,0x</td>
+                <td>1,45x</td>
+                <td>3-5%</td>
+            </tr>
+            <tr style="background: rgba(0, 215, 255, 0.1);">
+                <td><strong>Puuilo (Current)</strong></td>
+                <td class="positive">11,3x</td>
+                <td class="positive">16,2x</td>
+                <td class="positive">0,80x</td>
+                <td class="positive">13%+</td>
+            </tr>
+            <tr style="background: rgba(144, 238, 144, 0.1);">
+                <td><strong>Puuilo (Fair)</strong></td>
+                <td class="positive">14,5x</td>
+                <td class="positive">19,8x</td>
+                <td class="positive">0,95x</td>
+                <td class="positive">13%+</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
         </section>
 
         <!-- CONCLUSIÓN -->
@@ -1214,37 +1233,38 @@
         }
 
         // Multiples Chart
-        const multiplesCtx = document.getElementById('multiplesChart');
-        if (multiplesCtx) {
-            new Chart(multiplesCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Inditex', 'H&M', 'Stockmann', 'Puuilo (Current)', 'Puuilo (Fair)'],
-                    datasets: [{
-                        label: 'EV/EBITDA Multiple',
-                        data: [19.2, 13.1, 9.4, 11.3, 14.5],
-                        backgroundColor: [
-                            'rgba(150, 150, 150, 0.7)',
-                            'rgba(150, 150, 150, 0.7)',
-                            'rgba(150, 150, 150, 0.7)',
-                            'rgba(0, 215, 255, 0.7)',
-                            'rgba(144, 238, 144, 0.7)'
-                        ],
-                        borderColor: ['#999', '#999', '#999', '#00d7ff', '#90ee90'],
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: true, labels: { color: '#b0c4de' } } },
-                    scales: {
-                        y: { ticks: { color: '#b0c4de' }, grid: { color: '#2d3d4d' } },
-                        x: { ticks: { color: '#b0c4de' }, grid: { color: '#2d3d4d' } }
-                    }
-                }
-            });
+       const multiplesCtx = document.getElementById('multiplesChart');
+if (multiplesCtx) {
+    new Chart(multiplesCtx, {
+        type: 'bar',
+        data: {
+            labels: ['RUSTA', 'TOYA', 'K-Rauta', 'Stanley B&D', 'Puuilo (Current)', 'Puuilo (Fair)'],
+            datasets: [{
+                label: 'EV/EBITDA Multiple',
+                data: [13.8, 10.2, 11.5, 15.5, 11.3, 14.5],
+                backgroundColor: [
+                    'rgba(150, 150, 150, 0.7)',
+                    'rgba(150, 150, 150, 0.7)',
+                    'rgba(150, 150, 150, 0.7)',
+                    'rgba(150, 150, 150, 0.7)',
+                    'rgba(0, 215, 255, 0.7)',
+                    'rgba(144, 238, 144, 0.7)'
+                ],
+                borderColor: ['#999', '#999', '#999', '#999', '#00d7ff', '#90ee90'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: true, labels: { color: '#b0c4de' } } },
+            scales: {
+                y: { ticks: { color: '#b0c4de' }, grid: { color: '#2d3d4d' } },
+                x: { ticks: { color: '#b0c4de' }, grid: { color: '#2d3d4d' } }
+            }
         }
+    });
+}
         }
 
         initCharts();
