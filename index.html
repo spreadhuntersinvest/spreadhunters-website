@@ -61,20 +61,22 @@
         }
 
         .header-container {
-            max-width: 1400px;
+             max-width: 1400px;
             margin: 0 auto;
             padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;        /* ← Para el logo absolute */
         }
 
         .header-left {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;  /* Reducido de 2rem */
-            flex: 0;      /* Cambio: antes era flex: 1 */
-            margin-right: auto;
+                display: flex;
+                align-items: center;
+                gap: 2rem;
+                flex: 1;
+                justify-content: center;   /* ← Centra el contenido */
+                margin-left: 0;            /* ← Quita el margen anterior */
         }
 
         .header-logo {
@@ -101,15 +103,14 @@
             text-transform: uppercase;
             font-weight: 600;
             white-space: nowrap;
-            margin-left: 1.5rem;  /* Añade espacio entre logo y título */
         }
 
         .top-nav {
-            display: flex;
+             display: flex;
             gap: 2.5rem;
             list-style: none;
             align-items: center;
-            margin-left: auto;
+            margin-left: auto;         /* ← Empuja a la derecha */
         }
 
         .top-nav a {
@@ -753,21 +754,23 @@
 </head>
 <body>
     <!-- Header with Logo -->
-    <header class="top-header">
-        <div class="header-container">
-            <div class="header-left">
-                <a href="#" class="header-logo">
-                    <img src="../images/spreadhunter_navbar.svg" alt="SpreadHunters Logo">
-                </a>
-                <span class="header-title">SPREADHUNTERS.ES</span>
-            </div>
-            <nav class="top-nav">
-                <a href="#dashboards">Dashboards</a>
-                <a href="#features">Características</a>
-                <a href="#contact">Contacto</a>
-            </nav>
+   <header class="top-header">
+    <div class="header-container">
+        <a href="#" class="header-logo">
+            <img src="../images/spreadhunter_navbar.svg" alt="SpreadHunters Logo">
+        </a>
+        
+        <div class="header-left">
+            <span class="header-title">SPREADHUNTERS.ES</span>
         </div>
-    </header>
+        
+        <nav class="top-nav">
+            <a href="#dashboards">Dashboards</a>
+            <a href="#features">Características</a>
+            <a href="#contact">Contacto</a>
+        </nav>
+    </div>
+</header>
 
     <!-- Hero Section with Dynamic Background Image -->
     <section class="hero">
