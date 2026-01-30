@@ -58,17 +58,16 @@
             backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(50, 184, 198, 0.15);
             padding: 1rem 0;
+            height: 70px;
         }
         
         .header-container {
-            max-width: 1400px;
-            margin: 0 auto;
+            max-width: 100%;
+            margin: 0;
             padding: 0 2rem;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            gap: 0;
             position: relative;
+            height: 100%;
+
         }
         
         /* LOGO - IZQUIERDA */
@@ -76,8 +75,10 @@
             text-decoration: none;
             display: flex;
             align-items: center;
-            flex-shrink: 0;
-            margin-right: auto;        /* ← Empuja todo lo demás a la derecha */
+            position: fixed;
+            left: 20px;
+            top: 12px;
+            z-index: 1001;
         }
         
         .header-logo img {
@@ -87,20 +88,22 @@
         
         /* TÍTULO - CENTRO */
         .header-center {
-            display: flex;
-            justify-content: center;
-            flex: 1;
-            margin: 0 2rem;            /* ← Espacio a los lados */
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1001;
         }
         
         .header-title {
-            font-family: var(--font-display);
+           font-family: var(--font-display);
             font-size: 1.3rem;
             color: white;
             letter-spacing: 0.1em;
             text-transform: uppercase;
             font-weight: 600;
             white-space: nowrap;
+            margin: 0;
         }
         
         /* MENÚ - DERECHA */
@@ -109,8 +112,11 @@
             gap: 2.5rem;
             list-style: none;
             align-items: center;
-            margin-left: auto;         /* ← Pegado a la derecha */
-            flex-shrink: 0;
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1001;
         }
         
         .top-nav a {
@@ -134,15 +140,14 @@
         
             .top-nav {
                 gap: 1.5rem;
+                right: 15px;
+
             }
         
             .top-nav a {
                 font-size: 0.7rem;
             }
             
-            .header-center {
-                margin: 0 1rem;
-            }
         }
 
         /* Hero Section with Dynamic Background Image */
