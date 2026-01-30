@@ -72,8 +72,9 @@
         .header-left {
             display: flex;
             align-items: center;
-            gap: 2rem;
-            flex: 1;
+            gap: 1.5rem;  /* Reducido de 2rem */
+            flex: 0;      /* Cambio: antes era flex: 1 */
+            margin-right: auto;
         }
 
         .header-logo {
@@ -86,6 +87,7 @@
         .header-logo img {
             height: 45px;
             width: auto;
+            margin-left: -0.5rem;  /* Empuja el logo más a la izquierda */
         }
 
         .header-title {
@@ -96,6 +98,7 @@
             text-transform: uppercase;
             font-weight: 600;
             white-space: nowrap;
+            margin-left: 1.5rem;  /* Añade espacio entre logo y título */
         }
 
         .top-nav {
