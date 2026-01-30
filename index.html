@@ -49,56 +49,50 @@
 
         /* Top Header */
         .top-header {
-             position: fixed;
-             top: 0;
-             left: 0;
-             right: 0;
-             z-index: 1000;
-             background: rgba(15, 23, 42, 0.9);
-             backdrop-filter: blur(15px);
-             border-bottom: 1px solid rgba(50, 184, 198, 0.15);
-             padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(50, 184, 198, 0.15);
+            padding: 1rem 0;
         }
-
+        
         .header-container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 2rem;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
+            gap: 0;
             position: relative;
         }
-
-        .header-left {
-                display: flex;
-                align-items: center;
-                gap: 2rem;
-                flex: 1;
-                justify-content: center;   /* ← Centra el contenido */
-                margin-left: 0;            /* ← Quita el margen anterior */
-        }
-
+        
+        /* LOGO - IZQUIERDA */
         .header-logo {
             text-decoration: none;
             display: flex;
             align-items: center;
             flex-shrink: 0;
-            order: 1;
+            margin-right: auto;        /* ← Empuja todo lo demás a la derecha */
         }
-
-        .header-center {
-            order: 2;
-            flex: 1;
-            display: flex;
-            justify-content: center;
-        }
-
+        
         .header-logo img {
             height: 45px;
             width: auto;
         }
-
+        
+        /* TÍTULO - CENTRO */
+        .header-center {
+            display: flex;
+            justify-content: center;
+            flex: 1;
+            margin: 0 2rem;            /* ← Espacio a los lados */
+        }
+        
         .header-title {
             font-family: var(--font-display);
             font-size: 1.3rem;
@@ -108,16 +102,17 @@
             font-weight: 600;
             white-space: nowrap;
         }
-
+        
+        /* MENÚ - DERECHA */
         .top-nav {
             display: flex;
             gap: 2.5rem;
             list-style: none;
             align-items: center;
-            order: 3;
+            margin-left: auto;         /* ← Pegado a la derecha */
             flex-shrink: 0;
         }
-
+        
         .top-nav a {
             color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
@@ -127,9 +122,27 @@
             letter-spacing: 0.05em;
             font-size: 0.85rem;
         }
-
+        
         .top-nav a:hover {
             color: var(--color-accent);
+        }
+        
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 1rem;
+            }
+        
+            .top-nav {
+                gap: 1.5rem;
+            }
+        
+            .top-nav a {
+                font-size: 0.7rem;
+            }
+            
+            .header-center {
+                margin: 0 1rem;
+            }
         }
 
         /* Hero Section with Dynamic Background Image */
