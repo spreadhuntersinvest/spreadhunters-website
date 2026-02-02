@@ -1,1 +1,1419 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>James Fisher and Sons plc (LSE: FSJ) - Análisis de Inversión | SpreadHunters</title>
+    <meta name="description" content="Turnaround en James Fisher & Sons: recuperación de márgenes (UOP), normalización del balance y opcionalidad en Defence.">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    
+    <style>
+        /* ========================================
+           SISTEMA DE VARIABLES - COLORES GLOBALES
+           ======================================== */
+        :root {
+            /* COLORES PRIMARIOS - Identidad SpreadHunters */
+            --primary-color: #00d7ff;           /* Cyan brillante */
+            --secondary-color: #1a2332;         /* Azul oscuro base */
+            --accent-color: #4A8B9B;            /* Azul teal claro */
+            
+            /* COLORES FUNCIONALES */
+            --success-color: #90ee90;           /* Verde */
+            --danger-color: #ff6b6b;            /* Rojo */
+            --warning-color: #ffa500;           /* Naranja */
+            --info-color: #00d7ff;              /* Cyan */
+        
+            /* FONDOS */
+            --dark-bg: #1a2332;                 /* Azul principal */
+            --darker-bg: #0f1419;               /* Azul muy oscuro */
+            --card-bg: #1a2538;                 /* Azul para cards */
+            --light-bg: #E8E8E8;                /* Fondo claro */
+        
+            /* TEXTO */
+            --text-primary: #d0d8e0;            /* Gris claro */
+            --text-secondary: #b0c4de;          /* Gris medio */
+            --text-tertiary: #808080;           /* Gris oscuro */
+            
+            /* BORDES */
+            --border-color: #2d3d4d;            /* Borde azulado */
+            --border-light: #3d5570;            /* Borde azul claro */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.95) 0%, rgba(30, 50, 80, 0.95) 100%);
+            background-color: #1a2332;
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ========================================
+           BARRA DE PROGRESO
+           ======================================== */
+        .progress-bar {
+            background: var(--success-color);
+            height: 2px;
+            width: 0%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* ========================================
+               LOGO NAVBAR (SVG – escala por altura)
+               ======================================== */
+            .logo-navbar {
+              position: fixed;
+              top: 20px;
+              left: 20px;
+              z-index: 900;
+              background: none;
+              padding: 0;
+              border: none;
+              backdrop-filter: none;
+              pointer-events: none;
+            }
+            
+            .logo-navbar-img {
+              height: 44px;
+              width: auto;
+              display: block;
+            }
+            
+            /* Laptop / Tablet grande */
+            @media (max-width: 1024px) {
+              .page-title { font-size: 1.55rem; } 
+              .logo-company { max-height: 70px; max-width: 150px; }
+            }
+            
+            /* Tablet */
+            @media (max-width: 768px) {
+              .logo-navbar { top: 15px; left: 15px; }
+              .logo-navbar-img { height: 34px; }
+            }
+            
+            /* Mobile */
+            @media (max-width: 480px) {
+              .logo-navbar { top: 12px; left: 12px; }
+              .logo-navbar-img { height: 30px; }
+            }
+
+
+
+        /* ========================================
+           HEADER PROFESIONAL
+           ======================================== */
+        .header-professional {
+            margin: 0;
+            padding: 50px 20px;
+            background: transparent;
+            border-bottom: 1px solid rgba(74, 127, 127, 0.1);
+            backdrop-filter: blur(3px);
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-professional .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            max-width: 1000px;
+        }
+
+        .logo-company {
+            max-height: 80px;
+            max-width: 200px;
+            object-fit: contain;
+            filter: brightness(1.1);
+        }
+
+        .header-content {
+            text-align: center;
+            width: 100%;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0 0 8px 0;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .header-meta {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .meta-label {
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .meta-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* ========================================
+           GRID MÉTRICAS CLAVE
+           ======================================== */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .metric-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 215, 255, 0.15);
+            border-color: var(--primary-color);
+        }
+
+        .metric-card:hover::before {
+            opacity: 1;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            line-height: 1.2;
+        }
+
+        .metric-subvalue {
+            font-size: 0.95rem;
+            color: var(--text-tertiary);
+            margin-top: 4px;
+        }
+
+        /* ========================================
+           SECCIONES
+           ======================================== */
+        .section {
+            margin: 60px 0;
+            padding: 40px 0;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 32px 0 16px 0;
+        }
+
+        /* ========================================
+           CARDS
+           ======================================== */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 16px rgba(0, 215, 255, 0.1);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 16px;
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           TABLAS
+           ======================================== */
+        .table-container {
+            overflow-x: auto;
+            margin: 24px 0;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+        }
+
+        th {
+            background: rgba(0, 215, 255, 0.1);
+            color: var(--primary-color);
+            font-weight: 600;
+            text-align: left;
+            padding: 16px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: rgba(0, 215, 255, 0.05);
+        }
+
+        /* ========================================
+           RISK INDICATORS
+           ======================================== */
+        .risk-card {
+            background: var(--card-bg);
+            border-left: 4px solid;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 16px 0;
+        }
+
+        .risk-high {
+            border-color: var(--danger-color);
+        }
+
+        .risk-medium {
+            border-color: var(--warning-color);
+        }
+
+        .risk-low {
+            border-color: var(--success-color);
+        }
+
+        .risk-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .risk-icon {
+            font-size: 1.5rem;
+        }
+
+        .risk-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .risk-detail {
+            font-size: 0.9rem;
+            color: var(--text-tertiary);
+            margin-top: 4px;
+        }
+
+        /* ========================================
+           CHARTS
+           ======================================== */
+        .chart-container {
+            position: relative;
+            height: 350px;
+            margin: 32px 0;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* ========================================
+           LISTS
+           ======================================== */
+        .styled-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .styled-list li {
+            padding: 12px 0 12px 32px;
+            position: relative;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .styled-list li::before {
+            content: '→';
+            position: absolute;
+            left: 8px;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        /* ========================================
+           HIGHLIGHTS
+           ======================================== */
+        .highlight-box {
+            background: rgba(0, 215, 255, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+
+        .highlight-box p {
+            margin: 8px 0;
+            color: var(--text-primary);
+        }
+
+        /* ========================================
+           FOOTER
+           ======================================== */
+        footer {
+            margin-top: 80px;
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-tertiary);
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--accent-color);
+        }
+
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
+        @media (max-width: 768px) {
+            .header-professional {
+                padding: 30px 15px;
+            }
+
+            .page-title {
+                font-size: 1.4rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .chart-container {
+                height: 300px;
+                padding: 16px;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 10px 8px;
+            }
+        }
+
+        /* ========================================
+           CHECKMARKS & ICONS
+           ======================================== */
+        .checkmark {
+            color: var(--success-color);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .warning-icon {
+            color: var(--warning-color);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        /* ========================================
+           DIVISOR
+           ======================================== */
+        hr {
+            border: none;
+            border-top: 1px solid var(--border-color);
+            margin: 40px 0;
+        }
+
+        /* ========================================
+           BADGES
+           ======================================== */
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 4px;
+        }
+
+        .badge-success {
+            background: rgba(144, 238, 144, 0.2);
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+        }
+
+        .badge-warning {
+            background: rgba(255, 165, 0, 0.2);
+            color: var(--warning-color);
+            border: 1px solid var(--warning-color);
+        }
+
+        .badge-info {
+            background: rgba(0, 215, 255, 0.2);
+            color: var(--info-color);
+            border: 1px solid var(--info-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Logo navbar fijo -->
+    <div class="logo-navbar">
+        <img 
+          src="https://images.squarespace-cdn.com/content/v1/61a9231d8ea89206ed70d02c/9c62e02d-6b64-4c41-97f9-9dccceb4cd8e/Spreadhunters-logo.png"
+          alt="SpreadHunters Logo"
+          class="logo-navbar-img"
+        >
+    </div>
+
+    <!-- HEADER PROFESIONAL -->
+    <header class="header-professional">
+        <div class="container">
+            <img src="https://www.jamfis.com/assets/img/logo.svg" alt="James Fisher and Sons" class="logo-company">
+            
+            <div class="header-content">
+                <h1 class="page-title">JAMES FISHER AND SONS PLC (LSE: FSJ)</h1>
+                <p class="page-subtitle">Turnaround marino con margen oculto en Defence</p>
+                
+                <div class="header-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Ticker</span>
+                        <span class="meta-value">LSE: FSJ</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Precio Actual</span>
+                        <span class="meta-value">£4.33</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Precio Objetivo</span>
+                        <span class="meta-value" style="color: var(--success-color);">£6.50–£7.25</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Market Cap</span>
+                        <span class="meta-value">~£219m</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Fecha Análisis</span>
+                        <span class="meta-value">29 Ene 2026</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- GRID MÉTRICAS CLAVE -->
+        <section class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-label">Upside Potencial</div>
+                <div class="metric-value">50–70%</div>
+                <div class="metric-subvalue">Horizonte 18-36 meses</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-label">Revenue FY25e</div>
+                <div class="metric-value">~£395m</div>
+                <div class="metric-subvalue">Post-desinversiones</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-label">Margen UOP Target</div>
+                <div class="metric-value">10%</div>
+                <div class="metric-subvalue">vs 6.7% actual (FY24)</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-label">Order book Defence</div>
+                <div class="metric-value">£315m</div>
+                <div class="metric-subvalue">+45% YoY (H1 25)</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-label">EV/EBITDA</div>
+                <div class="metric-value">~4.0x</div>
+                <div class="metric-subvalue">FY26e estimado</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-label">ND/EBITDA</div>
+                <div class="metric-value">~1.5x</div>
+                <div class="metric-subvalue">Headroom vs 3.0x covenant</div>
+            </div>
+        </section>
+        <!-- /GRID MÉTRICAS CLAVE -->
+
+        <!-- EXECUTIVE SUMMARY -->
+        <section class="section">
+            <h2 class="section-title">Resumen Ejecutivo</h2>
+            
+            <div class="highlight-box">
+                <p><strong>James Fisher and Sons (FSJ)</strong> es un proveedor histórico de servicios marinos técnicos que está saliendo de una fase complicada con un turnaround operativo y financiero ya muy avanzado.</p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Negocio Enfocado - Tres Divisiones</h3>
+                <div class="card-content">
+                    <ul class="styled-list">
+                        <li><strong>Energy</strong>: Decommissioning, servicios subsea y renewable subsea</li>
+                        <li><strong>Defence (JFD)</strong>: Líder global en rescate submarino y sistemas para fuerzas especiales</li>
+                        <li><strong>Maritime Transport</strong>: Tankships costeros, ship-to-ship (STS) y Fendercare en LATAM</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Balance Normalizado</h3>
+                <div class="card-content">
+                    <p>Deuda covenant en torno a <strong>1.5x ND/EBITDA</strong>, muy lejos de la zona de estrés. El margen UOP ha pasado de 6.7% (FY24) a ~7.1% (FY25e) con guía explícita hacia el 10% y objetivo de ROCE del 15% a medio plazo.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">División Defence - El Motor de Crecimiento</h3>
+                <div class="card-content">
+                    <p>Order book de <strong>£315m (+45% YoY H1 25)</strong>, con potencial de recuperar márgenes históricos 10-12% (vs actuales 2%).</p>
+                    <p style="margin-top: 12px;"><strong>A precios actuales (~£4.33/acción):</strong></p>
+                    <ul class="styled-list">
+                        <li>Upside del 50-70% hacia un rango razonable de £6.50-£7.25 por acción</li>
+                        <li>Perfil de riesgo razonable: apalancamiento moderado, covenants holgados</li>
+                        <li>Vector de crecimiento de alta calidad soportado por order book de ~£315m</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- DESCRIPCIÓN DEL NEGOCIO -->
+        <section class="section">
+            <h2 class="section-title">Descripción del Negocio</h2>
+            
+            <div class="card">
+                <h3 class="card-title">Perfil Corporativo</h3>
+                <div class="card-content">
+                    <p>Fundada en <strong>1847</strong> en Barrow-in-Furness (Reino Unido) como naviera de transporte de mineral de hierro. Con <strong>178 años de historia</strong>, la compañía ha evolucionado hacia un proveedor líder de servicios marinos técnicos especializados, operando en nichos de alta barrera de entrada dentro de la "economía azul" (blue economy).</p>
+                </div>
+            </div>
+
+            <h3 class="section-subtitle">Estructura Divisional</h3>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>División</th>
+                            <th>Descripción</th>
+                            <th>Tamaño FY25e</th>
+                            <th>Margen UOP Normalizado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Energy</strong></td>
+                            <td>Decommissioning, well services, subsea, renewable subsea, bubble curtains</td>
+                            <td>~£180m</td>
+                            <td>8-10%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Defence (JFD)</strong></td>
+                            <td>Sistemas de rescate submarino, equipos para fuerzas especiales, rebreathers, servicios asociados</td>
+                            <td>~£84m</td>
+                            <td>6-10% (vs 2% actuales)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Maritime Transport</strong></td>
+                            <td>Tankships costeros, ship-to-ship (STS), Fendercare y operaciones LATAM</td>
+                            <td>~£130m</td>
+                            <td>10-12%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="text-align: center; color: var(--text-secondary); margin-top: 16px;">Total FY25e: <strong>~£395m</strong> de ingresos consolidados</p>
+        </section>
+
+        <!-- DIVISIÓN DEFENCE - DEEP DIVE -->
+        <section class="section">
+            <h2 class="section-title">División Defence (JFD) - El Catalizador Clave</h2>
+            
+            <div class="highlight-box">
+                <p><strong>JFD es el proveedor líder mundial de sistemas de rescate submarino</strong> y equipos para fuerzas especiales. Suministra 5 de 6 sistemas de rescate submarino transportables por aire existentes globalmente y sirve a <strong>42 armadas</strong>.</p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Líneas de Negocio</h3>
+                <div class="card-content">
+                    <ul class="styled-list">
+                        <li><strong>Submarine Rescue Systems:</strong> Diseño, construcción, operación y mantenimiento de sistemas de rescate submarino</li>
+                        <li><strong>Special Forces Equipment:</strong> Rebreathers, sistemas de soporte vital, plataformas submarinas</li>
+                        <li><strong>Naval Support Services:</strong> Repostaje de buques navales, monitoreo radiológico, operaciones críticas</li>
+                        <li><strong>Training & In-Service Support:</strong> Contratos ISS para NATO, Australia, India, Corea del Sur, Singapur</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 class="section-subtitle">La Historia del Margen: De 16% a 2% y (potencialmente) de vuelta</h3>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Año</th>
+                            <th>Revenue</th>
+                            <th>UOP</th>
+                            <th>Margen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2019</td>
+                            <td>£83.2m</td>
+                            <td>£13.2m</td>
+                            <td><strong>15.9%</strong></td>
+                        </tr>
+                        <tr>
+                            <td>2020</td>
+                            <td>£81.5m</td>
+                            <td>£9.7m</td>
+                            <td><strong>11.9%</strong></td>
+                        </tr>
+                        <tr>
+                            <td>2021</td>
+                            <td>£68.2m</td>
+                            <td>-£0.3m</td>
+                            <td style="color: var(--danger-color);"><strong>-0.4%</strong></td>
+                        </tr>
+                        <tr>
+                            <td>2022</td>
+                            <td>£72.5m</td>
+                            <td>£1.5m</td>
+                            <td><strong>2.1%</strong></td>
+                        </tr>
+                        <tr>
+                            <td>2023</td>
+                            <td>£80.1m</td>
+                            <td>£1.9m</td>
+                            <td><strong>2.4%</strong></td>
+                        </tr>
+                        <tr style="background: rgba(0, 215, 255, 0.1);">
+                            <td><strong>H1 2025</strong></td>
+                            <td>£37.6m</td>
+                            <td>£0.7m</td>
+                            <td><strong>1.9%</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card" style="margin-top: 24px;">
+                <h3 class="card-title">¿Qué pasó?</h3>
+                <div class="card-content">
+                    <p>Entre 2021-2024, Defence entró en un "valle cíclico" por:</p>
+                    <ul class="styled-list">
+                        <li>Finalización de grandes contratos sin reemplazo inmediato (timing gap en conversión)</li>
+                        <li>Retrasos en procurement de gobiernos (extended timelines post-COVID)</li>
+                        <li>Inversión front-loaded en I+D (next-gen products: rebreather, tactical vehicles, submarine platforms)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">¿Por qué creemos que puede recuperar?</h3>
+                <div class="card-content">
+                    <p><span class="checkmark">✓</span> <strong>Order book histórico:</strong> £315m a H1 2025 (+45% YoY) — el más alto de la historia de la división</p>
+                    
+                    <p style="margin-top: 16px;"><span class="checkmark">✓</span> <strong>Pipeline robusto:</strong> Contratos recientes:</p>
+                    <ul class="styled-list">
+                        <li><strong>Polonia:</strong> Sistema hyperbárico para buque Ratownik (delivery 2029)</li>
+                        <li><strong>Singapur:</strong> Partnership ST Engineering (enero 2026)</li>
+                        <li><strong>US:</strong> Special Security Agreement + Foreign Comparative Testing contracts</li>
+                        <li><strong>UK MoD:</strong> Large contract awards</li>
+                        <li><strong>Suecia:</strong> Colaboración estratégica con Saab</li>
+                    </ul>
+                    
+                    <p style="margin-top: 16px;"><span class="checkmark">✓</span> <strong>Track record probado:</strong> Los márgenes 12-16% de 2019-2020 no fueron un accidente</p>
+                </div>
+            </div>
+
+            <h3 class="section-subtitle">Escenarios de Normalización</h3>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Escenario</th>
+                            <th>Período</th>
+                            <th>Margen Target</th>
+                            <th>UOP Incremental</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Conservador</strong></td>
+                            <td>2026-27</td>
+                            <td>7-9%</td>
+                            <td>+£7-9m</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Base</strong></td>
+                            <td>2027-28</td>
+                            <td>8-10%</td>
+                            <td>+£10-13m</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Optimista</strong></td>
+                            <td>2028+</td>
+                            <td>9-13%</td>
+                            <td>+£13-16m</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- TURNAROUND -->
+        <section class="section">
+            <h2 class="section-title">La Historia del Turnaround</h2>
+            
+            <div class="card">
+                <h3 class="card-title">Fase 1 - Estabilizar (2022-2024)</h3>
+                <div class="card-content">
+                    <ul class="styled-list">
+                        <li>Desinversiones de activos no core (RMSpumptools por £90m, Martek)</li>
+                        <li>Refinanciación de la deuda, con un coste medio de ~8.5%</li>
+                        <li>Programa "One James Fisher" para simplificar estructura y reducir SG&A</li>
+                    </ul>
+                    <p style="margin-top: 16px;"><strong>Resultado:</strong> Net debt covenant ~£61m en FY24 con ratio ND/EBITDA ~1.4x (vs 2.8x en FY23)</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Fase 2 - Reacelerar (2025-2028)</h3>
+                <div class="card-content">
+                    <p><strong>Vectores de crecimiento:</strong></p>
+                    <ul class="styled-list">
+                        <li><strong>Crecimiento y mix de Defence:</strong> Order book de ~£315m (+45% YoY) convirtiéndose en ingresos y margen en 2H25-2027</li>
+                        <li><strong>Self-help corporativo:</strong> Ahorros identificados en SG&A (~£5.2m ejecutados H1 25, objetivo total £8-10m)</li>
+                        <li><strong>Transformación supply chain:</strong> Optimizar compras, logística y gestión de proyecto</li>
+                        <li><strong>Gestión de working capital:</strong> Reducir DSO, gestionar mejor anticipos contractuales</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 class="section-subtitle">Métricas Clave del Turnaround</h3>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>KPI</th>
+                            <th>FY24</th>
+                            <th>FY25e</th>
+                            <th>Target 2027-28</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Revenue</td>
+                            <td>£437.7m</td>
+                            <td>~£395m</td>
+                            <td>£420-450m</td>
+                        </tr>
+                        <tr>
+                            <td>UOP</td>
+                            <td>£29.5m</td>
+                            <td>~£28m</td>
+                            <td>£42-45m</td>
+                        </tr>
+                        <tr>
+                            <td>Margen UOP</td>
+                            <td>6.7%</td>
+                            <td>7.1%</td>
+                            <td>10%</td>
+                        </tr>
+                        <tr>
+                            <td>ROCE</td>
+                            <td>5.1%</td>
+                            <td>~6.5%</td>
+                            <td>15%</td>
+                        </tr>
+                        <tr>
+                            <td>ND/EBITDA (covenant)</td>
+                            <td>1.4x</td>
+                            <td>~1.5x</td>
+                            <td>1.0-1.3x</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ESTRUCTURA DE CAPITAL -->
+        <section class="section">
+            <h2 class="section-title">Estructura de Capital y Riesgo Financiero</h2>
+            
+            <div class="card">
+                <h3 class="card-title">Evolución de la Deuda</h3>
+                <div class="card-content">
+                    <ul class="styled-list">
+                        <li><strong>FY23:</strong> Covenant net debt £149.8m, ND/EBITDA 2.8x (cerca de límites covenant 3.0x)</li>
+                        <li><strong>FY24:</strong> Covenant net debt £61.0m, ND/EBITDA 1.4x — mejora dramática tras venta RMSpumptools</li>
+                        <li><strong>H1 2025:</strong> Covenant net debt £72.1m, ND/EBITDA 1.6x — ligero incremento temporal</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>¿Por qué subió la deuda en H1 25?</strong></p>
+                <p style="margin-top: 8px;">El aumento de £11m (de £61m a £72.1m) es temporal y estratégico:</p>
+                <ul class="styled-list">
+                    <li>Capex front-loaded (£19.2m en H1) para renovación flota Maritime e I+D Defence</li>
+                    <li>Guarantees/collateral deposits (+£1-2m) para nuevos contratos Defence export</li>
+                    <li>Estacionalidad working capital (H1 típicamente consume caja, H2 libera)</li>
+                </ul>
+                <p style="margin-top: 12px;"><strong>Management guidance:</strong> Covenant net debt debería normalizar hacia £65-68m al cierre FY25</p>
+            </div>
+
+            <h3 class="section-subtitle">Términos Actuales (post-refinanciación sept 2024)</h3>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parámetro</th>
+                            <th>Covenant</th>
+                            <th>Actual</th>
+                            <th>Headroom</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ND/EBITDA</td>
+                            <td>≤ 3.0x</td>
+                            <td>1.6x</td>
+                            <td style="color: var(--success-color);"><strong>1.4x</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Interest cover</td>
+                            <td>≥ 4.5x</td>
+                            <td>6.8x</td>
+                            <td style="color: var(--success-color);"><strong>2.3x</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card" style="margin-top: 24px;">
+                <div class="card-content">
+                    <p><strong>Coste de deuda:</strong> ~8.5% blended (mejora -200 bps vs pre-refinanciación)</p>
+                    <p><strong>Vencimientos:</strong> RCF sept-2027 (con opciones extensión → potencial 2029), Term loan sept-2029</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- VALORACIÓN -->
+        <section class="section">
+            <h2 class="section-title">Valoración</h2>
+            
+            <div class="card">
+                <h3 class="card-title">Enfoque DCF (FCFF)</h3>
+                <div class="card-content">
+                    <p><strong>Supuestos centrales:</strong></p>
+                    <ul class="styled-list">
+                        <li><strong>WACC:</strong> ~9.5-9.6% (Rf ~4.5%, beta ~1.4, prima mercado ~5.5%)</li>
+                        <li><strong>Crecimiento ventas:</strong> ~3-4% CAGR 2025-2031 (Defence creciendo 10-12% anual)</li>
+                        <li><strong>Margen UOP:</strong> Expandiendo progresivamente hacia ~8.5-9%, terminal 9-10%</li>
+                        <li><strong>Terminal growth:</strong> ~2% (múltiplo implícito EV/EBITDA terminal ~5.5x)</li>
+                    </ul>
+                    <p style="margin-top: 16px; color: var(--primary-color); font-weight: 600;">Valor intrínseco (caso base): <strong>£6.50/acción</strong></p>
+                </div>
+            </div>
+
+            <h3 class="section-subtitle">Valoración por EV/EBIT a 2028</h3>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Caso</th>
+                            <th>Ingresos</th>
+                            <th>Margen EBIT</th>
+                            <th>EBIT</th>
+                            <th>EV/EBIT</th>
+                            <th>Precio Implícito</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Bajista</strong></td>
+                            <td>£452.0m</td>
+                            <td>7.0%</td>
+                            <td>£31.6m</td>
+                            <td>8.0x</td>
+                            <td>359.2p</td>
+                        </tr>
+                        <tr style="background: rgba(0, 215, 255, 0.1);">
+                            <td><strong>Base</strong></td>
+                            <td>£452.0m</td>
+                            <td>8.6%</td>
+                            <td>£38.9m</td>
+                            <td>10.0x</td>
+                            <td><strong>628.2p</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Alcista</strong></td>
+                            <td>£452.0m</td>
+                            <td>10.0%</td>
+                            <td>£45.2m</td>
+                            <td>12.0x</td>
+                            <td>933.2p</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="section-subtitle">Comparación con Peers (2026)</h3>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Métrica</th>
+                            <th>FSJ</th>
+                            <th>Subsea 7</th>
+                            <th>Gulf Marine Services</th>
+                            <th>Reach Subsea</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Revenue</td>
+                            <td>~£419m / $530m</td>
+                            <td>$6.8bn</td>
+                            <td>$133m</td>
+                            <td>$278m</td>
+                        </tr>
+                        <tr>
+                            <td>EBITDA margin</td>
+                            <td>~17%</td>
+                            <td>16%</td>
+                            <td>54%</td>
+                            <td>42%</td>
+                        </tr>
+                        <tr>
+                            <td>EV/EBITDA</td>
+                            <td style="color: var(--success-color);"><strong>~4.0x</strong></td>
+                            <td>19.7x</td>
+                            <td>5.6x</td>
+                            <td>3.1x</td>
+                        </tr>
+                        <tr>
+                            <td>EV/Sales</td>
+                            <td style="color: var(--success-color);"><strong>0.65x</strong></td>
+                            <td>~2.2x</td>
+                            <td>~2.5x</td>
+                            <td>1.3x</td>
+                        </tr>
+                        <tr>
+                            <td>Net Debt/EBITDA</td>
+                            <td>1.5x</td>
+                            <td>0.5x</td>
+                            <td>4.4x</td>
+                            <td>~1.0x</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 24px;">
+                <p><strong>Conclusión de valoración:</strong> Un múltiplo de 5.5x sobre EBITDA normalizado y 0.9-1.0x sobre ventas para 2026 sería conservador una vez empiecen a consolidar márgenes y ROCE. Esto nos devuelve a un rango de <strong>£6.5/acción, con upside del +50%</strong>.</p>
+            </div>
+        </section>
+
+        <!-- CHART: MARGIN EVOLUTION -->
+        <section class="section">
+            <h2 class="section-title">Evolución de Márgenes</h2>
+            <div class="chart-container">
+                <canvas id="marginChart"></canvas>
+            </div>
+        </section>
+
+        <!-- CHART: DEFENCE ORDER BOOK -->
+        <section class="section">
+            <h2 class="section-title">Order Book Defence</h2>
+            <div class="chart-container">
+                <canvas id="orderBookChart"></canvas>
+            </div>
+        </section>
+
+        <!-- RIESGOS -->
+        <section class="section">
+            <h2 class="section-title">Análisis de Riesgos</h2>
+            
+            <div class="risk-card risk-high">
+                <div class="risk-header">
+                    <span class="risk-icon">🔴</span>
+                    <div>
+                        <div class="risk-title">Riesgo de Ejecución en Defence (CRITICIDAD ALTA)</div>
+                        <div class="risk-detail">Probabilidad: Media</div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p><strong>Escenario:</strong> Defence ha fallado en cumplir expectativas de margin recovery 2021-2024. El margen actual 1.9% está muy lejos de los niveles históricos 12-16%.</p>
+                    <p style="margin-top: 8px;"><strong>Impacto:</strong> Si la conversión del order book £315m se retrasa o los nuevos contratos tienen mix desfavorable, Defence podría mantenerse en márgenes mid-single digit (4-6%) durante varios años más, arrastrando el margen grupo.</p>
+                    <p style="margin-top: 8px;"><strong>Mitigante:</strong> Order book +45% YoY y pipeline geográficamente diversificado (US, Europa, Asia) reduce riesgo de concentración.</p>
+                </div>
+            </div>
+
+            <div class="risk-card risk-medium">
+                <div class="risk-header">
+                    <span class="risk-icon">🟡</span>
+                    <div>
+                        <div class="risk-title">Ciclo Macro y Offshore</div>
+                        <div class="risk-detail">Probabilidad: Media</div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p><strong>Escenario:</strong> Debilidad prolongada en oil & gas podría presionar Energy y parte de Maritime (STS, LNG).</p>
+                    <p style="margin-top: 8px;"><strong>Mitigante:</strong> Decommissioning es más defensivo y menos cíclico que desarrollo de nuevos campos.</p>
+                </div>
+            </div>
+
+            <div class="risk-card risk-medium">
+                <div class="risk-header">
+                    <span class="risk-icon">🟡</span>
+                    <div>
+                        <div class="risk-title">Working Capital y Calidad de la Caja</div>
+                        <div class="risk-detail">Probabilidad: Media-baja</div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p><strong>Escenario:</strong> Retrasos en cobros en LATAM/África. Proyectos con hitos mal estructurados pueden consumir caja puntual.</p>
+                    <p style="margin-top: 8px;"><strong>Mitigante:</strong> Foco del management en reducir DSO y gestionar mejor anticipos contractuales.</p>
+                </div>
+            </div>
+
+            <div class="risk-card risk-low" style="border-color: var(--success-color);">
+                <div class="risk-header">
+                    <span class="risk-icon">🟢</span>
+                    <div>
+                        <div class="risk-title">UPSIDE: Margen Converge Más Rápido hacia 10%</div>
+                        <div class="risk-detail">Probabilidad: Media</div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p><strong>Escenario:</strong> Mejor drop-through en Defence + ahorro supply chain por encima de plan.</p>
+                    <p style="margin-top: 8px;"><strong>Impacto:</strong> Re-rating de múltiplo y aceleración del upside hacia £7-9/acción.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONCLUSIONES -->
+        <section class="section">
+            <h2 class="section-title">Conclusión</h2>
+            
+            <div class="highlight-box">
+                <p><strong>James Fisher & Sons es un caso clásico de turnaround industrial en una small cap ignorada</strong>, donde:</p>
+                <ul class="styled-list" style="margin-top: 12px;">
+                    <li>El balance ya está saneado</li>
+                    <li>El perímetro de negocio es más limpio</li>
+                    <li>Las palancas de valor (Defence, decommissioning, simplificación) son identificables</li>
+                    <li>Y el precio sigue anclado a los años de problemas</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Para Quién Es Esta Inversión</h3>
+                <div class="card-content">
+                    <p>No es una historia para inversores que buscan resultados en 3 meses ni para quien necesite "pure quality" con ROCE 20% hoy.</p>
+                    <p style="margin-top: 12px;">Pero para un inversor de <strong>quality value paciente</strong>, cómodo con algo de complejidad y volatilidad, pensamos que <strong>FSJ a ~£4.33 ofrece una asimetría interesante</strong>:</p>
+                    <ul class="styled-list" style="margin-top: 12px;">
+                        <li><strong>Downside manejable</strong> si el turnaround se ralentiza</li>
+                        <li><strong>Upside significativo (50-70%)</strong> si simplemente "hacen lo que han dicho que harán"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Qué Tiene Que Ocurrir Para Que La Tesis Funcione</h3>
+                <div class="card-content">
+                    <ul class="styled-list">
+                        <li>Convertir el order book de Defence sin grandes sobresaltos</li>
+                        <li>Completar el programa de ahorros corporativos (£8-10m)</li>
+                        <li>Mantener la disciplina de capital (Capex y working capital contenidos)</li>
+                        <li>Llevar el margen UOP a una zona de 8-10% en los próximos 3-4 años</li>
+                        <li>Defence recupere margen hacia 8-10% mínimo en FY26-27</li>
+                        <li>Normalizar el ROCE hacia el high single digit camino del 12-15%</li>
+                    </ul>
+                    <p style="margin-top: 16px;">Si eso ocurre, la combinación de <strong>expansión de beneficios + re-rating de múltiplo</strong> puede ofrecer retornos atractivos (50-70% en 2-3 años, con opcionalidad adicional si Defence y renewable subsea sorprenden al alza).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <p>Análisis realizado por <a href="https://spreadhunters.substack.com" target="_blank" rel="noopener noreferrer">SpreadHunters</a></p>
+            <p style="margin-top: 8px; font-size: 0.9rem;">Este análisis se ofrece únicamente con fines informativos y educativos. No constituye asesoramiento financiero ni recomendación de inversión.</p>
+            <p style="margin-top: 16px; font-size: 0.85rem;">© 2026 SpreadHunters. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Chart 1: Margin Evolution
+        const marginCtx = document.getElementById('marginChart').getContext('2d');
+        new Chart(marginCtx, {
+            type: 'line',
+            data: {
+                labels: ['FY22', 'FY23', 'FY24', 'FY25e', 'FY26e', 'FY27e', 'FY28e'],
+                datasets: [{
+                    label: 'Margen UOP (%)',
+                    data: [5.8, 6.2, 6.7, 7.1, 7.8, 8.5, 9.5],
+                    borderColor: '#00d7ff',
+                    backgroundColor: 'rgba(0, 215, 255, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#d0d8e0',
+                            font: {
+                                size: 13
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Evolución del Margen UOP - Camino hacia el 10%',
+                        color: '#00d7ff',
+                        font: {
+                            size: 16,
+                            weight: 'bold'
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 12,
+                        ticks: {
+                            color: '#b0c4de',
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(45, 61, 77, 0.5)'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: '#b0c4de'
+                        },
+                        grid: {
+                            color: 'rgba(45, 61, 77, 0.5)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 2: Defence Order Book
+        const orderBookCtx = document.getElementById('orderBookChart').getContext('2d');
+        new Chart(orderBookCtx, {
+            type: 'bar',
+            data: {
+                labels: ['FY22', 'FY23', 'FY24', 'H1 FY25'],
+                datasets: [{
+                    label: 'Order Book (£m)',
+                    data: [185, 198, 217, 315],
+                    backgroundColor: [
+                        'rgba(255, 165, 0, 0.6)',
+                        'rgba(255, 165, 0, 0.7)',
+                        'rgba(255, 165, 0, 0.8)',
+                        'rgba(144, 238, 144, 0.8)'
+                    ],
+                    borderColor: [
+                        '#ffa500',
+                        '#ffa500',
+                        '#ffa500',
+                        '#90ee90'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#d0d8e0',
+                            font: {
+                                size: 13
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Order Book Defence (JFD) - £315m (+45% YoY)',
+                        color: '#00d7ff',
+                        font: {
+                            size: 16,
+                            weight: 'bold'
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#b0c4de',
+                            callback: function(value) {
+                                return '£' + value + 'm';
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(45, 61, 77, 0.5)'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: '#b0c4de'
+                        },
+                        grid: {
+                            color: 'rgba(45, 61, 77, 0.5)'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
 
