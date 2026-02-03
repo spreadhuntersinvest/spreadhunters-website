@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 <html lang="es">
@@ -121,8 +120,6 @@
               .logo-navbar { top: 12px; left: 12px; }
               .logo-navbar-img { height: 30px; }
             }
-
-
 
         /* ========================================
            HEADER PROFESIONAL
@@ -382,7 +379,7 @@
             padding-left: 20px;
         }
 
-                    section > h3 {
+        section > h3 {
               font-size: 1.25rem;
               margin: 30px 0 15px;
               color: var(--text-primary);
@@ -687,7 +684,7 @@
             }
         }
 
-            /* ========================================
+        /* ========================================
            AJUSTE FINO DE ESPACIADO EN CAJAS (COMPACTO)
            ======================================== */
         
@@ -904,7 +901,7 @@
 <!-- Navegación -->
 <nav class="nav-tabs">
 <div class="container">
-<ul><li><a class="active" href="#resumen">Resumen Ejecutivo</a></li><li><a href="#metricas">Métricas Clave</a></li><li><a href="#tesis">Tesis de Inversión</a></li><li><a href="#cronologia">Cronología</a></li><li><a href="#probabilidades">Probabilidades y Riesgos</a></li><li><a href="#comparativo">Análisis Comparativo</a></li><li><a href="#catalysts">Catalizadores</a></li><li><a href="#riesgos">Riesgos a Monitorear</a></li><li><a href="#conclusion">Conclusión</a></li></ul>
+<ul><li><a class="active" href="#resumen">Resumen Ejecutivo</a></li><li><a href="#metricas">Métricas Clave</a></li><li><a href="#tesis">Tesis de Inversión</a></li><li><a href="#cronologia">Cronología</a></li><li><a href="#riesgos">Riesgos</a></li><li><a href="#comparativo">Análisis Comparativo</a></li><li><a href="#catalysts">Catalizadores</a></li><li><a href="#conclusion">Conclusión</a></li></ul>
 </div>
 </nav>
 <!-- Contenido -->
@@ -927,16 +924,7 @@
 <ul>
 <li>Indisponibilidad de acciones de MRR.AX para corto (micro-cap, hard-to-borrow).</li>
 </ul>
-<div class="alert alert-info">
-<h4>⚠ Nota Importante</h4>
-<p>Esta inversión es apropiada <strong>únicamente</strong> para inversores sofisticados que comprendan los riesgos de:</p>
-<ul>
-<li>Eventos corporativos binarios (fallo del deal).</li>
-<li>Retrasos regulatorios y judiciales.</li>
-<li>Volatilidad extrema en micro-caps.</li>
-<li>Liquidez limitada en ambos valores.</li>
-</ul>
-</div></section><section class="fade-in" id="metricas"><h2>Métricas Clave</h2><h3>Análisis del Spread</h3>
+</section><section class="fade-in" id="metricas"><h2>Métricas Clave</h2><h3>Análisis del Spread</h3>
 <table>
 <thead>
 <tr>
@@ -970,11 +958,6 @@
 <td><span class="highlight-text">Spread Bruto</span></td>
 <td><span class="highlight-text"><span id="upsidePctTable">+85,9%</span></span></td>
 <td>= (0,1580 – 0,0850) ÷ 0,0850</td>
-</tr>
-<tr>
-<td><strong>Spread Neto (ajustado costes)</strong></td>
-<td><strong>+28–35%</strong></td>
-<td>Tras comisiones, FX, market timing</td>
 </tr>
 </tbody>
 </table>
@@ -1187,121 +1170,71 @@
 <div class="timeline-desc"><strong>Deslistado de ELY &amp; ASX Cotización de MRR.</strong> ELY se delista de TSX-V, Frankfurt, OTCQB. MRR sigue cotizando en ASX; posición ahora en MRR (no hedgeada, asume riesgo de precio de MRR post-cierre).</div>
 </div>
 </div>
-</div></section><section class="fade-in" id="probabilidades"><h2>Probabilidades y Riesgos</h2><h3>5.1 Matriz de Probabilidades (Modelo Base)</h3>
-<table>
-<thead>
-<tr>
-<th>Evento</th>
-<th>Probabilidad Estimada</th>
-<th>Drivers / Notas</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Shareholder Approval (Electrum)</strong></td>
-<td><strong>98%</strong></td>
-<td>Insiders ~28% ya votaron SÍ; board recomendación unánime; deal friendly; no oposición conocida.</td>
-</tr>
-<tr>
-<td><strong>Court Approval (BC Supreme Court)</strong></td>
-<td><strong>97%</strong></td>
-<td>Deals amistosos con soporte de insiders rara vez son rechazados por corte; procedimiento típico en BC.</td>
-</tr>
-<tr>
-<td><strong>Aprobaciones Regulatorias (TSX-V, ASX, ASIC)</strong></td>
-<td><strong>96%</strong></td>
-<td>No hay red flags conocidos; ambas compañías operan bajo régimen regulatorio establecido.</td>
-</tr>
-<tr>
-<td><strong>Cierre del Deal (Combinado)</strong></td>
-<td><strong>92–95%</strong></td>
-<td>Producto de probabilidades independientes (~0.98 × 0.97 × 0.96). Riesgo de fallo ~5–8%.</td>
-</tr>
-<tr>
-<td><strong>Timing (Cierre Marzo 2026)</strong></td>
-<td><strong>70–75%</strong></td>
-<td>Riesgo de extensión: delays judiciales, problemas regulatorios menores. Extensión típica: +1–2 meses.</td>
-</tr>
-</tbody>
-</table>
-<h3>5.2 Riesgos Identificados</h3>
+</div></section><section class="fade-in" id="riesgos"><h2>Riesgos</h2>
+
 <div class="card">
-<h4>🔴 RIESGOS CRÍTICOS</h4>
+<h4>🔴 1. El Deal Falla (5–8% de probabilidad)</h4>
+<p><strong>¿Qué puede salir mal?</strong></p>
 <ul>
-<li><strong>Fallo del Deal (~5–8%):</strong> Si deal no se cierra, ELY típicamente cae 40–60%. Drivers potenciales:
-                            <ul>
-<li>Court rechaza arrangement (muy poco probable).</li>
-<li>Reguladores (ASX/TSX-V) deniegan aprobación (raro).</li>
-<li>Shareholder vote falla (muy poco probable dado soporte del 28% de insiders).</li>
-<li>Condiciones de cierre incumplidas (ej: caja de MinRex cae significativamente).</li>
+<li><strong>Junta de accionistas rechaza:</strong> Muy improbable dado que 28% de insiders ya están comprometidos y el board es unánime.</li>
+<li><strong>Corte BC rechaza:</strong> Rarísimo en deals amistosos con estructura equilibrada.</li>
+<li><strong>Reguladores bloquean:</strong> Sin red flags conocidas en ambas compañías.</li>
+<li><strong>Cambio material adverso:</strong> Por ejemplo, si MinRex quema cash excesivamente pre-cierre.</li>
 </ul>
-</li>
-<li><strong>Time Decay / Retrasos (~20–30% probabilidad de extensión &gt;2 meses):</strong> Si deal no cierra en Marzo, cada mes extra reduce retorno anualizado ~30–40%. Ejemplo:
-                            <ul>
-<li>Cierre Marzo 2026: 90 días → +35% → ~142% anualizado.</li>
-<li>Cierre Mayo 2026: 150 días → +21% → ~51% anualizado.</li>
-</ul>
-</li>
-<li><strong>Riesgo de Precio MRR Post-Deal:</strong> Aunque ELY se convierte a MRR al cierre, si decides mantener la posición (no vender en cierre), quedas expuesto a riesgo de precio de MRR, que es volátil micro-cap.</li>
+<p><strong>Impacto:</strong> Si falla, ELY se derrumba a CAD 0,04–0,05, generando pérdida de <strong>–40% a –50%</strong>.</p>
+<p><strong>Nota:</strong> Con solo 5–8% de probabilidad de este escenario, el valor esperado sigue siendo positivo (+60% aprox.).</p>
+</div>
+
+<div class="card">
+<h4>⚠️ 2. MinRex Cae (Riesgo de Mercado)</h4>
+<p><strong>Escenario:</strong> Si MinRex baja un 20% pre-cierre (a AUD 0,0136), tu retorno se reduce a solo <strong>+8%</strong>. Sigue siendo ganancia, pero menor.</p>
+<p><strong>Solución potencial:</strong> Hedgear shorteando MRR para garantizar el spread, pero tiene problemas operacionales importantes:</p>
+<ul>
+<li>Hard-to-borrow (micro-cap australiana).</li>
+<li>Borrow fees elevados: 25–40% anual.</li>
+<li>Riesgo de recall forzado del préstamo.</li>
 </ul>
 </div>
+
 <div class="card">
-<h4>⚠️ RIESGOS OPERATIVOS</h4>
+<h4>⏱️ 3. Retraso del Deal (Time Decay)</h4>
+<p><strong>Impacto en retorno anualizado según timing del cierre:</strong></p>
 <ul>
-<li><strong>Liquidez Limitada en ELY.V:</strong> Market cap ~CAD 6M; volumen ~150k acciones/día. Posición de 100k acciones = 66% del volumen diario promedio. Significa:
-                            <ul>
-<li>Slippage al salir (si no esperas a cierre del deal).</li>
-<li>Dificultad para escalar posición.</li>
-<li>Bid-ask spreads amplios (típicamente 2–5%).</li>
+<li><strong>90 días (marzo):</strong> +35% → <strong>142% anualizado</strong></li>
+<li><strong>120 días (abril):</strong> +26% → <strong>78% anualizado</strong></li>
+<li><strong>150 días (mayo):</strong> +21% → <strong>51% anualizado</strong></li>
+<li><strong>180 días (junio):</strong> +16% → <strong>32% anualizado</strong></li>
 </ul>
-</li>
-<li><strong>Riesgo de Cambio (FX CAD/AUD):</strong> Valor teórico de ELY depende del tipo CAD/AUD (asumido 0,85 en análisis). Si CAD se aprecia vs AUD, spread se reduce; si se deprecia, spread mejora. Sensibilidad ~1% en FX ≈ ±1,4% en spread.</li>
-<li><strong>Volatilidad Extrema en Micro-Caps:</strong> Precios en TSX-V micro-caps pueden fluctuar 10–20% en sesiones individuales. Genera mark-to-market volatility, especialmente si broker requiere margin.</li>
+<p><strong>Conclusión:</strong> Cada 30 días de retraso merma aproximadamente <strong>~30% del retorno anualizado</strong>.</p>
+</div>
+
+<div class="card">
+<h4>💧 4. Riesgo de Liquidez (ELY es Microcap)</h4>
+<p><strong>Contexto:</strong> ELY tiene volumen de aproximadamente <strong>150k acciones/día</strong>.</p>
+<p><strong>Impacto:</strong> Posiciones grandes (100k+ acciones) sufren slippage significativo tanto al entry como al exit.</p>
+<p><strong>Mitigación:</strong></p>
+<ul>
+<li>Entrada gradual en múltiples órdenes.</li>
+<li>Broker con acceso a múltiples market makers en TSX-V.</li>
+<li>Evitar órdenes de mercado; usar límites.</li>
 </ul>
 </div>
-<h3>5.3 Modelo de Sensibilidad</h3>
-<table>
-<thead>
-<tr>
-<th>Supuesto Clave</th>
-<th>Escenario Base</th>
-<th>Caso Alcista</th>
-<th>Caso Bajista</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Precio MRR al Cierre</strong></td>
-<td>AUD 0,0170</td>
-<td>AUD 0,0204 (+20%)</td>
-<td>AUD 0,0153 (–10%)</td>
-</tr>
-<tr>
-<td><strong>Spread Neto Resultante</strong></td>
-<td>+35%</td>
-<td>+53%</td>
-<td>+29%</td>
-</tr>
-<tr>
-<td><strong>Timing (Cierre)</strong></td>
-<td>Marzo 2026 (90d)</td>
-<td>Marzo 2026 (90d) [más rápido]</td>
-<td>Mayo 2026 (150d) [retraso 2m]</td>
-</tr>
-<tr>
-<td><strong>Retorno Anualizado</strong></td>
-<td>~142%</td>
-<td>~214%</td>
-<td>~71%</td>
-</tr>
-<tr>
-<td><strong>Probabilidad</strong></td>
-<td>40%</td>
-<td>30%</td>
-<td>22%</td>
-</tr>
-</tbody>
-</table></section><section class="fade-in" id="comparativo"><h2>Análisis Comparativo</h2><div class="comparison-row">
+
+<h3 style="margin-top: 30px;">Riesgos Geopolíticos / Macro</h3>
+<ul>
+<li><strong>Serbia:</strong> Estabilidad política aceptable; sin riesgo material conocido. Pero transiciones políticas pueden afectar permisos de exploración.</li>
+<li><strong>Australia:</strong> Jurisdicción de bajo riesgo. ASX listings muy líquidas y protegidas.</li>
+<li><strong>Precios de Commodities:</strong> Oro relativamente estable; pero caída &gt;10% podría afectar sentimiento hacia exploradores.</li>
+</ul>
+
+<h3 style="margin-top: 20px;">Riesgos Específicos de la Operación</h3>
+<ul>
+<li><strong>Cambios en Condiciones Financieras:</strong> Si MinRex quema cash rápidamente pre-cierre, o si descubrimientos afectan valuación, ratio de canje podría renegociarse (raro pero posible).</li>
+<li><strong>Litigios / Demandas:</strong> Shareholder litigation post-anuncio (ej. "deal undervalued") podría retrasar cierre 1–3 meses.</li>
+<li><strong>Cambios de Management / Board:</strong> Si CEO o director clave renuncia pre-cierre, podría afectar confianza en deal. Riesgo bajo pero presente.</li>
+</ul>
+
+</section><section class="fade-in" id="comparativo"><h2>Análisis Comparativo</h2><div class="comparison-row">
 <div class="comparison-col card">
 <strong>Estrategia Original (Arbitrage Cubierto)</strong>
 <p><strong>Estructura:</strong> LONG 100k ELY @ 0,085 + SHORT 790k MRR @ 0,017 (1:7,9).</p>
@@ -1342,23 +1275,12 @@
 <li><strong>Aprobación Regulatoria Denegada:</strong> TSX-V o ASX deniegan (raro, &lt;1%).</li>
 <li><strong>Resultados de Exploración Decepcionantes:</strong> Timok East drilling results weak, o Sofala expandido less than expected → reevaluación bajista; MRR baja; spread crece (malo para arbitragistas).</li>
 <li><strong>Cambios Económicos Macroeconómicos:</strong> Crisis de liquidez, colapso de precios de commodities, problema de riesgo-país en Serbia/Australia.</li>
-</ul></section><section class="fade-in" id="riesgos"><h2>Riesgos a Monitorear</h2><h3>Riesgos Geopolíticos / Macro</h3>
-<ul>
-<li><strong>Serbia:</strong> Estabilidad política aceptable; sin riesgo material conocido. Pero transiciones políticas pueden afectar permisos de exploración.</li>
-<li><strong>Australia:</strong> Jurisdicción de bajo riesgo. ASX listings muy líquidas y protegidas.</li>
-<li><strong>Precios de Commodities:</strong> Oro relativamente estable; pero caída &gt;10% podría afectar sentimiento hacia exploradores.</li>
-</ul>
-<h3>Riesgos Específicos de la Operación</h3>
-<ul>
-<li><strong>Cambios en Condiciones Financieras:</strong> Si MinRex quema cash rápidamente pre-cierre, o si descubrimientos afectan valuación, ratio de canje podría renegociarse (raro pero posible).</li>
-<li><strong>Litigios / Demandas:</strong> Shareholder litigation post-anuncio (ej. "deal undervalued") podría retrasar cierre 1–3 meses.</li>
-<li><strong>Cambios de Management / Board:</strong> Si CEO o director clave renuncia pre-cierre, podría afectar confianza en deal. Riesgo bajo pero presente.</li>
 </ul></section><section class="fade-in" id="conclusion"><h2>Conclusión</h2><div class="card">
-<strong>Tesis Validada:</strong> La inversión LONG en ELY.V realizada el 6 enero 2026 @ CAD 0,085 ofrece un <strong>perfil retorno/riesgo razonable</strong> para inversores sofisticados con horizonte de 90 días y tolerancia para riesgo binario.
-                    </div>
+<strong>Tesis Validada:</strong> La inversión LONG en ELY.V realizada el 6 enero 2026 @ CAD 0,085 ofrece un perfil retorno/riesgo razonable para inversores sofisticados con horizonte de 90 días y tolerancia para riesgo binario.
+</div>
 <div class="card">
 <strong>Valor Esperado Positivo:</strong> EV de ~+59,8% (~CAD 5.090 sobre inversión inicial de CAD 8.500), equivalentes a ~239% anualizado, asumiendo deal cierra en Marzo 2026.
-                    </div>
+</div>
 <div class="card">
 <strong>Riesgos Acotados pero Presentes:</strong>
 <ul style="margin: 10px 0; padding-left: 20px;">
@@ -1367,9 +1289,7 @@
 <li>Riesgo operativo: liquidez limitada en ELY, slippage al salir, volatilidad de micro-cap.</li>
 </ul>
 </div>
-<h3 style="color: white; margin-top: 30px;">Recomendación</h3>
-<p>✓ <strong>MANTENER POSICIÓN LONG</strong> en ELY.V con plan de salida al cierre del deal (conversión automática a MRR) o si se alcanza spread de &lt;20% (punto de indiferencia donde otros arbitragistas probablemente venderán).</p>
-<p><strong>Monitoreo Recomendado:</strong></p>
+<h3 style="color: white; margin-top: 30px;">Plan de Monitoreo</h3>
 <ul>
 <li>Seguimiento de aprobaciones regulatorias (TSX-V, ASX, court) a través de IR de ambas empresas.</li>
 <li>Alertas en resultados de exploración (Timok East, Novo Tlamino) que podrían afectar valuación de MRR.</li>
@@ -1378,7 +1298,7 @@
 <li>Plan B: Si spread converge a &lt;15%, o si deal signaling falla, considerar salida anticipada con pérdida limitada.</li>
 </ul>
 <p style="margin-top: 20px;"><strong style="color: var(--primary-color);">Horizonte Temporal:</strong> 90 días (Marzo 2026 cierre esperado).</p>
-<p style="margin-top: 10px;"><strong style="color: var(--primary-color);">Probabilidad de Éxito:</strong> 93–95% (deal cierra); Upside ~35–53%.</p></section></main>
+<p style="margin-top: 10px;"><strong style="color: var(--primary-color);">Probabilidad de Éxito:</strong> 92–95% (deal cierra); Upside ~35–53%.</p></section></main>
 <!-- Footer -->
 <footer>
 <div class="container">
@@ -1387,8 +1307,6 @@
 <p class="mt-15">🔗 <a href="https://spreadhunters.es" rel="noopener noreferrer" target="_blank">SpreadHunters Investment Research</a> | 📝 <a href="https://substack.com/@spreadhunters" rel="noopener noreferrer" target="_blank">Substack</a> | 𝕏 <a href="https://x.com/Spread_Hunters" rel="noopener noreferrer" target="_blank">Twitter/X</a></p>
 </div>
 </footer>
-
-
 <script>
 (function () {
   // Progress bar
