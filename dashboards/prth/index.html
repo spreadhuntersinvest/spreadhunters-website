@@ -413,21 +413,20 @@
         }
 
         .chart-container {
-            background: rgba(26, 35, 50, 0.85);
-            border-radius: 8px;
-            padding: 25px;
-            margin: 30px 0;
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(10px);
-            position: relative;
-            height: 400px;
+          background: rgba(26, 35, 50, 0.85);
+          border-radius: 8px;
+          padding: 25px;
+          margin: 30px 0;
+          border: 1px solid var(--border-color);
+          backdrop-filter: blur(10px);
+          position: relative;
+          height: auto;              /* antes 400px */
+          min-height: 320px;         /* seguridad */
         }
-
-        .chart-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
+        
+        /* Si quieres un alto concreto en algún chart concreto */
+        .chart-350 {
+          min-height: 350px;
         }
 
         @media (max-width: 768px) {
@@ -1328,16 +1327,6 @@
                 <li><strong>Kaskela investigation refuerza la posición de minoritarios</strong> y añade presión legal sobre directiva y Priore.</li>
                 <li><strong>DCF Fair Value $12.23</strong> confirma que incluso $8.00 de oferta final deja valor sobre la mesa. El margen de seguridad es amplio.</li>
             </ul>
-
-            <h3>Posicionamiento</h3>
-            <table>
-                <thead><tr><th>Perfil</th><th>Recomendación</th><th>Rationale</th></tr></thead>
-                <tbody>
-                    <tr><td><strong>Tenedor actual</strong></td><td style="color:var(--success-color);"><strong>MANTENER</strong></td><td>Deal va adelante a precio justo ($7.50-8.00)</td></tr>
-                    <tr><td><strong>Con stop loss</strong></td><td style="color:var(--success-color);"><strong>MANTENER, stop $4.50</strong></td><td>Downside limitado vs. upside 30%+</td></tr>
-                    <tr><td><strong>Nueva entrada</strong></td><td style="color:var(--primary-color);"><strong>ATRACTIVO $5.00-5.39</strong></td><td>Risk/reward favorable</td></tr>
-                </tbody>
-            </table>
 
             <div class="alert alert-info" style="margin-top:25px;">
                 <strong>📝 Nota metodológica:</strong> Análisis actualizado a 15 de febrero de 2026. Todas las fechas son estimaciones basadas en procesos típicos de M&A. No ha habido comunicados públicos materiales desde dic 2025. Las probabilidades y timelines se ajustarán con cada nuevo desarrollo. Monitorear EDGAR para 8-K y DEF14A.
