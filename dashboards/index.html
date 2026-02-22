@@ -936,6 +936,231 @@ header p:hover {
         }
 
         
+    
+        /* ==================== STATUS SYSTEM ==================== */
+
+        /* STATUS PILL BADGE */
+        .status-pill {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            z-index: 10;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .status-active {
+            background: rgba(0, 215, 255, 0.2);
+            border: 1px solid rgba(0, 215, 255, 0.5);
+            color: #00d7ff;
+        }
+        .status-closed-success {
+            background: rgba(144, 238, 144, 0.2);
+            border: 1px solid rgba(144, 238, 144, 0.5);
+            color: #90ee90;
+        }
+        .status-closed-fail {
+            background: rgba(255, 107, 107, 0.2);
+            border: 1px solid rgba(255, 107, 107, 0.5);
+            color: #ff6b6b;
+        }
+        .status-closed-neutral {
+            background: rgba(176, 196, 222, 0.2);
+            border: 1px solid rgba(176, 196, 222, 0.5);
+            color: #b0c4de;
+        }
+
+        /* CLOSED CARD DESATURATION */
+        .research-card.card-closed {
+            opacity: 0.7;
+            filter: saturate(0.5);
+        }
+        .research-card.card-closed:hover {
+            opacity: 0.9;
+            filter: saturate(0.75);
+        }
+        .research-card.card-closed::before {
+            background: #b0c4de !important;
+            opacity: 0.5;
+        }
+        .research-card.card-closed.card-success::before {
+            background: #90ee90 !important;
+        }
+        .research-card.card-closed.card-fail::before {
+            background: #ff6b6b !important;
+        }
+
+        /* RESULT BLOCK (Post-mortem) */
+        .result-block {
+            background: rgba(0, 215, 255, 0.05);
+            border: 1px solid rgba(0, 215, 255, 0.15);
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin-top: 10px;
+            grid-column: 1 / -1;
+        }
+        .result-block-title {
+            font-size: 0.7em;
+            color: #00d7ff;
+            font-weight: 700;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 0;
+            font-size: 0.8em;
+            border-bottom: 1px solid rgba(0, 215, 255, 0.05);
+        }
+        .result-row:last-child {
+            border-bottom: none;
+        }
+        .result-label {
+            color: var(--text-tertiary);
+            font-weight: 500;
+        }
+        .result-value {
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+        .result-value.positive { color: #90ee90; }
+        .result-value.negative { color: #ff6b6b; }
+        .result-value.neutral { color: #b0c4de; }
+        .result-comment {
+            font-size: 0.75em;
+            color: var(--text-tertiary);
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid rgba(0, 215, 255, 0.08);
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        /* TABS NAVIGATION */
+        .tabs-nav {
+            display: flex;
+            gap: 0;
+            margin-bottom: 30px;
+            border-bottom: 2px solid rgba(0, 215, 255, 0.2);
+        }
+        .tab-btn {
+            padding: 14px 28px;
+            background: transparent;
+            color: var(--text-tertiary);
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tab-btn:hover {
+            color: var(--text-primary);
+            background: rgba(0, 215, 255, 0.05);
+        }
+        .tab-btn.active {
+            color: var(--text-primary);
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--text-primary);
+            box-shadow: 0 0 10px rgba(0, 215, 255, 0.5);
+        }
+        .tab-count {
+            background: rgba(0, 215, 255, 0.15);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            color: var(--text-primary);
+            border: 1px solid rgba(0, 215, 255, 0.3);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* CLOSED THESIS BANNER */
+        .closed-banner {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            border-left: 4px solid #ffa500;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            color: #ffa500;
+            font-size: 0.9em;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* FINISHED SECTION GROUPING BY TYPE */
+        .finished-type-group {
+            margin-bottom: 30px;
+        }
+        .finished-type-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 215, 255, 0.08);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            color: var(--text-tertiary);
+            margin-bottom: 15px;
+            border: 1px solid rgba(0, 215, 255, 0.15);
+        }
+
+        /* TRACK RECORD SUMMARY */
+        .track-record {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(26, 35, 50, 0.8);
+            border: 1px solid rgba(0, 215, 255, 0.15);
+            border-radius: 12px;
+        }
+        .track-stat {
+            text-align: center;
+            padding: 12px;
+        }
+        .track-stat-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .track-stat-label {
+            font-size: 0.8em;
+            color: var(--text-tertiary);
+            margin-top: 4px;
+        }
+        .track-stat-value.positive { color: #90ee90; }
+        .track-stat-value.negative { color: #ff6b6b; }
+
     </style>
 </head>
 <body>
@@ -971,10 +1196,39 @@ header p:hover {
     </button>
 </div>
 
-        <!-- RESULTADOS AGRUPADOS POR TIPO DE INVERSIÓN -->
-        <div id="resultsContainer">
-            <!-- Los resultados se generarán dinámicamente aquí -->
+        
+        <!-- TABS NAVIGATION -->
+        <div class="tabs-nav">
+            <button class="tab-btn active" onclick="switchTab('active')" id="tabActive">
+                🟢 Tesis en Curso <span class="tab-count" id="activeCount">0</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('finished')" id="tabFinished">
+                ✅ Tesis Finalizadas <span class="tab-count" id="finishedCount">0</span>
+            </button>
         </div>
+
+        <!-- TAB: TESIS EN CURSO -->
+        <div class="tab-content active" id="tabContentActive">
+            <!-- RESULTADOS AGRUPADOS POR TIPO DE INVERSIÓN -->
+            <div id="resultsContainer">
+                <!-- Los resultados activos se generarán dinámicamente aquí -->
+            </div>
+        </div>
+
+        <!-- TAB: TESIS FINALIZADAS -->
+        <div class="tab-content" id="tabContentFinished">
+            <div class="closed-banner">
+                📋 Estas tesis están cerradas. Consulta el resultado y el racional de salida en cada tarjeta.
+            </div>
+            <!-- TRACK RECORD SUMMARY -->
+            <div class="track-record" id="trackRecord">
+                <!-- Se genera dinámicamente -->
+            </div>
+            <div id="finishedContainer">
+                <!-- Los resultados finalizados se generarán dinámicamente aquí -->
+            </div>
+        </div>
+
 
         <footer style="text-align: center; padding: 20px; margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.9em; color: #cbd5e1;">
     <p>
@@ -1189,7 +1443,14 @@ async function loadAllPrices() {
                 currency: '€',
                 upsideActual: '+113%',  // Se actualiza con API o manual
                 priceSource: 'manual',
-                riskLevel: 'Medio'
+                riskLevel: 'Medio',
+                // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
+                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // TAE (ej: '+18% TAE')
+                closeComment: ''            // Comentario breve
             },
             {
                 id: 'qepc',
@@ -1210,7 +1471,14 @@ async function loadAllPrices() {
                 currency: '$',
                 upsideActual: '+20.6%',
                 priceSource: 'manual',
-                riskLevel: 'Bajo'
+                riskLevel: 'Bajo',
+                // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
+                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // TAE (ej: '+18% TAE')
+                closeComment: ''            // Comentario breve
             },
             {
                 id: 'edu',
@@ -1230,7 +1498,14 @@ async function loadAllPrices() {
                 currency: 'AUD',
                 upsideActual: '+207%',
                 priceSource: 'manual',
-                riskLevel: 'Bajo'
+                riskLevel: 'Bajo',
+                // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
+                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // TAE (ej: '+18% TAE')
+                closeComment: ''            // Comentario breve
             },
             {
                 id: 'caly',
@@ -1250,7 +1525,14 @@ async function loadAllPrices() {
                 currency: '$',
                 upsideActual: '+92.6%',
                 priceSource: 'manual',
-                riskLevel: 'Bajo'
+                riskLevel: 'Bajo',
+                // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
+                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // TAE (ej: '+18% TAE')
+                closeComment: ''            // Comentario breve
             },
             {
                 id: 'toya',
@@ -1270,7 +1552,14 @@ async function loadAllPrices() {
                 currency: 'PLN',
                 upsideActual: '+52.7%',
                 priceSource: 'manual',
-                riskLevel: 'Bajo'
+                riskLevel: 'Bajo',
+                // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
+                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // TAE (ej: '+18% TAE')
+                closeComment: ''            // Comentario breve
             },
             {
                 id: 'humm',
@@ -1290,7 +1579,14 @@ async function loadAllPrices() {
                 currency: 'AUD',
                 upsideActual: '55%',
                 priceSource: 'manual',
-                riskLevel: 'Medio'
+                riskLevel: 'Medio',
+                // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
+                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // TAE (ej: '+18% TAE')
+                closeComment: ''            // Comentario breve
             },
              {
                 id: 'inspecs',
@@ -1310,7 +1606,14 @@ async function loadAllPrices() {
                 currency: 'GBP',
                 upsideActual: '20%',
                 priceSource: 'manual',
-                riskLevel: 'Bajo'
+                riskLevel: 'Bajo',
+                // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
+                status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '2026-02-20',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: 'Tesis cumplica, precio objetivo cumplido',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '+22%',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '689,17%',  // TAE (ej: '+18% TAE')
+                closeComment: 'Retorno anualizado desde el 14 de enero a cierre 22 de feb del 689,17%'            // Comentario breve
             },
              {
                 id: 'ely',
@@ -1330,7 +1633,14 @@ async function loadAllPrices() {
                 currency: 'CAD',
                 upsideActual: '70%',
                 priceSource: 'manual',
-                riskLevel: 'Alto'
+                riskLevel: 'Alto',
+                // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
+                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // TAE (ej: '+18% TAE')
+                closeComment: ''            // Comentario breve
             },
              {
                 id: 'fsj',
@@ -1350,7 +1660,14 @@ async function loadAllPrices() {
                 currency: 'GBP',
                 upsideActual: '50%',
                 priceSource: 'manual',
-                riskLevel: 'Medio'
+                riskLevel: 'Medio',
+                // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
+                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // TAE (ej: '+18% TAE')
+                closeComment: ''            // Comentario breve
             },
               {
                 id: 'prth',
@@ -1370,9 +1687,49 @@ async function loadAllPrices() {
                 currency: '$',
                 upsideActual: '26.3%',
                 priceSource: 'manual',
-                riskLevel: 'Medio'
+                riskLevel: 'Medio',
+                // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
+                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // TAE (ej: '+18% TAE')
+                closeComment: ''            // Comentario breve
             },
             
+            
+            // ============ EJEMPLO: TESIS CERRADAS ============
+            // Para cerrar una tesis, cambia status a 'closed_success', 'closed_fail' o 'closed_neutral'
+            // y rellena los campos close*
+            /*
+            {
+                id: 'ejemplo-cerrada',
+                path: './ejemplo/index.html',
+                type: 'takeover',
+                ticker: 'EJEMPLO',
+                company: 'Empresa Ejemplo',
+                sector: 'Sector',
+                logo: 'images/ejemplo.png',
+                thesisDate: '2025-06-01',
+                thesisPrice: '€10.00',
+                fairValue: '€15.00',
+                fairValueRaw: 15.00,
+                upsideInitial: '+50%',
+                ticker_finnhub: 'EJEMPLO',
+                currentPrice: '€14.80',
+                currency: '€',
+                upsideActual: '+48%',
+                priceSource: 'manual',
+                riskLevel: 'Bajo',
+                // ← CAMPOS DE CIERRE
+                status: 'closed_success',          // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '2026-03-15',            // Fecha de cierre
+                closeReason: 'OPA ejecutada',       // Motivo de cierre
+                closeReturn: '+48%',                // Rentabilidad total
+                closeReturnAnnualized: '+62% TAE',  // Rentabilidad anualizada
+                closeComment: 'Spread se cerró más rápido de lo esperado tras mejora de la oferta.'
+            },
+            */
             // Aquí podrás añadir más empresas en el futuro. Decimales en "."
         ];
 
@@ -1382,29 +1739,168 @@ async function loadAllPrices() {
     // ============================================
     // RENDERIZADO
     // ============================================
- function renderResults() {
+ let currentTab = 'active';
+
+    // ==================== TAB SWITCHING ====================
+    function switchTab(tab) {
+        currentTab = tab;
+
+        // Update tab buttons
+        document.getElementById('tabActive').classList.toggle('active', tab === 'active');
+        document.getElementById('tabFinished').classList.toggle('active', tab === 'finished');
+
+        // Update tab content
+        document.getElementById('tabContentActive').classList.toggle('active', tab === 'active');
+        document.getElementById('tabContentFinished').classList.toggle('active', tab === 'finished');
+
+        // Re-render appropriate content
+        if (tab === 'active') {
+            renderResults();
+        } else {
+            renderFinished();
+        }
+    }
+
+    // ==================== STATUS HELPERS ====================
+    function getStatusInfo(status) {
+        const map = {
+            'active':          { label: 'Activo',            icon: '🟢', cssClass: 'status-active',          cardClass: '' },
+            'closed_success':  { label: 'Cerrada – Éxito',   icon: '✅', cssClass: 'status-closed-success',  cardClass: 'card-closed card-success' },
+            'closed_fail':     { label: 'Cerrada – Fallida',  icon: '❌', cssClass: 'status-closed-fail',     cardClass: 'card-closed card-fail' },
+            'closed_neutral':  { label: 'Cerrada – Neutro',   icon: '⚪', cssClass: 'status-closed-neutral',  cardClass: 'card-closed card-neutral' }
+        };
+        return map[status] || map['active'];
+    }
+
+    function getReturnClass(returnStr) {
+        if (!returnStr) return '';
+        const val = parseFloat(returnStr.replace('+', '').replace('%', '').replace(',', '.'));
+        if (val > 0) return 'positive';
+        if (val < 0) return 'negative';
+        return 'neutral';
+    }
+
+    // ==================== UPDATE TAB COUNTS ====================
+    function updateTabCounts() {
+        const activeItems = researchesData.filter(r => !r.status || r.status === 'active');
+        const finishedItems = researchesData.filter(r => r.status && r.status !== 'active');
+        document.getElementById('activeCount').textContent = activeItems.length;
+        document.getElementById('finishedCount').textContent = finishedItems.length;
+    }
+
+    // ==================== RENDER CARD (shared) ====================
+    function renderCard(item, isClosed) {
+        const statusInfo = getStatusInfo(item.status || 'active');
+
+        // Upside/Result section
+        let upsideSection = '';
+        if (isClosed && item.closeReturn) {
+            upsideSection = `
+                <div class="indicator ${getUpsideClass(item.closeReturn)}" style="grid-column: 1 / -1;">
+                    <div class="indicator-label">🏁 Resultado Final</div>
+                    <div class="indicator-value" style="font-size: 1.3em;">${item.closeReturn}</div>
+                    <div class="indicator-subtext">Rentabilidad total</div>
+                </div>`;
+        } else {
+            upsideSection = `
+                <div class="indicator ${getUpsideClass(item.upsideActual)}" style="grid-column: 1 / -1;">
+                    <div class="indicator-label">${getUpsideSymbol(item.upsideActual)} Upside/Downside ACTUAL</div>
+                    <div class="indicator-value" style="font-size: 1.3em;">${item.upsideActual}</div>
+                    <div class="indicator-subtext">Ahora mismo</div>
+                </div>`;
+        }
+
+        // Post-mortem block for closed theses
+        let postMortem = '';
+        if (isClosed) {
+            postMortem = `
+                <div class="result-block" style="grid-column: 1 / -1;">
+                    <div class="result-block-title">📊 Resultados de la Operación</div>
+                    ${item.closeDate ? `<div class="result-row"><span class="result-label">📅 Fecha cierre</span><span class="result-value">${item.closeDate}</span></div>` : ''}
+                    ${item.closeReason ? `<div class="result-row"><span class="result-label">📌 Motivo</span><span class="result-value">${item.closeReason}</span></div>` : ''}
+                    ${item.closeReturn ? `<div class="result-row"><span class="result-label">💰 Rentabilidad</span><span class="result-value ${getReturnClass(item.closeReturn)}">${item.closeReturn}</span></div>` : ''}
+                    ${item.closeReturnAnnualized ? `<div class="result-row"><span class="result-label">📈 TAE</span><span class="result-value ${getReturnClass(item.closeReturnAnnualized)}">${item.closeReturnAnnualized}</span></div>` : ''}
+                    ${item.closeComment ? `<div class="result-comment">💬 ${item.closeComment}</div>` : ''}
+                </div>`;
+        }
+
+        return `
+            <a href="${item.path}" class="research-card ${statusInfo.cardClass}" style="position: relative;">
+                <div class="status-pill ${statusInfo.cssClass}">${statusInfo.icon} ${statusInfo.label}</div>
+                <div class="card-header">
+                    <img src="${item.logo}" alt="${item.company}" class="card-logo ${['ELY.V', 'EMPRESA2', 'EMPRESA3'].includes(item.ticker) ? 'logo-blanco' : ''}">
+                    <div class="card-ticker">${item.ticker}</div>
+                    <div class="card-company">${item.company}</div>
+                    <div class="card-sector">${item.sector}</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-indicators">
+                        <div class="indicator indicator-date">
+                            <div class="indicator-label">📅 Fecha Tesis</div>
+                            <div class="indicator-value">${item.thesisDate}</div>
+                        </div>
+                        <div class="indicator indicator-target">
+                            <div class="indicator-label">🎯 Precio Objetivo</div>
+                            <div class="indicator-value">${item.fairValue}</div>
+                        </div>
+                        <div class="indicator" style="grid-column: 1 / -1;">
+                            <div class="indicator-label">💰 Precio ${isClosed ? 'Final' : 'Actual'}</div>
+                            <div class="indicator-value">
+                                ${item.currentPrice}
+                                <span class="price-badge ${item.priceSource === 'api' ? 'api' : 'manual'}" title="${item.priceSource === 'api' ? 'Actualizado desde API' : 'Precio manual'}">
+                                    ${item.priceSource === 'api' ? '🌐 API' : '📌 Manual'}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="thesis-metrics" style="grid-column: 1 / -1;">
+                            <div class="thesis-metric">
+                                <div class="thesis-metric-label">💵 Precio Inicial</div>
+                                <div class="thesis-metric-value">${item.thesisPrice}</div>
+                            </div>
+                            <div class="thesis-metric">
+                                <div class="thesis-metric-label">📊 Upside Inicial</div>
+                                <div class="thesis-metric-value" style="color: var(--accent-positive);">${item.upsideInitial}</div>
+                            </div>
+                        </div>
+                        ${upsideSection}
+                        ${postMortem}
+                    </div>
+                    <div style="margin-top: 12px; margin-bottom: 20px; text-align: center;">
+                        <span class="risk-badge ${item.riskLevel === 'Bajo' ? 'risk-bajo' : item.riskLevel === 'Medio' ? 'risk-medio' : 'risk-alto'}">
+                            ⚠️ Riesgo: ${item.riskLevel}
+                        </span>
+                    </div>
+                    <span class="card-button">▶ VER ANÁLISIS COMPLETO →</span>
+                </div>
+            </a>`;
+    }
+
+    // ==================== RENDER ACTIVE RESULTS ====================
+    function renderResults() {
         const container = document.getElementById('resultsContainer');
-        
-        const filtered = activeFilters.size === 0 
-            ? researchesData 
-            : researchesData.filter(r => activeFilters.has(r.type));
+
+        // Only active theses
+        let filtered = researchesData.filter(r => !r.status || r.status === 'active');
+
+        // Apply type filters
+        if (activeFilters.size > 0) {
+            filtered = filtered.filter(r => activeFilters.has(r.type));
+        }
 
         updateCounter(filtered.length);
+        updateTabCounts();
 
         if (filtered.length === 0) {
-            container.innerHTML = `<div class="no-results"><h3>📭 No hay análisis con estos filtros</h3></div>`;
+            container.innerHTML = `<div class="no-results"><h3>📭 No hay análisis activos con estos filtros</h3></div>`;
             return;
         }
-     // ← NUEVO: Recalcular upside actual para todos
-     filtered.forEach(item => {
-        item.currentPriceRaw = extractPriceValue(item.currentPrice);  // ← Automático
-        item.thesisPriceRaw = extractPriceValue(item.thesisPrice);    // ← Automático
-        
-        item.upsideActual = calculateCurrentUpside(
-            item.currentPriceRaw,
-            item.fairValueRaw
-        );
-    });
+
+        // Recalculate upside
+        filtered.forEach(item => {
+            item.currentPriceRaw = extractPriceValue(item.currentPrice);
+            item.thesisPriceRaw = extractPriceValue(item.thesisPrice);
+            item.upsideActual = calculateCurrentUpside(item.currentPriceRaw, item.fairValueRaw);
+        });
 
         const grouped = {};
         filtered.forEach(r => {
@@ -1415,23 +1911,22 @@ async function loadAllPrices() {
         // SORTING
         Object.keys(grouped).forEach(typeKey => {
             const items = grouped[typeKey];
-            
             if (sortBy === 'upside-desc') {
-    items.sort((a, b) => {
-        const upsideA = parseFloat(a.upsideActual.replace('+', '').replace('%', ''));
-        const upsideB = parseFloat(b.upsideActual.replace('+', '').replace('%', ''));
-        return upsideB - upsideA;
-    });
-} else if (sortBy === 'upside-asc') {
-    items.sort((a, b) => {
-        const upsideA = parseFloat(a.upsideActual.replace('+', '').replace('%', ''));
-        const upsideB = parseFloat(b.upsideActual.replace('+', '').replace('%', ''));
-        return upsideA - upsideB;
-    });
-}
+                items.sort((a, b) => {
+                    const upsideA = parseFloat(a.upsideActual.replace('+', '').replace('%', ''));
+                    const upsideB = parseFloat(b.upsideActual.replace('+', '').replace('%', ''));
+                    return upsideB - upsideA;
+                });
+            } else if (sortBy === 'upside-asc') {
+                items.sort((a, b) => {
+                    const upsideA = parseFloat(a.upsideActual.replace('+', '').replace('%', ''));
+                    const upsideB = parseFloat(b.upsideActual.replace('+', '').replace('%', ''));
+                    return upsideA - upsideB;
+                });
+            }
         });
 
-        // RENDERIZADO
+        // RENDER
         container.innerHTML = Object.entries(grouped).map(([typeKey, items]) => {
             const typeInfo = investmentTypes[typeKey];
             return `
@@ -1442,91 +1937,90 @@ async function loadAllPrices() {
                         <div class="investment-type-count">${items.length} análisis</div>
                     </div>
                     <div class="research-grid">
-                        ${items.map(item => `
-                            <a href="${item.path}" class="research-card">
-    <div class="card-header">
-    <img src="${item.logo}" alt="${item.company}" class="card-logo ${['ELY.V', 'EMPRESA2', 'EMPRESA3'].includes(item.ticker) ? 'logo-blanco' : ''}">
-    <div class="card-ticker">${item.ticker}</div>
-    <div class="card-company">${item.company}</div>
-    <div class="card-sector">${item.sector}</div>
-</div>
-    
-    <div class="card-body">
-        <div class="card-indicators">
-            <!-- INDICADOR 1: Fecha Tesis -->
-            <div class="indicator indicator-date">
-                <div class="indicator-label">📅 Fecha Tesis</div>
-                <div class="indicator-value">${item.thesisDate}</div>
-            </div>
-            
-            <!-- INDICADOR 2: Precio Objetivo -->
-            <div class="indicator indicator-target">
-                <div class="indicator-label">🎯 Precio Objetivo</div>
-                <div class="indicator-value">${item.fairValue}</div>
-            </div>
-            
-            <!-- INDICADOR 3: Precio Actual -->
-            <div class="indicator" style="grid-column: 1 / -1;">
-    <div class="indicator-label">💰 Precio Actual</div>
-    <div class="indicator-value">
-        ${item.currentPrice}
-        <span class="price-badge ${item.priceSource === 'api' ? 'api' : 'manual'}" title="${item.priceSource === 'api' ? 'Actualizado desde API' : 'Precio manual'}">
-            ${item.priceSource === 'api' ? '🌐 API' : '📌 Manual'}
-        </span>
-    </div>
-</div>
-            
-            <!-- INDICADOR 4: PRECIO INICIAL + UPSIDE INICIAL -->
-            <div class="thesis-metrics" style="grid-column: 1 / -1;">
-    <div class="thesis-metric">
-        <div class="thesis-metric-label">💵 Precio Inicial</div>
-        <div class="thesis-metric-value">${item.thesisPrice}</div>
-    </div>
-    <div class="thesis-metric">
-        <div class="thesis-metric-label">📊 Upside Inicial</div>
-        <div class="thesis-metric-value" style="color: var(--accent-positive);">
-            ${item.upsideInitial}
-        </div>
-    </div>
-</div>
-            
-            <!-- INDICADOR 5: Upside ACTUAL (Automático) -->
-            <div class="indicator ${getUpsideClass(item.upsideActual)}" style="grid-column: 1 / -1;">
-                <div class="indicator-label">
-                    ${getUpsideSymbol(item.upsideActual)} Upside/Downside ACTUAL
-                </div>
-                <div class="indicator-value" style="font-size: 1.3em;">
-                    ${item.upsideActual}
-                </div>
-                <div class="indicator-subtext">Ahora mismo</div>
-            </div>
-        </div>
-
-        <!-- RIESGO -->
-        <div style="margin-top: 12px; margin-bottom: 20px; text-align: center;">
-    <span class="risk-badge ${item.riskLevel === 'Bajo' ? 'risk-bajo' : item.riskLevel === 'Medio' ? 'risk-medio' : 'risk-alto'}">
-        ⚠️ Riesgo: ${item.riskLevel}
-    </span>
-</div>
-
-        <span class="card-button">▶ VER ANÁLISIS COMPLETO →</span>
-    </div>
-</a>
-                        `).join('')}
+                        ${items.map(item => renderCard(item, false)).join('')}
                     </div>
-                </div>
-            `;
+                </div>`;
         }).join('');
 
-        // SCROLL SUAVE
+        // SCROLL
         if (activeFilters.size > 0) {
             setTimeout(() => {
-                document.querySelector('.investment-type-section')?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+                document.querySelector('.investment-type-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 100);
         }
+    }
+
+    // ==================== RENDER FINISHED RESULTS ====================
+    function renderFinished() {
+        const container = document.getElementById('finishedContainer');
+        const trackRecord = document.getElementById('trackRecord');
+
+        const finished = researchesData.filter(r => r.status && r.status !== 'active');
+
+        updateTabCounts();
+
+        if (finished.length === 0) {
+            container.innerHTML = `<div class="no-results"><h3>📭 Aún no hay tesis finalizadas</h3><p style="color: var(--text-tertiary); margin-top: 10px;">Cuando cierres una tesis, cambia su <code>status</code> a <code>'closed_success'</code>, <code>'closed_fail'</code> o <code>'closed_neutral'</code> en el array de datos.</p></div>`;
+            trackRecord.style.display = 'none';
+            return;
+        }
+
+        // Track record stats
+        const successes = finished.filter(r => r.status === 'closed_success').length;
+        const fails = finished.filter(r => r.status === 'closed_fail').length;
+        const neutrals = finished.filter(r => r.status === 'closed_neutral').length;
+        const returns = finished.filter(r => r.closeReturn).map(r => parseFloat(r.closeReturn.replace('+', '').replace('%', '').replace(',', '.')));
+        const avgReturn = returns.length > 0 ? (returns.reduce((a, b) => a + b, 0) / returns.length).toFixed(1) : '—';
+        const winRate = finished.length > 0 ? ((successes / finished.length) * 100).toFixed(0) : '—';
+
+        trackRecord.style.display = 'grid';
+        trackRecord.innerHTML = `
+            <div class="track-stat">
+                <div class="track-stat-value">${finished.length}</div>
+                <div class="track-stat-label">Total Cerradas</div>
+            </div>
+            <div class="track-stat">
+                <div class="track-stat-value positive">${successes}</div>
+                <div class="track-stat-label">✅ Éxitos</div>
+            </div>
+            <div class="track-stat">
+                <div class="track-stat-value negative">${fails}</div>
+                <div class="track-stat-label">❌ Fallidas</div>
+            </div>
+            <div class="track-stat">
+                <div class="track-stat-value">${neutrals}</div>
+                <div class="track-stat-label">⚪ Neutras</div>
+            </div>
+            <div class="track-stat">
+                <div class="track-stat-value ${parseFloat(avgReturn) >= 0 ? 'positive' : 'negative'}">${avgReturn}%</div>
+                <div class="track-stat-label">Rentab. Media</div>
+            </div>
+            <div class="track-stat">
+                <div class="track-stat-value ${parseFloat(winRate) >= 50 ? 'positive' : 'negative'}">${winRate}%</div>
+                <div class="track-stat-label">Win Rate</div>
+            </div>`;
+
+        // Group by investment type for finished
+        const groupedFinished = {};
+        finished.forEach(r => {
+            if (!groupedFinished[r.type]) groupedFinished[r.type] = [];
+            groupedFinished[r.type].push(r);
+        });
+
+        container.innerHTML = Object.entries(groupedFinished).map(([typeKey, items]) => {
+            const typeInfo = investmentTypes[typeKey];
+            return `
+                <div class="investment-type-section">
+                    <div class="investment-type-header">
+                        <div class="investment-type-icon">${typeInfo.icon}</div>
+                        <div class="investment-type-title">${typeInfo.name}</div>
+                        <div class="investment-type-count">${items.length} cerradas</div>
+                    </div>
+                    <div class="research-grid">
+                        ${items.map(item => renderCard(item, true)).join('')}
+                    </div>
+                </div>`;
+        }).join('');
     }
 
     function updateCounter(count) {
@@ -1593,6 +2087,7 @@ async function loadAllPrices() {
         document.addEventListener('DOMContentLoaded', () => {
     updateClearButton();
     renderFilters();
+    updateTabCounts();
     loadAllPrices();  // ← Esta línea carga precios y renderiza
 });
     </script>
