@@ -1696,6 +1696,34 @@ async function loadAllPrices() {
                 closeReturnAnnualized: '',  // TAE (ej: '+18% TAE')
                 closeComment: ''            // Comentario breve
             },
+
+            {
+                id: 'dr',
+                path: './dr/index.html',
+                type: 'demergers',
+                ticker: 'DR',
+                company: 'Medical Facilities Corp',
+                sector: 'Health Care Providers and Services',
+                logo: 'images/dr.png',
+                thesisDate: '2026-03-03',
+                thesisPrice: 'CAD16.75',
+                fairValue: 'CAD19.81',
+                fairValueRaw: 19.81,
+                upsideInitial: '+26.3%',
+                ticker_finnhub: 'DR',
+                currentPrice: 'CAD16.75',
+                currency: 'CAD',
+                upsideActual: '26.3%',
+                priceSource: 'manual',
+                riskLevel: 'Bajo',
+                // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
+                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // TAE (ej: '+18% TAE')
+                closeComment: ''            // Comentario breve
+            },
             
             
             // ============ EJEMPLO: TESIS CERRADAS ============
