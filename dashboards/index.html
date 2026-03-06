@@ -1724,7 +1724,34 @@ async function loadAllPrices() {
                 closeReturnAnnualized: '',  // TAE (ej: '+18% TAE')
                 closeComment: ''            // Comentario breve
             },
-            
+            {
+                id: 'YEXT',
+                path: './yext/index.html',
+                type: 'odd-lots',
+                ticker: 'YEXT',
+                company: 'YEXT',
+                sector: 'Technology - IT services',
+                logo: 'images/yext.png',
+               // NUEVOS CAMPOS
+                thesisDate: '2026-02-13',
+                thesisPrice: '$5.34',
+                fairValue: '$5.75',
+                fairValueRaw: 5.75,
+                upsideInitial: '+7.7%',
+                ticker_finnhub: 'YEXT',
+                currentPrice: '$5.51',
+                currency: '$',
+                upsideActual: '+7.7%',  // Se actualiza con API o manual
+                priceSource: 'manual',
+                riskLevel: 'Bajo',
+                // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
+                status: 'closed',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '2026-03-02',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: 'Vendida a $5.72. Mayor parte del upside del rango min. realizado',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: ' 7.12%',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '328.71%',  // TAE (ej: '+18% TAE')
+                closeComment: 'No se han tenido en cuenta los costes de la operación para el calculo del retorno'            // Comentario breve
+            },
             
             // ============ EJEMPLO: TESIS CERRADAS ============
             // Para cerrar una tesis, cambia status a 'closed_success', 'closed_fail' o 'closed_neutral'
