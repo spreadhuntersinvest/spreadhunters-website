@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seer, Inc. (NASDAQ: SEER) - Análisis de Situación Especial | SpreadHunters</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS OFICIAL SPREADHUNTERS */
+        :root {
+            --primary-color: #00d7ff;
+            --success-color: #90ee90;
+            --text-secondary: #b0c4de;
+            --card-bg: #1a2538;
+            --border-color: #2d3d4d;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; 
+            color: #f8fafc;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .progress-bar {
+            background: var(--success-color);
+            height: 2px;
+            width: 0%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        .logo-navbar {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 900;
+            background: none;
+            padding: 0;
+            border: none;
+            pointer-events: none;
+        }
+        
+        .logo-navbar-img {
+            height: 44px;
+            width: auto;
+            display: block;
+        }
+
+        .header-professional {
+            margin: 0;
+            padding: 50px 20px;
+            background: transparent;
+            border-bottom: 1px solid rgba(74, 127, 127, 0.1);
+            backdrop-filter: blur(3px);
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-title-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            text-align: center;
+        }
+
+        .company-title-row {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-align: center;
+        }
+
+        .logo-company {
+            max-height: 70px;
+            max-width: 143px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .logo-company--on-dark {
+            filter: brightness(4) contrast(1.5) invert(1) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .page-title {
+            font-size: 1.65rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0;
+            letter-spacing: 1px;
+            line-height: 1.3;
+        }
+
+        .page-subtitle {
+            font-size: 0.95rem;
+            color: #e0e0e0;
+            margin: 10px 0 0;
+            font-weight: 400;
+            max-width: 680px;
+        }
+
+        footer {
+            background: var(--card-bg);
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 60px;
+            border-top: 2px solid var(--border-color);
+            position: relative;
+            z-index: 1;
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 10px 0;
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .mt-20 { margin-top: 20px; }
+        .mt-15 { margin-top: 15px; }
+
+        @media (max-width: 1024px) {
+            .page-title { font-size: 1.8rem; }
+            .logo-company { max-height: 70px; max-width: 143px; }
+        }
+        @media (max-width: 768px) {
+            .header-professional { padding: 30px 15px; }
+            .page-title { font-size: 1.4rem; }
+            .logo-company { max-height: 65px; max-width: 130px; }
+            .page-subtitle { font-size: 0.9rem; }
+            .logo-navbar { top: 15px; left: 15px; }
+            .logo-navbar-img { height: 34px; }
+        }
+        @media (max-width: 480px) {
+            .logo-navbar { top: 12px; left: 12px; }
+            .logo-navbar-img { height: 30px; }
+        }
+
+        /* CSS DASHBOARD VISUAL (Igual que Yext) */
+        .dash-card {
+            background-color: #1e293b; 
+            border: 1px solid #334155; 
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 11px;
+            height: 100%;
+            width: 2px;
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Barra de Progreso -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Logo SpreadHunters (Official) -->
+    <div class="logo-navbar">
+        <img alt="SpreadHunters" class="logo-navbar-img" src="../../images/spreadhunter_navbar.svg"/>
+    </div>
+
+    <!-- Header Profesional (Official) -->
+    <header class="header-professional">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="header-title-section">
+                <div class="company-title-row">
+                    <!-- Logo Empresa -->
+                    <img src="../company-logos/seer.png" alt="SEER Logo" class="logo-company">
+                    <h1 class="page-title">Seer, Inc. (NASDAQ: SEER)</h1>
+                </div>
+                <p class="page-subtitle">Situación Especial: Arbitraje Activista y Deep Value (Net-Net)</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal: Dashboard Tailwind -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 mb-12">
+        
+        <!-- Badge y Fecha de Actualización -->
+        <div class="flex justify-between items-center mb-6">
+            <div class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                <i class="fas fa-bolt mr-2"></i> Situación Especial: Activismo en Net-Net
+            </div>
+            <div class="text-sm text-slate-400 font-medium">
+                <i class="far fa-clock mr-1"></i> Actualizado: Marzo 2026
+            </div>
+        </div>
+
+        <!-- KPI Grid (Mismo formato 5 cajas que Yext) -->
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+            <div class="dash-card p-4">
+                <p class="text-sm text-slate-400 mb-1">Precio Actual</p>
+                <p class="text-2xl font-bold text-white">$1.8</p>
+                <p class="text-xs text-slate-500 mt-1">EV Negativo (-$141M)</p>
+            </div>
+            <div class="dash-card p-4">
+                <p class="text-sm text-slate-400 mb-1">Caja Neta x Acción</p>
+                <p class="text-2xl font-bold text-white">$4.28</p>
+                <p class="text-xs text-slate-500 mt-1">$240.6M en Balance</p>
+            </div>
+            <div class="dash-card p-4">
+                <p class="text-sm text-slate-400 mb-1">Upside liquidación</p>
+                <p class="text-2xl font-bold text-emerald-400">+93%</p>
+                <p class="text-xs text-slate-500 mt-1">Liquidación a $3.46</p>
+            </div>
+            <div class="dash-card p-4">
+                <p class="text-sm text-slate-400 mb-1">Upside Máximo</p>
+                <p class="text-2xl font-bold text-emerald-400">+143%</p>
+                <p class="text-xs text-slate-500 mt-1">Target M&A $4.36</p>
+            </div>
+            <div class="dash-card p-4 col-span-2 md:col-span-1 bg-gradient-to-br from-indigo-900/50 to-slate-800 border-indigo-500/30">
+                <p class="text-sm text-indigo-300 mb-1">Proxy Contest</p>
+                <p class="text-2xl font-bold text-white">Jul '26</p>
+                <p class="text-xs text-indigo-200 mt-1">Batalla por el Consejo</p>
+            </div>
+        </div>
+
+        <!-- Main Layout Grid (2 columnas izq, 1 der) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+            
+            <!-- Left Column: Executive Summary & Details -->
+            <div class="lg:col-span-2 space-y-8">
+                
+                <!-- Resumen Ejecutivo -->
+                <div class="dash-card p-6">
+                    <h2 class="text-xl font-bold border-b border-slate-700 pb-3 mb-4 flex items-center text-white">
+                        <i class="fas fa-file-alt text-indigo-400 mr-3"></i> Resumen Ejecutivo
+                    </h2>
+                    <p class="text-slate-300 mb-4 leading-relaxed">
+                        Seer (NASDAQ: SEER) representa una <strong>ineficiencia extrema de mercado (Net-Net)</strong>. La compañía capitaliza ~$97.8M mientras posee $240.6M en efectivo sin deuda estructural. The Radoff-JEC Group ha entrado (7.6%) para forzar la venta o liquidación ante la masiva quema de efectivo del CEO fundador, quien acaba de perder sus acciones de súper-voto.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <div>
+                            <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-3">El Desencadenante</h3>
+                            <ul class="space-y-2 text-slate-300 text-sm">
+                                <li><i class="fas fa-check text-emerald-500 mr-2"></i> Expiración del súper-voto (Clase B).</li>
+                                <li><i class="fas fa-check text-emerald-500 mr-2"></i> Entrada activista hostil de Radoff (7.6%).</li>
+                                <li><i class="fas fa-shield-alt text-blue-400 mr-2"></i> Adopción de un "Poison Pill" defensivo.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-3">Vías de Monetización</h3>
+                            <ul class="space-y-2 text-slate-300 text-sm">
+                                <li><i class="fas fa-arrow-right text-indigo-400 mr-2"></i> Proxy Contest para forzar venta.</li>
+                                <li><i class="fas fa-arrow-right text-indigo-400 mr-2"></i> M&A Estratégico a un gigante (SOTP $4.36).</li>
+                                <li><i class="fas fa-arrow-right text-indigo-400 mr-2"></i> Distribución de la caja masiva en balance.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estructura y Mecanica (Adaptado de Yext) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="dash-card p-6">
+                        <h2 class="text-lg font-bold border-b border-slate-700 pb-3 mb-4 flex items-center text-white">
+                            <i class="fas fa-layer-group text-blue-400 mr-3"></i> Estructura del Conflicto
+                        </h2>
+                        <div class="space-y-4">
+                            <div class="p-3 bg-emerald-900/30 border border-emerald-800 rounded">
+                                <span class="text-emerald-400 font-bold text-sm">El Activista (Radoff)</span>
+                                <p class="text-xs text-slate-300 mt-1">Exige recorte de I+D y proceso de venta para cristalizar los +$240M de caja.</p>
+                            </div>
+                            <div class="p-3 bg-slate-800 rounded border border-slate-700">
+                                <span class="text-slate-200 font-bold text-sm">El Consejo Actual</span>
+                                <p class="text-xs text-slate-400 mt-1">Buscan continuar quemando caja (~$45M anuales) para mantener sus puestos.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dash-card p-6">
+                        <h2 class="text-lg font-bold border-b border-slate-700 pb-3 mb-4 flex items-center text-white">
+                            <i class="fas fa-cogs text-orange-400 mr-3"></i> Valuación SOTP (Partes)
+                        </h2>
+                        <ul class="space-y-3 text-sm text-slate-300">
+                            <li><strong class="text-white">Caja Ajustada:</strong> $207.0M (restado *burn rate* futuro).</li>
+                            <li><strong class="text-white">Negocio Base:</strong> $25.5M (patentes y operaciones IP).</li>
+                            <li><strong class="text-white">NOLs Activos:</strong> $13.1M.</li>
+                            <li><strong class="text-emerald-400">Total SOTP:</strong> $245.6M ($4.36 por acción).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Tesis de Inversion -->
+                <div class="dash-card p-6 border-l-4 border-indigo-500 bg-gradient-to-r from-indigo-900/20 to-slate-800">
+                    <h2 class="text-xl font-bold mb-3 text-white">Conclusión y Tesis de Inversión</h2>
+                    <p class="text-slate-300 leading-relaxed text-sm">
+                        La ecuación matemática es asombrosamente asimétrica. Incluso en un escenario apocalíptico de liquidación inmediata, la caja neta pagaría $3.46 por acción. <br><br>
+                        <strong>Spread Atractivo con Downside Protegido:</strong> El riesgo no recae en la calidad de los activos tangibles, sino exclusivamente en la variable "tiempo" y en el éxito del Proxy Contest de Julio de 2026.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Right Column: Charts & Timeline -->
+            <div class="space-y-8">
+                
+                <!-- Interactive Chart (Mismo formato visual 4 barras) -->
+                <div class="dash-card p-6">
+                    <h2 class="text-lg font-bold border-b border-slate-700 pb-3 mb-4 text-white">Análisis de Upside</h2>
+                    <div class="mb-2 text-sm text-slate-400 flex justify-between">
+                        <span>Base: $1.8</span>
+                        <span><i class="fas fa-info-circle"></i> Retorno Esperado</span>
+                    </div>
+                    <div class="w-full h-64 relative">
+                        <canvas id="analysisChart"></canvas>
+                    </div>
+                    <div class="mt-4 grid grid-cols-4 gap-2 text-center text-xs">
+                        <div class="bg-slate-700/50 p-2 rounded">
+                            <div class="text-slate-400 mb-1">Status Quo</div>
+                            <div class="font-bold text-red-400">-28%</div>
+                        </div>
+                        <div class="bg-slate-700/50 p-2 rounded">
+                            <div class="text-slate-400 mb-1">Proxy Win</div>
+                            <div class="font-bold text-emerald-400">+67%</div>
+                        </div>
+                        <div class="bg-slate-700/50 p-2 rounded">
+                            <div class="text-slate-400 mb-1">Liquidación </div>
+                            <div class="font-bold text-emerald-400">+93%</div>
+                        </div>
+                        <div class="bg-slate-700/50 p-2 rounded border border-emerald-500/30">
+                            <div class="text-slate-400 mb-1">M&A Max</div>
+                            <div class="font-bold text-emerald-400">+143%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline -->
+                <div class="dash-card p-6">
+                    <h2 class="text-lg font-bold border-b border-slate-700 pb-3 mb-4 text-white">
+                        <i class="far fa-calendar-alt text-indigo-400 mr-2"></i> Próximos Eventos Clave
+                    </h2>
+                    <div class="relative timeline-container pl-8 space-y-6 mt-4">
+                        
+                        <div class="relative">
+                            <div class="absolute -left-[37px] top-1 w-4 h-4 rounded-full bg-slate-700 border-2 border-slate-900 z-10"></div>
+                            <p class="text-xs text-slate-400 font-bold">Dic 2025</p>
+                            <p class="text-sm text-slate-300 mt-1">Expiran las acciones de súper-voto Clase B del Fundador.</p>
+                        </div>
+                        
+                        <div class="relative">
+                            <div class="absolute -left-[37px] top-1 w-4 h-4 rounded-full bg-blue-500 border-2 border-slate-900 z-10 shadow-[0_0_8px_rgba(59,130,246,0.8)]"></div>
+                            <p class="text-xs text-blue-400 font-bold">Feb 2026</p>
+                            <p class="text-sm text-white mt-1">Radoff escala stake a 7.6%. Consejo adopta "Poison Pill".</p>
+                        </div>
+
+                        <div class="relative">
+                            <div class="absolute -left-[37px] top-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-slate-900 z-10 shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
+                            <p class="text-xs text-emerald-400 font-bold">Jul 2026</p>
+                            <p class="text-sm text-white mt-1">Asamblea Anual. Batalla final de Proxy Contest por control.</p>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Strategy Section (2 Cajas, mismo estilo que Yext) -->
+        <h2 class="text-2xl font-bold text-white mb-6 mt-12 flex items-center">
+            <i class="fas fa-chess-knight text-indigo-400 mr-3"></i> Estrategia de Ejecución
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Strategy 1: Verde -->
+            <div class="dash-card p-0 border-emerald-500/50 overflow-hidden relative">
+                <div class="absolute top-0 right-0 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">
+                    MÁXIMA PRIORIDAD
+                </div>
+                <div class="bg-emerald-900/40 p-6 border-b border-emerald-800/50">
+                    <h3 class="text-xl font-bold text-emerald-400 flex items-center">
+                        <i class="fas fa-check-circle mr-2"></i> Estrategia Principal
+                    </h3>
+                    <p class="text-sm text-emerald-200/80 mt-1">Acumulación pre-Proxy (Deep Value)</p>
+                </div>
+                <div class="p-6 space-y-6">
+                    <div>
+                        <div class="flex items-center text-white font-bold mb-2">
+                            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs mr-2">1</span>
+                            Acumular Acciones
+                        </div>
+                        <ul class="text-sm text-slate-300 ml-8 space-y-1 border-l-2 border-slate-700 pl-4 py-1">
+                            <li><span class="text-slate-400">Detalle:</span> Comprar títulos progresivamente mientras coticen significativamente por debajo del Cash Per Share ($4.28).</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="flex items-center text-white font-bold mb-2">
+                            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs mr-2">2</span>
+                            Esperar a Asamblea (Jul '26)
+                        </div>
+                        <ul class="text-sm text-slate-300 ml-8 space-y-1 border-l-2 border-slate-700 pl-4 py-1">
+                            <li><span class="text-slate-400">Detalle:</span> Monitorizar el litigio en Delaware y mantener la posición hasta que el activista logre el control del consejo.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Strategy 2: Naranja/Gris -->
+            <div class="dash-card p-0 border-orange-500/30 overflow-hidden relative">
+                <div class="bg-slate-800 p-6 border-b border-slate-700">
+                    <h3 class="text-xl font-bold text-orange-400 flex items-center">
+                        <i class="fas fa-exclamation-triangle mr-2"></i> Escenarios Alternativos
+                    </h3>
+                    <p class="text-sm text-slate-400 mt-1">Salidas en caso de ruido de mercado</p>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="bg-slate-900/50 p-4 rounded border border-slate-700">
+                        <h4 class="text-white font-bold text-sm mb-2">Opción A: Venta en Rumor de M&A</h4>
+                        <p class="text-sm text-slate-400">Si un gigante del sector lanza un rumor de compra y la acción se dispara súbitamente a los $3.00, liquidar para cristalizar ganancias sin esperar al Proxy.</p>
+                    </div>
+                    <div class="bg-slate-900/50 p-4 rounded border border-slate-700">
+                        <h4 class="text-white font-bold text-sm mb-2">Opción B: Hold en Litigio Prolongado</h4>
+                        <p class="text-sm text-slate-400">Si el consejo atrinchera la compañía usando recursos corporativos. Riesgo de dilución y "burn rate"; requerirá revaluar la posición mes a mes.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer Oficial (SpreadHunters) -->
+    <footer>
+        <div class="max-w-7xl mx-auto px-4">
+            <p><strong>Disclaimer:</strong> El contenido de esta tesis es puramente informativo y no constituye una recomendación formal de inversión. Los eventos de arbitraje conllevan riesgos de liquidez y ejecución.</p>
+            <p class="mt-20" style="font-size: 0.85rem;">
+                📅 Análisis Actualizado: Marzo 2026 | 📊 Fuentes: SEC Filings, Formularios 13D.
+            </p>
+            <p class="mt-15">
+                🔗 <a href="https://spreadhunters.es" target="_blank" rel="noopener noreferrer">SpreadHunters Investment Research</a>
+                | 📝 <a href="https://spreadhunters.substack.com" target="_blank" rel="noopener noreferrer">Substack</a>
+                | 𝕏 <a href="https://x.com/spreadhunters" target="_blank" rel="noopener noreferrer">Twitter/X</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Progress Bar
+        window.addEventListener('scroll', function () {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+            const bar = document.getElementById("progressBar");
+            if (bar) bar.style.width = scrolled + "%";
+        });
+
+        // Chart Configuration (Formato exacto de Yext)
+        document.addEventListener('DOMContentLoaded', function() {
+            const el = document.getElementById('analysisChart');
+            if (!el) return;
+            const ctx = el.getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Status Quo', 'Proxy Win', 'Liquidación', 'M&A Target'],
+                    datasets: [{
+                        label: 'Upside % vs Current ($1.8)',
+                        data: [-28, 75, 93, 143.5],
+                        backgroundColor: [
+                            'rgba(239, 68, 68, 0.4)', // Rojo para negativo
+                            'rgba(16, 185, 129, 0.6)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(16, 185, 129, 1.0)' 
+                        ],
+                        borderColor: [
+                            '#ef4444', '#10b981', '#10b981', '#10b981'
+                        ],
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        barPercentage: 0.6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            titleColor: '#fff',
+                            bodyColor: '#10b981',
+                            borderColor: '#334155',
+                            borderWidth: 1,
+                            padding: 12,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) { 
+                                    const sign = context.parsed.y > 0 ? '+' : '';
+                                    return 'Upside: ' + sign + context.parsed.y + '%'; 
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            grid: { color: 'rgba(51, 65, 85, 0.5)', drawBorder: false }, 
+                            ticks: { color: '#94a3b8', callback: function(value) { return value + '%'; } } 
+                        },
+                        x: { 
+                            grid: { display: false, drawBorder: false }, 
+                            ticks: { color: '#cbd5e1', font: { weight: 'bold' } } 
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
