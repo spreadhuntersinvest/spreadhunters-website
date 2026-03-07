@@ -1418,6 +1418,7 @@ async function loadAllPrices() {
             'takeover': { name: 'Takeover', icon: '🏢', description: 'Adquisiciones y fusiones', color: '#00d7ff' },
             'odd-lots': { name: 'Odd Lots', icon: '🤏', description: 'Pequeños números de acciones', color: '#b0c4de' },
             'merger': { name: 'Merger', icon: '🤝', description: 'Fusiones', color: '#b0c4de' },
+            'activism': { name: 'Activism', icon: '⚔️', description: 'Inversiones impulsadas por accionistas activos', color: '#ffcc00' },
         };
 
         // ============================================
@@ -1752,6 +1753,35 @@ async function loadAllPrices() {
                 closeReturnAnnualized: '328.71%',  // IRR (ej: '+18% IRR')
                 closeComment: 'No se han tenido en cuenta los costes de la operación para el calculo del retorno'            // Comentario breve
             },
+            {
+                id: 'seer',
+                path: './seer/index.html',
+                type: 'activism',
+                ticker: 'SEER',
+                company: 'SEER',
+                sector: 'Biotech',
+                logo: 'company-logos/seer.png',
+                thesisDate: '2026-03-06',
+                thesisPrice: '$1.8',
+                fairValue: '$3.5',
+                fairValueRaw: 3.5,
+                upsideInitial: '+93%',
+                ticker_finnhub: 'SEER',
+                currentPrice: '$1.78',
+                currency: '$',
+                upsideActual: '93%',
+                priceSource: 'manual',
+                riskLevel: 'Alto',
+                // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
+                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
+                closeComment: ''            // Comentario breve
+            },
+
+            
             
             // ============ EJEMPLO: TESIS CERRADAS ============
             // Para cerrar una tesis, cambia status a 'closed_success', 'closed_fail' o 'closed_neutral'
