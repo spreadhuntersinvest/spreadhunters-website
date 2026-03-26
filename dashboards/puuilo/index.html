@@ -38,12 +38,33 @@
       background: var(--success-color);
       height: 2px; width: 0%; position: fixed; top: 0; left: 0; z-index: 1000; transition: width .2s ease;
     }
-    .logo-navbar {
-      position: fixed; top: 18px; left: 18px; z-index: 900;
-      padding: 10px 14px; border-radius: 999px;
-      background: rgba(15,20,25,0.55); border: 1px solid rgba(0,215,255,0.18);
-      backdrop-filter: blur(12px); color: #fff; font-weight: 700; letter-spacing: .6px; font-size: .86rem;
-    }
+   .logo-navbar {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 900;
+  background: none;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.logo-navbar-img {
+  height: 44px;
+  width: auto;
+  display: block;
+}
+    .logo-company {
+  max-height: 46px;
+  max-width: 120px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
     .logo-navbar span { color: var(--primary-color); }
     .header-professional {
       padding: 52px 20px 38px;
@@ -52,14 +73,6 @@
     }
     .header-professional .container {
       display: flex; flex-direction: column; align-items: center; text-align: center; gap: 20px;
-    }
-    .company-badge {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 88px; height: 88px; border-radius: 24px;
-      background: linear-gradient(135deg, rgba(0,215,255,0.18), rgba(144,238,144,0.10));
-      border: 1px solid rgba(0,215,255,0.28);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.22);
-      color: #fff; font-weight: 800; font-size: 1.15rem; letter-spacing: 1.2px;
     }
     .header-title-section { display: flex; flex-direction: column; align-items: center; gap: 12px; }
     .company-title-row { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; }
@@ -181,25 +194,104 @@
     .mini-grid {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0;
     }
-    @media (max-width: 768px) {
-      .logo-navbar { top: 12px; left: 12px; font-size: .78rem; padding: 8px 12px; }
-      .header-professional { padding: 30px 15px; }
-      .page-title { font-size: 1.36rem; }
-      .page-subtitle { font-size: .9rem; }
-      .investment-metrics { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-      .metric-card { padding: 15px; }
-      .metric-value { font-size: 1.3rem; }
-      .nav-tabs { padding: 8px 0; }
-      .nav-tabs ul {
-        justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; gap: 8px;
-        padding: 0 12px 6px; -webkit-overflow-scrolling: touch;
-      }
-      .nav-tabs li { flex: 0 0 auto; }
-      .nav-tabs a { padding: 7px 12px; font-size: .85rem; }
-      .chart-grid { grid-template-columns: 1fr; }
-      .chart-container { height: 310px; }
-      section { scroll-margin-top: 120px; }
-    }
+@media (max-width: 768px) {
+  .logo-navbar {
+    top: 12px;
+    left: 12px;
+  }
+
+  .logo-navbar-img {
+    height: 34px;
+  }
+
+  .header-professional {
+    padding: 30px 15px;
+  }
+
+  .logo-company {
+    max-height: 38px;
+    max-width: 95px;
+  }
+
+  .page-title {
+    font-size: 1.36rem;
+  }
+
+  .page-subtitle {
+    font-size: .9rem;
+  }
+
+  .investment-metrics {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .metric-card {
+    padding: 15px;
+  }
+
+  .metric-value {
+    font-size: 1.3rem;
+  }
+
+  .nav-tabs {
+    padding: 8px 0;
+  }
+
+  .nav-tabs ul {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 8px;
+    padding: 0 12px 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-tabs li {
+    flex: 0 0 auto;
+  }
+
+  .nav-tabs a {
+    padding: 7px 12px;
+    font-size: .85rem;
+  }
+
+  .chart-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-container {
+    height: 310px;
+  }
+
+  section {
+    scroll-margin-top: 120px;
+  }
+}
+    @media (max-width: 480px) {
+  .logo-navbar {
+    top: 10px;
+    left: 10px;
+  }
+
+  .logo-navbar-img {
+    height: 30px;
+  }
+
+  .logo-company {
+    max-height: 34px;
+    max-width: 85px;
+  }
+
+  .page-title {
+    font-size: 1.18rem;
+  }
+
+  .page-subtitle {
+    font-size: .84rem;
+  }
+}
   </style>
 </head>
 <body>
