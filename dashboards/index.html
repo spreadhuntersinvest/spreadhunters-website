@@ -1296,6 +1296,103 @@ function calculateCurrentUpside(currentPriceRaw, fairValueRaw) {
 }
 
 // ============================================
+// HELPERS: Estado cerrado, persistencia y cálculo de retorno
+// ============================================
+function isClosedStatus(status) {
+  return status && status !== 'active';
+}
+
+function setLocal(key, value) {
+  try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+}
+function getLocal(key) {
+  try {
+    const v = localStorage.getItem(key);
+    return v ? JSON.parse(v) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// Guardamos el último precio conocido (API o manual) para poder congelarlo al cerrar
+function persistLastPrice(research) {
+  if (!research || !research.id) return;
+  setLocal(`lastPrice_${research.id}`, {
+    currentPrice: research.currentPrice,
+    currentPriceRaw: research.currentPriceRaw,
+    currency: research.currency,
+    ts: Date.now()
+  });
+}
+
+// Congela el precio final: una vez que una tesis está cerrada, fija finalPrice a lastPrice (si existe)
+// y lo persiste para que NO cambie en el futuro aunque se recargue la web.
+function getOrFreezeFinalPrice(research) {
+  if (!research || !research.id) return research && research.currentPrice;
+
+  // Si ya está persistido, usarlo
+  const frozen = getLocal(`finalPrice_${research.id}`);
+  if (frozen && frozen.finalPrice) return frozen.finalPrice;
+
+  // Si no existe, intentar congelar desde el último precio conocido
+  const last = getLocal(`lastPrice_${research.id}`);
+  const candidate = (last && last.currentPrice) ? last.currentPrice : research.currentPrice;
+
+  // Persistimos el freeze
+  setLocal(`finalPrice_${research.id}`, {
+    finalPrice: candidate,
+    ts: Date.now()
+  });
+
+  return candidate;
+}
+
+function parsePct(pctStr) {
+  if (!pctStr) return null;
+  const v = pctStr.toString().replace('+','').replace('%','').replace(',', '.').trim();
+  const n = parseFloat(v);
+  return Number.isFinite(n) ? n : null;
+}
+
+function calcCloseReturnPct(initialPriceRaw, finalPriceRaw) {
+  if (!initialPriceRaw || !finalPriceRaw || initialPriceRaw === 0) return null;
+  return ((finalPriceRaw / initialPriceRaw) - 1) * 100;
+}
+
+function formatPctNoPlus(value, decimals = 2) {
+  if (value == null || !Number.isFinite(value)) return '—';
+  const rounded = value.toFixed(decimals);
+  // En tu UI actual no usas '+' en closeReturn (ej. '7.12%'), así que mantenemos ese formato.
+  return `${rounded}%`;
+}
+
+function prepareClosedThesis(item) {
+  // Congelar precio final desde el último precio conocido
+  item.finalPrice = getOrFreezeFinalPrice(item);
+  item.finalPriceRaw = extractPriceValue(item.finalPrice);
+  item.thesisPriceRaw = extractPriceValue(item.thesisPrice);
+
+  const computed = calcCloseReturnPct(item.thesisPriceRaw, item.finalPriceRaw);
+  item.closeReturnComputed = formatPctNoPlus(computed, 2);
+  item.closeReturnComputedRaw = computed;
+
+  // Si closeReturn está vacío, lo rellenamos automáticamente
+  if (!item.closeReturn || item.closeReturn.toString().trim() === '') {
+    item.closeReturn = item.closeReturnComputed;
+    item.closeReturnMismatch = false;
+  } else {
+    // Validación: si difiere mucho, marcamos mismatch
+    const existing = parsePct(item.closeReturn);
+    item.closeReturnMismatch = (existing != null && computed != null) ? Math.abs(existing - computed) > 0.20 : false;
+  }
+
+  // En cerradas, la fuente del precio final siempre debe ser manual (freeze)
+  item.priceSource = 'manual';
+  return item;
+}
+
+
+// ============================================
 // FUNCIÓN: Clasificar color según upside
 // ============================================
 function getUpsideClass(upsidePercent) {
@@ -1319,49 +1416,62 @@ function getUpsideSymbol(upsidePercent) {
 // FUNCIÓN: Obtener precio actual (API o manual) - CON TIMEOUT
 // ============================================
 async function fetchCurrentPrice(research) {
-    try {
-        // 🔑 CLAVE: Timeout de 2 segundos máximo
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 2000);
-        
-        const response = await fetch(
-            `${FINNHUB_BASE_URL}?symbol=${research.ticker_finnhub}&token=${FINNHUB_API_KEY}`,
-            { signal: controller.signal }
-        );
-        
-        clearTimeout(timeoutId);
-        
-        if (!response.ok) throw new Error('API error');
-        
-        const data = await response.json();
-        
-        if (data.c) {
-            research.currentPriceRaw = data.c;
-            research.currentPrice = `${research.currency}${data.c.toFixed(2)}`;
-            research.upsideActual = calculateCurrentUpside(
-                research.currentPriceRaw, 
-                research.fairValueRaw
-            );
-            
-            research.priceSource = 'api';
-            showToast(`${research.ticker} actualizado: ${research.currentPrice}`);
-            
-            console.log(`✅ API: ${research.ticker} = ${research.currentPrice} | Upside: ${research.upsideActual}`);
-            return research;
-        }
-    } catch (error) {
-        // 🔑 CLAVE: Fallback inmediato sin espera
-        if (error.name === 'AbortError') {
-            console.warn(`⏱️ Timeout: ${research.ticker}, usando fallback`);
-        } else {
-            console.warn(`⚠️ API error para ${research.ticker}: ${error.message}`);
-        }
-    }
-    
-    // Fallback manual (ya estaba en research.currentPrice)
+  // ✅ Si la tesis está cerrada, NO llamamos a la API.
+  // El precio final se congela con el último precio conocido (persistido en localStorage).
+  if (isClosedStatus(research.status)) {
+    research.finalPrice = getOrFreezeFinalPrice(research);
+    research.currentPrice = research.finalPrice;
+    research.currentPriceRaw = extractPriceValue(research.currentPrice);
     research.priceSource = 'manual';
-    console.log(`📌 Manual: ${research.ticker} = ${research.currentPrice} | Upside: ${research.upsideActual}`);
     return research;
+  }
+
+  try {
+    // 🔑 CLAVE: Timeout de 2 segundos máximo
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+    const response = await fetch(
+      `${FINNHUB_BASE_URL}?symbol=${research.ticker_finnhub}&token=${FINNHUB_API_KEY}`,
+      { signal: controller.signal }
+    );
+
+    clearTimeout(timeoutId);
+    if (!response.ok) throw new Error('API error');
+
+    const data = await response.json();
+
+    if (data.c) {
+      research.currentPriceRaw = data.c;
+      research.currentPrice = `${research.currency}${data.c.toFixed(2)}`;
+      research.upsideActual = calculateCurrentUpside(research.currentPriceRaw, research.fairValueRaw);
+      research.priceSource = 'api';
+
+      // Persistimos último precio para poder congelarlo si se cierra la tesis
+      persistLastPrice(research);
+
+      showToast(`${research.ticker} actualizado: ${research.currentPrice}`);
+      console.log(`✅ API: ${research.ticker} = ${research.currentPrice} | Upside: ${research.upsideActual}`);
+      return research;
+    }
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      console.warn(`⏱️ Timeout: ${research.ticker}, usando fallback`);
+    } else {
+      console.warn(`⚠️ API error para ${research.ticker}: ${error.message}`);
+    }
+  }
+
+  // Fallback manual (ya estaba en research.currentPrice)
+  research.currentPriceRaw = extractPriceValue(research.currentPrice);
+  research.upsideActual = calculateCurrentUpside(research.currentPriceRaw, research.fairValueRaw);
+  research.priceSource = 'manual';
+
+  // Persistimos último precio (manual) igualmente
+  persistLastPrice(research);
+
+  console.log(`📌 Manual: ${research.ticker} = ${research.currentPrice} | Upside: ${research.upsideActual}`);
+  return research;
 }
 
 // ============================================
@@ -1392,7 +1502,8 @@ async function loadAllPrices() {
     
     // Luego actualiza en background
     try {
-        const promises = researchesData.map(r => fetchCurrentPrice(r));
+        const actives = researchesData.filter(r => !r.status || r.status === 'active');
+ const promises = actives.map(r => fetchCurrentPrice(r));
         const results = await Promise.allSettled(promises);
         
         // Actualizar solo las que cambiaron
@@ -1876,6 +1987,14 @@ async function loadAllPrices() {
     // ==================== RENDER CARD (shared) ====================
     function renderCard(item, isClosed) {
         const statusInfo = getStatusInfo(item.status || 'active');
+  // Precio a mostrar: en cerradas es el precio final congelado
+  const closed = isClosed || isClosedStatus(item.status);
+  if (closed) {
+    prepareClosedThesis(item);
+  }
+  const displayPrice = closed ? (item.finalPrice || item.currentPrice) : item.currentPrice;
+  const displaySource = closed ? 'manual' : (item.priceSource || 'manual');
+
 
         // Upside/Result section
         let upsideSection = '';
@@ -1903,7 +2022,7 @@ async function loadAllPrices() {
                     <div class="result-block-title">📊 Resultados de la Operación</div>
                     ${item.closeDate ? `<div class="result-row"><span class="result-label">📅 Fecha cierre</span><span class="result-value">${item.closeDate}</span></div>` : ''}
                     ${item.closeReason ? `<div class="result-row"><span class="result-label">📌 Motivo</span><span class="result-value">${item.closeReason}</span></div>` : ''}
-                    ${item.closeReturn ? `<div class="result-row"><span class="result-label">💰 Rentabilidad</span><span class="result-value ${getReturnClass(item.closeReturn)}">${item.closeReturn}</span></div>` : ''}
+                    ${item.closeReturn ? `<div class="result-row"><span class="result-label">💰 Rentabilidad</span><span class="result-value ${getReturnClass(item.closeReturn)}">${item.closeReturn}${item.closeReturnMismatch ? ' ⚠️' : ''}</span></div>` : ''}
                     ${item.closeReturnAnnualized ? `<div class="result-row"><span class="result-label">📈 IRR</span><span class="result-value ${getReturnClass(item.closeReturnAnnualized)}">${item.closeReturnAnnualized}</span></div>` : ''}
                     ${item.closeComment ? `<div class="result-comment">💬 ${item.closeComment}</div>` : ''}
                 </div>`;
@@ -2041,6 +2160,9 @@ async function loadAllPrices() {
         const trackRecord = document.getElementById('trackRecord');
 
         const finished = researchesData.filter(r => r.status && r.status !== 'active');
+
+ // ✅ Preparar tesis cerradas: congelar precio final + calcular/validar closeReturn
+ finished.forEach(item => prepareClosedThesis(item));
 
         updateTabCounts();
 
