@@ -1891,6 +1891,33 @@ async function loadAllPrices() {
                 closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
                 closeComment: ''            // Comentario breve
             },
+            {
+                id: 'hsp',
+                path: './hsp/index.html',
+                type: 'tender-offers',
+                ticker: 'HSP.L',
+                company: 'HSP',
+                sector: 'Industrial',
+                logo: 'company-logos/hsp.png',
+                thesisDate: '2026-04-08',
+                thesisPrice: 'GBP7.4',
+                fairValue: 'GBP8.5',
+                fairValueRaw: 8.5,
+                upsideInitial: '+10.9%',
+                ticker_finnhub: 'HSP.L',
+                currentPrice: 'GBP7.4',
+                currency: 'GBP',
+                upsideActual: '10.9%',
+                priceSource: 'manual',
+                riskLevel: 'Alto',
+                // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
+                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
+                closeComment: ''            // Comentario breve
+            },
 
             
             
