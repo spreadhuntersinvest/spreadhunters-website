@@ -1468,33 +1468,82 @@ async function fetchCurrentPrice(research) {
     }
   }
 
- try {
+try {
   // 🔑 SEGUNDO INTENTO: FINCEPT
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 2000);
-
   const finceptSymbol = research.ticker_fincept || research.ticker_finnhub || research.ticker;
 
-  const response = await fetch(
-    `${FINCEPT_QUOTE_URL}?symbol=${encodeURIComponent(finceptSymbol)}`,
-    {
+  let data = null;
+
+  // ===== intento 1: POST batch =====
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+    const response = await fetch(FINCEPT_QUOTE_URL, {
+      method: 'POST',
       signal: controller.signal,
       headers: {
         'X-API-Key': FINCEPT_API_KEY,
-        'Accept': 'application/json'
-      }
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        symbols: [finceptSymbol]
+      })
+    });
+
+    clearTimeout(timeoutId);
+
+    if (response.ok) {
+      data = await response.json();
+      console.log('Fincept POST response:', data);
+    } else {
+      const errText = await response.text();
+      console.warn('Fincept POST no OK:', response.status, errText);
     }
-  );
+  } catch (err) {
+    console.warn('Fincept POST error:', err.message);
+  }
 
-  clearTimeout(timeoutId);
-  if (!response.ok) throw new Error('Fincept API error');
+  // ===== intento 2: GET ?symbols= =====
+  if (!data) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2000);
 
-  const data = await response.json();
+      const response = await fetch(
+        `${FINCEPT_QUOTE_URL}?symbols=${encodeURIComponent(finceptSymbol)}`,
+        {
+          signal: controller.signal,
+          headers: {
+            'X-API-Key': FINCEPT_API_KEY,
+            'Accept': 'application/json'
+          }
+        }
+      );
 
-  // Intentamos varios nombres posibles del campo precio
+      clearTimeout(timeoutId);
+
+      if (response.ok) {
+        data = await response.json();
+        console.log('Fincept GET symbols response:', data);
+      } else {
+        const errText = await response.text();
+        console.warn('Fincept GET symbols no OK:', response.status, errText);
+      }
+    } catch (err) {
+      console.warn('Fincept GET symbols error:', err.message);
+    }
+  }
+
+  // ===== parseo flexible =====
   const finceptPrice =
     data?.data?.price ??
     data?.data?.last ??
+    data?.data?.[0]?.price ??
+    data?.data?.[0]?.last ??
+    data?.data?.[finceptSymbol]?.price ??
+    data?.data?.[finceptSymbol]?.last ??
     data?.price ??
     data?.last ??
     null;
@@ -1505,13 +1554,15 @@ async function fetchCurrentPrice(research) {
     research.upsideActual = calculateCurrentUpside(research.currentPriceRaw, research.fairValueRaw);
     research.priceSource = 'api';
 
-    // Persistimos último precio para poder congelarlo si se cierra la tesis
     persistLastPrice(research);
 
     showToast(`${research.ticker} actualizado: ${research.currentPrice}`);
-    console.log(`✅ API: ${research.ticker} = ${research.currentPrice} | Upside: ${research.upsideActual}`);
+    console.log(`✅ Fincept: ${research.ticker} = ${research.currentPrice} | Upside: ${research.upsideActual}`);
     return research;
   }
+
+  console.warn(`⚠️ Fincept sin precio válido para ${research.ticker}`, data);
+
 } catch (error) {
   if (error.name === 'AbortError') {
     console.warn(`⏱️ Timeout Fincept: ${research.ticker}, usando fallback manual`);
