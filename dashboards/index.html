@@ -1273,6 +1273,12 @@ const FINNHUB_API_KEY = 'd5bvi7pr01qsbmghj0sgd5bvi7pr01qsbmghj0t0';  // ← REEM
 const FINNHUB_BASE_URL = 'https://finnhub.io/api/v1/quote';
 
 // ============================================
+// CONFIGURACIÓN API FINCEPT
+// ============================================
+const FINCEPT_API_KEY = 'fk_user_Hszvr4huTsq5lH2C3EMOGEdBRfmBUl652vwvY4bHnTA';
+const FINCEPT_QUOTE_URL = 'https://api.fincept.in/market/batch/prices';
+
+// ============================================
 // FUNCIÓN: Calcular upside actual automático
 // ============================================
 function calculateCurrentUpside(currentPriceRaw, fairValueRaw) {
@@ -1432,7 +1438,7 @@ async function fetchCurrentPrice(research) {
     const timeoutId = setTimeout(() => controller.abort(), 2000);
 
     const response = await fetch(
-      `${FINNHUB_BASE_URL}?symbol=${research.ticker_finnhub}&token=${FINNHUB_API_KEY}`,
+      `${FINNHUB_BASE_URL}?symbol=${encodeURIComponent(research.ticker_finnhub)}&token=${FINNHUB_API_KEY}`,
       { signal: controller.signal }
     );
 
@@ -1456,9 +1462,61 @@ async function fetchCurrentPrice(research) {
     }
   } catch (error) {
     if (error.name === 'AbortError') {
-      console.warn(`⏱️ Timeout: ${research.ticker}, usando fallback`);
+      console.warn(`⏱️ Timeout: ${research.ticker}, probando Fincept`);
     } else {
-      console.warn(`⚠️ API error para ${research.ticker}: ${error.message}`);
+      console.warn(`⚠️ API error para ${research.ticker}: ${error.message}. Probando Fincept`);
+    }
+  }
+
+  try {
+    // 🔑 SEGUNDO INTENTO: FINCEPT
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+    const finceptSymbol = research.ticker_fincept || research.ticker_finnhub || research.ticker;
+
+    const response = await fetch(
+      `${FINCEPT_QUOTE_URL}?symbol=${encodeURIComponent(finceptSymbol)}`,
+      {
+        signal: controller.signal,
+        headers: {
+          'X-API-Key': FINCEPT_API_KEY,
+          'Accept': 'application/json'
+        }
+      }
+    );
+
+    clearTimeout(timeoutId);
+    if (!response.ok) throw new Error('Fincept API error');
+
+    const data = await response.json();
+
+    // Intentamos varios nombres posibles del campo precio
+    const finceptPrice =
+      data?.data?.price ??
+      data?.data?.last ??
+      data?.price ??
+      data?.last ??
+      null;
+
+    if (typeof finceptPrice === 'number' && Number.isFinite(finceptPrice) && finceptPrice > 0) {
+      research.currentPriceRaw = finceptPrice;
+      research.currentPrice = `${research.currency}${finceptPrice.toFixed(2)}`;
+      research.upsideActual = calculateCurrentUpside(research.currentPriceRaw, research.fairValueRaw);
+      research.priceSource = 'api';
+
+      // Persistimos último precio para poder congelarlo si se cierra la tesis
+      persistLastPrice(research);
+
+      showToast(`${research.ticker} actualizado: ${research.currentPrice}`);
+      console.log(`✅ API: ${research.ticker} = ${research.currentPrice} | Upside: ${research.upsideActual}`);
+      return research;
+    }
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      console.warn(`⏱️ Timeout Fincept: ${research.ticker}, usando fallback manual`);
+    } else {
+      console.warn(`⚠️ Fincept API error para ${research.ticker}: ${error.message}`);
     }
   }
 
@@ -1551,6 +1609,7 @@ async function loadAllPrices() {
                 fairValueRaw: 21.96,
                 upsideInitial: '+75,4%',
                 ticker_finnhub: 'PUUILO.HE',
+                ticker_fincept: 'PUUILO',
                 currentPrice: '€12.61',
                 currency: '€',
                 upsideActual: '+113%',  // Se actualiza con API o manual
@@ -1579,6 +1638,7 @@ async function loadAllPrices() {
                 fairValueRaw: 45.83,
                 upsideInitial: '+20.6%',
                 ticker_finnhub: 'QEPC',
+                ticker_fincept: 'QEPC',
                 currentPrice: '$39.5',
                 currency: '$',
                 upsideActual: '+20.6%',
@@ -1601,11 +1661,12 @@ async function loadAllPrices() {
                 sector: 'Education Platform',
                 logo: 'company-logos/edu-holdings.png',
                 thesisDate: '2026-02-10',
-                thesisPrice: 'AUD0.0.75',
+                thesisPrice: 'AUD0.75',
                 fairValue: 'AUD1.54',
                 fairValueRaw: 1.54,
                 upsideInitial: '+105,3%',
                 ticker_finnhub: 'EDU.AX',
+                ticker_fincept: 'EDU',
                 currentPrice: 'AUD0.69',
                 currency: 'AUD',
                 upsideActual: '+207%',
@@ -1660,6 +1721,7 @@ async function loadAllPrices() {
                 fairValueRaw: 14.14,
                 upsideInitial: '+52.7%',
                 ticker_finnhub: 'TOA.WA',
+                ticker_fincept: 'TOA',
                 currentPrice: 'PLN9.61',
                 currency: 'PLN',
                 upsideActual: '+52.7%',
@@ -1687,6 +1749,7 @@ async function loadAllPrices() {
                 fairValueRaw: 1.15,
                 upsideInitial: '55%',
                 ticker_finnhub: 'HUM.AX',
+                ticker_fincept: 'HUM',
                 currentPrice: 'AUD0.68',
                 currency: 'AUD',
                 upsideActual: '55%',
@@ -1768,6 +1831,7 @@ async function loadAllPrices() {
                 fairValueRaw: 6.5,
                 upsideInitial: '+50%',
                 ticker_finnhub: 'FSJ.L',
+                 ticker_fincept: 'FSJ',
                 currentPrice: 'GBP4.96',
                 currency: 'GBP',
                 upsideActual: '50%',
@@ -1823,6 +1887,7 @@ async function loadAllPrices() {
                 fairValueRaw: 20.75,
                 upsideInitial: '+23.9%',
                 ticker_finnhub: 'DR.TO',
+                ticker_fincept: 'DR',
                 currentPrice: 'CAD16.61',
                 currency: 'CAD',
                 upsideActual: '26.3%',
@@ -1905,6 +1970,7 @@ async function loadAllPrices() {
                 fairValueRaw: 8.5,
                 upsideInitial: '+6.8%',
                 ticker_finnhub: 'HSP.L',
+                ticker_fincept: 'HSP',
                 currentPrice: 'GBP7.96',
                 currency: 'GBP',
                 upsideActual: '11.3%',
@@ -1932,6 +1998,7 @@ async function loadAllPrices() {
                 fairValueRaw: 0.65,
                 upsideInitial: '+20.4%',
                 ticker_finnhub: 'BRCK.L',
+                ticker_fincept: 'BRCK',
                 currentPrice: 'GBP0.54',
                 currency: 'GBP',
                 upsideActual: '25%',
@@ -2104,10 +2171,10 @@ async function loadAllPrices() {
                         <div class="indicator" style="grid-column: 1 / -1;">
                             <div class="indicator-label">💰 Precio ${isClosed ? 'Final' : 'Actual'}</div>
                             <div class="indicator-value">
-                                ${item.currentPrice}
-                                <span class="price-badge ${item.priceSource === 'api' ? 'api' : 'manual'}" title="${item.priceSource === 'api' ? 'Actualizado desde API' : 'Precio manual'}">
-                                    ${item.priceSource === 'api' ? '🌐 API' : '📌 Manual'}
-                                </span>
+                                ${displayPrice}
+                                <span class="price-badge ${displaySource === 'api' ? 'api' : 'manual'}" title="${displaySource === 'api' ? 'Actualizado desde API' : 'Precio manual'}">
+                                ${displaySource === 'api' ? '🌐 API' : '📌 Manual'}
+                            </span>
                             </div>
                         </div>
                         <div class="thesis-metrics" style="grid-column: 1 / -1;">
