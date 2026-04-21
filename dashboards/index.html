@@ -1476,7 +1476,7 @@ async function fetchCurrentPrice(research) {
     const finceptSymbol = research.ticker_fincept || research.ticker_finnhub || research.ticker;
 
     const response = await fetch(
-      `${FINCEPT_QUOTE_URL}?symbols=${encodeURIComponent(finceptSymbol)}`
+      `${FINCEPT_QUOTE_URL}?symbol=${encodeURIComponent(finceptSymbol)}`
       {
         signal: controller.signal,
         headers: {
