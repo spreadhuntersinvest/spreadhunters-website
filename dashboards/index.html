@@ -1468,58 +1468,57 @@ async function fetchCurrentPrice(research) {
     }
   }
 
-  try {
-    // 🔑 SEGUNDO INTENTO: FINCEPT
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2000);
+ try {
+  // 🔑 SEGUNDO INTENTO: FINCEPT
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 2000);
 
-    const finceptSymbol = research.ticker_fincept || research.ticker_finnhub || research.ticker;
+  const finceptSymbol = research.ticker_fincept || research.ticker_finnhub || research.ticker;
 
-    const response = await fetch(
-      `${FINCEPT_QUOTE_URL}?symbol=${encodeURIComponent(finceptSymbol)}`
-      {
-        signal: controller.signal,
-        headers: {
-          'X-API-Key': FINCEPT_API_KEY,
-          'Accept': 'application/json'
-        }
+  const response = await fetch(
+    `${FINCEPT_QUOTE_URL}?symbol=${encodeURIComponent(finceptSymbol)}`,
+    {
+      signal: controller.signal,
+      headers: {
+        'X-API-Key': FINCEPT_API_KEY,
+        'Accept': 'application/json'
       }
-    );
-
-    clearTimeout(timeoutId);
-    if (!response.ok) throw new Error('Fincept API error');
-
-    const data = await response.json();
-
-    // Intentamos varios nombres posibles del campo precio
-    const finceptPrice =
-      data?.data?.price ??
-      data?.data?.last ??
-      data?.price ??
-      data?.last ??
-      null;
-
-    if (typeof finceptPrice === 'number' && Number.isFinite(finceptPrice) && finceptPrice > 0) {
-      research.currentPriceRaw = finceptPrice;
-      research.currentPrice = `${research.currency}${finceptPrice.toFixed(2)}`;
-      research.upsideActual = calculateCurrentUpside(research.currentPriceRaw, research.fairValueRaw);
-      research.priceSource = 'api';
-
-      // Persistimos último precio para poder congelarlo si se cierra la tesis
-      persistLastPrice(research);
-
-      showToast(`${research.ticker} actualizado: ${research.currentPrice}`);
-      console.log(`✅ API: ${research.ticker} = ${research.currentPrice} | Upside: ${research.upsideActual}`);
-      return research;
     }
-  } catch (error) {
-    if (error.name === 'AbortError') {
-      console.warn(`⏱️ Timeout Fincept: ${research.ticker}, usando fallback manual`);
-    } else {
-      console.warn(`⚠️ Fincept API error para ${research.ticker}: ${error.message}`);
-    }
+  );
+
+  clearTimeout(timeoutId);
+  if (!response.ok) throw new Error('Fincept API error');
+
+  const data = await response.json();
+
+  // Intentamos varios nombres posibles del campo precio
+  const finceptPrice =
+    data?.data?.price ??
+    data?.data?.last ??
+    data?.price ??
+    data?.last ??
+    null;
+
+  if (typeof finceptPrice === 'number' && Number.isFinite(finceptPrice) && finceptPrice > 0) {
+    research.currentPriceRaw = finceptPrice;
+    research.currentPrice = `${research.currency}${finceptPrice.toFixed(2)}`;
+    research.upsideActual = calculateCurrentUpside(research.currentPriceRaw, research.fairValueRaw);
+    research.priceSource = 'api';
+
+    // Persistimos último precio para poder congelarlo si se cierra la tesis
+    persistLastPrice(research);
+
+    showToast(`${research.ticker} actualizado: ${research.currentPrice}`);
+    console.log(`✅ API: ${research.ticker} = ${research.currentPrice} | Upside: ${research.upsideActual}`);
+    return research;
   }
-
+} catch (error) {
+  if (error.name === 'AbortError') {
+    console.warn(`⏱️ Timeout Fincept: ${research.ticker}, usando fallback manual`);
+  } else {
+    console.warn(`⚠️ Fincept API error para ${research.ticker}: ${error.message}`);
+  }
+}
   // Fallback manual (ya estaba en research.currentPrice)
   research.currentPriceRaw = extractPriceValue(research.currentPrice);
   research.upsideActual = calculateCurrentUpside(research.currentPriceRaw, research.fairValueRaw);
