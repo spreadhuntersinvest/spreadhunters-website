@@ -1502,7 +1502,9 @@ try {
       console.warn('Fincept direct price no OK:', response.status, errText);
     }
   } catch (err) {
-    console.warn('Fincept direct price error:', err.message);
+  console.warn('Fincept direct price error:', err);
+  console.warn('name:', err?.name);
+  console.warn('message:', err?.message);
   }
 
   // ===== intento 2: resolver ticker en /market/search =====
@@ -1532,7 +1534,9 @@ try {
         console.log('Fincept search q response:', searchData);
       }
     } catch (err) {
-      console.warn('Fincept search q error:', err.message);
+      console.warn('Fincept search q error:', err);
+      console.warn('name:', err?.name);
+      console.warn('message:', err?.message);
     }
 
     // prueba B: query=
