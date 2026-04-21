@@ -1918,6 +1918,33 @@ async function loadAllPrices() {
                 closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
                 closeComment: ''            // Comentario breve
             },
+                {
+                id: 'bcrk',
+                path: './bcrk/index.html',
+                type: 'takeover',
+                ticker: 'BRCK.L',
+                company: 'Brickability Group PLC',
+                sector: 'Construcción',
+                logo: 'company-logos/bcrk.png',
+                thesisDate: '2026-04-21',
+                thesisPrice: 'GBP0.65',
+                fairValue: 'GBP0.65',
+                fairValueRaw: 0.65,
+                upsideInitial: '+25%',
+                ticker_finnhub: 'BRCK.L',
+                currentPrice: 'GBP0.54',
+                currency: 'GBP',
+                upsideActual: '25%',
+                priceSource: 'manual',
+                riskLevel: 'Medio',
+                // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
+                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
+                closeComment: ''            // Comentario breve
+            },
 
             
             
