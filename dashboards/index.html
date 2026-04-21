@@ -2136,7 +2136,34 @@ async function loadAllPrices() {
                 closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
                 closeComment: ''            // Comentario breve
             },
-
+                {
+                id: 'cyan',
+                path: './cyan/index.html',
+                type: 'takeover',
+                ticker: 'CYAN',
+                company: 'Cyanconnode Holdings PLC',
+                sector: 'Tecnología (IOT)',
+                logo: 'company-logos/cyanconnode-logo.png',
+                thesisDate: '2026-04-21',
+                thesisPrice: 'GBP0.076',
+                fairValue: 'GBP1.05',
+                fairValueRaw: 0.65,
+                upsideInitial: '+37%',
+                ticker_finnhub: 'CYAN.L',
+                ticker_fincept: 'CYAN',
+                currentPrice: 'GBP0.076',
+                currency: 'GBP',
+                upsideActual: '37%',
+                priceSource: 'manual',
+                riskLevel: 'Medio',
+                // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
+                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
+                closeComment: ''            // Comentario breve
+            },
             
             
             // ============ EJEMPLO: TESIS CERRADAS ============
