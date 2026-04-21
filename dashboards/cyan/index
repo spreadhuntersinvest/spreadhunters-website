@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CyanConnode Holdings plc (LON: CYAN) - Análisis Situación Especial | SpreadHunters</title>
+  <meta name="description" content="CyanConnode (LON: CYAN) - Oportunidad de arbitraje M&A: posible take-private por Esyasoft a 10.44p. Spread explicado por riesgo pre-Rule 2.7 y monitorización NSIA. Actualizado: Abril 2026." />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+  <style>
+    /* ========================================
+       SISTEMA DE VARIABLES - COLORES GLOBALES
+       ======================================== */
+    :root {
+      --primary-color: #00d7ff;
+      --secondary-color: #1a2332;
+      --accent-color: #4A8B9B;
+
+      --success-color: #90ee90;
+      --danger-color: #ff6b6b;
+      --warning-color: #ffa500;
+      --info-color: #00d7ff;
+
+      --dark-bg: #1a2332;
+      --darker-bg: #0f1419;
+      --card-bg: #1a2538;
+      --light-bg: #E8E8E8;
+
+      --text-primary: #d0d8e0;
+      --text-secondary: #b0c4de;
+      --text-tertiary: #808080;
+
+      --border-color: #2d3d4d;
+      --border-light: #3d5570;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, rgba(26, 35, 50, 0.95) 0%, rgba(30, 50, 80, 0.95) 100%);
+      background-color: #1a2332;
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Barra de progreso */
+    .progress-bar {
+      background: var(--success-color);
+      height: 2px;
+      width: 0%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      transition: width 0.3s ease;
+    }
+
+    /* Logo navbar */
+    .logo-navbar {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 900;
+      background: none;
+      padding: 0;
+      border: none;
+      backdrop-filter: none;
+      pointer-events: none;
+    }
+    .logo-navbar-img {
+      height: 44px;
+      width: auto;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .logo-navbar { top: 15px; left: 15px; }
+      .logo-navbar-img { height: 34px; }
+    }
+    @media (max-width: 480px) {
+      .logo-navbar { top: 12px; left: 12px; }
+      .logo-navbar-img { height: 30px; }
+    }
+
+    /* Header */
+    .header-professional {
+      padding: 50px 20px;
+      background: transparent;
+      border-bottom: 1px solid rgba(74, 127, 127, 0.1);
+      backdrop-filter: blur(3px);
+      position: relative;
+      z-index: 2;
+    }
+
+    .header-professional .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+    }
+
+    .company-title-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+    }
+
+    .logo-company {
+      max-height: 70px;
+      max-width: 150px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      filter: none;
+      display: block;
+      margin: 0;
+    }
+    .logo-company--on-dark {
+      filter: brightness(4) contrast(1.5) invert(1) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+
+    .page-title {
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 1px;
+      line-height: 1.3;
+    }
+
+    .page-subtitle {
+      font-size: 0.95rem;
+      color: #e0e0e0;
+      margin-top: 10px;
+      font-weight: 400;
+      max-width: 760px;
+    }
+
+    @media (max-width: 768px) {
+      .header-professional { padding: 30px 15px; }
+      .page-title { font-size: 1.4rem; }
+      .logo-company { max-height: 65px; max-width: 130px; }
+      .page-subtitle { font-size: 0.9rem; }
+    }
+    @media (max-width: 480px) {
+      .header-professional { padding: 20px 15px; }
+      .page-title { font-size: 1.15rem; }
+      .logo-company { max-height: 55px; max-width: 110px; }
+      .page-subtitle { font-size: 0.85rem; }
+    }
+
+    /* Tarjetas métricas */
+    .investment-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+      width: 100%;
+    }
+
+    .metric-card {
+      background: linear-gradient(135deg, rgba(26, 35, 50, 0.6) 0%, rgba(30, 50, 80, 0.6) 100%);
+      border: 2px solid rgba(0, 215, 255, 0.3);
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .metric-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(0, 215, 255, 0.5) 0%, rgba(0, 215, 255, 0) 100%);
+    }
+    .metric-card:hover {
+      border-color: rgba(0, 215, 255, 0.6);
+      background: linear-gradient(135deg, rgba(26, 35, 50, 0.8) 0%, rgba(30, 50, 80, 0.8) 100%);
+      box-shadow: 0 0 20px rgba(0, 215, 255, 0.2);
+    }
+
+    .metric-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+    .metric-value {
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      letter-spacing: -0.5px;
+    }
+    .metric-value.cyan { color: #00d7ff; }
+    .metric-value.green { color: #90ee90; }
+    .metric-value.red { color: #ff6b6b; }
+    .metric-subtitle { font-size: 0.8rem; color: var(--text-tertiary); font-weight: 400; }
+
+    @media (max-width: 768px) {
+      .investment-metrics { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .metric-card { padding: 15px; }
+      .metric-value { font-size: 1.3rem; }
+    }
+
+    /* Nav */
+    .nav-tabs {
+      background: var(--card-bg);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 2px solid var(--border-color);
+    }
+    .nav-tabs ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .nav-tabs a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .nav-tabs a:hover, .nav-tabs a.active {
+      background: var(--primary-color);
+      color: var(--dark-bg);
+    }
+    @media (max-width: 768px) {
+      .nav-tabs { padding: 10px 0; }
+      .nav-tabs ul {
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 8px;
+        padding: 0 12px 6px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .nav-tabs li { flex: 0 0 auto; }
+      .nav-tabs a { padding: 7px 12px; font-size: 0.85rem; }
+      .nav-tabs ul::-webkit-scrollbar { height: 6px; }
+      .nav-tabs ul::-webkit-scrollbar-track { background: rgba(15, 20, 25, 0.35); }
+      .nav-tabs ul::-webkit-scrollbar-thumb { background: rgba(0, 215, 255, 0.55); border-radius: 6px; }
+    }
+
+    /* Secciones */
+    section {
+      padding: 60px 0;
+      border-bottom: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+      scroll-margin-top: 90px;
+    }
+    @media (max-width: 768px){ section { scroll-margin-top: 120px; } }
+
+    section h2 {
+      font-size: 1.35rem;
+      margin-bottom: 30px;
+      color: var(--primary-color);
+      border-left: 4px solid var(--success-color);
+      padding-left: 20px;
+    }
+    section > h3 { font-size: 1.15rem; margin: 30px 0 15px; color: var(--text-primary); }
+    section > h4 { font-size: 1.0rem; margin: 15px 0 10px; color: var(--text-primary); }
+
+    /* Cards, charts, tablas */
+    .card {
+      background: rgba(26, 35, 50, 0.85);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      line-height: 1.5;
+    }
+
+    .chart-container {
+      background: rgba(26, 35, 50, 0.85);
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(10px);
+      position: relative;
+      height: 380px;
+    }
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    @media (max-width: 768px) {
+      .chart-grid { grid-template-columns: 1fr; }
+      .chart-container { height: 300px; }
+    }
+
+    .table-responsive { overflow-x: auto; margin: 30px 0; border-radius: 8px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card-bg);
+      border-radius: 8px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+    thead { background: #1A1F2E; border-bottom: 2px solid var(--primary-color); }
+    th, td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border-color); vertical-align: top; }
+    th {
+      color: var(--text-secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+    tr:hover { background: rgba(74, 127, 127, 0.05); }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    .stat-card {
+      background: rgba(26, 35, 50, 0.8);
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      border: 2px solid var(--border-color);
+      backdrop-filter: blur(10px);
+    }
+    .stat-card .label {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .stat-card .value {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .stat-card .change { font-size: 0.9rem; margin-top: 5px; }
+    .positive { color: var(--success-color); }
+    .negative { color: var(--danger-color); }
+    .warning { color: var(--warning-color); }
+
+    .alert {
+      padding: 14px 16px;
+      border-radius: 8px;
+      margin: 20px 0;
+      border-left: 4px solid;
+      backdrop-filter: blur(10px);
+      line-height: 1.5;
+    }
+    .alert-success { background: rgba(74, 155, 111, 0.08); border-color: var(--success-color); }
+    .alert-warning { background: rgba(255, 165, 0, 0.15); border-color: var(--warning-color); }
+    .alert-info { background: rgba(0, 212, 212, 0.15); border-color: var(--primary-color); }
+    .alert-danger { background: rgba(255, 107, 107, 0.15); border-color: var(--danger-color); }
+    .alert strong { color: #ffffff; }
+
+    .highlights {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    .highlight-item {
+      background: linear-gradient(135deg, var(--card-bg) 0%, rgba(0, 212, 212, 0.1) 100%);
+      padding: 14px 16px;
+      border-radius: 12px;
+      border-left: 4px solid var(--primary-color);
+      backdrop-filter: blur(10px);
+      line-height: 1.5;
+    }
+    .highlight-item h4 { color: var(--primary-color); margin-bottom: 8px; font-size: 1.05rem; }
+
+    .btn {
+      background: var(--primary-color);
+      color: var(--dark-bg);
+      border: 1px solid var(--primary-color);
+      padding: 10px 24px;
+      border-radius: 4px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn:hover {
+      background: var(--secondary-color);
+      border-color: var(--accent-color);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    }
+    .btn-success { font-size: 0.9rem; padding: 8px 18px; border-radius: 6px; }
+
+    footer {
+      background: var(--card-bg);
+      padding: 40px 0;
+      text-align: center;
+      margin-top: 60px;
+      border-top: 2px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+    footer p { color: var(--text-secondary); font-size: 0.9rem; margin: 10px 0; }
+    footer a { color: var(--primary-color); text-decoration: none; }
+
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: rgba(15, 20, 25, 0.5); }
+    ::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 5px; }
+
+    .fade-in { animation: fadeIn 0.6s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    .mt-15 { margin-top: 15px; }
+    .mt-20 { margin-top: 20px; }
+    .mt-30 { margin-top: 30px; }
+    .text-center { text-align: center; }
+    .compact-list { margin: 6px 0 0; padding-left: 18px; }
+    .compact-list li { margin: 0 0 4px 0; }
+    .compact-list li:last-child { margin-bottom: 0; }
+  </style>
+</head>
+
+<body>
+  <div id="top"></div>
+
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- SpreadHunters logo navbar -->
+  <div class="logo-navbar">
+    <img src="../../images/spreadhunter_navbar.svg" alt="SpreadHunters" class="logo-navbar-img" />
+  </div>
+
+  <header class="header-professional">
+    <div class="container">
+      <div class="header-title-section">
+        <div class="company-title-row">
+          <img src="../company-logos/cyanconnode-logo.png" alt="CyanConnode Logo" class="logo-company" />
+          <h1 class="page-title">CyanConnode Holdings plc (LON: CYAN)</h1>
+        </div>
+        <p class="page-subtitle">
+          Arbitraje M&A: posible take-private por Esyasoft a 10.44p · Spread explicado por riesgo pre-Rule 2.7 + monitorización NSIA · PUSU deadline: 28 abril 2026
+        </p>
+      </div>
+
+      <div class="investment-metrics">
+        <div class="metric-card">
+          <div class="metric-label">PRECIO ACTUAL</div>
+          <div class="metric-value cyan" id="priceCurrent">7.6p</div>
+          <div class="metric-subtitle">Aprox. (5 abril 2026)</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">FAIR VALUE</div>
+          <div class="metric-value cyan" id="fairValue">10.44p</div>
+          <div class="metric-subtitle">Oferta revisada (cash), si cristaliza Rule 2.7</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">UPSIDE POTENCIAL</div>
+          <div class="metric-value green" id="upsidePct">—</div>
+          <div class="metric-subtitle">Spread vs precio actual</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav-tabs">
+    <div class="container">
+      <ul>
+        <li><a href="#resumen" class="active">Resumen</a></li>
+        <li><a href="#empresa">Empresa</a></li>
+        <li><a href="#transformacion">Proceso M&A</a></li>
+        <li><a href="#valuation">Escenarios</a></li>
+        <li><a href="#catalysts">Catalizadores</a></li>
+        <li><a href="#riesgos">Riesgos</a></li>
+        <li><a href="#conclusion">Conclusión</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- 1) RESUMEN -->
+    <section id="resumen" class="fade-in">
+      <h2>Resumen</h2>
+
+      <div class="alert alert-success">
+        <strong>Tesis de Inversión:</strong>
+        La lógica estratégica del deal es alta y el comprador parece financieramente capaz; el descuento actual parece explicarse más por riesgo de ejecución/documentación pre-Rule 2.7 que por financiación.
+      </div>
+
+      <div class="highlights">
+        <div class="highlight-item">
+          <h4>✓ Oferta revisada y “recomendable”</h4>
+          <p>
+            La propuesta evolucionó de 9.75p a 10.44p, nivel que el board indicó que estaría dispuesto a recomendar si se formaliza.
+          </p>
+        </div>
+
+        <div class="highlight-item">
+          <h4>✓ Comprador “insider” del activo</h4>
+          <p>
+            Esyasoft ya era socio/cliente relevante: aproximadamente una cuarta parte de los ingresos combinados FY24–FY25 provino del grupo Esyasoft.
+          </p>
+        </div>
+
+        <div class="highlight-item">
+          <h4>✓ Ticket pequeño vs precedentes</h4>
+          <p>
+            Frente a la compra de Good Energy (~£99.4m), CyanConnode (~£37.5m) es un ticket inferior; el riesgo dominante parece documental/procesal (pre-2.7).
+          </p>
+        </div>
+
+        <div class="highlight-item">
+          <h4>✓ Riesgo regulatorio monitorizable (NSIA)</h4>
+          <p>
+            Hoy no parece caso base de bloqueo, pero es el principal riesgo regulatorio si aparece como condición expresa en un futuro Rule 2.7.
+          </p>
+        </div>
+      </div>
+
+      <h3>Métricas Clave</h3>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="label">Oferta revisada</div>
+          <div class="value">10.44p</div>
+          <div class="change positive">£37.5m (equity value)</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="label">PUSU deadline</div>
+          <div class="value">28/04/26</div>
+          <div class="change warning">Extensión aprobada (confirmatory DD)</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="label">Free float (AIM)</div>
+          <div class="value">75.98%</div>
+          <div class="change positive">“In public hands”</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="label">Order book</div>
+          <div class="value">£157m</div>
+          <div class="change positive">Backlog material (Goa ~£70m)</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p><strong>Ficha rápida:</strong> Tipo: M&A arb / posible take-private · Oferta: 10.44p (cash) · Precio actual aprox.: 7.6p · Prima implícita: ~37% · Fecha de corte: 3–5 abril 2026 · Evento clave: Rule 2.7 / PUSU 28 abril 2026</p>
+        <p>
+          Lectura operativa: el mercado sigue exigiendo descuento mientras el expediente no cristalice en Rule 2.7 (términos definitivos). El “gap” es coherente con el riesgo de quedarse en limbo pre-2.7 más que con un problema de financiación.
+        </p>
+      </div>
+    </section>
+
+    <!-- 2) EMPRESA -->
+    <section id="empresa" class="fade-in">
+      <h2>Descripción de la Empresa</h2>
+
+      <div class="card">
+        <h3>Quiénes Son</h3>
+        <p>
+          CyanConnode Holdings plc es una empresa tecnológica británica enfocada en diseño y despliegue de redes de malla RF de banda estrecha para IoT y smart metering. Su negocio ofrece soluciones de comunicación bidireccional para utilities (AMI), combinando hardware, software y servicios.
+        </p>
+
+        <h4>Cartera de Productos</h4>
+        <ul>
+          <li>Plataforma <strong>Omnimesh</strong>: redes inalámbricas autorreparables y seguras para conectar dispositivos a gran escala.</li>
+          <li><strong>Hardware & Software</strong>: módulos de comunicación, Head End Servers y contratos de mantenimiento anual.</li>
+          <li><strong>AMI / Smart Metering</strong>: lectura remota, operaciones (p.ej. cortes/ajustes) y analítica asociada para utilities.</li>
+        </ul>
+
+        <h4>Geografía & clientes (foco India)</h4>
+        <ul>
+          <li><strong>India</strong>: mercado principal; participación en el despliegue nacional de 250m smart meters bajo RDSS (partners: Genus Power, L&T, Tata Power).</li>
+          <li><strong>Tailandia</strong>: tecnología a MEA vía socios locales.</li>
+          <li><strong>Egipto & UAE</strong>: proyectos / expansión en curso.</li>
+        </ul>
+      </div>
+
+      <h3>Estructura Accionarial (holders >3%)</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Accionista</th>
+              <th>Participación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Axia Investments Limited</strong></td>
+              <td class="positive">13.790%</td>
+            </tr>
+            <tr>
+              <td><strong>Premier Miton Group plc</strong></td>
+              <td class="positive">5.31%</td>
+            </tr>
+            <tr>
+              <td><strong>MJ Trezise</strong></td>
+              <td class="positive">5.740%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="alert alert-info">
+        <strong>Insight:</strong>
+        El accionariado está fragmentado y la referencia AIM indica 24.02% “not in public hands” (→ 75.98% “in public hands”), sin un “blocker” obvio por sí solo.
+      </div>
+
+      <div class="card">
+        <h3>Comprador y racional estratégico</h3>
+        <p>
+          Esyasoft se presenta como grupo de smart grid / AMI / software / analítica / IoT, y en este caso se identifica como subsidiaria de International Holding Company PJSC (IHC).
+          Dos hitos relevantes elevan su credibilidad: (1) compra del 70% de Float (ago-2024) y (2) adquisición recomendada de Good Energy por £99.4m (2025), cerrada vía scheme of arrangement.
+        </p>
+        <p>
+          Lectura práctica: la duda dominante no parece “si pueden pagar”, sino “si van a firmar ya en términos definitivos (Rule 2.7)”.
+        </p>
+      </div>
+    </section>
+
+    <!-- 3) PROCESO M&A -->
+    <section id="transformacion" class="fade-in">
+      <h2>Proceso M&A (Takeover Code) y Cronología</h2>
+
+      <h3>Estado del proceso</h3>
+      <div class="alert alert-warning">
+        <strong>Situación:</strong> Possible offer bajo Rule 2.4; todavía no existe Rule 2.7 firme. El PUSU deadline se extendió al 28 abril 2026 para confirmatory due diligence.
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Hito</th>
+              <th>03/02/26</th>
+              <th>03/03/26</th>
+              <th>31/03/26</th>
+              <th>Lectura</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Marco (Code)</strong></td>
+              <td>Rule 2.4 inicial</td>
+              <td>Update + revisión</td>
+              <td>Extensión PUSU</td>
+              <td class="warning">Aún pre-2.7 → descuento de ejecución</td>
+            </tr>
+            <tr>
+              <td><strong>Precio indicativo</strong></td>
+              <td>9.75p</td>
+              <td>10.44p</td>
+              <td>—</td>
+              <td class="positive">Mejora antes de 2.7 = señal positiva</td>
+            </tr>
+            <tr>
+              <td><strong>PUSU deadline</strong></td>
+              <td>—</td>
+              <td>—</td>
+              <td>28/04/26</td>
+              <td class="warning">Ventana para cristalizar 2.7</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Gráficos</h3>
+      <div class="chart-grid">
+        <div class="chart-container">
+          <canvas id="marginTransformation"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="ebitdaGrowth"></canvas>
+        </div>
+      </div>
+
+      <div class="alert alert-success">
+        <strong>Clave:</strong> la mejora 9.75p → 10.44p antes del 2.7 se interpreta como señal positiva (board empujó a nivel “recomendable” y comprador aceptó por encaje estratégico).
+      </div>
+
+      <div class="card">
+        <h3>Fotografía operativa (standalone)</h3>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Métrica</th>
+                <th>FY25</th>
+                <th>H1 FY26</th>
+                <th>Comentario</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Revenue</strong></td>
+                <td>£14.177m</td>
+                <td>£7.443m</td>
+                <td>+32% en H1, con alta dependencia del timing de proyectos.</td>
+              </tr>
+              <tr>
+                <td><strong>Gross profit</strong></td>
+                <td>£4.938m</td>
+                <td>£1.859m</td>
+                <td>Margen presionado por mix y FX.</td>
+              </tr>
+              <tr>
+                <td><strong>Operating loss</strong></td>
+                <td>£3.847m</td>
+                <td>£2.985m</td>
+                <td>La compañía sigue sin mostrar una foto de beneficios limpia.</td>
+              </tr>
+              <tr>
+                <td><strong>Order book</strong></td>
+                <td>£180m</td>
+                <td>£157m</td>
+                <td>Backlog fuerte; soporte estratégico al equity story.</td>
+              </tr>
+              <tr>
+                <td><strong>Revenue FY25 (geografía)</strong></td>
+                <td>India 85% · UAE 14% · RoW 1%</td>
+                <td>—</td>
+                <td>Exposición eminentemente India; el target regulatorio UK parece acotado.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          Lectura del descuento: el spread no es irracional porque el standalone tiene pérdidas y tensión de circulante; aun así, el riesgo dominante del gap parece ser pre-2.7 (documentación/condiciones) más que financiación.
+        </p>
+      </div>
+    </section>
+
+    <!-- 4) ESCENARIOS -->
+    <section id="valuation" class="fade-in">
+      <h2>Escenarios (Risk/Reward) y “Deal Math”</h2>
+
+      <h3>Scenario analysis (6M)</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Escenario</th>
+              <th>Prob.</th>
+              <th>Target (p)</th>
+              <th>Retorno 6M</th>
+              <th>Contrib. esperada</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Oferta firme (Rule 2.7)</td>
+              <td class="positive">60%</td>
+              <td class="positive">10.44</td>
+              <td class="positive">+37%</td>
+              <td class="positive">+22.42%</td>
+            </tr>
+            <tr>
+              <td>Bloqueo por NSIA</td>
+              <td class="warning">5%</td>
+              <td class="warning">6.5</td>
+              <td class="negative">-18%</td>
+              <td class="negative">-0.89%</td>
+            </tr>
+            <tr>
+              <td>Rechazo por votación</td>
+              <td class="warning">5%</td>
+              <td class="warning">6.5</td>
+              <td class="negative">-18%</td>
+              <td class="negative">-0.89%</td>
+            </tr>
+            <tr>
+              <td>Status quo (no hay oferta)</td>
+              <td class="warning">30%</td>
+              <td class="warning">6.0</td>
+              <td class="negative">-28%</td>
+              <td class="negative">-8.29%</td>
+            </tr>
+            <tr>
+              <td><strong>WEIGHTED EXPECTED RETURN</strong></td>
+              <td><strong>100%</strong></td>
+              <td>—</td>
+              <td>—</td>
+              <td class="positive"><strong>+12.36%</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Visualización: puntos de precio y sensibilidad</h3>
+      <div class="chart-grid">
+        <div class="chart-container">
+          <canvas id="multipleComparison"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="priceSensitivity"></canvas>
+        </div>
+      </div>
+
+      <div class="alert alert-warning">
+        <strong>Lectura:</strong> el mayor riesgo no es “el precio”, sino el <strong>timing</strong> y la cristalización de condiciones en Rule 2.7. Si se alarga, el retorno anualizado cae incluso si el economics se mantiene.
+      </div>
+    </section>
+
+    <!-- 5) CATALIZADORES -->
+    <section id="catalysts" class="fade-in">
+      <h2>Catalizadores Potenciales</h2>
+
+      <div class="highlights">
+        <div class="highlight-item">
+          <h4>Rule 2.7 antes del 28/04/26</h4>
+          <p>
+            Catalizador principal: anuncio de firme intención de realizar oferta (Rule 2.7) o, alternativamente, nueva extensión con justificación concreta y acotada.
+          </p>
+        </div>
+
+        <div class="highlight-item">
+          <h4>Finalización de confirmatory due diligence</h4>
+          <p>
+            Señal positiva si el board reitera recomendación sin ambigüedad y el lenguaje sugiere DD completada.
+          </p>
+        </div>
+
+        <div class="highlight-item">
+          <h4>Claridad en estructura (scheme vs offer)</h4>
+          <p>
+            Documentación (scheme document u offer document) con condiciones, timetable ejecutable y “discrecionalidad” limitada del comprador.
+          </p>
+        </div>
+
+        <div class="highlight-item">
+          <h4>Condiciones regulatorias acotadas (NSIA)</h4>
+          <p>
+            Si aparece NSIA como condición expresa, el mercado lo leerá; si no aparece o es específica y con calendario razonable, mejora la percepción de cierre.
+          </p>
+        </div>
+      </div>
+
+      <div class="alert alert-info">
+        <strong>Timeline esperado:</strong> Ventana crítica hasta el 28 de abril de 2026 (PUSU). Posteriormente, si hay Rule 2.7, el proceso se traslada a documentación/corte (scheme/offer) con hitos judiciales y votación si aplica.
+      </div>
+
+      <div class="card">
+        <h3>Checklist de señales (seguimiento)</h3>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Señales positivas</th>
+                <th>Señales neutras / mixtas</th>
+                <th>Señales negativas</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  • Rule 2.7 antes del 28/04/26<br/>
+                  • Precio mantenido 10.44p (o mejora)<br/>
+                  • Board recommendation sin ambigüedad<br/>
+                  • Condiciones regulatorias específicas y acotadas<br/>
+                  • Timetable de scheme ejecutable
+                </td>
+                <td>
+                  • Nueva extensión con progreso visible<br/>
+                  • Silencio en cotización sin filtraciones<br/>
+                  • Lenguaje prudente NSIA sin “remedies” complejos
+                </td>
+                <td>
+                  • Lenguaje amplio de pre-condiciones pendientes<br/>
+                  • Estructura menos limpia / discrecionalidad alta<br/>
+                  • Mención explícita a call-in o carve-outs UK sensibles<br/>
+                  • Dudas de financiación o tratamiento CLNs
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6) RIESGOS -->
+    <section id="riesgos" class="fade-in">
+      <h2>Análisis de Riesgos</h2>
+
+      <h3>Riesgos Principales</h3>
+
+      <div class="card">
+        <h4>🔴 Risk #1: No cristaliza Rule 2.7 (retirada / condiciones)</h4>
+        <p><strong>Escenario:</strong> el comprador mantiene margen para variar estructura/condiciones o apartarse; el caso se queda en limbo pre-2.7.</p>
+        <p><strong>Mitigantes:</strong> encaje estratégico alto, conocimiento previo del activo y precedentes de ejecución (Good Energy).</p>
+        <p><strong>Probabilidad:</strong> <span class="warning">Media</span> (dominante en el spread actual)</p>
+      </div>
+
+      <div class="card">
+        <h4>🟡 Risk #2: NSIA / fricción regulatoria</h4>
+        <p><strong>Escenario:</strong> call-in o condiciones si el perímetro UK se define como sensible (smart metering / security requirements).</p>
+        <p><strong>Impacto:</strong> retraso, remedies o (menos probable) bloqueo.</p>
+        <p><strong>Mitigantes:</strong> 85% del negocio en India y umbrales/encaje mandatory no obvios en la foto pública; más probable autorización con condiciones que veto.</p>
+        <p><strong>Probabilidad:</strong> <span class="warning">Baja–Media</span></p>
+      </div>
+
+      <div class="card">
+        <h4>🟡 Risk #3: Standalone débil (pérdidas / caja / circulante)</h4>
+        <p><strong>Escenario:</strong> si se rompe el deal, el mercado puede reprecificar por pérdidas operativas, working capital tensionado y estructura con instrumentos convertibles (CLNs).</p>
+        <p><strong>Mitigantes:</strong> backlog material y racional industrial para un comprador con capital.</p>
+        <p><strong>Probabilidad:</strong> <span class="positive">Baja</span> (pero cola de downside)</p>
+      </div>
+
+      <h3>Upside Risks</h3>
+
+      <div class="card">
+        <h4>🟢 Upside #1: Mejora adicional de precio</h4>
+        <p><strong>Scenario:</strong> presión de board/holders eleva el economics package por encima de 10.44p.</p>
+        <p><strong>Probability:</strong> <span class="positive">Baja</span></p>
+      </div>
+
+      <div class="card">
+        <h4>🟢 Upside #2: Cierre “limpio” y rápido tras 2.7</h4>
+        <p><strong>Scenario:</strong> documentación clara, condiciones acotadas y timetable ejecutable → compresión rápida del spread.</p>
+        <p><strong>Impacto:</strong> mejora del retorno anualizado (aunque el retorno nominal sea el mismo).</p>
+        <p><strong>Probability:</strong> <span class="positive">Media</span></p>
+      </div>
+
+      <div class="alert alert-success">
+        <strong>🛡️ Risk/Reward:</strong> Asimetría positiva si cristaliza Rule 2.7 (retorno ~+37% en meses) frente a downside relevante si se rompe (reprecificación a 5.5–6.5p). El spread actual parece reflejar principalmente incertidumbre pre-2.7.
+      </div>
+    </section>
+
+    <!-- 7) CONCLUSIÓN -->
+    <section id="conclusion" class="fade-in">
+      <h2>Conclusiones</h2>
+
+      <div class="card">
+        <h3>Lecturas clave del análisis</h3>
+        <ul class="compact-list">
+          <li>La señal más constructiva es la mejora 9.75p → 10.44p antes de 2.7 (nivel “recomendable” por el board).</li>
+          <li>El comprador es “insider” del activo (relación comercial + financiación previa) → reduce riesgo de DD “sorpresa”.</li>
+          <li>El riesgo dominante hoy es ejecución/documentación pre-2.7, no la financiación.</li>
+          <li>NSIA es el riesgo regulatorio a monitorizar: clave si aparece como condición expresa en un 2.7.</li>
+          <li>El catalizador crítico es 28/04/26 (PUSU). Antes de esa fecha se decide si hay 2.7 o no.</li>
+        </ul>
+      </div>
+
+      <div class="alert alert-info mt-20">
+        <strong>Nota metodológica:</strong>
+        Este dashboard sintetiza un caso de situación especial (M&A arb) y se centra en (i) estructura del proceso (Takeover Code), (ii) señales de probabilidad de cierre y (iii) riesgos regulatorios y de ejecución. No sustituye la lectura de comunicados oficiales.
+      </div>
+
+      <div class="text-center mt-30">
+        <a href="#top" class="btn btn-success">⬆ Volver al inicio</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <p><strong>Disclaimer:</strong> El contenido es informativo y educativo. No constituye recomendación de inversión ni asesoramiento financiero/jurídico. Puede contener errores u omisiones. Haz tu propia investigación.</p>
+      <p class="mt-20" style="font-size: 0.85rem;">
+        📅 Análisis Actualizado: Abril 2026<br/>
+        📊 Fuentes: RNS 3 feb 2026 (Rule 2.4), RNS 3 mar 2026 (revised proposal), RNS 31 mar 2026 (PUSU extension), Annual Report FY25, Interim Report H1 FY26, microsite de la operación, y research interno.
+      </p>
+      <p class="mt-15">
+        🔗 <a href="https://spreadhunters.es/" target="_blank" rel="noopener noreferrer">SpreadHunters Investment Research</a>
+        &nbsp;|&nbsp;
+        📝 <a href="https://spreadhunters.substack.com/" target="_blank" rel="noopener noreferrer">Substack</a>
+        &nbsp;|&nbsp;
+        𝕏 <a href="https://x.com/Spread_Hunters" target="_blank" rel="noopener noreferrer">Twitter/X</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll Progress Bar
+    window.addEventListener('scroll', function () {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+      const bar = document.getElementById("progressBar");
+      if (bar) bar.style.width = scrolled + "%";
+    });
+
+    // Smooth scroll + active state desde menú
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (!href || href === '#') return;
+        const target = document.querySelector(href);
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (this.closest('.nav-tabs')) {
+          document.querySelectorAll('.nav-tabs a').forEach(link => link.classList.remove('active'));
+          this.classList.add('active');
+        }
+      });
+    });
+
+    // Fade-in
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+      observer.observe(el);
+    });
+
+    // Active nav on scroll
+    window.addEventListener('scroll', function () {
+      let current = '';
+      document.querySelectorAll('section').forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (window.pageYOffset >= (sectionTop - 200)) current = section.getAttribute('id');
+      });
+      document.querySelectorAll('.nav-tabs a').forEach(link => {
+        link.classList.remove('active');
+        if ((link.getAttribute('href') || '').slice(1) === current) link.classList.add('active');
+      });
+    });
+
+    // Upside automático
+    function parseMoney(text) {
+      const cleaned = String(text).replace(/[^\d.,-]/g, '').replace(',', '.');
+      const value = Number(cleaned);
+      return Number.isFinite(value) ? value : NaN;
+    }
+    function formatPct(value) {
+      const sign = value >= 0 ? '+' : '';
+      return `${sign}${value.toFixed(1)}%`;
+    }
+    function updateUpside() {
+      const elPrice = document.getElementById('priceCurrent');
+      const elFair = document.getElementById('fairValue');
+      const elUps = document.getElementById('upsidePct');
+      if (!elPrice || !elFair || !elUps) return;
+
+      const price = parseMoney(elPrice.textContent);
+      const fair = parseMoney(elFair.textContent);
+
+      if (!Number.isFinite(price) || !Number.isFinite(fair) || price <= 0) {
+        elUps.textContent = '—';
+        elUps.classList.remove('green', 'red');
+        return;
+      }
+      const upside = ((fair / price) - 1) * 100;
+      elUps.textContent = formatPct(upside);
+      elUps.classList.toggle('green', upside >= 0);
+      elUps.classList.toggle('red', upside < 0);
+    }
+    const priceNode = document.getElementById('priceCurrent');
+    const fairNode = document.getElementById('fairValue');
+    if (priceNode) new MutationObserver(updateUpside).observe(priceNode, { childList: true, subtree: true, characterData: true });
+    if (fairNode) new MutationObserver(updateUpside).observe(fairNode, { childList: true, subtree: true, characterData: true });
+
+    // Charts
+    function getCtx(id) {
+      const el = document.getElementById(id);
+      if (!el) return null;
+      const ctx = el.getContext && el.getContext('2d');
+      return ctx || null;
+    }
+
+    function initCharts() {
+      if (typeof Chart === 'undefined') {
+        console.warn('Chart.js no está cargado (Chart undefined).');
+        return;
+      }
+      Chart.defaults.color = '#b0c4de';
+      Chart.defaults.borderColor = '#2d3d4d';
+
+      // 1) Probabilidades / retornos por escenario
+      const ctxProb = getCtx('marginTransformation');
+      if (ctxProb) {
+        new Chart(ctxProb, {
+          type: 'bar',
+          data: {
+            labels: ['Rule 2.7', 'NSIA', 'Votación', 'No oferta'],
+            datasets: [
+              {
+                label: 'Probabilidad (%)',
+                data: [60, 5, 5, 30],
+                backgroundColor: 'rgba(0, 215, 255, 0.65)',
+                borderColor: '#00d7ff',
+                borderWidth: 2
+              },
+              {
+                label: 'Retorno 6M (%)',
+                data: [37, -18, -18, -28],
+                backgroundColor: 'rgba(144, 238, 144, 0.55)',
+                borderColor: '#90ee90',
+                borderWidth: 2
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { labels: { color: '#b0c4de', font: { size: 12 } } },
+              title: {
+                display: true,
+                text: 'Escenarios: Probabilidad vs Retorno (6M)',
+                color: '#ffffff',
+                font: { size: 14, weight: 'bold' }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                grid: { color: '#2d3d4d', drawBorder: false },
+                ticks: { color: '#b0c4de', callback: v => v + '%' }
+              },
+              x: { grid: { display: false }, ticks: { color: '#b0c4de' } }
+            }
+          }
+        });
+      }
+
+      // 2) Precio indicativo vs tiempo (p)
+      const ctxPrice = getCtx('ebitdaGrowth');
+      if (ctxPrice) {
+        new Chart(ctxPrice, {
+          type: 'line',
+          data: {
+            labels: ['03/02', '03/03', '05/04'],
+            datasets: [{
+              label: 'Precio (p)',
+              data: [9.75, 10.44, 7.60],
+              borderColor: '#00d7ff',
+              backgroundColor: 'rgba(0, 215, 255, 0.12)',
+              borderWidth: 3,
+              fill: true,
+              tension: 0.35,
+              pointBackgroundColor: '#00d7ff',
+              pointBorderColor: '#ffffff',
+              pointBorderWidth: 2,
+              pointRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { labels: { color: '#b0c4de' } },
+              title: {
+                display: true,
+                text: 'Oferta indicativa vs Mercado (p)',
+                color: '#ffffff',
+                font: { size: 14, weight: 'bold' }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: false,
+                grid: { color: '#2d3d4d' },
+                ticks: { color: '#b0c4de', callback: v => v + 'p' }
+              },
+              x: { grid: { display: false }, ticks: { color: '#b0c4de' } }
+            }
+          }
+        });
+      }
+
+      // 3) Puntos de precio (actual vs oferta vs downside)
+      const ctxPts = getCtx('multipleComparison');
+      if (ctxPts) {
+        new Chart(ctxPts, {
+          type: 'bar',
+          data: {
+            labels: ['Precio actual', 'Oferta (10.44p)', 'Downside (6.0p)'],
+            datasets: [{
+              label: 'Precio (p)',
+              data: [7.60, 10.44, 6.00],
+              backgroundColor: ['rgba(255, 165, 0, 0.7)','rgba(144, 238, 144, 0.65)','rgba(255, 107, 107, 0.7)'],
+              borderColor: ['#ffa500','#90ee90','#ff6b6b'],
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              title: {
+                display: true,
+                text: 'Key Price Points (p)',
+                color: '#ffffff',
+                font: { size: 14, weight: 'bold' }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                grid: { color: '#2d3d4d' },
+                ticks: { color: '#b0c4de', callback: v => v + 'p' }
+              },
+              x: { grid: { display: false }, ticks: { color: '#b0c4de' } }
+            }
+          }
+        });
+      }
+
+      // 4) Sensibilidad simple: Expected return 6M vs probabilidad de cierre (2 outcomes)
+      // (modelo simplificado: p*37% + (1-p)*(-28%))
+      const ctxSens = getCtx('priceSensitivity');
+      if (ctxSens) {
+        const probs = [20, 30, 40, 50, 60, 70, 80];
+        const expR = probs.map(p => (p/100)*37 + (1-p/100)*(-28));
+        new Chart(ctxSens, {
+          type: 'line',
+          data: {
+            labels: probs.map(p => p + '%'),
+            datasets: [{
+              label: 'Expected return 6M (simplificado)',
+              data: expR,
+              borderColor: '#00d7ff',
+              backgroundColor: 'rgba(0, 215, 255, 0.10)',
+              borderWidth: 3,
+              fill: true,
+              tension: 0.35,
+              pointBackgroundColor: '#00d7ff',
+              pointBorderColor: '#ffffff',
+              pointBorderWidth: 2,
+              pointRadius: 5
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { labels: { color: '#b0c4de' } },
+              title: {
+                display: true,
+                text: 'Sensibilidad: retorno 6M vs prob. cierre (modelo simple)',
+                color: '#ffffff',
+                font: { size: 14, weight: 'bold' }
+              }
+            },
+            scales: {
+              y: {
+                grid: { color: '#2d3d4d' },
+                ticks: { color: '#b0c4de', callback: v => v.toFixed(0) + '%' }
+              },
+              x: { grid: { display: false }, ticks: { color: '#b0c4de' } }
+            }
+          }
+        });
+      }
+    }
+
+    updateUpside();
+    initCharts();
+  </script>
+</body>
+</html>
