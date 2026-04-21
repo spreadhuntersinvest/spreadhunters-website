@@ -1277,6 +1277,7 @@ const FINNHUB_BASE_URL = 'https://finnhub.io/api/v1/quote';
 // ============================================
 const FINCEPT_API_KEY = 'fk_user_Hszvr4huTsq5lH2C3EMOGEdBRfmBUl652vwvY4bHnTA';
 const FINCEPT_QUOTE_URL = 'https://api.fincept.in/market/batch/prices';
+const FINCEPT_SEARCH_URL = 'https://api.fincept.in/market/search';
 
 // ============================================
 // FUNCIÓN: Calcular upside actual automático
@@ -1469,50 +1470,52 @@ async function fetchCurrentPrice(research) {
   }
 
 try {
-  // 🔑 SEGUNDO INTENTO: FINCEPT
+  // 🔑 SEGUNDO INTENTO: FINCEPT (solo GET)
   const finceptSymbol = research.ticker_fincept || research.ticker_finnhub || research.ticker;
 
-  let data = null;
+  let resolvedSymbol = finceptSymbol;
+  let priceData = null;
 
-  // ===== intento 1: POST batch =====
+  // ===== intento 1: precio directo con ?symbols= =====
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 2000);
 
-    const response = await fetch(FINCEPT_QUOTE_URL, {
-      method: 'POST',
-      signal: controller.signal,
-      headers: {
-        'X-API-Key': FINCEPT_API_KEY,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        symbols: [finceptSymbol]
-      })
-    });
+    const response = await fetch(
+      `${FINCEPT_QUOTE_URL}?symbols=${encodeURIComponent(finceptSymbol)}`,
+      {
+        signal: controller.signal,
+        headers: {
+          'X-API-Key': FINCEPT_API_KEY,
+          'Accept': 'application/json'
+        }
+      }
+    );
 
     clearTimeout(timeoutId);
 
     if (response.ok) {
-      data = await response.json();
-      console.log('Fincept POST response:', data);
+      priceData = await response.json();
+      console.log('Fincept direct price response:', priceData);
     } else {
       const errText = await response.text();
-      console.warn('Fincept POST no OK:', response.status, errText);
+      console.warn('Fincept direct price no OK:', response.status, errText);
     }
   } catch (err) {
-    console.warn('Fincept POST error:', err.message);
+    console.warn('Fincept direct price error:', err.message);
   }
 
-  // ===== intento 2: GET ?symbols= =====
-  if (!data) {
+  // ===== intento 2: resolver ticker en /market/search =====
+  if (!priceData) {
+    let searchData = null;
+
+    // prueba A: q=
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 2000);
 
       const response = await fetch(
-        `${FINCEPT_QUOTE_URL}?symbols=${encodeURIComponent(finceptSymbol)}`,
+        `${FINCEPT_SEARCH_URL}?q=${encodeURIComponent(finceptSymbol)}`,
         {
           signal: controller.signal,
           headers: {
@@ -1525,27 +1528,90 @@ try {
       clearTimeout(timeoutId);
 
       if (response.ok) {
-        data = await response.json();
-        console.log('Fincept GET symbols response:', data);
-      } else {
-        const errText = await response.text();
-        console.warn('Fincept GET symbols no OK:', response.status, errText);
+        searchData = await response.json();
+        console.log('Fincept search q response:', searchData);
       }
     } catch (err) {
-      console.warn('Fincept GET symbols error:', err.message);
+      console.warn('Fincept search q error:', err.message);
+    }
+
+    // prueba B: query=
+    if (!searchData) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+        const response = await fetch(
+          `${FINCEPT_SEARCH_URL}?query=${encodeURIComponent(finceptSymbol)}`,
+          {
+            signal: controller.signal,
+            headers: {
+              'X-API-Key': FINCEPT_API_KEY,
+              'Accept': 'application/json'
+            }
+          }
+        );
+
+        clearTimeout(timeoutId);
+
+        if (response.ok) {
+          searchData = await response.json();
+          console.log('Fincept search query response:', searchData);
+        }
+      } catch (err) {
+        console.warn('Fincept search query error:', err.message);
+      }
+    }
+
+    // parseo flexible del símbolo resuelto
+    resolvedSymbol =
+      searchData?.data?.[0]?.symbol ??
+      searchData?.data?.[0]?.ticker ??
+      searchData?.data?.[0]?.code ??
+      searchData?.results?.[0]?.symbol ??
+      searchData?.results?.[0]?.ticker ??
+      finceptSymbol;
+
+    // con el símbolo resuelto, pedir precio
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+      const response = await fetch(
+        `${FINCEPT_QUOTE_URL}?symbols=${encodeURIComponent(resolvedSymbol)}`,
+        {
+          signal: controller.signal,
+          headers: {
+            'X-API-Key': FINCEPT_API_KEY,
+            'Accept': 'application/json'
+          }
+        }
+      );
+
+      clearTimeout(timeoutId);
+
+      if (response.ok) {
+        priceData = await response.json();
+        console.log('Fincept resolved price response:', priceData);
+      } else {
+        const errText = await response.text();
+        console.warn('Fincept resolved price no OK:', response.status, errText);
+      }
+    } catch (err) {
+      console.warn('Fincept resolved price error:', err.message);
     }
   }
 
-  // ===== parseo flexible =====
+  // ===== parseo flexible del precio =====
   const finceptPrice =
-    data?.data?.price ??
-    data?.data?.last ??
-    data?.data?.[0]?.price ??
-    data?.data?.[0]?.last ??
-    data?.data?.[finceptSymbol]?.price ??
-    data?.data?.[finceptSymbol]?.last ??
-    data?.price ??
-    data?.last ??
+    priceData?.data?.price ??
+    priceData?.data?.last ??
+    priceData?.data?.[0]?.price ??
+    priceData?.data?.[0]?.last ??
+    priceData?.data?.[resolvedSymbol]?.price ??
+    priceData?.data?.[resolvedSymbol]?.last ??
+    priceData?.price ??
+    priceData?.last ??
     null;
 
   if (typeof finceptPrice === 'number' && Number.isFinite(finceptPrice) && finceptPrice > 0) {
@@ -1561,7 +1627,11 @@ try {
     return research;
   }
 
-  console.warn(`⚠️ Fincept sin precio válido para ${research.ticker}`, data);
+  console.warn(`⚠️ Fincept sin precio válido para ${research.ticker}`, {
+    original: finceptSymbol,
+    resolved: resolvedSymbol,
+    priceData
+  });
 
 } catch (error) {
   if (error.name === 'AbortError') {
