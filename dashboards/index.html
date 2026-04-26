@@ -2164,6 +2164,34 @@ async function loadAllPrices() {
                 closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
                 closeComment: ''            // Comentario breve
             },
+            {
+                id: 'rbne',
+                path: './rbne/index.html',
+                type: 'odd-lots',
+                ticker: 'RBNE',
+                company: 'Robin Energy',
+                sector: 'Energía',
+                logo: 'company-logos/rbne.png',
+                thesisDate: '2026-04-16',
+                thesisPrice: '$1.79',
+                fairValue: '$3',
+                fairValueRaw: 3,
+                upsideInitial: '+67.6%',
+                ticker_finnhub: 'RBNE',
+                ticker_fincept: 'RBNE',
+                currentPrice: '$1.91',
+                currency: '$',
+                upsideActual: '67%',
+                priceSource: 'manual',
+                riskLevel: 'Medio',
+                // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
+                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
+                closeComment: ''            // Comentario breve
+            },
             
             
             // ============ EJEMPLO: TESIS CERRADAS ============
