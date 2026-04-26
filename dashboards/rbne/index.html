@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Robin Energy Ltd (NASDAQ: RBNE) - Odd Lot Tender Offer | SpreadHunters</title>
+  <meta name="description" content="RBNE Robin Energy: Odd Lot Tender Offer a $3.00 sobre una acción que cotiza a $1.79. Spread del 67.6% en 8 días con prioridad garantizada para posiciones ≤99 acciones. Análisis SpreadHunters." />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+  <style>
+    /* ========================================
+       SISTEMA DE VARIABLES - COLORES GLOBALES
+       ======================================== */
+    :root {
+      --primary-color: #00d7ff;
+      --secondary-color: #1a2332;
+      --accent-color: #4A8B9B;
+
+      --success-color: #90ee90;
+      --danger-color: #ff6b6b;
+      --warning-color: #ffa500;
+      --info-color: #00d7ff;
+
+      --dark-bg: #1a2332;
+      --darker-bg: #0f1419;
+      --card-bg: #1a2538;
+      --light-bg: #E8E8E8;
+
+      --text-primary: #d0d8e0;
+      --text-secondary: #b0c4de;
+      --text-tertiary: #808080;
+
+      --border-color: #2d3d4d;
+      --border-light: #3d5570;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, rgba(26, 35, 50, 0.95) 0%, rgba(30, 50, 80, 0.95) 100%);
+      background-color: #1a2332;
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .progress-bar {
+      background: var(--success-color);
+      height: 2px;
+      width: 0%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      transition: width 0.3s ease;
+    }
+
+    .logo-navbar {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 900;
+      background: none;
+      padding: 0;
+      border: none;
+      backdrop-filter: none;
+      pointer-events: none;
+    }
+    .logo-navbar-img {
+      height: 44px;
+      width: auto;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .logo-navbar { top: 15px; left: 15px; }
+      .logo-navbar-img { height: 34px; }
+    }
+    @media (max-width: 480px) {
+      .logo-navbar { top: 12px; left: 12px; }
+      .logo-navbar-img { height: 30px; }
+    }
+
+    .header-professional {
+      padding: 50px 20px;
+      background: transparent;
+      border-bottom: 1px solid rgba(74, 127, 127, 0.1);
+      backdrop-filter: blur(3px);
+      position: relative;
+      z-index: 2;
+    }
+
+    .header-professional .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+    }
+
+    .company-title-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+    }
+
+    .logo-company {
+      max-height: 70px;
+      max-width: 150px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      filter: none;
+      display: block;
+      margin: 0;
+    }
+    .logo-company--on-dark {
+      filter: brightness(4) contrast(1.5) invert(1) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+
+    .page-title {
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 1px;
+      line-height: 1.3;
+    }
+
+    .page-subtitle {
+      font-size: 0.95rem;
+      color: #e0e0e0;
+      margin-top: 10px;
+      font-weight: 400;
+      max-width: 760px;
+    }
+
+    /* Badge "Odd Lot" */
+    .badge-type {
+      display: inline-block;
+      background: rgba(0, 215, 255, 0.15);
+      border: 1px solid rgba(0, 215, 255, 0.4);
+      color: var(--primary-color);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .header-professional { padding: 30px 15px; }
+      .page-title { font-size: 1.4rem; }
+      .logo-company { max-height: 65px; max-width: 130px; }
+      .page-subtitle { font-size: 0.9rem; }
+    }
+    @media (max-width: 480px) {
+      .header-professional { padding: 20px 15px; }
+      .page-title { font-size: 1.15rem; }
+      .logo-company { max-height: 55px; max-width: 110px; }
+      .page-subtitle { font-size: 0.85rem; }
+    }
+
+    .investment-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+      width: 100%;
+    }
+
+    .metric-card {
+      background: linear-gradient(135deg, rgba(26, 35, 50, 0.6) 0%, rgba(30, 50, 80, 0.6) 100%);
+      border: 2px solid rgba(0, 215, 255, 0.3);
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .metric-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(0, 215, 255, 0.5) 0%, rgba(0, 215, 255, 0) 100%);
+    }
+    .metric-card:hover {
+      border-color: rgba(0, 215, 255, 0.6);
+      background: linear-gradient(135deg, rgba(26, 35, 50, 0.8) 0%, rgba(30, 50, 80, 0.8) 100%);
+      box-shadow: 0 0 20px rgba(0, 215, 255, 0.2);
+    }
+
+    .metric-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+    .metric-value {
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      letter-spacing: -0.5px;
+    }
+    .metric-value.cyan { color: #00d7ff; }
+    .metric-value.green { color: #90ee90; }
+    .metric-value.red { color: #ff6b6b; }
+    .metric-subtitle { font-size: 0.8rem; color: var(--text-tertiary); font-weight: 400; }
+
+    @media (max-width: 768px) {
+      .investment-metrics { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .metric-card { padding: 15px; }
+      .metric-value { font-size: 1.3rem; }
+    }
+
+    .nav-tabs {
+      background: var(--card-bg);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 2px solid var(--border-color);
+    }
+    .nav-tabs ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .nav-tabs a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .nav-tabs a:hover, .nav-tabs a.active {
+      background: var(--primary-color);
+      color: var(--dark-bg);
+    }
+    @media (max-width: 768px) {
+      .nav-tabs { padding: 10px 0; }
+      .nav-tabs ul {
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 8px;
+        padding: 0 12px 6px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .nav-tabs li { flex: 0 0 auto; }
+      .nav-tabs a { padding: 7px 12px; font-size: 0.85rem; }
+      .nav-tabs ul::-webkit-scrollbar { height: 6px; }
+      .nav-tabs ul::-webkit-scrollbar-track { background: rgba(15, 20, 25, 0.35); }
+      .nav-tabs ul::-webkit-scrollbar-thumb { background: rgba(0, 215, 255, 0.55); border-radius: 6px; }
+    }
+
+    section {
+      padding: 60px 0;
+      border-bottom: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+      scroll-margin-top: 90px;
+    }
+    @media (max-width: 768px){ section { scroll-margin-top: 120px; } }
+
+    section h2 {
+      font-size: 1.35rem;
+      margin-bottom: 30px;
+      color: var(--primary-color);
+      border-left: 4px solid var(--success-color);
+      padding-left: 20px;
+    }
+    section > h3 { font-size: 1.15rem; margin: 30px 0 15px; color: var(--text-primary); }
+    section > h4 { font-size: 1.0rem; margin: 15px 0 10px; color: var(--text-primary); }
+
+    .card {
+      background: rgba(26, 35, 50, 0.85);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      line-height: 1.5;
+    }
+
+    .chart-container {
+      background: rgba(26, 35, 50, 0.85);
+      border-radius: 8px;
+      padding: 25px;
+      margin: 30px 0;
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(10px);
+      position: relative;
+      height: 380px;
+    }
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    @media (max-width: 768px) {
+      .chart-grid { grid-template-columns: 1fr; }
+      .chart-container { height: 300px; }
+    }
+
+    .table-responsive { overflow-x: auto; margin: 30px 0; border-radius: 8px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card-bg);
+      border-radius: 8px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+    thead { background: #1A1F2E; border-bottom: 2px solid var(--primary-color); }
+    th, td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border-color); vertical-align: top; }
+    th {
+      color: var(--text-secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+    tr:hover { background: rgba(74, 127, 127, 0.05); }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    .stat-card {
+      background: rgba(26, 35, 50, 0.8);
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      border: 2px solid var(--border-color);
+      backdrop-filter: blur(10px);
+    }
+    .stat-card .label {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .stat-card .value {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .stat-card .change { font-size: 0.9rem; margin-top: 5px; }
+    .positive { color: var(--success-color); }
+    .negative { color: var(--danger-color); }
+    .warning { color: var(--warning-color); }
+
+    .alert {
+      padding: 14px 16px;
+      border-radius: 8px;
+      margin: 20px 0;
+      border-left: 4px solid;
+      backdrop-filter: blur(10px);
+      line-height: 1.5;
+    }
+    .alert-success { background: rgba(74, 155, 111, 0.08); border-color: var(--success-color); }
+    .alert-warning { background: rgba(255, 165, 0, 0.15); border-color: var(--warning-color); }
+    .alert-info { background: rgba(0, 212, 212, 0.15); border-color: var(--primary-color); }
+    .alert-danger { background: rgba(255, 107, 107, 0.15); border-color: var(--danger-color); }
+    .alert strong { color: #ffffff; }
+
+    .highlights {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    .highlight-item {
+      background: linear-gradient(135deg, var(--card-bg) 0%, rgba(0, 212, 212, 0.1) 100%);
+      padding: 14px 16px;
+      border-radius: 12px;
+      border-left: 4px solid var(--primary-color);
+      backdrop-filter: blur(10px);
+      line-height: 1.5;
+    }
+    .highlight-item h4 { color: var(--primary-color); margin-bottom: 8px; font-size: 1.05rem; }
+
+    /* Countdown urgency block */
+    .countdown-block {
+      background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(255, 165, 0, 0.1) 100%);
+      border: 2px solid rgba(255, 165, 0, 0.4);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 20px 0;
+      text-align: center;
+    }
+    .countdown-block .countdown-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--warning-color);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    .countdown-block .countdown-value {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -1px;
+    }
+    .countdown-block .countdown-sub {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-top: 6px;
+    }
+
+    /* Math box */
+    .math-box {
+      background: rgba(0, 215, 255, 0.05);
+      border: 1px solid rgba(0, 215, 255, 0.25);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin: 20px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.92rem;
+      line-height: 2;
+    }
+    .math-box .math-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 4px 0;
+    }
+    .math-box .math-row:last-child { border-bottom: none; }
+    .math-box .math-row .lbl { color: var(--text-secondary); }
+    .math-box .math-row .val { color: #ffffff; font-weight: 600; }
+    .math-box .math-row.total { border-top: 2px solid rgba(0, 215, 255, 0.3); margin-top: 6px; }
+    .math-box .math-row.total .val { color: var(--success-color); font-size: 1.05rem; }
+
+    .btn {
+      background: var(--primary-color);
+      color: var(--dark-bg);
+      border: 1px solid var(--primary-color);
+      padding: 10px 24px;
+      border-radius: 4px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn:hover {
+      background: var(--secondary-color);
+      border-color: var(--accent-color);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    }
+    .btn-success { font-size: 0.9rem; padding: 8px 18px; border-radius: 6px; }
+
+    footer {
+      background: var(--card-bg);
+      padding: 40px 0;
+      text-align: center;
+      margin-top: 60px;
+      border-top: 2px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+    footer p { color: var(--text-secondary); font-size: 0.9rem; margin: 10px 0; }
+    footer a { color: var(--primary-color); text-decoration: none; }
+
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: rgba(15, 20, 25, 0.5); }
+    ::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 5px; }
+
+    .fade-in { animation: fadeIn 0.6s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    .mt-15 { margin-top: 15px; }
+    .mt-20 { margin-top: 20px; }
+    .mt-30 { margin-top: 30px; }
+    .text-center { text-align: center; }
+    .compact-list { margin: 6px 0 0; padding-left: 18px; }
+    .compact-list li { margin: 0 0 4px 0; }
+    .compact-list li:last-child { margin-bottom: 0; }
+  </style>
+</head>
+
+<body>
+  <div id="top"></div>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- SpreadHunters logo navbar -->
+  <div class="logo-navbar">
+    <img src="../../images/spreadhunter_navbar.svg" alt="SpreadHunters" class="logo-navbar-img" />
+  </div>
+
+  <header class="header-professional">
+    <div class="container">
+      <div class="header-title-section">
+        <div class="company-title-row">
+          <span class="badge-type"> Odd Lot Tender Offer</span>
+          <img src="../company-logos/rbne.png" alt="Robin Energy RBNE logo" class="logo-company logo-company--on-dark" />
+          <h1 class="page-title">Robin Energy Ltd. (NASDAQ: RBNE)</h1>
+        </div>
+        <p class="page-subtitle">
+          Self-tender offer a $3.00 sobre una acción que cotiza a $1.79 · Prioridad absoluta para posiciones ≤99 acciones · Vencimiento: 23 abril 2026 · Ventaja estructural exclusiva del inversor minorista
+        </p>
+      </div>
+
+      <div class="investment-metrics">
+        <div class="metric-card">
+          <div class="metric-label">PRECIO ACTUAL</div>
+          <div class="metric-value cyan" id="priceCurrent">$1.79</div>
+          <div class="metric-subtitle">15 abril 2026</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">PRECIO DE OFERTA</div>
+          <div class="metric-value cyan" id="offerPrice">$3.00</div>
+          <div class="metric-subtitle">Garantizado (odd lot)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">SPREAD BRUTO</div>
+          <div class="metric-value green" id="spreadPct">+67.6%</div>
+          <div class="metric-subtitle">$1.21 por acción</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">BENEFICIO MÁXIMO</div>
+          <div class="metric-value green">$119.79</div>
+          <div class="metric-subtitle">99 acciones · $177.21 invertidos</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">RETORNO ANUALIZADO</div>
+          <div class="metric-value green">~3.084%</div>
+          <div class="metric-subtitle">Simple annualized (8 días)</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav-tabs">
+    <div class="container">
+      <ul>
+        <li><a href="#resumen" class="active">Resumen</a></li>
+        <li><a href="#setup">Set-Up</a></li>
+        <li><a href="#mecanica">Mecánica</a></li>
+        <li><a href="#numeros">Los Números</a></li>
+        <li><a href="#timing">Timing</a></li>
+        <li><a href="#riesgos">Riesgos</a></li>
+        <li><a href="#conclusion">Conclusión</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- 1) RESUMEN EJECUTIVO -->
+    <section id="resumen" class="fade-in">
+      <h2>Resumen Ejecutivo</h2>
+
+      <div class="alert alert-success">
+        <strong>Tesis de Inversión:</strong>
+        Robin Energy (RBNE) ofrece recomprar acciones propias a $3.00 cuando el mercado las cotiza a $1.79. La cláusula <em>odd lot</em> garantiza prioridad total a posiciones ≤99 acciones — sin prorrateo, sin riesgo de ejecución parcial. El inversor minorista tiene aquí una ventaja estructural que el capital institucional no puede replicar.
+      </div>
+
+      <div class="highlights">
+        <div class="highlight-item">
+          <h4>✓ Prioridad absoluta (odd lot)</h4>
+          <p>El filing SC TO-I establece que los tenedores de 99 acciones o menos se recompran primero y al 100%, antes de cualquier prorrateo para grandes accionistas.</p>
+        </div>
+        <div class="highlight-item">
+          <h4>✓ Oferta completamente financiada</h4>
+          <p>Robin Energy tiene $9.5M en caja. El desembolso máximo de la oferta es $3M. Sin condición de mínimo de acciones tendered. La oferta está cubierta con holgura.</p>
+        </div>
+        <div class="highlight-item">
+          <h4>✓ Ventana óptima de entrada</h4>
+          <p>Con solo 8 días al vencimiento, la eficiencia de capital es máxima. El stock ha retrocedido desde post-anuncio, ampliando el spread al nivel más atractivo de toda la oferta.</p>
+        </div>
+        <div class="highlight-item">
+          <h4>✓ Exclusivo para el inversor pequeño</h4>
+          <p>$177 de posición máxima hace esta operación irrelevante para cualquier institución. Una de las pocas ineficiencias del mercado donde el capital minorista llega con ventaja real.</p>
+        </div>
+      </div>
+
+      <h3>Ficha Rápida</h3>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="label">Tipo de operación</div>
+          <div class="value" style="font-size:1.1rem;">Odd Lot<br/>Self-Tender</div>
+          <div class="change positive">SC TO-I (SEC)</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Precio de oferta</div>
+          <div class="value">$3.00</div>
+          <div class="change positive">Cash, sin condición</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Vencimiento</div>
+          <div class="value">23/04/26</div>
+          <div class="change warning">5:00 PM hora NY</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Riesgo principal</div>
+          <div class="value" style="font-size:1.0rem;">Sección 6</div>
+          <div class="change negative">Cláusula Irán/hostilidades</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p><strong>Lectura operativa:</strong> El mercado cotiza RBNE al 40% de descuento sobre el precio de la oferta porque los grandes inversores asumen riesgo de prorrateo — la oferta cubre 1M acciones sobre 7.57M en circulación. Para el inversor con ≤99 acciones, el prorrateo no aplica. La única variable relevante es si la oferta se completa o se cancela.</p>
+      </div>
+
+      <div class="countdown-block">
+        <div class="countdown-label">⏳ Días restantes hasta el vencimiento</div>
+        <div class="countdown-value" id="daysLeft">8</div>
+        <div class="countdown-sub">Vencimiento: 23 de abril de 2026 · Verifica el plazo interno de tu bróker (suele ser 1–3 días antes)</div>
+      </div>
+    </section>
+
+    <!-- 2) SET-UP -->
+    <section id="setup" class="fade-in">
+      <h2>El Set-Up: ¿Cuál Es Esta Operación?</h2>
+
+      <div class="card">
+        <h3>Quiénes Son</h3>
+        <p>Robin Energy Ltd. es una sociedad constituida en las Islas Marshall y cotizada en Nasdaq, que opera una flota de dos buques transportadores de GLP (gas licuado de petróleo) y un buque tanque de productos (M/T Wonder Formosa). La compañía se independizó de Toro Corp. mediante un <em>spin-off</em> completado el 14 de abril de 2025.</p>
+        <p class="mt-15">El historial bursátil de RBNE es extremadamente volátil: el rango de 52 semanas oscila entre <span class="negative">$1.05</span> y <span class="positive">$123.25</span>, reflejo de múltiples operaciones corporativas y ampliaciones de capital que diluyeron el accionariado.</p>
+      </div>
+
+      <h3>Cronología de la Operación</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Evento</th>
+              <th>Precio</th>
+              <th>Lectura</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>14/04/2025</strong></td>
+              <td>Robin Energy se independiza de Toro Corp. (spin-off)</td>
+              <td>—</td>
+              <td>Inicio como entidad cotizada</td>
+            </tr>
+            <tr>
+              <td><strong>Mar 2026</strong></td>
+              <td>ATM equity raise: $13.9M captados a $4.31/acción</td>
+              <td>~$4.31</td>
+              <td class="positive">Caja para financiar la recompra</td>
+            </tr>
+            <tr>
+              <td><strong>24/03/2026</strong></td>
+              <td>Presentación SC TO-I ante SEC · Self-tender a $3.00 por hasta 1M acciones</td>
+              <td>$1.10</td>
+              <td class="positive">Prima del +172.7%</td>
+            </tr>
+            <tr>
+              <td><strong>24/03/2026</strong></td>
+              <td>Acción sube +24.54% en el día del anuncio</td>
+              <td>~$1.37</td>
+              <td class="positive">Mercado reconoce la prima</td>
+            </tr>
+            <tr>
+              <td><strong>15/04/2026</strong></td>
+              <td>Fecha de análisis (hoy)</td>
+              <td>$1.79</td>
+              <td class="warning">Descuento del 40.3% vs oferta</td>
+            </tr>
+            <tr>
+              <td><strong>23/04/2026</strong></td>
+              <td>Vencimiento de la oferta · 5:00 PM ET</td>
+              <td>$3.00</td>
+              <td class="positive">Objetivo para odd lot holders</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>¿Por Qué La Acción Sigue un 40% Por Debajo Del Precio de Oferta?</h3>
+        <p>En una fusión estándar, el precio de mercado converge rápidamente hacia el precio de la oferta. Aquí la brecha persiste por dos razones:</p>
+        <ul class="compact-list mt-15">
+          <li><strong>Riesgo de prorrateo para grandes accionistas.</strong> La oferta cubre 1.000.000 acciones sobre 7.572.151 en circulación (~13.2%). Si la oferta se suscribe en exceso, los grandes tenedores solo ven recomprada una fracción de sus acciones. El precio refleja esa expectativa de prorrateo.</li>
+          <li><strong>Riesgo de terminación (Sección 6).</strong> El filing permite cancelar la oferta bajo ciertas condiciones geopolíticas. El mercado asigna probabilidad no nula a este evento.</li>
+        </ul>
+        <p class="mt-15"><strong>Para los tenedores odd lot (≤99 acciones), ninguno de estos factores aplica.</strong> Prioridad absoluta garantizada por el filing. Solo asumen riesgo de cancelación — no de prorrateo.</p>
+      </div>
+
+      <div class="card mt-15">
+        <h3>El Contexto del Balance: ¿Está Financiada la Oferta?</h3>
+        <ul class="compact-list">
+          <li>Caja e inversiones a corto plazo (dic. 2025): <strong class="positive">$9.5 millones</strong></li>
+          <li>Desembolso máximo de la oferta (1M × $3): <strong class="positive">$3.0 millones</strong></li>
+          <li>Deuda financiera: prácticamente <strong class="positive">nula</strong></li>
+          <li>Fondos propios aproximados: <strong class="positive">~$30.5 millones</strong></li>
+          <li>Condición de mínimo: <strong class="positive">No existe</strong></li>
+          <li>Aprobación del Consejo: <strong class="positive">Unánime</strong></li>
+        </ul>
+      </div>
+
+      <div class="alert alert-info">
+        <strong>Contexto adicional:</strong> Robin Energy tiene en marcha un spin-off de su negocio de buques tanque en una nueva entidad cotizada llamada <strong>AI OKTO CORP.</strong> Los accionistas recibirán 1 acción de AI OKTO por cada 6.5 acciones de RBNE. Para quien acude a la oferta odd lot, este detalle es irrelevante. Para quien no acude, representa opcionalidad adicional.
+      </div>
+    </section>
+
+    <!-- 3) MECÁNICA -->
+    <section id="mecanica" class="fade-in">
+      <h2>La Mecánica: Cómo Funciona un Odd Lot Tender</h2>
+
+      <div class="alert alert-info">
+        <strong>¿Qué es un odd lot tender offer?</strong> Una oferta de recompra que otorga tratamiento preferencial a los accionistas con 99 acciones o menos. La compañía los recompra primero, al 100%, antes de aplicar ningún prorrateo a posiciones mayores. La lógica es pragmática: eliminar miles de pequeñas posiciones reduce costes administrativos (agente de transferencia, comunicaciones, reporting).
+      </div>
+
+           <div class="card">
+        <h3>Por Qué Esta Ineficiencia Existe</h3>
+        <p>Las instituciones no pueden replicar esta operación a escala. Una posición de 99 acciones × $1.79 = $177.21 es irrelevante para cualquier fondo del planeta. Esta ineficiencia existe <em>precisamente porque</em> el capital profesional es demasiado grande para explotarla.</p>
+        <p class="mt-15">El precio de mercado ($1.79) no converge hacia $3.00 porque los inversores que mueven el precio son los grandes accionistas, que sí tienen riesgo de prorrateo. Para el inversor minorista que entra con ≤99 acciones, esa discrepancia es el beneficio.</p>
+      </div>
+    </section>
+
+    <!-- 4) NÚMEROS -->
+    <section id="numeros" class="fade-in">
+      <h2>Los Números: Spread, Retorno y CAGR</h2>
+
+      <div class="math-box">
+        <div class="math-row">
+          <span class="lbl">Precio de compra (mercado)</span>
+          <span class="val">$1.79 / acción</span>
+        </div>
+        <div class="math-row">
+          <span class="lbl">Precio de la oferta (tender)</span>
+          <span class="val">$3.00 / acción</span>
+        </div>
+        <div class="math-row">
+          <span class="lbl">Spread bruto por acción</span>
+          <span class="val">$1.21</span>
+        </div>
+        <div class="math-row">
+          <span class="lbl">Spread bruto (%)</span>
+          <span class="val">+67.6%</span>
+        </div>
+        <div class="math-row">
+          <span class="lbl">Máximo de acciones (odd lot)</span>
+          <span class="val">99 acciones</span>
+        </div>
+        <div class="math-row">
+          <span class="lbl">Capital invertido (99 × $1.79)</span>
+          <span class="val">$177.21</span>
+        </div>
+        <div class="math-row">
+          <span class="lbl">Ingresos brutos (99 × $3.00)</span>
+          <span class="val">$297.00</span>
+        </div>
+        <div class="math-row total">
+          <span class="lbl">💵 BENEFICIO BRUTO</span>
+          <span class="val">$119.79</span>
+        </div>
+        <div class="math-row">
+          <span class="lbl">Horizonte temporal</span>
+          <span class="val">8 días naturales</span>
+        </div>
+        <div class="math-row">
+          <span class="lbl">Retorno anualizado simple</span>
+          <span class="val">~3.084%</span>
+        </div>
+      </div>
+
+      <h3>Análisis Visual</h3>
+      <div class="chart-grid">
+        <div class="chart-container">
+          <canvas id="spreadChart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="riskRewardChart"></canvas>
+        </div>
+      </div>
+
+      <div class="alert alert-success">
+        <strong>Nota sobre el CAGR:</strong> El retorno del 67.6% en 8 días hace que anualizarlo sea más un ejercicio ilustrativo que una métrica operativa. Lo que importa es el <strong>beneficio absoluto por posición: $119.79 sobre $177.21 en 8 días naturales</strong>. Con solo 8 días al vencimiento, la eficiencia de capital es casi máxima — el dinero está inmovilizado el menor tiempo posible.
+      </div>
+
+      <h3>Escenario de Riesgo / Recompensa</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Escenario</th>
+              <th>Resultado</th>
+              <th>P/L (99 acc.)</th>
+              <th>Retorno</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>✅ Oferta completada</strong></td>
+              <td>Cobras $3.00/acción</td>
+              <td class="positive">+$119.79</td>
+              <td class="positive">+67.6%</td>
+            </tr>
+            <tr>
+              <td><strong>❌ Oferta cancelada (Sección 6)</strong></td>
+              <td>Stock revierte a ~$1.10</td>
+              <td class="negative">-$68.31</td>
+              <td class="negative">-38.6%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <p><strong>Ratio Riesgo/Recompensa: ~1.75x a favor.</strong></p>
+        <p>Upside: $119.79 · Downside estimado: $68.31 (asumiendo reversión a $1.10, precio pre-anuncio)</p>
+        <p class="mt-15">Es una apuesta asimétrica, no una certeza. La probabilidad de que la oferta proceda es la variable crítica que cada inversor debe estimar por sí mismo.</p>
+      </div>
+    </section>
+
+    <!-- 5) TIMING -->
+    <section id="timing" class="fade-in">
+      <h2>Timing: La Ventana Se Cierra</h2>
+
+      <div class="alert alert-warning">
+        <strong>⚠ Urgente:</strong> Quedan <strong>8 días naturales</strong> hasta el vencimiento oficial (23 abril 2026). Los brokers suelen tener plazos internos de 1–3 días hábiles antes. Verifica con tu bróker hoy mismo.
+      </div>
+
+      <div class="chart-container" style="height: 300px; margin: 30px 0;">
+        <canvas id="timelineChart"></canvas>
+      </div>
+
+      <h3>¿Por Qué Es Mejor Entrar Ahora Que al Inicio?</h3>
+      <div class="highlights">
+        <div class="highlight-item">
+          <h4>📉 Mejor precio de entrada</h4>
+          <p>El stock se ha comprimido desde $2.45 (finales de marzo) hasta $1.79 hoy. A menor precio de compra, mayor beneficio bruto. El momento actual ofrece el mayor spread de toda la ventana de la oferta.</p>
+        </div>
+        <div class="highlight-item">
+          <h4>⏱ Menor tiempo en riesgo</h4>
+          <p>Cuanto menos tiempo tiene el capital inmovilizado, menor es el riesgo de duración — el tiempo que el mercado tiene para repricing o que ocurran eventos adversos. Con 8 días, el riesgo temporal es mínimo.</p>
+        </div>
+        <div class="highlight-item">
+          <h4>💡 Eficiencia de capital máxima</h4>
+          <p>El retorno anualizado mejora cuanto más se aproxima la inversión al vencimiento. Entrar hoy captura la eficiencia temporal máxima de toda la operación.</p>
+        </div>
+      </div>
+
+    
+    <!-- 6) RIESGOS -->
+    <section id="riesgos" class="fade-in">
+      <h2>Análisis de Riesgos</h2>
+
+      <h3>Riesgos Principales</h3>
+
+      <div class="card">
+        <h4>🔴 Riesgo #1: Cancelación por Sección 6 (Cláusula de Hostilidades / Irán)</h4>
+        <p><strong>Escenario:</strong> El filing SC TO-I contiene una condición de terminación si se produce "inicio o escalada de guerra, hostilidades armadas o calamidad internacional similar". El propio 20-F anual de Robin Energy (9 abril 2026) menciona explícitamente una guerra en Irán como factor de riesgo para sus rutas de transporte energético.</p>
+        <p><strong>Impacto si ocurre:</strong> El stock probablemente retrocede a $1.10 o por debajo → <span class="negative">pérdida de ~$68.31 sobre la posición de 99 acciones (-38.6%).</span></p>
+        <p><strong>Mitigantes:</strong> La flota opera principalmente en rutas GLP no directamente en zona de conflicto. El Consejo aprobó la oferta de forma unánime y tiene incentivos para completarla.</p>
+        <p><strong>Probabilidad:</strong> <span class="warning">Baja-Media</span> — este es el riesgo dominante en el spread actual.</p>
+      </div>
+
+      <div class="card">
+        <h4>🟡 Riesgo #2: Volatilidad y Liquidez Micro-Cap</h4>
+        <p><strong>Escenario:</strong> RBNE tiene una capitalización bursátil de ~$13.5M y un rango de 52 semanas entre $1.05 y $123.25. La liquidez diaria puede ser fina.</p>
+        <p><strong>Impacto:</strong> Dificultad para ejecutar la compra al precio deseado, o un <em>spread</em> bid-ask que erosione el beneficio.</p>
+        <p><strong>Mitigantes:</strong> La posición de 99 acciones ($177) es suficientemente pequeña como para ejecutarse con órdenes límite sin impacto de mercado significativo.</p>
+        <p><strong>Probabilidad:</strong> <span class="warning">Baja-Media</span></p>
+      </div>
+
+      <div class="card">
+        <h4>🟡 Riesgo #3: Comisiones y Plazo del Bróker</h4>
+        <p><strong>Escenario:</strong> Comisiones de tendering que erosionen el P&L, o pérdida del plazo interno del bróker.</p>
+        <p><strong>Mitigantes:</strong> Verificar antes de comprar. Con $119.79 de beneficio bruto, incluso una comisión de $35 deja un retorno neto atractivo.</p>
+        <p><strong>Probabilidad:</strong> <span class="positive">Controlable con diligencia previa</span></p>
+      </div>
+
+      <div class="card">
+        <h4>🟡 Riesgo #4: Enmienda de la Oferta</h4>
+        <p><strong>Escenario:</strong> Robin Energy podría reducir el número de acciones a recomprar mediante enmienda (derecho recogido en el filing). En teoría, incluso los odd lot holders podrían verse afectados en un escenario extremo.</p>
+        <p><strong>Mitigantes:</strong> La oferta está financiada con amplia holgura y el Consejo tiene incentivos para completarla tal como fue anunciada.</p>
+        <p><strong>Probabilidad:</strong> <span class="positive">Muy baja</span></p>
+      </div>
+
+      <h3>Upside Risks</h3>
+
+      <div class="card">
+        <h4>🟢 Upside #1: Cierre limpio y pronto</h4>
+        <p><strong>Escenario:</strong> La oferta se completa sin incidentes el 23 de abril. El pago se procesa rápidamente.</p>
+        <p><strong>Impacto:</strong> +$119.79 sobre $177.21 en menos de 2 semanas.</p>
+        <p><strong>Probabilidad:</strong> <span class="positive">Alta si no hay escalada geopolítica relevante.</span></p>
+      </div>
+
+      <div class="card">
+        <h4>🟢 Upside #2: Opcionalidad AI OKTO Corp.</h4>
+        <p><strong>Escenario:</strong> Para los inversores que NO acudan a la oferta (o que no lleguen a tiempo), el spin-off de la división tanque en AI OKTO ofrece 1 acción por cada 6.5 RBNE como opcionalidad adicional.</p>
+        <p><strong>Probabilidad:</strong> <span class="positive">Condicionada a aprobación SEC y Nasdaq.</span></p>
+      </div>
+
+      <div class="alert alert-success">
+        <strong>🛡️ Risk/Reward síntesis:</strong> Asimetría de 1.75x a favor. $119.79 de ganancia potencial frente a $68.31 de pérdida estimada en escenario adverso. La clave es la estimación individual de probabilidad de que la oferta proceda vs. sea cancelada por la Sección 6.
+      </div>
+
+      <h3>Checklist de Señales a Monitorizar</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>🟢 Señales positivas</th>
+              <th>🟡 Señales neutras / mixtas</th>
+              <th>🔴 Señales negativas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                • Silencio de la compañía (sin comunicados de enmienda)<br/>
+                • No escalada relevante del conflicto en Irán<br/>
+                • Stock se mantiene en el rango $1.70–$2.00<br/>
+                • Confirmación del bróker recibida antes del plazo
+              </td>
+              <td>
+                • Volatilidad elevada en el precio<br/>
+                • Titulares geopolíticos relacionados con Irán/Golfo<br/>
+                • Extensión del plazo de la oferta (raro pero posible)
+              </td>
+              <td>
+                • Comunicado SEC de enmienda o terminación<br/>
+                • Escalada militar directa en Irán<br/>
+                • Stock cae por debajo de $1.10<br/>
+                • Comunicado del Consejo retirando la oferta
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 7) CONCLUSIÓN -->
+    <section id="conclusion" class="fade-in">
+      <h2>Conclusión</h2>
+
+      <div class="card">
+        <h3>Lecturas clave del análisis</h3>
+        <ul class="compact-list">
+          <li>La oferta odd lot de RBNE es un ejemplo de ventaja estructural del inversor minorista: la mecánica del deal favorece explícitamente al participante más pequeño.</li>
+          <li>Los números son claros: +67.6% de retorno bruto ($119.79 sobre $177.21) en 8 días, con prioridad de compra garantizada por el filing SEC.</li>
+          <li>El único riesgo real es la Sección 6 (cláusula de hostilidades/Irán). Si la oferta se cancela, el stock probablemente retrocede al entorno de $1.10 (-38.6%).</li>
+          <li>La relación riesgo/recompensa es de ~1.75x a favor. No es una certeza, pero la asimetría existe y es real.</li>
+          <li>El momento óptimo de entrada es hoy: el stock ha bajado desde los máximos post-anuncio, maximizando el spread.</li>
+          <li>La ventana cierra el 23 de abril. Los brokers tienen plazos internos 1–3 días antes. Actuar sin demora.</li>
+        </ul>
+      </div>
+
+      <div class="alert alert-warning">
+        <strong>⚠ Recuerda:</strong> Esta operación requiere acción inmediata. (1) Comprar ≤99 acciones. (2) Llamar al bróker para dar instrucciones de tender. (3) Confirmar plazo y comisiones. Si el plazo interno del bróker es D-3, el deadline real es el 20 de abril.
+      </div>
+
+      <div class="alert alert-info mt-20">
+        <strong>Nota metodológica:</strong>
+        Este análisis sintetiza una situación especial de tipo <em>odd lot tender offer</em> y se centra en (i) la mecánica de la oferta y la cláusula odd lot, (ii) los retornos esperados y el timing, y (iii) los riesgos de cancelación. No sustituye la lectura del filing original (SC TO-I) disponible en SEC.gov.
+      </div>
+
+      <div class="text-center mt-30">
+        <a href="#top" class="btn btn-success">⬆ Volver al inicio</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <p><strong>Disclaimer:</strong> El contenido es informativo y educativo. No constituye recomendación de inversión ni asesoramiento financiero o jurídico. Puede contener errores u omisiones. Haz siempre tu propia investigación y consulta el filing original en SEC.gov.</p>
+      <p class="mt-20" style="font-size: 0.85rem;">
+        📅 Análisis publicado: 16 abril 2026 · Datos de referencia: 15 abril 2026<br/>
+        📊 Fuentes: SC TO-I (24 mar 2026), 20-F anual RBNE (9 abr 2026), comunicados de prensa Robin Energy, SEC EDGAR, research interno SpreadHunters.
+      </p>
+      <p class="mt-15">
+        🔗 <a href="https://spreadhunters.es/" target="_blank" rel="noopener noreferrer">SpreadHunters Investment Research</a>
+        &nbsp;|&nbsp;
+        📝 <a href="https://spreadhunters.substack.com/" target="_blank" rel="noopener noreferrer">Substack</a>
+        &nbsp;|&nbsp;
+        𝕏 <a href="https://x.com/Spread_Hunters" target="_blank" rel="noopener noreferrer">Twitter/X</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // ── Scroll Progress Bar ──────────────────────────────────────────
+    window.addEventListener('scroll', function () {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+      const bar = document.getElementById("progressBar");
+      if (bar) bar.style.width = scrolled + "%";
+    });
+
+    // ── Smooth scroll + active state ────────────────────────────────
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (!href || href === '#') return;
+        const target = document.querySelector(href);
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (this.closest('.nav-tabs')) {
+          document.querySelectorAll('.nav-tabs a').forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+        }
+      });
+    });
+
+    // ── Fade-in on scroll ───────────────────────────────────────────
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.fade-in').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+      observer.observe(el);
+    });
+
+    // ── Active nav on scroll ─────────────────────────────────────────
+    window.addEventListener('scroll', function () {
+      let current = '';
+      document.querySelectorAll('section').forEach(section => {
+        if (window.pageYOffset >= (section.offsetTop - 200)) current = section.getAttribute('id');
+      });
+      document.querySelectorAll('.nav-tabs a').forEach(link => {
+        link.classList.remove('active');
+        if ((link.getAttribute('href') || '').slice(1) === current) link.classList.add('active');
+      });
+    });
+
+    // ── Countdown dinámico ──────────────────────────────────────────
+    (function updateCountdown() {
+      const expiry = new Date('2026-04-23T21:00:00Z'); // 5PM ET = 21:00 UTC
+      const now = new Date();
+      const diff = expiry - now;
+      const el = document.getElementById('daysLeft');
+      if (!el) return;
+      if (diff <= 0) { el.textContent = '0'; return; }
+      const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+      el.textContent = days;
+    })();
+
+    // ── Charts ──────────────────────────────────────────────────────
+    function getCtx(id) {
+      const el = document.getElementById(id);
+      return el ? el.getContext('2d') : null;
+    }
+
+    function initCharts() {
+      if (typeof Chart === 'undefined') return;
+      Chart.defaults.color = '#b0c4de';
+      Chart.defaults.borderColor = '#2d3d4d';
+
+      // Chart 1: Puntos de precio (spread visual)
+      const ctxSpread = getCtx('spreadChart');
+      if (ctxSpread) {
+        new Chart(ctxSpread, {
+          type: 'bar',
+          data: {
+            labels: ['Precio Pre-Anuncio\n(24 mar)', 'Precio Actual\n(15 abr)', 'Precio Oferta\n(Target)'],
+            datasets: [{
+              label: 'Precio (USD)',
+              data: [1.10, 1.79, 3.00],
+              backgroundColor: ['rgba(255, 165, 0, 0.6)', 'rgba(0, 215, 255, 0.6)', 'rgba(144, 238, 144, 0.7)'],
+              borderColor: ['rgba(255, 165, 0, 1)', 'rgba(0, 215, 255, 1)', 'rgba(144, 238, 144, 1)'],
+              borderWidth: 2,
+              borderRadius: 6,
+            }]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              title: { display: true, text: 'Comparativa de Precios: Spread Visual', color: '#b0c4de', font: { size: 14 }, padding: { bottom: 20 } },
+              tooltip: {
+                callbacks: {
+                  label: ctx => ` $${ctx.raw.toFixed(2)}`
+                }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: false, min: 0.8,
+                grid: { color: '#2d3d4d' },
+                ticks: { callback: v => '$' + v.toFixed(2) }
+              },
+              x: { grid: { display: false } }
+            }
+          }
+        });
+      }
+
+      // Chart 2: Risk/Reward doughnut
+      const ctxRR = getCtx('riskRewardChart');
+      if (ctxRR) {
+        new Chart(ctxRR, {
+          type: 'doughnut',
+          data: {
+            labels: ['Upside si oferta completa (+$119.79)', 'Downside si oferta cancelada (-$68.31)'],
+            datasets: [{
+              data: [119.79, 68.31],
+              backgroundColor: ['rgba(144, 238, 144, 0.75)', 'rgba(255, 107, 107, 0.75)'],
+              borderColor: ['rgba(144, 238, 144, 1)', 'rgba(255, 107, 107, 1)'],
+              borderWidth: 2,
+              hoverOffset: 10
+            }]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            cutout: '60%',
+            plugins: {
+              legend: { position: 'bottom', labels: { padding: 15, boxWidth: 14, color: '#b0c4de' } },
+              title: { display: true, text: 'Risk / Reward (posición 99 acciones)', color: '#b0c4de', font: { size: 14 }, padding: { bottom: 10 } },
+              tooltip: {
+                callbacks: {
+                  label: ctx => ` $${ctx.raw.toFixed(2)}`
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // Chart 3: Timeline horizontal
+      const ctxTimeline = getCtx('timelineChart');
+      if (ctxTimeline) {
+        new Chart(ctxTimeline, {
+          type: 'bar',
+          data: {
+            labels: ['24 Mar · Filing', '15 Abr · HOY', '~20 Abr · Plazo bróker', '23 Abr · Vencimiento'],
+            datasets: [
+              {
+                label: 'Días transcurridos',
+                data: [0, 22, 27, 30],
+                backgroundColor: ['rgba(0,215,255,0.3)', 'rgba(255,215,0,0.6)', 'rgba(255,165,0,0.5)', 'rgba(144,238,144,0.7)'],
+                borderColor: ['rgba(0,215,255,1)', 'rgba(255,215,0,1)', 'rgba(255,165,0,1)', 'rgba(144,238,144,1)'],
+                borderWidth: 2, borderRadius: 6,
+              }
+            ]
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              title: { display: true, text: 'Cronología de la Oferta (días desde filing)', color: '#b0c4de', font: { size: 14 }, padding: { bottom: 15 } },
+              tooltip: { callbacks: { label: ctx => ` Día ${ctx.raw} desde filing` } }
+            },
+            scales: {
+              x: { grid: { color: '#2d3d4d' }, max: 32, ticks: { callback: v => 'Día ' + v } },
+              y: { grid: { display: false } }
+            }
+          }
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCharts);
+    } else {
+      initCharts();
+    }
+  </script>
+</body>
+</html>
