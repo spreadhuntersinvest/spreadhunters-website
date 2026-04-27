@@ -734,51 +734,75 @@
             <div class="chart-container"><canvas id="brandEvBruto"></canvas></div>
 
             <h3>2. SOTP completo: EBITDA guía + ahorro asumido por costes centrales</h3>
-            <p>Tras calcular el EV bruto por marcas ($1,363m), el modelo identifica los gastos centrales implícitos como la diferencia entre el EBITDA individual de marcas antes de costes centrales ($158m) y el EBITDA ajustado consolidado FY26E ($105m punto medio), lo que arroja $53m de costes centrales. <strong>La mecánica no consiste en eliminar todos esos costes:</strong> el caso Base asume que el 20% ($10.6m) podría eliminarse en una transacción y que el 80% restante ($42.4m) permanece como coste central residual. Ese coste residual se capitaliza al múltiplo del escenario (7x en Base), mientras que el coste eliminable se trata como ahorro/sinergia potencial (Bajista: 0%, Alcista: 35%).</p>
+           <p>
+            Tras calcular el EV bruto por marcas ($1,363m), el modelo identifica los gastos centrales implícitos como la diferencia entre el EBITDA individual de marcas antes de costes centrales ($158m) y el EBITDA ajustado consolidado FY26E ($105m punto medio), lo que arroja $53m de costes centrales. 
+            <strong>La mecánica no consiste en eliminar todos esos costes:</strong> el caso Base asume que el 20% ($10.6m) podría eliminarse en una transacción y que el 80% restante ($42.4m) permanece como coste central residual. 
+                Ese coste residual se capitaliza con un múltiplo específico para gastos centrales —7.0x en el caso Base—, distinto del EV/EBITDA implícito final del SOTP completo, que resulta en 10.2x sobre el EBITDA consolidado FY26E. 
+                El coste eliminable se trata como ahorro/sinergia potencial (Bajista: 0%, Base: 20%, Alcista: 35%).
+            </p>
 
             <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Métrica</th>
-                            <th class="num">Bajista</th>
-                            <th class="num">Base</th>
-                            <th class="num">Alcista</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>EBITDA ajustado consolidado FY26E</td><td class="num">$100.0m</td><td class="num"><strong>$105.0m</strong></td><td class="num">$110.0m</td></tr>
-                        <tr><td>% ahorro asumido por costes centrales</td><td class="num">0.0%</td><td class="num"><strong>20.0%</strong></td><td class="num">35.0%</td></tr>
-                        <tr><td>Costes indirectos estimados (Modelo Flexa)</td><td class="num">$58.0m</td><td class="num">$53.0m</td><td class="num">$48.0m</td></tr>
-                        <tr><td>Coste central residual capitalizado tras aplicar % eliminable</td><td class="num">$348.0m</td><td class="num"><strong>$296.8m</strong></td><td class="num">$249.6m</td></tr>
-                        <tr><td><strong>EV SOTP ajustado por costes eliminables</strong></td><td class="num"><strong>$699.0m</strong></td><td class="num"><strong>$1,066.2m</strong></td><td class="num"><strong>$1,429.4m</strong></td></tr>
-                        <tr><td>EV/EBITDA implícito SOTP completo</td><td class="num">7.0x</td><td class="num"><strong>10.2x</strong></td><td class="num">13.0x</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <h3>3. Puente EV→equity final: ancla del TP central</h3>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Métrica</th>
-                            <th class="num">Bajista</th>
-                            <th class="num">Base</th>
-                            <th class="num">Alcista</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>EV seleccionado para puente</td><td class="num">$699.0m</td><td class="num"><strong>$1,066.2m</strong></td><td class="num">$1,429.4m</td></tr>
-                        <tr><td>(–) Deuda neta FY25 reportada</td><td class="num">$479.1m</td><td class="num"><strong>$479.1m</strong></td><td class="num">$479.1m</td></tr>
-                        <tr><td>(–) Ajuste legal inicial (Impacto en el FCF distribuido entre 2026 y 2028)</td><td class="num">$0.0m</td><td class="num"><strong>$0.0m</strong></td><td class="num">$0.0m</td></tr>
-                        <tr><td><strong>Valor del equity</strong></td><td class="num"><strong>$219.9m</strong></td><td class="num"><strong>$587.1m</strong></td><td class="num"><strong>$950.3m</strong></td></tr>
-                        <tr><td>Acciones equivalentes totales</td><td class="num">49.05m</td><td class="num">49.05m</td><td class="num">49.05m</td></tr>
-                        <tr><td><strong>Valor implícito / acción</strong></td><td class="num negative"><strong>$4.48</strong></td><td class="num positive"><strong>$11.97</strong></td><td class="num positive"><strong>$19.37</strong></td></tr>
-                        <tr><td>Potencial / caída vs $6.80</td><td class="num negative"><strong>−34.2%</strong></td><td class="num positive"><strong>+76.0%</strong></td><td class="num positive"><strong>+184.9%</strong></td></tr>
-                    </tbody>
-                </table>
-            </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Métrica</th>
+                <th class="num">Bajista</th>
+                <th class="num">Base</th>
+                <th class="num">Alcista</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>EBITDA ajustado consolidado FY26E</td>
+                <td class="num">$100.0m</td>
+                <td class="num"><strong>$105.0m</strong></td>
+                <td class="num">$110.0m</td>
+            </tr>
+            <tr>
+                <td>% ahorro asumido por costes centrales</td>
+                <td class="num">0.0%</td>
+                <td class="num"><strong>20.0%</strong></td>
+                <td class="num">35.0%</td>
+            </tr>
+            <tr>
+                <td>Coste central implícito total</td>
+                <td class="num">$58.0m</td>
+                <td class="num"><strong>$53.0m</strong></td>
+                <td class="num">$48.0m</td>
+            </tr>
+            <tr>
+                <td>Coste central residual tras ahorro asumido</td>
+                <td class="num">$58.0m</td>
+                <td class="num"><strong>$42.4m</strong></td>
+                <td class="num">$31.2m</td>
+            </tr>
+            <tr>
+                <td>Múltiplo aplicado al coste central residual</td>
+                <td class="num">6.0x</td>
+                <td class="num"><strong>7.0x</strong></td>
+                <td class="num">8.0x</td>
+            </tr>
+            <tr>
+                <td>Coste central residual capitalizado</td>
+                <td class="num">$348.0m</td>
+                <td class="num"><strong>$296.8m</strong></td>
+                <td class="num">$249.6m</td>
+            </tr>
+            <tr>
+                <td><strong>EV SOTP ajustado tras ahorro de costes centrales</strong></td>
+                <td class="num"><strong>$699.0m</strong></td>
+                <td class="num"><strong>$1,066.2m</strong></td>
+                <td class="num"><strong>$1,429.4m</strong></td>
+            </tr>
+            <tr>
+                <td>EV/EBITDA implícito SOTP completo</td>
+                <td class="num">7.0x</td>
+                <td class="num"><strong>10.2x</strong></td>
+                <td class="num">13.0x</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
             <div class="chart-grid">
                 <div class="chart-container"><canvas id="evPuente"></canvas></div>
