@@ -543,7 +543,7 @@
                         <tr><td><strong>Deuda bruta</strong></td><td class="num">$525.0m</td><td>Préstamo a plazo a 5 años + línea revolver disponible (refinanciación dic-2025).</td></tr>
                         <tr><td><strong>Caja + caja restringida</strong></td><td class="num">$45.9m</td><td>Incluye $12.2m de fondo de marketing caja restringida.</td></tr>
                         <tr><td><strong>Deuda neta</strong></td><td class="num"><strong>$479.1m</strong></td><td>Usada en puente EV→equity final (puntual FY25).</td></tr>
-                        <tr><td>Intereses en efectivo FY26 guía</td><td class="num">$55m</td><td>≈10.5% sobre deuda bruta. Modelo v2 flexa con desapalancamiento.</td></tr>
+                        <tr><td>Intereses en efectivo FY26 guía</td><td class="num">$55m</td><td>≈10.5% sobre deuda bruta. Modelo flexible con reducción de deuda.</td></tr>
                         <tr><td>Preferentes convertibles</td><td class="num">Retirada</td><td>Refinanciación elimina ≈8.1m acciones potenciales de dilución.</td></tr>
                     </tbody>
                 </table>
@@ -663,7 +663,7 @@
                     <tbody>
                         <tr><td>EBITDA ajustado consolidado FY26E</td><td class="num">$100.0m</td><td class="num"><strong>$105.0m</strong></td><td class="num">$110.0m</td></tr>
                         <tr><td>% costes centrales eliminables</td><td class="num">0.0%</td><td class="num"><strong>20.0%</strong></td><td class="num">35.0%</td></tr>
-                        <tr><td>Coste central implícito (modelo v2: flexa)</td><td class="num">$58.0m</td><td class="num">$53.0m</td><td class="num">$48.0m</td></tr>
+                        <tr><td>Costes indirectos estimados (Modelo Flexa)</td><td class="num">$58.0m</td><td class="num">$53.0m</td><td class="num">$48.0m</td></tr>
                         <tr><td>Coste central residual capitalizado tras aplicar % eliminable</td><td class="num">$348.0m</td><td class="num"><strong>$296.8m</strong></td><td class="num">$249.6m</td></tr>
                         <tr><td><strong>EV SOTP ajustado por costes eliminables</strong></td><td class="num"><strong>$699.0m</strong></td><td class="num"><strong>$1,066.2m</strong></td><td class="num"><strong>$1,429.4m</strong></td></tr>
                         <tr><td>EV/EBITDA implícito SOTP completo</td><td class="num">7.0x</td><td class="num"><strong>10.2x</strong></td><td class="num">13.0x</td></tr>
@@ -1233,7 +1233,7 @@
             if (ctxSens) new Chart(ctxSens, {
                 type: 'bar',
                 data: {
-                    labels: ['Precio actual', 'Contraste 8.5x', 'SOTP sin supuesto 20%', 'SOTP completo Base'],
+                    labels: ['Precio actual', 'Contraste aplicando al grupo 8.5x', 'SOTP por marcas, sin sinergias de costes. 0% ahorro costes centrales', 'SOTP completo Base'],
                     datasets: [{
                         label: 'Valor implícito por acción ($)',
                         data: [6.80, 8.43, 10.46, 11.97],
