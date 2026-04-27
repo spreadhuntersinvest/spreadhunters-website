@@ -595,11 +595,97 @@
 
         <!-- ========== VALORACIÓN SOTP ========== -->
         <section id="valuation" class="fade-in">
-            <h2>Análisis de valoración SOTP</h2>
+            <h2>Análisis de valoración: EV/EBITDA consolidado vs SOTP</h2>
 
             <div class="alert alert-info">
-                <strong>Enfoque principal:</strong> el TP central del dashboard es <strong>$11.97/acción</strong>, obtenido desde el puente EV→equity final con el caso <strong>Base / Impacto Legal distribuido en FCF entre 2026 y 2028 / SOTP completo</strong>. El módulo SOTP/valoración del modelo muestra $12.20/acción como referencia interna (usa deuda neta proyectada FY26), pero el TP final de la tesis se ancla en $11.97 al usar deuda neta puntual FY25 — más conservador y más sólido al no asumir cero retornos al accionista en FY26.
-            </div>
+    <strong>Enfoque principal:</strong> para evitar confusiones, la valoración separa dos ejes distintos: 
+    <strong>(i) el método de valoración del EV</strong> —múltiplo consolidado vs. SOTP por marcas— y 
+    <strong>(ii) la deuda neta utilizada</strong> —deuda neta puntual FY25 vs. deuda neta proyectada FY26E—. 
+    El TP central de la tesis es <strong>$11.97/acción</strong>: usa el SOTP Base por marcas, asume un 
+    <strong>20% de ahorro por costes centrales</strong>, descuenta el coste central residual y resta la 
+    <strong>deuda neta puntual FY25</strong>. El modelo también muestra <strong>$12.20/acción</strong> con el mismo EV SOTP Base, 
+    pero usando deuda neta proyectada FY26E; por prudencia, la tesis se ancla en $11.97.
+</div>
+
+<h3>Mapa de precios objetivo: método de valoración y deuda utilizada</h3>
+<p>
+    La tabla siguiente resume por qué aparecen distintos precios objetivo en el modelo. 
+    La diferencia entre <strong>$8.43</strong> y <strong>$10.46/$10.68</strong> no es solo una cuestión de deuda: cambia el método de valoración. 
+    El primero aplica un múltiplo consolidado al EBITDA del grupo; el segundo ya valora las marcas por separado y da peso económico a Club Pilates, 
+    pero no asume ahorro por costes centrales. La diferencia entre <strong>$11.97</strong> y <strong>$12.20</strong>, en cambio, sí responde principalmente 
+    al momento de medición de la deuda neta.
+</p>
+
+<div class="table-responsive">
+    <table>
+        <thead>
+            <tr>
+                <th>TP</th>
+                <th>Método</th>
+                <th class="center">¿Valora marcas por separado?</th>
+                <th class="center">¿Da peso económico a Club Pilates?</th>
+                <th class="center">¿Asume ahorro por costes centrales?</th>
+                <th>Deuda usada</th>
+                <th>Lectura</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>$8.43</strong></td>
+                <td>8.5x EV/EBITDA consolidado</td>
+                <td class="center">No</td>
+                <td class="center">No</td>
+                <td class="center">No</td>
+                <td>FY25 puntual</td>
+                <td>Contraste prudente. Valora el grupo completo con un único múltiplo sobre el EBITDA consolidado de $105m. No separa marcas ni trata los costes centrales de forma específica.</td>
+            </tr>
+            <tr>
+                <td><strong>$10.46</strong></td>
+                <td>SOTP por marcas sin ahorro por costes centrales</td>
+                <td class="center">Sí</td>
+                <td class="center">Sí</td>
+                <td class="center">No</td>
+                <td>FY25 puntual</td>
+                <td>Valora Club Pilates y el resto de marcas por separado, pero descuenta el 100% del coste central implícito. Es el SOTP sin sinergias de costes.</td>
+            </tr>
+            <tr>
+                <td><strong>$10.68</strong></td>
+                <td>SOTP por marcas sin ahorro por costes centrales</td>
+                <td class="center">Sí</td>
+                <td class="center">Sí</td>
+                <td class="center">No</td>
+                <td>FY26E proyectada</td>
+                <td>Mismo enfoque que $10.46, pero usando deuda neta proyectada FY26E. Sirve como referencia interna del modelo, no como TP central de la tesis.</td>
+            </tr>
+                <tr>
+                <td><strong>$11.97</strong></td>
+                <td>SOTP Base con 20% de ahorro por costes centrales</td>
+                <td class="center">Sí</td>
+                <td class="center">Sí</td>
+                <td class="center">Sí</td>
+                <td>FY25 puntual</td>
+                <td>TP central de la tesis. Valora las marcas por separado, da mayor peso económico a Club Pilates y asume un ahorro parcial de costes centrales, descontando el coste residual.</td>
+             </tr>
+            <tr>
+                <td><strong>$12.20</strong></td>
+                <td>SOTP Base con 20% de ahorro por costes centrales</td>
+                <td class="center">Sí</td>
+                <td class="center">Sí</td>
+                <td class="center">Sí</td>
+                <td>FY26E proyectada</td>
+                <td>Mismo método que $11.97, pero usando deuda neta proyectada FY26E. La diferencia frente al TP central viene principalmente del menor saldo de deuda neta.</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        
+        <div class="alert alert-warning">
+            <strong>Lectura clave:</strong> el TP de <strong>$10.46/$10.68</strong> sí da peso económico a Club Pilates, porque ya utiliza un SOTP por marcas. 
+            Lo que no incorpora es el ahorro por costes centrales. Por tanto, la secuencia correcta es: 
+            <strong>$8.43</strong> = múltiplo consolidado simple; 
+            <strong>$10.46</strong> = SOTP por marcas sin sinergias de costes usando deuda FY25; 
+            <strong>$11.97</strong> = SOTP Base con 20% de ahorro por costes centrales usando deuda FY25.
+        </div>
 
             <h3>1. Cálculo explícito por marca: EBITDA × Múltiplo = EV bruto</h3>
             <p>La asignación de pesos económicos a cada marca <strong>no es un selector manual</strong>: surge orgánicamente de aplicar a cada marca su EBITDA individual estimado y su múltiplo específico. La tabla siguiente muestra los componentes individuales que dan los $1.363m de EV bruto en el caso Base.</p>
@@ -715,7 +801,7 @@
                     <tbody>
                         <tr><td>Diferenciación múltiplos por marca (Club Pilates 10x · Pure Barre 7x · StretchLab 6x · BFT 5x · YogaSix 4x)</td><td class="num">+$20m</td><td class="num">+$0.41</td><td class="num warning">12%</td></tr>
                         <tr><td><strong>Coste central residual capitalizado a 7x en lugar de 8.5x</strong></td><td class="num"><strong>+$80m</strong></td><td class="num"><strong>+$1.62</strong></td><td class="num positive"><strong>45%</strong></td></tr>
-                        <tr><td><strong>20% de los ahorro asumido por costes centrales en una transacción (sinergias)</strong></td><td class="num"><strong>+$74m</strong></td><td class="num"><strong>+$1.51</strong></td><td class="num positive"><strong>43%</strong></td></tr>
+                        <tr><td><strong>20% de ahorro asumido por costes centrales en una transacción (sinergias)</strong></td><td class="num"><strong>+$74m</strong></td><td class="num"><strong>+$1.51</strong></td><td class="num positive"><strong>43%</strong></td></tr>
                         <tr><td><strong>Diferencial total SOTP completo vs consolidado 8.5x</strong></td><td class="num"><strong>+$173m</strong></td><td class="num"><strong>+$3.54</strong></td><td class="num"><strong>100%</strong></td></tr>
                     </tbody>
                 </table>
@@ -1233,7 +1319,7 @@
             if (ctxSens) new Chart(ctxSens, {
                 type: 'bar',
                 data: {
-                    labels: ['Precio actual', 'Contraste aplicando al grupo 8.5x', 'SOTP por marcas, sin sinergias de costes. 0% ahorro costes centrales', 'SOTP Base con 20% de ahorro por costes centrales'],
+                    labels: ['Precio actual', 'Contraste aplicando al grupo 8.5x', 'SOTP por marcas · 0% ahorro costes centrales', 'SOTP Base con 20% de ahorro por costes centrales'],
                     datasets: [{
                         label: 'Valor implícito por acción ($)',
                         data: [6.80, 8.43, 10.46, 11.97],
