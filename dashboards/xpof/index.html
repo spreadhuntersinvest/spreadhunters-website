@@ -735,11 +735,11 @@
 
             <h3>2. SOTP completo: EBITDA guía + ahorro asumido por costes centrales</h3>
            <p>
-            Tras calcular el EV bruto por marcas ($1,363m), el modelo identifica los gastos centrales implícitos como la diferencia entre el EBITDA individual de marcas antes de costes centrales ($158m) y el EBITDA ajustado consolidado FY26E ($105m punto medio), lo que arroja $53m de costes centrales. 
-            <strong>La mecánica no consiste en eliminar todos esos costes:</strong> el caso Base asume que el 20% ($10.6m) podría eliminarse en una transacción y que el 80% restante ($42.4m) permanece como coste central residual. 
-                Ese coste residual se capitaliza con un múltiplo específico para gastos centrales —7.0x en el caso Base—, distinto del EV/EBITDA implícito final del SOTP completo, que resulta en 10.2x sobre el EBITDA consolidado FY26E. 
-                El coste eliminable se trata como ahorro/sinergia potencial (Bajista: 0%, Base: 20%, Alcista: 35%).
-            </p>
+    Tras calcular el EV bruto por marcas ($1,363m), el modelo identifica los gastos centrales implícitos como la diferencia entre el EBITDA individual de marcas antes de costes centrales ($158m) y el EBITDA ajustado consolidado FY26E ($105m punto medio), lo que arroja $53m de costes centrales. 
+    <strong>La mecánica no consiste en aplicar 10.2x al grupo ni en eliminar todos esos costes:</strong> primero se estima qué parte de los costes centrales podría ahorrarse en una transacción y después se capitaliza únicamente el coste central residual.
+    En el caso Base, el modelo asume un 20% de ahorro ($10.6m) y mantiene el 80% restante ($42.4m) como coste central residual. Ese coste residual se capitaliza a 7.0x, lo que supone un descuento de $296.8m sobre el EV bruto por marcas. 
+    Tras ese ajuste, el EV SOTP Base queda en $1,066.2m, equivalente a un múltiplo implícito de 10.2x sobre el EBITDA ajustado consolidado FY26E de $105m.
+</p>
 
             <div class="table-responsive">
     <table>
@@ -795,13 +795,111 @@
                 <td class="num"><strong>$1,429.4m</strong></td>
             </tr>
             <tr>
-                <td>EV/EBITDA implícito SOTP completo</td>
+                <td>Múltiplo implícito final: EV SOTP ajustado / EBITDA consolidado</td>
                 <td class="num">7.0x</td>
                 <td class="num"><strong>10.2x</strong></td>
                 <td class="num">13.0x</td>
             </tr>
         </tbody>
     </table>
+</div>
+            <div class="card mt-20">
+    <h4>Cómo leer los múltiplos: inputs vs resultado</h4>
+    <p>
+        Esta parte puede generar confusión porque conviven varios múltiplos con funciones distintas.
+        <strong>El 7.0x no se aplica al grupo ni a las marcas:</strong> se utiliza solo para capitalizar el coste central residual.
+        El <strong>10.2x</strong>, en cambio, <strong>no es un input de valoración</strong>, sino el múltiplo implícito que resulta después de valorar las marcas por separado y descontar los costes centrales.
+    </p>
+
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Capa</th>
+                    <th>Qué múltiplo usa</th>
+                    <th>Para qué sirve</th>
+                    <th class="center">Input / resultado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Valoración por marcas</strong></td>
+                    <td>Club Pilates 10.0x · Pure Barre 7.0x · StretchLab 6.0x · YogaSix 4.0x · BFT 5.0x</td>
+                    <td>Calcula el EV bruto de las marcas: <strong>$1,363m</strong> en el caso Base.</td>
+                    <td class="center"><strong>Input</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Coste central residual</strong></td>
+                    <td>6.0x / <strong>7.0x</strong> / 8.0x</td>
+                    <td>Capitaliza y resta del EV bruto el coste central que seguiría existiendo tras el ahorro asumido.</td>
+                    <td class="center"><strong>Input</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Múltiplo implícito final</strong></td>
+                    <td>7.0x / <strong>10.2x</strong> / 13.0x</td>
+                    <td>Muestra a qué EV/EBITDA equivale el SOTP completo una vez ajustado por costes centrales.</td>
+                    <td class="center"><strong>Resultado</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4 class="mt-20">Cómo sale el 10.2x del caso Base</h4>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Bloque</th>
+                    <th class="num">EBITDA</th>
+                    <th class="num">Múltiplo</th>
+                    <th class="num">EV</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Club Pilates</strong></td>
+                    <td class="num">$102m</td>
+                    <td class="num">10.0x</td>
+                    <td class="num"><strong>$1,020m</strong></td>
+                </tr>
+                <tr>
+                    <td>Resto de marcas</td>
+                    <td class="num">$56m</td>
+                    <td class="num">4.0x-7.0x</td>
+                    <td class="num">$343m</td>
+                </tr>
+                <tr>
+                    <td><strong>Total marcas</strong></td>
+                    <td class="num"><strong>$158m</strong></td>
+                    <td class="num"><strong>8.63x ponderado</strong></td>
+                    <td class="num"><strong>$1,363m</strong></td>
+                </tr>
+                <tr>
+                    <td>Menos: coste central residual capitalizado</td>
+                    <td class="num">$42.4m</td>
+                    <td class="num">7.0x</td>
+                    <td class="num negative"><strong>−$296.8m</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>EV SOTP ajustado Base</strong></td>
+                    <td class="num">—</td>
+                    <td class="num">—</td>
+                    <td class="num positive"><strong>$1,066.2m</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="alert alert-info">
+        <strong>Cálculo del múltiplo implícito:</strong>
+        <span class="pill">EV SOTP ajustado Base = $1,066.2m</span>
+        <span class="pill">EBITDA ajustado consolidado FY26E = $105m</span>
+        <span class="pill-success">EV/EBITDA implícito = $1,066.2m / $105m = 10.2x</span>
+        <p class="mt-15">
+            Por tanto, <strong>10.2x no es el múltiplo que se aplica para valorar XPOF</strong>.
+            Es el múltiplo final que resulta del SOTP Base después de valorar las marcas por separado y descontar el coste central residual.
+        </p>
+    </div>
 </div>
 
             <div class="chart-grid">
