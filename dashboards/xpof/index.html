@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xponential Fitness, Inc. (NYSE: XPOF) - Tesis de Inversión | SpreadHunters</title>
+    <meta name="description" content="Tesis de inversión sobre Xponential Fitness: situación especial con activismo, revisión estratégica, Club Pilates como activo de alta calidad y valoración SOTP con descomposición de la prima.">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+    <style>
+        /* ========================================
+           SISTEMA DE VARIABLES - COLORES GLOBALES
+           ======================================== */
+        :root {
+            --primary-color: #00d7ff;
+            --secondary-color: #1a2332;
+            --accent-color: #4A8B9B;
+            --success-color: #90ee90;
+            --danger-color: #ff6b6b;
+            --warning-color: #ffa500;
+            --info-color: #00d7ff;
+            --dark-bg: #1a2332;
+            --darker-bg: #0f1419;
+            --card-bg: #1a2538;
+            --light-bg: #E8E8E8;
+            --text-primary: #d0d8e0;
+            --text-secondary: #b0c4de;
+            --text-tertiary: #808080;
+            --border-color: #2d3d4d;
+            --border-light: #3d5570;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.95) 0%, rgba(30, 50, 80, 0.95) 100%);
+            background-color: #1a2332;
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+
+        /* Barra de progreso */
+        .progress-bar { background: var(--success-color); height: 2px; width: 0%; position: fixed; top: 0; left: 0; z-index: 1000; transition: width 0.3s ease; }
+
+        /* Logo navbar */
+        .logo-navbar { position: fixed; top: 20px; left: 20px; z-index: 900; background: none; padding: 0; border: none; pointer-events: none; }
+        .spread-fallback { font-weight: 800; color: var(--primary-color); font-size: 0.95rem; letter-spacing: 0.5px; text-shadow: 0 0 12px rgba(0, 215, 255, 0.35); }
+        @media (max-width: 768px) { .logo-navbar { top: 15px; left: 15px; } }
+        @media (max-width: 480px) { .logo-navbar { top: 12px; left: 12px; } }
+
+        /* Header profesional */
+        .header-professional { margin: 0; padding: 50px 20px; background: transparent; border-bottom: 1px solid rgba(74, 127, 127, 0.1); backdrop-filter: blur(3px); position: relative; z-index: 2; }
+        .header-professional .container { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 20px; max-width: 1200px; margin: 0 auto; }
+        .header-title-section { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .company-title-row { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; }
+        .logo-fallback {
+            height: 70px; min-width: 130px; padding: 14px 20px;
+            border-radius: 18px; border: 2px solid rgba(0, 215, 255, 0.35);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; background: rgba(0, 215, 255, 0.08);
+            font-weight: 800; font-size: 1.5rem; letter-spacing: 2px;
+            box-shadow: 0 0 18px rgba(0, 215, 255, 0.15);
+        }
+        .page-title { font-size: 1.65rem; font-weight: 700; color: #ffffff; margin: 0; letter-spacing: 1px; line-height: 1.3; }
+        .page-subtitle { font-size: 0.95rem; color: #e0e0e0; margin: 10px 0 0; font-weight: 400; max-width: 780px; }
+
+        @media (max-width: 1024px) { .page-title { font-size: 1.55rem; } }
+        @media (max-width: 768px) { .header-professional { padding: 30px 15px; } .page-title { font-size: 1.4rem; } .page-subtitle { font-size: 0.9rem; } }
+        @media (max-width: 480px) { .header-professional { padding: 20px 15px; } .page-title { font-size: 1.15rem; } .logo-fallback { height: 55px; min-width: 110px; font-size: 1.15rem; padding: 10px 14px; } .company-title-row { gap: 10px; } .page-subtitle { font-size: 0.85rem; } }
+
+        /* Tarjetas de métricas */
+        .investment-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin: 20px 0; width: 100%; }
+        .metric-card { background: linear-gradient(135deg, rgba(26, 35, 50, 0.6) 0%, rgba(30, 50, 80, 0.6) 100%); border: 2px solid rgba(0, 215, 255, 0.3); border-radius: 12px; padding: 18px; text-align: center; backdrop-filter: blur(10px); transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .metric-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, rgba(0, 215, 255, 0.5) 0%, rgba(0, 215, 255, 0) 100%); }
+        .metric-card:hover { border-color: rgba(0, 215, 255, 0.6); background: linear-gradient(135deg, rgba(26, 35, 50, 0.8) 0%, rgba(30, 50, 80, 0.8) 100%); box-shadow: 0 0 20px rgba(0, 215, 255, 0.2); }
+        .metric-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-secondary); margin-bottom: 12px; font-weight: 600; }
+        .metric-value { font-size: 1.7rem; font-weight: 700; margin-bottom: 5px; letter-spacing: -0.5px; }
+        .metric-value.cyan { color: #00d7ff; }
+        .metric-value.green { color: #90ee90; }
+        .metric-value.red { color: #ff6b6b; }
+        .metric-value.orange { color: #ffa500; }
+        .metric-subtitle { font-size: 0.78rem; color: var(--text-tertiary); font-weight: 400; line-height: 1.35; }
+
+        @media (max-width: 768px) { .investment-metrics { grid-template-columns: repeat(2, 1fr); gap: 12px; } .metric-card { padding: 15px; } .metric-value { font-size: 1.3rem; } }
+
+        /* Navegación tabs */
+        .nav-tabs { background: var(--card-bg); padding: 20px 0; position: sticky; top: 0; z-index: 100; border-bottom: 2px solid var(--border-color); }
+        .nav-tabs ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+        .nav-tabs a { color: var(--text-secondary); text-decoration: none; padding: 10px 20px; border-radius: 6px; transition: all 0.3s ease; font-weight: 500; }
+        .nav-tabs a:hover, .nav-tabs a.active { background: var(--primary-color); color: var(--dark-bg); }
+
+        @media (max-width: 768px) {
+            .nav-tabs { padding: 10px 0; }
+            .nav-tabs ul { flex-direction: row; justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; gap: 8px; padding: 0 12px 6px; -webkit-overflow-scrolling: touch; }
+            .nav-tabs li { flex: 0 0 auto; }
+            .nav-tabs a { padding: 7px 12px; font-size: 0.85rem; white-space: nowrap; }
+            .nav-tabs ul::-webkit-scrollbar { height: 6px; }
+            .nav-tabs ul::-webkit-scrollbar-track { background: rgba(15, 20, 25, 0.35); }
+            .nav-tabs ul::-webkit-scrollbar-thumb { background: rgba(0, 215, 255, 0.55); border-radius: 6px; }
+        }
+        @media (max-width: 480px) { .nav-tabs { padding: 8px 0; } .nav-tabs ul { padding: 0 10px 6px; gap: 6px; } .nav-tabs a { padding: 6px 10px; font-size: 0.80rem; } }
+
+        /* Secciones */
+        section { padding: 60px 0; border-bottom: 1px solid var(--border-color); position: relative; z-index: 1; scroll-margin-top: 90px; }
+        section h2 { font-size: 1.35rem; margin-bottom: 30px; color: var(--primary-color); border-left: 4px solid var(--success-color); padding-left: 20px; }
+        section > h3 { font-size: 1.25rem; margin: 30px 0 15px; color: var(--text-primary); }
+        section > h4 { font-size: 1.0rem; margin: 15px 0 10px; color: var(--text-primary); }
+
+        @media (max-width: 768px) { section { scroll-margin-top: 120px; } section h2 { font-size: 1.25rem; } section h3 { font-size: 1.1rem; } }
+
+        /* Tarjetas y gráficos */
+        .card { background: rgba(26, 35, 50, 0.85); border-radius: 8px; padding: 18px; margin-bottom: 20px; border: 1px solid var(--border-color); backdrop-filter: blur(10px); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); }
+        .chart-container { background: rgba(26, 35, 50, 0.85); border-radius: 8px; padding: 25px; margin: 30px 0; border: 1px solid var(--border-color); backdrop-filter: blur(10px); position: relative; height: 400px; }
+        .chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; margin: 30px 0; }
+        @media (max-width: 768px) { .chart-grid { grid-template-columns: 1fr; } .chart-container { height: 320px; } }
+
+        /* Stats grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 30px 0; }
+        .stat-card { background: rgba(26, 35, 50, 0.8); padding: 25px; border-radius: 12px; text-align: center; border: 2px solid var(--border-color); backdrop-filter: blur(10px); }
+        .stat-card .label { font-size: 0.9rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .stat-card .value { font-size: 1.8rem; font-weight: 600; color: var(--text-primary); }
+        .stat-card .change { font-size: 0.9rem; margin-top: 5px; }
+        .positive { color: var(--success-color); }
+        .negative { color: var(--danger-color); }
+        .warning { color: var(--warning-color); }
+
+        /* Tablas */
+        .table-responsive { overflow-x: auto; margin: 30px 0; border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; background: var(--card-bg); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); }
+        thead { background: #1A1F2E; border-bottom: 2px solid var(--primary-color); }
+        th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border-color); vertical-align: top; }
+        th { color: var(--text-secondary); font-weight: 600; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.5px; }
+        tr:hover { background: rgba(74, 127, 127, 0.05); }
+        td.num, th.num { text-align: right; white-space: nowrap; }
+        td.center, th.center { text-align: center; }
+
+        /* Alertas */
+        .alert { padding: 16px 18px; border-radius: 8px; margin: 20px 0; border-left: 4px solid; backdrop-filter: blur(10px); }
+        .alert-success { background: rgba(74, 155, 111, 0.08); border-color: var(--success-color); color: var(--text-primary); }
+        .alert-warning { background: rgba(255, 165, 0, 0.15); border-color: var(--warning-color); color: var(--text-primary); }
+        .alert-info { background: rgba(0, 212, 212, 0.15); border-color: var(--primary-color); color: var(--text-primary); }
+        .alert-danger { background: rgba(255, 107, 107, 0.15); border-color: var(--danger-color); color: var(--text-primary); }
+        .alert strong { color: #ffffff; }
+
+        /* Highlights */
+        .highlights { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 30px 0; }
+        .highlight-item { background: linear-gradient(135deg, var(--card-bg) 0%, rgba(0, 212, 212, 0.1) 100%); padding: 18px; border-radius: 12px; border-left: 4px solid var(--primary-color); backdrop-filter: blur(10px); }
+        .highlight-item h4 { color: var(--primary-color); margin-bottom: 8px; font-size: 1.1rem; }
+        .highlight-item p { color: var(--text-primary); line-height: 1.6; }
+
+        /* Botones */
+        .btn { background: var(--primary-color); color: var(--dark-bg); border: 1px solid var(--primary-color); padding: 10px 24px; border-radius: 4px; font-weight: 500; transition: all 0.2s ease; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn:hover { background: var(--secondary-color); border-color: var(--accent-color); color: #fff; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); }
+        .btn-success { font-size: 0.9rem; padding: 8px 18px; border-radius: 6px; }
+
+        /* Footer */
+        footer { background: var(--card-bg); padding: 40px 0; text-align: center; margin-top: 60px; border-top: 2px solid var(--border-color); position: relative; z-index: 1; }
+        footer p { color: var(--text-secondary); font-size: 0.9rem; margin: 10px 0; }
+        footer a { color: var(--primary-color); text-decoration: none; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: rgba(15, 20, 25, 0.5); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 5px; }
+
+        /* Animaciones */
+        .fade-in { animation: fadeIn 0.6s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 768px) { .container { padding: 0 15px; } }
+
+        /* Compactación cajas */
+        .card, .highlight-item, .alert { padding: 14px 16px; line-height: 1.5; }
+        .card h3, .card h4, .highlight-item h4 { margin: 0 0 8px; }
+        .card p, .highlight-item p, .alert p { margin: 0 0 8px; line-height: 1.55; }
+        .card > *:last-child, .highlight-item > *:last-child, .alert > *:last-child { margin-bottom: 0; }
+        .card ul, .highlight-item ul, .alert ul { margin: 6px 0 0; padding-left: 18px; }
+        .card li, .highlight-item li, .alert li { margin: 0 0 4px 0; }
+        .card li:last-child, .highlight-item li:last-child, .alert li:last-child { margin-bottom: 0; }
+
+        /* Utilidades */
+        .mt-15 { margin-top: 15px; }
+        .mt-20 { margin-top: 20px; }
+        .mt-30 { margin-top: 30px; }
+        .text-center { text-align: center; }
+        .compact-list { margin: 6px 0 0; padding-left: 18px; }
+        .compact-list li { margin: 0 0 4px 0; }
+        .compact-list li:last-child { margin-bottom: 0; }
+        .chart-350 { height: 350px; }
+        .chart-450 { height: 450px; }
+        .pill { display: inline-block; padding: 4px 9px; border-radius: 999px; background: rgba(0, 215, 255, 0.12); border: 1px solid rgba(0, 215, 255, 0.3); color: #d0f7ff; font-size: 0.78rem; margin: 2px 4px 2px 0; }
+        .pill-warning { background: rgba(255, 165, 0, 0.12); border-color: rgba(255, 165, 0, 0.35); color: #ffd699; }
+        .pill-success { background: rgba(144, 238, 144, 0.12); border-color: rgba(144, 238, 144, 0.35); color: #b8f5b8; }
+        .source-list li { margin-bottom: 6px; }
+    </style>
+</head>
+<body>
+    <div id="top"></div>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="logo-navbar">
+        <span class="spread-fallback">SpreadHunters</span>
+    </div>
+
+    <header class="header-professional">
+        <div class="container">
+            <div class="header-title-section">
+                <div class="company-title-row">
+                    <div class="logo-fallback">XPOF</div>
+                    <h1 class="page-title">Xponential Fitness, Inc. (NYSE: XPOF)</h1>
+                </div>
+                <p class="page-subtitle">Situación especial con activismo y revisión estratégica: el TP SOTP Base de $11.97/acción pondera la mayor contribución económica de Club Pilates y asume una eliminación parcial de costes centrales; el valor descuenta únicamente el coste central residual. El contraste de $8.43/acción aplica 8.5x EV/EBITDA consolidado sin ponderación por marca ni ajuste SOTP de costes.</p>
+            </div>
+
+            <div class="investment-metrics">
+                <div class="metric-card">
+                    <div class="metric-label">Precio actual</div>
+                    <div class="metric-value cyan" id="priceCurrent">$6.80</div>
+                    <div class="metric-subtitle">Dato manual del modelo</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Valor razonable SOTP</div>
+                    <div class="metric-value cyan" id="fairValue">$11.97</div>
+                    <div class="metric-subtitle">SOTP por marcas: mayor peso de Club Pilates + ahorro parcial de costes centrales; se descuenta el coste residual</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Potencial de revalorización</div>
+                    <div class="metric-value green" id="upsidePct">+76.0%</div>
+                    <div class="metric-subtitle">frente al precio de referencia $6.80</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Contraste 8.5x</div>
+                    <div class="metric-value orange">$8.43</div>
+                    <div class="metric-subtitle">EV/EBITDA consolidado sin ponderación por marca ni ajuste SOTP de costes centrales</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-tabs">
+        <div class="container">
+            <ul>
+                <li><a href="#resumen" class="active">Resumen</a></li>
+                <li><a href="#empresa">Empresa</a></li>
+                <li><a href="#segmentos">Marcas &amp; Club Pilates</a></li>
+                <li><a href="#activismo">Activismo</a></li>
+                <li><a href="#legal">Litigios</a></li>
+                <li><a href="#valuation">Valoración SOTP</a></li>
+                <li><a href="#catalysts">Catalizadores</a></li>
+                <li><a href="#riesgos">Riesgos</a></li>
+                <li><a href="#conclusion">Conclusión</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <!-- ========== RESUMEN EJECUTIVO ========== -->
+        <section id="resumen" class="fade-in">
+            <h2>Resumen ejecutivo</h2>
+
+            <div class="alert alert-success">
+                <strong>Tesis de inversión:</strong> XPOF se ha convertido en una situación especial donde el mercado parece valorar el grupo como una compañía apalancada, litigiosa y de ejecución irregular, mientras que <strong>Club Pilates</strong> podría justificar una parte sustancial del valor por sí solo. El caso Base SOTP apunta a <strong>$11.97/acción</strong>: este TP no es un múltiplo consolidado simple, sino una valoración por marcas donde Club Pilates pesa más por EBITDA y múltiplo, y donde se asume que una parte de los costes centrales podría eliminarse en una transacción, descontando únicamente el coste central residual. El contraste de <strong>$8.43/acción</strong> aplica <strong>8.5x EV/EBITDA consolidado sin ponderación por marca ni ajuste SOTP de costes centrales</strong> y sirve como referencia prudente. La revisión estratégica formal con Jefferies abre la puerta a que ese diferencial cristalice.
+            </div>
+
+            <div class="highlights">
+                <div class="highlight-item">
+                    <h4>✓ Club Pilates es el núcleo económico</h4>
+                    <p>Combina escala (1.414 estudios), AUV (volumen medio anual por estudio) superior, fuerte percepción de marca y ≈$102m de EBITDA individual (Voss), prácticamente igual al EBITDA ajustado guía FY26 de todo el grupo ($105m punto medio).</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>✓ Activismo + revisión estratégica formal</h4>
+                    <p>Voss (≈18-19% Clase A) y Kanen (≈4%) presionaron al consejo; en abril 2026 se inició revisión estratégica con Jefferies como asesor financiero. Ya no es solo hipótesis activista: hay proceso formal.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>✓ El SOTP captura mejor el valor que el múltiplo consolidado</h4>
+                    <p>Permite valorar Club Pilates con prima (10x), aplicar múltiplos prudentes al resto (4-7x) y tratar los gastos centrales aparte. El múltiplo bruto ponderado (8,63x) es muy similar al contraste consolidado de 8,5x.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>✓ El verdadero motor de la prima son los costes centrales</h4>
+                    <p>El 88% del diferencial entre el SOTP completo ($11.97) y el contraste ($8.43) viene del tratamiento de los gastos centrales: el modelo identifica $53m de costes centrales, asume que el 20% es eliminable y capitaliza el coste residual. No viene de la asignación de múltiplos por marca.</p>
+                </div>
+            </div>
+
+            <h3>Métricas clave</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">Ingresos FY25A</div>
+                    <div class="value">$314.9m</div>
+                    <div class="change negative">FY26 guía a $260-270m</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">EBITDA ajustado FY26E</div>
+                    <div class="value">$105m</div>
+                    <div class="change positive">Punto medio guía</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Deuda neta FY25A</div>
+                    <div class="value">$479.1m</div>
+                    <div class="change warning">$525m deuda · $45.9m caja</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Acciones equivalentes totales</div>
+                    <div class="value">49.05m</div>
+                    <div class="change positive">Clase A + Clase B/LLC Units</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== EMPRESA ========== -->
+        <section id="empresa" class="fade-in">
+            <h2>Descripción de la empresa</h2>
+
+            <div class="card">
+                <h3>Qué hace Xponential Fitness</h3>
+                <p>Xponential Fitness es un franquiciador global de estudios boutique de fitness y bienestar. La compañía no opera principalmente como una cadena de gimnasios propios, sino como plataforma de franquicias que monetiza a través de cánones recurrentes (≈7% de las ventas del franquiciado), cánones de franquicia, cánones tecnológicos, fondo de marketing (≈2%), formación, equipamiento y otros servicios asociados al ecosistema.</p>
+                <p>El modelo es de bajo consumo de capital a nivel corporativo: el capex principal y la operación diaria del estudio recaen en el franquiciado. La variable crítica para vender nuevas licencias y abrir estudios no es solo el crecimiento de unidades, sino la salud económica del franquiciado, que es precisamente lo que ha generado los litigios actuales.</p>
+
+                <h4>Principales líneas de monetización</h4>
+                <ul>
+                    <li><strong>Ingresos de franquicia ($192,6m FY25, 61% del total):</strong> cánones recurrentes y cánones por licencias/territorios.</li>
+                    <li><strong>Equipamiento ($35,0m FY25, 11%):</strong> ingresos ligados a aperturas e instalaciones de nuevos estudios.</li>
+                    <li><strong>Fondo de marketing y servicios ($36,5m FY25, 12%):</strong> cánones para soporte de marca, formación, partnerships.</li>
+                    <li><strong>Venta de productos ($23,9m FY25, 8%):</strong> migrado a modelo outsourced en 2025 con menor revenue bruto pero mejor margen.</li>
+                    <li><strong>Otros ingresos por servicios ($26,8m FY25, 9%):</strong> XPASS, formación y servicios accesorios.</li>
+                </ul>
+            </div>
+
+            <h3>Estructura accionarial equivalentes totales (FY25)</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th class="num">Acciones (m)</th>
+                            <th class="num">% del total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Acciones ordinarias Clase A</strong></td>
+                            <td class="num">37.31</td>
+                            <td class="num">76.1%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Acciones Clase B / LLC Units convertibles</strong></td>
+                            <td class="num">11.74</td>
+                            <td class="num">23.9%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total equivalentes totales (a 23-feb-2026)</strong></td>
+                            <td class="num"><strong>49.05</strong></td>
+                            <td class="num"><strong>100.0%</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>Lectura de negocio:</strong> el valor de XPOF no está en una base de activos físicos propios, sino en la red de franquicias, el poder de marca y la capacidad de generar royalties sobre ventas del sistema. La estructura Up-C (Clase A + Clase B/LLC Units) implica que el modelo debe trabajar con acciones equivalentes totales para una valoración consistente equity-wide.
+            </div>
+        </section>
+
+        <!-- ========== MARCAS & CLUB PILATES ========== -->
+        <section id="segmentos" class="fade-in">
+            <h2>Marcas y peso económico de Club Pilates</h2>
+
+            <div class="card">
+                <h3>Qué hace cada marca</h3>
+                <ul>
+                    <li><strong>Club Pilates:</strong> estudios de Pilates reformer, bajo impacto y cuerpo completo. Activo estrella del grupo: mayor escala, mayor AUV (volumen medio anual por estudio).</li>
+                    <li><strong>Pure Barre:</strong> entrenamientos de barre bajo impacto y alta intensidad, con formatos de fuerza, resistencia e intervalos. Marca madura y rentable.</li>
+                    <li><strong>StretchLab:</strong> servicios de estiramientos asistidos, uno a uno y en grupo. Tesis de bienestar/longevidad con presión operativa actual.</li>
+                    <li><strong>YogaSix:</strong> yoga boutique con clases heated/non-heated. Menor escala y peso económico.</li>
+                    <li><strong>BFT:</strong> entrenamiento funcional y fuerza en grupos, con origen australiano y mayor perfil internacional.</li>
+                </ul>
+            </div>
+
+            <h3>EBITDA individual estimado y peso económico por marca</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Marca</th>
+                            <th class="num">Estudios FY25</th>
+                            <th class="num">Licencias acumuladas</th>
+                            <th class="num">EBITDA individual</th>
+                            <th class="num">% EBITDA marcas</th>
+                            <th>Lectura</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Club Pilates</strong></td>
+                            <td class="num">1,414</td>
+                            <td class="num">1,996</td>
+                            <td class="num"><strong>$102m</strong></td>
+                            <td class="num positive"><strong>64.6%</strong></td>
+                            <td>Activo principal; concentra el valor económico y merece múltiplo superior.</td>
+                        </tr>
+                        <tr>
+                            <td>Pure Barre</td>
+                            <td class="num">625</td>
+                            <td class="num">806</td>
+                            <td class="num">$25m</td>
+                            <td class="num">15.8%</td>
+                            <td>Marca madura y rentable, pero con menor AUV (volumen medio anual por estudio).</td>
+                        </tr>
+                        <tr>
+                            <td>StretchLab</td>
+                            <td class="num">531</td>
+                            <td class="num">1,012</td>
+                            <td class="num">$18m</td>
+                            <td class="num">11.4%</td>
+                            <td>Más presión operativa; necesita mejora de embudo comercial y retención.</td>
+                        </tr>
+                        <tr>
+                            <td>YogaSix</td>
+                            <td class="num">194</td>
+                            <td class="num">637</td>
+                            <td class="num">$5m</td>
+                            <td class="num">3.2%</td>
+                            <td>Contribución menor; opcionalidad de mejora.</td>
+                        </tr>
+                        <tr>
+                            <td>BFT</td>
+                            <td class="num">333</td>
+                            <td class="num">790</td>
+                            <td class="num">$8m</td>
+                            <td class="num">5.1%</td>
+                            <td>Funcional/HIIT con sesgo internacional.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total marcas antes de costes centrales</strong></td>
+                            <td class="num"><strong>3,097</strong></td>
+                            <td class="num"><strong>5,241</strong></td>
+                            <td class="num"><strong>$158m</strong></td>
+                            <td class="num"><strong>100%</strong></td>
+                            <td>Antes de gastos centrales implícitos de $53m.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert alert-warning">
+                <strong>Matiz importante:</strong> Club Pilates individual ($102m) equivale a ≈97% del punto medio de EBITDA ajustado FY26E del grupo ($105m). No son métricas homogéneas: Club Pilates se muestra <em>individual/antes de costes centrales</em> y el grupo <em>consolidado/después de costes centrales</em>. Aun así, muestra que el valor económico está extraordinariamente concentrado en Club Pilates.
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-container"><canvas id="brandEbitda"></canvas></div>
+                <div class="chart-container"><canvas id="brandFootprint"></canvas></div>
+            </div>
+
+            <h3>Huella operativa y AUV (volumen medio anual por estudio) aproximado</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Marca</th>
+                            <th class="num">Estudios abiertos</th>
+                            <th class="num">Licencias acumuladas</th>
+                            <th class="num">% estudios abiertos</th>
+                            <th class="num">Licencias no abiertas</th>
+                            <th class="num">EBITDA / estudio aproximado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Club Pilates</strong></td><td class="num">1,414</td><td class="num">1,996</td><td class="num positive">45.7%</td><td class="num">582</td><td class="num"><strong>$72.1k</strong></td></tr>
+                        <tr><td>Pure Barre</td><td class="num">625</td><td class="num">806</td><td class="num">20.2%</td><td class="num">181</td><td class="num">$40.0k</td></tr>
+                        <tr><td>StretchLab</td><td class="num">531</td><td class="num">1,012</td><td class="num">17.1%</td><td class="num">481</td><td class="num">$33.9k</td></tr>
+                        <tr><td>YogaSix</td><td class="num">194</td><td class="num">637</td><td class="num">6.3%</td><td class="num">443</td><td class="num">$25.8k</td></tr>
+                        <tr><td>BFT</td><td class="num">333</td><td class="num">790</td><td class="num">10.8%</td><td class="num">457</td><td class="num">$24.0k</td></tr>
+                        <tr><td><strong>Total marcas actuales</strong></td><td class="num"><strong>3,097</strong></td><td class="num"><strong>5,241</strong></td><td class="num"><strong>100%</strong></td><td class="num"><strong>2,144</strong></td><td class="num">—</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>Cartera de aperturas cualificado, no licencias acumuladas:</strong> el 10-K reconoce 832 licencias NA contractualmente obligadas y 767 internacionales por acuerdos internacionales de franquicia maestra; el resto son licencias acumuladas en bruto que no se reducen automáticamente por terminaciones. La compañía estima que ≈30% de las licencias NA están retrasadas más de 12 meses. Conviene usar las contractualmente obligadas con descuento, no las acumuladas, para proyectar aperturas.
+            </div>
+        </section>
+
+        <!-- ========== ACTIVISMO ========== -->
+        <section id="activismo" class="fade-in">
+            <h2>Activismo y revisión estratégica</h2>
+
+            <div class="card">
+                <h3>Por qué aparece el activismo</h3>
+                <p>El activismo se apoya en una idea sencilla: la cotización descuenta una empresa complicada (deuda alta, litigios, multimarca), pero <strong>Club Pilates podría valer mucho más</strong> que lo que el mercado reconoce dentro del conglomerado. Voss y otros accionistas han presionado para revisar alternativas estratégicas, monetizar el activo o simplificar la estructura.</p>
+                <p>La compañía respondió iniciando una revisión estratégica formal en abril 2026 con Jefferies como asesor financiero. Esto cambia el perfil de la tesis: ya no se trata solo de ejecución operativa, sino de <strong>monitorizar un proceso corporativo formal</strong> liderado por directores independientes.</p>
+            </div>
+
+            <h3>Cronología del frente activista</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha / actor</th>
+                            <th>Documento / evento</th>
+                            <th>Implicación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>4 marzo 2026<br/>Voss Capital</strong></td>
+                            <td>Schedule 13D + carta abierta al consejo</td>
+                            <td>Argumenta que Club Pilates vale más que el EV de todo XPOF; pide revisión estratégica. Participación ≈18-19% Clase A.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>1 abril 2026<br/>Kanen Wealth</strong></td>
+                            <td>Carta pública al consejo</td>
+                            <td>Posición ≈4% Clase A. Refuerza el frente activista y la narrativa de venta.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>6 abril 2026<br/>Consejo / Jefferies</strong></td>
+                            <td>Anuncio de revisión estratégica formal</td>
+                            <td>Catalizador principal: venta total, venta de activo, merger, recapitalización u otra transacción estratégica/financiera.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2026<br/>Consejo renovación</strong></td>
+                            <td>Entrada de perfil M&amp;A/capital allocation</td>
+                            <td>Señal de apertura a alternativas estratégicas más allá del situación actual.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Estructura de capital tras refinanciación</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th class="num">Dato FY25</th>
+                            <th>Lectura</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Deuda bruta</strong></td><td class="num">$525.0m</td><td>Préstamo a plazo a 5 años + línea revolver disponible (refinanciación dic-2025).</td></tr>
+                        <tr><td><strong>Caja + caja restringida</strong></td><td class="num">$45.9m</td><td>Incluye $12.2m de fondo de marketing caja restringida.</td></tr>
+                        <tr><td><strong>Deuda neta</strong></td><td class="num"><strong>$479.1m</strong></td><td>Usada en puente EV→equity final (puntual FY25).</td></tr>
+                        <tr><td>Intereses en efectivo FY26 guía</td><td class="num">$55m</td><td>≈10.5% sobre deuda bruta. Modelo v2 flexa con desapalancamiento.</td></tr>
+                        <tr><td>Preferentes convertibles</td><td class="num">Retirada</td><td>Refinanciación elimina ≈8.1m acciones potenciales de dilución.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>Lectura:</strong> el apalancamiento magnifica el potencial y la caída del equity. Si el EV de Club Pilates se reconoce vía transacción, el equity puede reaccionar con fuerza. Si la revisión estratégica no cristaliza, el descuento puede persistir y la convexidad jugar en contra.
+            </div>
+        </section>
+
+        <!-- ========== LITIGIOS ========== -->
+        <section id="legal" class="fade-in">
+            <h2>Litigios y salidas de caja legales</h2>
+
+            <div class="card">
+                <h3>Qué ocurrió</h3>
+                <p>La controversia legal se centró en prácticas históricas de información a franquiciados y potenciales franquiciados: tiempos de apertura, costes/riesgos, información sobre cierres, FDDs y antecedentes de ejecutivos. <strong>El acuerdo con la FTC asciende a $17m y se paga durante 12 meses, sin admisión de responsabilidad.</strong></p>
+                <p>Adicionalmente, el modelo contempla el acuerdo privado de $22.75m con 509 franquiciados (4 plazos FY26-FY28) y pasivos por acuerdos de arrendamiento pendientes de $9.1m. Estos pagos se tratan como salidas de caja por año en el FCF, lo que permite analizar el impacto real en desapalancamiento.</p>
+            </div>
+
+            <h3>Frentes legales y tratamiento en el modelo</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Frente</th>
+                            <th class="num">Importe modelado</th>
+                            <th>Tratamiento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>acuerdo con la FTC</strong></td><td class="num">$17.0m</td><td>Salida de caja detallada en FY26; no se resta inicialmente en el puente EV→equity bajo el modo de ítems detallados.</td></tr>
+                        <tr><td><strong>Acuerdo privado franquiciados</strong></td><td class="num">$22.75m</td><td>509 franquiciados; 4 plazos FY26-FY28.</td></tr>
+                        <tr><td><strong>Pasivos pendientes por acuerdos de arrendamiento</strong></td><td class="num">$9.1m</td><td>Mayor peso en FY26 según conference call Q4 2025.</td></tr>
+                        <tr><td>Cobro esperado de seguro (compensación)</td><td class="num positive">($5.0m)</td><td>Recoverable por gastos legales previos. Reduce salida de caja neto.</td></tr>
+                        <tr><td>investigación de la SEC</td><td class="num">—</td><td>Cerrada sin acción. Punto positivo: reduce riesgo regulatorio pendiente.</td></tr>
+                        <tr><td>Demanda colectiva / derivada</td><td class="num">No estimable</td><td>Riesgo residual; no modelado como deuda cierta. Descuento cualitativo en múltiplo.</td></tr>
+                        <tr><td>investigación del USAO</td><td class="num">No cuantificado</td><td>Sin cierre público localizado. Monitorizar.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert alert-warning">
+                <strong>Nota metodológica:</strong> en el TP central usamos modo <strong>ítems detallados</strong>. Por eso el campo "ajuste legal inicial" en el puente EV→equity es $0.0m: los pagos legales ya reducen el FCF y la capacidad de desapalancamiento. Restarlos de nuevo en el puente EV → equity sería doble conteo.
+            </div>
+
+            <div class="chart-container chart-350"><canvas id="legalCashout"></canvas></div>
+        </section>
+
+        <!-- ========== VALORACIÓN SOTP ========== -->
+        <section id="valuation" class="fade-in">
+            <h2>Análisis de valoración SOTP</h2>
+
+            <div class="alert alert-info">
+                <strong>Enfoque principal:</strong> el TP central del dashboard es <strong>$11.97/acción</strong>, obtenido desde el puente EV→equity final con el caso <strong>Base / ítems detallados / SOTP completo</strong>. El módulo SOTP/valoración del modelo muestra $12.20/acción como referencia interna (usa deuda neta proyectada FY26), pero el TP final de la tesis se ancla en $11.97 al usar deuda neta puntual FY25 — más conservador y más sólido al no asumir cero retornos al accionista en FY26.
+            </div>
+
+            <h3>1. Cálculo explícito por marca: EBITDA × Múltiplo = EV bruto</h3>
+            <p>La asignación de pesos económicos a cada marca <strong>no es un selector manual</strong>: surge orgánicamente de aplicar a cada marca su EBITDA individual estimado y su múltiplo específico. La tabla siguiente muestra los componentes individuales que dan los $1.363m de EV bruto en el caso Base.</p>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Marca</th>
+                            <th class="num">EBITDA individual</th>
+                            <th class="num">Múltiplo Base</th>
+                            <th class="num">EV bruto Base</th>
+                            <th class="num">EV/share bruto</th>
+                            <th class="num">% EV bruto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Club Pilates</strong></td>
+                            <td class="num"><strong>$102.0m</strong></td>
+                            <td class="num"><strong>10.0x</strong></td>
+                            <td class="num"><strong>$1,020.0m</strong></td>
+                            <td class="num">$20.79</td>
+                            <td class="num positive"><strong>74.8%</strong></td>
+                        </tr>
+                        <tr><td>Pure Barre</td><td class="num">$25.0m</td><td class="num">7.0x</td><td class="num">$175.0m</td><td class="num">$3.57</td><td class="num">12.8%</td></tr>
+                        <tr><td>StretchLab</td><td class="num">$18.0m</td><td class="num">6.0x</td><td class="num">$108.0m</td><td class="num">$2.20</td><td class="num">7.9%</td></tr>
+                        <tr><td>YogaSix</td><td class="num">$5.0m</td><td class="num">4.0x</td><td class="num">$20.0m</td><td class="num">$0.41</td><td class="num">1.5%</td></tr>
+                        <tr><td>BFT</td><td class="num">$8.0m</td><td class="num">5.0x</td><td class="num">$40.0m</td><td class="num">$0.82</td><td class="num">2.9%</td></tr>
+                        <tr>
+                            <td><strong>Total marcas</strong></td>
+                            <td class="num"><strong>$158.0m</strong></td>
+                            <td class="num"><strong>8.63x</strong></td>
+                            <td class="num"><strong>$1,363.0m</strong></td>
+                            <td class="num"><strong>$27.79</strong></td>
+                            <td class="num"><strong>100%</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>Lectura clave:</strong> Club Pilates aporta $1,020m de EV bruto frente a $343m del resto combinado (relación ≈3:1). Pero el múltiplo ponderado bruto del conjunto (8.63x) es prácticamente idéntico al 8.5x consolidado del contraste: la prima de Club Pilates a 10x se compensa con los descuentos del resto. <strong>Por eso la prima del SOTP NO viene principalmente de "valorar más a Club Pilates" — viene del tratamiento de los gastos centrales</strong>, como demostramos más abajo.
+            </div>
+
+            <div class="chart-container"><canvas id="brandEvBruto"></canvas></div>
+
+            <h3>2. SOTP completo: EBITDA guía + costes centrales eliminables</h3>
+            <p>Tras calcular el EV bruto por marcas ($1,363m), el modelo identifica los gastos centrales implícitos como la diferencia entre el EBITDA individual de marcas antes de costes centrales ($158m) y el EBITDA ajustado consolidado FY26E ($105m punto medio), lo que arroja $53m de costes centrales. <strong>La mecánica no consiste en eliminar todos esos costes:</strong> el caso Base asume que el 20% ($10.6m) podría eliminarse en una transacción y que el 80% restante ($42.4m) permanece como coste central residual. Ese coste residual se capitaliza al múltiplo del escenario (7x en Base), mientras que el coste eliminable se trata como ahorro/sinergia potencial (Bajista: 0%, Alcista: 35%).</p>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Métrica</th>
+                            <th class="num">Bajista</th>
+                            <th class="num">Base</th>
+                            <th class="num">Alcista</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>EBITDA ajustado consolidado FY26E</td><td class="num">$100.0m</td><td class="num"><strong>$105.0m</strong></td><td class="num">$110.0m</td></tr>
+                        <tr><td>% costes centrales eliminables</td><td class="num">0.0%</td><td class="num"><strong>20.0%</strong></td><td class="num">35.0%</td></tr>
+                        <tr><td>Coste central implícito (modelo v2: flexa)</td><td class="num">$58.0m</td><td class="num">$53.0m</td><td class="num">$48.0m</td></tr>
+                        <tr><td>Coste central residual capitalizado tras aplicar % eliminable</td><td class="num">$348.0m</td><td class="num"><strong>$296.8m</strong></td><td class="num">$249.6m</td></tr>
+                        <tr><td><strong>EV SOTP ajustado por costes eliminables</strong></td><td class="num"><strong>$699.0m</strong></td><td class="num"><strong>$1,066.2m</strong></td><td class="num"><strong>$1,429.4m</strong></td></tr>
+                        <tr><td>EV/EBITDA implícito SOTP completo</td><td class="num">7.0x</td><td class="num"><strong>10.2x</strong></td><td class="num">13.0x</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>3. Puente EV→equity final: ancla del TP central</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Métrica</th>
+                            <th class="num">Bajista</th>
+                            <th class="num">Base</th>
+                            <th class="num">Alcista</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>EV seleccionado para puente</td><td class="num">$699.0m</td><td class="num"><strong>$1,066.2m</strong></td><td class="num">$1,429.4m</td></tr>
+                        <tr><td>(–) Deuda neta FY25 puntual</td><td class="num">$479.1m</td><td class="num"><strong>$479.1m</strong></td><td class="num">$479.1m</td></tr>
+                        <tr><td>(–) Ajuste legal inicial (ítems detallados)</td><td class="num">$0.0m</td><td class="num"><strong>$0.0m</strong></td><td class="num">$0.0m</td></tr>
+                        <tr><td><strong>Valor del equity</strong></td><td class="num"><strong>$219.9m</strong></td><td class="num"><strong>$587.1m</strong></td><td class="num"><strong>$950.3m</strong></td></tr>
+                        <tr><td>Acciones equivalentes totales</td><td class="num">49.05m</td><td class="num">49.05m</td><td class="num">49.05m</td></tr>
+                        <tr><td><strong>Valor implícito / acción</strong></td><td class="num negative"><strong>$4.48</strong></td><td class="num positive"><strong>$11.97</strong></td><td class="num positive"><strong>$19.37</strong></td></tr>
+                        <tr><td>Potencial / caída vs $6.80</td><td class="num negative"><strong>−34.2%</strong></td><td class="num positive"><strong>+76.0%</strong></td><td class="num positive"><strong>+184.9%</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-container"><canvas id="evPuente"></canvas></div>
+                <div class="chart-container"><canvas id="priceScenarios"></canvas></div>
+            </div>
+
+            <h3>4. Descomposición de la prima del SOTP vs contraste 8.5x</h3>
+            <p>Una pregunta crítica: ¿de dónde viene exactamente la prima del SOTP completo ($11.97) sobre el contraste de EV/EBITDA consolidado a 8.5x ($8.43)? La diferencia de $3.54/acción ($173.7m de EV) se desagrega en tres palancas, y el resultado es revelador:</p>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Palanca de la prima</th>
+                            <th class="num">Impacto EV</th>
+                            <th class="num">$/acción</th>
+                            <th class="num">% del diferencial</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Diferenciación múltiplos por marca (Club Pilates 10x · Pure Barre 7x · StretchLab 6x · BFT 5x · YogaSix 4x)</td><td class="num">+$20m</td><td class="num">+$0.41</td><td class="num warning">12%</td></tr>
+                        <tr><td><strong>Coste central residual capitalizado a 7x en lugar de 8.5x</strong></td><td class="num"><strong>+$80m</strong></td><td class="num"><strong>+$1.62</strong></td><td class="num positive"><strong>45%</strong></td></tr>
+                        <tr><td><strong>20% de los costes centrales eliminables en una transacción (sinergias)</strong></td><td class="num"><strong>+$74m</strong></td><td class="num"><strong>+$1.51</strong></td><td class="num positive"><strong>43%</strong></td></tr>
+                        <tr><td><strong>Diferencial total SOTP completo vs consolidado 8.5x</strong></td><td class="num"><strong>+$173m</strong></td><td class="num"><strong>+$3.54</strong></td><td class="num"><strong>100%</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="chart-container chart-350"><canvas id="primaDecomp"></canvas></div>
+
+            <div class="alert alert-warning">
+                <strong>Lectura crítica para la tesis:</strong> la prima del SOTP <strong>no nace de "ponderar más a Club Pilates"</strong>. El múltiplo ponderado bruto de las cinco marcas (8.63x) es prácticamente idéntico al 8.5x consolidado. <strong>El verdadero motor de la prima del SOTP, con el 88% del diferencial, es el tratamiento de los gastos centrales</strong>: capitalizarlo a un múltiplo más bajo (7x) y asumir que un comprador puede eliminar una parte (20%) en una transacción. La narrativa correcta: <em>"un comprador puede pagar 10x por Club Pilates individual porque eliminaría parte de los gastos centrales que hoy lastra al grupo cotizado, y el resto de marcas no destruye demasiado valor a múltiplos modestos"</em>.
+            </div>
+
+            <h3>5. Sensibilidad: marginal del supuesto del 20% eliminable</h3>
+            <p>El supuesto de que el 20% de los gastos centrales implícitos ($53m) sea eliminable es <strong>un supuesto propio del modelo en el caso Base</strong>, no una cifra textual de Voss ni guía de la compañía. Si lo retiramos por completo (escenario "0% eliminable"), todos los costes centrales de $53m se tratan como coste residual y se capitalizan a 7x: $371m vs los $296.8m del caso Base. El TP Base resultante sería <strong>$10.46/acción en lugar de $11.97</strong>.</p>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Métrica Base</th>
+                            <th class="num">Caso Base (20% elim)</th>
+                            <th class="num">Sin supuesto (0% elim)</th>
+                            <th class="num">Delta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Coste central capitalizado a 7x</td><td class="num">−$296.8m</td><td class="num">−$371.0m</td><td class="num">+$74.2m</td></tr>
+                        <tr><td>EV SOTP ajustado</td><td class="num">$1,066.2m</td><td class="num">$992.0m</td><td class="num">+$74.2m</td></tr>
+                        <tr><td>Valor del equity tras deuda neta</td><td class="num">$587.1m</td><td class="num">$512.9m</td><td class="num">+$74.2m</td></tr>
+                        <tr><td><strong>TP / acción</strong></td><td class="num positive"><strong>$11.97</strong></td><td class="num positive"><strong>$10.46</strong></td><td class="num"><strong>+$1.51</strong></td></tr>
+                        <tr><td>Potencial vs $6.80</td><td class="num positive"><strong>+76.0%</strong></td><td class="num positive"><strong>+53.8%</strong></td><td class="num">+22.2pp</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="chart-container chart-350"><canvas id="sensitivity20"></canvas></div>
+
+            <div class="alert alert-info">
+                <strong>Importante:</strong> incluso sin el supuesto del 20%, la tesis sigue dando potencial alcista frente a $6.80 (TP $10.46 = +53.8%). Pero el caso pierde 22pp de potencial. Este es el supuesto más cuestionable y el primero que un inversor crítico va a atacar — la ventaja de tenerlo desagregado es que la convicción no descansa en una caja negra.
+            </div>
+
+            <h3>6. Cómo se traducen los argumentos de Voss en supuestos del modelo</h3>
+            <p>El supuesto del 20% eliminable no aparece literalmente en la carta de Voss; es una traducción conservadora de su tesis activista a un input cuantitativo. La tabla mapea los argumentos públicos de Voss (carta abierta marzo 2026) con su reflejo concreto en el modelo.</p>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Argumento de Voss</th>
+                            <th>Implicación cuantitativa</th>
+                            <th>Reflejo en el modelo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Club Pilates es la joya: 1,414 estudios, AUV (volumen medio anual por estudio) ≈$1m, $102m EBITDA individual 2024</strong></td><td>Activo de mayor calidad justifica múltiplo superior</td><td>Club Pilates a 10x vs 4-7x para el resto</td></tr>
+                        <tr><td><strong>Guía grupo FY26 = $100-110m vs Club Pilates individual $102m</strong></td><td>Club Pilates genera prácticamente todo el EBITDA del grupo consolidado</td><td>Diferencial $158m − $105m = $53m gastos centrales implícitos</td></tr>
+                        <tr><td><strong>&gt;$500m deuda, ~5x apalancamiento neto, ≈$55m gasto financiero anual</strong></td><td>Estructura financiera limita conversión de EBITDA en equity</td><td>Deuda neta de $479.1m restada en el puente EV→equity</td></tr>
+                        <tr><td><strong>Carga de gastos centrales, obligaciones de información de una cotizada, acuerdos y multimarca</strong></td><td>Comprador estratégico/privado podría racionalizar parte de los costes centrales</td><td>Caso Base: 20% de los costes centrales eliminables (Bajista 0%, Alcista 35%)</td></tr>
+                        <tr><td><strong>Club Pilates podría operarse mejor como activo individual</strong></td><td>El valor afloraría fuera de la estructura pública actual</td><td>SOTP separa marcas, asume ahorro parcial de costes y capitaliza el coste central residual</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>7. Senda de desapalancamiento proyectada (modelo v2)</h3>
+            <p>La capacidad de desapalancamiento es clave: con $479.1m de deuda neta a FY25 y FCF after legal modesto en FY26 ($11.2m), la deuda se reduce gradualmente. El modelo v2 incorpora un tipo efectivo (≈10.5%) que aplica a la deuda neta proyectada, reflejando que un desapalancamiento progresivo reduce el coste financiero. <strong>Deuda neta FY30E: $208m</strong> (vs $479m FY25), asumiendo todo FCF a deuda.</p>
+
+            <div class="chart-container chart-350"><canvas id="netDebtPath"></canvas></div>
+
+            <h3>8. Calidad del EBITDA ajustado: puente y cautelas</h3>
+            <div class="alert alert-warning">
+                <strong>Lectura clave:</strong> XPOF no debe valorarse mirando solo el EBITDA GAAP. FY25 fue un año cargado de litigios, deterioros, refinanciación, reestructuración y limpieza de cartera de marcas. El EBITDA ajustado es útil para valorar la rentabilidad normalizada del franquiciador, pero debe cruzarse con FCF, salidas de caja legales y deuda neta.
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Puente FY25</th>
+                            <th class="num">$m</th>
+                            <th>Lectura</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Net loss GAAP</td><td class="num negative">−53.7</td><td>Punto de partida contable; ejercicio afectado por costes no ordinarios.</td></tr>
+                        <tr><td>+ Intereses, impuestos y D&amp;A</td><td class="num">+59.3</td><td>Normaliza financiación, impuestos y amortización/depreciación.</td></tr>
+                        <tr><td><strong>EBITDA reportado</strong></td><td class="num"><strong>5.6</strong></td><td>EBITDA antes de los ajustes específicos de la compañía.</td></tr>
+                        <tr><td>+ Stock-based comp. y payroll taxes asociados</td><td class="num">+13.2</td><td>Ajuste no monetario / remuneración en acciones, aunque dilutivo.</td></tr>
+                        <tr><td>+ Litigios y gastos legales específicos</td><td class="num">+30.1</td><td>riesgo legal pendiente relevante; se excluye del EBITDA ajustado, pero no debe ignorarse en caja.</td></tr>
+                        <tr><td>+ Impairments / deterioros</td><td class="num">+32.7</td><td>Deterioros contables no monetario, vinculados al reajuste de la cartera de marcas.</td></tr>
+                        <tr><td>+ Pérdida por extinción de deuda / refinanciación</td><td class="num">+27.3</td><td>Coste puntual de balance/refinanciación; no recurrente operativo.</td></tr>
+                        <tr><td>+ Desinversiones, reestructuración y otros netos</td><td class="num">+2.9</td><td>Costes de limpieza de la cartera de marcas y reorganización.</td></tr>
+                        <tr><td><strong>EBITDA ajustado</strong></td><td class="num positive"><strong>111.8</strong></td><td>Métrica normalizada usada para valorar el negocio franquiciado recurrente.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>9. Contraste: EV/EBITDA consolidado manual</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Escenario</th>
+                            <th class="num">Múltiplo</th>
+                            <th class="num">EV consolidado</th>
+                            <th class="num">Valor del equity</th>
+                            <th class="num">Valor / acción</th>
+                            <th>Lectura</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Bajista</td><td class="num">7.0x</td><td class="num">$735.0m</td><td class="num">$255.9m</td><td class="num">$5.22</td><td>Caída potencial si el mercado no reconoce el SOTP.</td></tr>
+                        <tr><td><strong>Base</strong></td><td class="num"><strong>8.5x</strong></td><td class="num"><strong>$892.5m</strong></td><td class="num"><strong>$413.4m</strong></td><td class="num"><strong>$8.43</strong></td><td>Contraste conservador, no ancla principal.</td></tr>
+                        <tr><td>Alcista</td><td class="num">10.0x</td><td class="num">$1,050.0m</td><td class="num">$570.9m</td><td class="num">$11.64</td><td>Aun así queda por debajo del SOTP Alcista.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert alert-warning">
+                <strong>Conclusión de valoración:</strong> el múltiplo consolidado sirve como contraste, pero la tesis se apoya en que un comprador (a) reconozca la prima de Club Pilates, (b) capitalice el coste central residual a un múltiplo más bajo, y (c) elimine parte de los gastos centrales vía sinergias. Si los tres efectos se materializan: TP $11.97. Si solo (a) y (b): TP $10.46. Si nada: $8.43. <strong>La caída potencial parcial del caso (sin sinergias) sigue dando potencial alcista del +53.8%</strong>.
+            </div>
+        </section>
+
+        <!-- ========== CATALIZADORES ========== -->
+        <section id="catalysts" class="fade-in">
+            <h2>Catalizadores potenciales</h2>
+
+            <div class="highlights">
+                <div class="highlight-item">
+                    <h4>Revisión estratégica con Jefferies</h4>
+                    <p>Catalizador binario más importante. El proceso puede derivar en venta total, fusión, recapitalización, separación de Club Pilates, securitización de royalties u otra transacción que desbloquee valor. Q2-Q3 2026 = ventana clave.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>Mayor información de Club Pilates</h4>
+                    <p>Más información por marca podría hacer visible la concentración económica y justificar múltiplos superiores. Cualquier comunicación oficial sobre EBITDA por marca sería catalizador positivo.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>Resolución progresiva de litigios</h4>
+                    <p>Pago FTC ($17m FY26), acuerdo franquiciados ($22.75m FY26-FY28), acuerdos de arrendamiento ($9.1m FY26). El cierre de capítulos legales reduce incertidumbre y el descuento aplicado al múltiplo.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>Ejecución FY26: SSS, AUV (volumen medio anual por estudio) y aperturas</h4>
+                    <p>El mercado necesita ver estabilización de ventas comparables ("same-store sales"), apertura neta de 150-170 estudios y capacidad de conversión de contactos comerciales de la cartera de aperturas obligadas (832 NA + 767 internacionales).</p>
+                </div>
+            </div>
+
+            <h3>Calendario aproximado</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Periodo</th>
+                            <th>Evento</th>
+                            <th>Lectura</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Q2 2026</strong></td><td>Hitos de la revisión estratégica</td><td>Noticias del consejo / Jefferies, sala de datos, posible interés de compradores</td></tr>
+                        <tr><td><strong>Q2-Q3 2026</strong></td><td>Resultados trimestrales</td><td>Validar ejecución vs guía: ingresos, EBITDA, cierres y SSS</td></tr>
+                        <tr><td><strong>FY26</strong></td><td>Pago FTC ($17m) y acuerdos de arrendamiento ($9.1m)</td><td>Reducen incertidumbre si se ejecutan según calendario</td></tr>
+                        <tr><td><strong>FY26-FY28</strong></td><td>Acuerdo privado franquiciados ($22.75m / 4 plazos)</td><td>Cash leakage; seguimiento de impacto en FCF</td></tr>
+                        <tr><td><strong>2026</strong></td><td>Posible transacción</td><td>Venta total, venta de Club Pilates, merger o recapitalización</td></tr>
+                        <tr><td><strong>2026+</strong></td><td>crecimiento de unidades de Club Pilates y AUV (volumen medio anual por estudio)</td><td>Aperturas y ventas de licencias validan o erosionan la tesis</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>Calendario esperado:</strong> el foco de los próximos trimestres será la evolución de la revisión estratégica, comunicación del consejo, ejecución de FY26, pago de acuerdos y cualquier señal de transacción o simplificación de la cartera de marcas.
+            </div>
+        </section>
+
+        <!-- ========== RIESGOS ========== -->
+        <section id="riesgos" class="fade-in">
+            <h2>Análisis de riesgos</h2>
+
+            <h3>Riesgos principales</h3>
+
+            <div class="card">
+                <h4>🔴 Riesgo #1: La revisión estratégica no produce transacción — Alto</h4>
+                <p><strong>Escenario:</strong> el proceso con Jefferies termina sin oferta atractiva o concluye con alternativa subóptima (ej. nuevo plan operativo sin venta).</p>
+                <p><strong>Impacto:</strong> el equity vuelve a cotizar como grupo apalancado con litigios y ejecución irregular. El descuento del SOTP se reabre.</p>
+                <p><strong>Mitigantes:</strong> presión activista persistente (Voss + Kanen), consejo renovado, Jefferies como asesor de calidad, narrativa de Club Pilates como activo individual.</p>
+                <p><strong>Probabilidad:</strong> <span class="warning">Media</span></p>
+            </div>
+
+            <div class="card">
+                <h4>🟡 Riesgo #2: Supuesto del 20% eliminable es propio del modelo, no Voss — Medio</h4>
+                <p><strong>Escenario:</strong> el comprador no logra eliminar el 20% de los gastos centrales asumido, o la transacción es venta solo de Club Pilates dejando una sociedad remanente con costes centrales residuales.</p>
+                <p><strong>Impacto:</strong> el TP cae de $11.97 a $10.46 (sin supuesto) o incluso al contraste de $8.43 (sin diferenciación de múltiplos). Pierde 22pp de potencial alcista.</p>
+                <p><strong>Mitigantes:</strong> incluso sin el supuesto, sigue habiendo +53.8% de potencial alcista frente a $6.80. Un comprador estratégico con infraestructura propia podría capturar más del 20%.</p>
+                <p><strong>Probabilidad:</strong> <span class="warning">Media</span></p>
+            </div>
+
+            <div class="card">
+                <h4>🟡 Riesgo #3: Deterioro operativo de Club Pilates o resto de la cartera de marcas — Medio</h4>
+                <p><strong>Escenario:</strong> SSS o AUV (volumen medio anual por estudio) de Club Pilates se desaceleran; StretchLab/YogaSix/Pure Barre siguen cerrando unidades.</p>
+                <p><strong>Impacto:</strong> el múltiplo de calidad del SOTP (10x para Club Pilates) se comprime. Menor confianza en la cartera de aperturas y más descuento al resto de la cartera de marcas.</p>
+                <p><strong>Mitigantes:</strong> el peso económico de Club Pilates (≈75% del EV bruto) limita parte del daño en SOTP. Resto de marcas ya valoradas con descuento.</p>
+                <p><strong>Probabilidad:</strong> <span class="warning">Media-baja</span></p>
+            </div>
+
+            <div class="card">
+                <h4>🟡 Riesgo #4: Apalancamiento y conversión en caja — Medio-alto</h4>
+                <p><strong>Escenario:</strong> $525m deuda + $55m interés FY26 + $35m de salidas de caja legales FY26 consumen el FCF. El desapalancamiento se ralentiza.</p>
+                <p><strong>Impacto:</strong> la equity es muy sensible a cambios pequeños en EV por el peso de deuda neta (≈45% del EV Base). Un descuento del 10% al EV mueve el TP ≈21%.</p>
+                <p><strong>Mitigantes:</strong> modelo de bajo consumo de capital, conversión EBITDA → FCF mejora cuando los salidas de caja legales se completan FY28+, refinanciación dic-2025 elimina preferred dilutivo.</p>
+                <p><strong>Probabilidad:</strong> <span class="warning">Media</span></p>
+            </div>
+
+            <div class="card">
+                <h4>🟡 Riesgo #5: Litigios residuales (demanda colectiva / USAO) — Medio-bajo</h4>
+                <p><strong>Escenario:</strong> demanda colectiva de valores, demandas derivadas o investigación del USAO generan costes adicionales no cuantificados o descuento en el proceso de due diligence.</p>
+                <p><strong>Impacto:</strong> Descuento de múltiplo de 1-2 vueltas para Club Pilates en una transacción. La investigación de la SEC ya cerrada sin acción reduce parte del riesgo pendiente.</p>
+                <p><strong>Mitigantes:</strong> cobro esperado de seguro de $5m, FTC ya settled sin admisión de responsabilidad, SEC cerrada.</p>
+                <p><strong>Probabilidad:</strong> <span class="warning">Media-baja</span></p>
+            </div>
+
+            <h3>Potencial risks</h3>
+
+            <div class="card">
+                <h4>🟢 Potencial #1: Comprador estratégico con sinergias mayores — Alto</h4>
+                <p><strong>Escenario:</strong> un comprador con infraestructura existente (otro franquiciador, fondo financiero con plataforma de fitness) elimina más del 20% de los costes centrales.</p>
+                <p><strong>Impacto:</strong> cada 5pp adicional de porcentaje de eliminación añade ≈$0.38/acción. Si llega al 35% (caso Alcista), TP sube a $19.37.</p>
+                <p><strong>Probabilidad:</strong> <span class="positive">Media</span></p>
+            </div>
+
+            <div class="card">
+                <h4>🟢 Potencial #2: Separación o monetización individual de Club Pilates — Muy alto</h4>
+                <p><strong>Escenario:</strong> Club Pilates se vende o escisión separadamente. El mercado puede valorar Club Pilates como activo individual de alta calidad (10-12x).</p>
+                <p><strong>Impacto:</strong> la revaloración del múltiplo podría ser más significativa que el múltiplo consolidado actual; comparables de bienestar/franquiciadores de alta calidad operan a 12-15x.</p>
+                <p><strong>Probabilidad:</strong> <span class="positive">Media-baja, pero asimetría alta</span></p>
+            </div>
+
+            <div class="card">
+                <h4>🟢 Potencial #3: Resolución progresiva de riesgo pendiente — Medio</h4>
+                <p><strong>Escenario:</strong> pagos legales se ejecutan según calendario y se cierran USAO / demanda colectiva sin impacto adverso material.</p>
+                <p><strong>Impacto:</strong> revaloración del múltiplo aplicable al grupo en ≈1-2 vueltas de múltiplo. Mayor visibilidad de FCF hace caer el coste de capital propio implícito.</p>
+                <p><strong>Probabilidad:</strong> <span class="positive">Alta</span></p>
+            </div>
+
+            <div class="alert alert-success">
+                <strong>🛡️ Perfil riesgo/retorno:</strong> Bajista $4.48 (−34%) / Base $11.97 (+76%) / Alcista $19.37 (+185%). Riesgo/retorno asimétrico positivo en Base y Alcista, pero Bajista contempla caída potencial material si la revisión no cristaliza. Como referencia alternativa, incluso el contraste más conservador ($8.43) ofrece +24% frente al precio actual.
+            </div>
+        </section>
+
+        <!-- ========== CONCLUSIÓN ========== -->
+        <section id="conclusion" class="fade-in">
+            <h2>Conclusiones</h2>
+
+            <div class="card">
+                <h3>Lecturas clave del análisis</h3>
+                <ul class="compact-list">
+                    <li>La tesis no depende de que toda la cartera de marcas sea excelente; depende de que <strong>Club Pilates sea reconocido como activo de alta calidad</strong> en una transacción y que parte de los gastos centrales se racionalice.</li>
+                    <li>Club Pilates representa <strong>≈64.6% del EBITDA individual antes de costes centrales por marcas y ≈74.8% del EV bruto SOTP Base</strong>. Aporta $1,020m de EV bruto (vs $343m del resto combinado, ≈3:1).</li>
+                    <li>El TP central de la tesis es <strong>$11.97/acción</strong> vía puente EV→equity final con deuda neta FY25, no el $12.20 indicativo del módulo SOTP (que usa deuda neta proyectada FY26). La diferencia es exclusivamente momento de medición de la deuda.</li>
+                    <li>El verdadero motor de la prima del SOTP vs contraste (8.5x) es el <strong>tratamiento de los gastos centrales</strong> (88% del diferencial), no la asignación de múltiplos por marca (12% del diferencial). Sin el supuesto del 20% eliminable, TP cae a $10.46 (+53.8% frente a $6.80).</li>
+                    <li>Los litigios son relevantes ($44.8m de provisión legal agregada, $5m cobro esperado de seguro), pero el tratamiento de ítems detallados evita duplicar pagos en valoración. Salidas de caja FY26: ≈$28-30m brutos.</li>
+                    <li>El catalizador más importante es la <strong>revisión estratégica con Jefferies</strong> iniciada en abril 2026. El proceso es binario: si cristaliza en transacción, el equity puede capturar gran parte del diferencial; si no, el descuento puede persistir.</li>
+                </ul>
+            </div>
+
+            <div class="alert alert-info mt-20">
+                <strong>Nota metodológica:</strong> este análisis usa un enfoque SOTP completo: primero calcula EV por marcas (EBITDA × múltiplo), después capitaliza los gastos centrales implícitos a 7x con un % eliminable, y finalmente convierte EV a equity restando deuda neta y dividiendo por acciones equivalentes totales (49.05m). Los datos de EBITDA por marca son estimaciones del modelo o referencias activistas (Voss); XPOF no reporta EBITDA oficial por marca de forma completa.
+            </div>
+<div class="text-center mt-30">
+                <a href="#top" class="btn btn-success">⬆ Volver al inicio</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p><strong>Disclaimer:</strong> Este contenido tiene fines informativos y no constituye recomendación de inversión. Las estimaciones pueden cambiar según nueva información, precio de mercado, ejecución operativa, resultado de la revisión estratégica, evolución de litigios y supuestos del modelo (en particular el 20% eliminable, que es supuesto propio).</p>
+            <p class="mt-20" style="font-size: 0.85rem;">📅 Análisis actualizado: Abril 2026 | 📊 Modelo propio SpreadHunters v2</p>
+            <p class="mt-15">
+                🔗 <a href="https://spreadhunters.es/dashboards/" target="_blank" rel="noopener noreferrer">SpreadHunters Investment Research</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // ========== Scroll Progress Bar ==========
+        window.addEventListener('scroll', function () {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+            const bar = document.getElementById("progressBar");
+            if (bar) bar.style.width = scrolled + "%";
+        });
+
+        // ========== Smooth Scroll & active state ==========
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (!href || href === '#') return;
+                const target = document.querySelector(href);
+                if (!target) return;
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (this.closest('.nav-tabs')) {
+                    document.querySelectorAll('.nav-tabs a').forEach(link => link.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // ========== Fade-in animations ==========
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            observer.observe(el);
+        });
+
+        // ========== Active nav on scroll ==========
+        window.addEventListener('scroll', function () {
+            let current = '';
+            document.querySelectorAll('section').forEach(section => {
+                const sectionTop = section.compensaciónTop;
+                if (window.pageYOffset >= (sectionTop - 200)) current = section.getAttribute('id');
+            });
+            document.querySelectorAll('.nav-tabs a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href')?.slice(1) === current) link.classList.add('active');
+            });
+        });
+
+        // ========== Potencial automático ==========
+        function parseMoney(text) {
+            const cleaned = String(text).replace(/[^\d.,-]/g, '').replace(',', '.');
+            const value = Number(cleaned);
+            return Number.isFinite(value) ? value : NaN;
+        }
+        function formatPct(value) {
+            const sign = value >= 0 ? '+' : '';
+            return `${sign}${value.toFixed(1)}%`;
+        }
+        function updatePotencial() {
+            const elPrice = document.getElementById('priceCurrent');
+            const elFair = document.getElementById('fairValue');
+            const elUps = document.getElementById('upsidePct');
+            if (!elPrice || !elFair || !elUps) return;
+            const price = parseMoney(elPrice.textContent);
+            const fair = parseMoney(elFair.textContent);
+            if (!Number.isFinite(price) || !Number.isFinite(fair) || price <= 0) {
+                elUps.textContent = '—';
+                elUps.classList.remove('green', 'red');
+                return;
+            }
+            const upside = ((fair / price) - 1) * 100;
+            elUps.textContent = formatPct(upside);
+            elUps.classList.toggle('green', upside >= 0);
+            elUps.classList.toggle('red', upside < 0);
+        }
+        const priceNode = document.getElementById('priceCurrent');
+        const fairNode = document.getElementById('fairValue');
+        if (priceNode) new MutationObserver(updatePotencial).observe(priceNode, { childList: true, subtree: true, characterData: true });
+        if (fairNode) new MutationObserver(updatePotencial).observe(fairNode, { childList: true, subtree: true, characterData: true });
+
+        // ========== Charts ==========
+        function getCtx(id) {
+            const el = document.getElementById(id);
+            if (!el) return null;
+            const ctx = el.getContext && el.getContext('2d');
+            return ctx || null;
+        }
+
+        function initCharts() {
+            if (typeof Chart === 'undefined') {
+                console.warn('Chart.js no está cargado.');
+                return;
+            }
+            Chart.defaults.color = '#b0c4de';
+            Chart.defaults.borderColor = '#2d3d4d';
+
+            const brandLabels = ['Club Pilates', 'Pure Barre', 'StretchLab', 'YogaSix', 'BFT'];
+            const brandColors = ['rgba(0, 215, 255, 0.85)', 'rgba(144, 238, 144, 0.75)', 'rgba(255, 165, 0, 0.75)', 'rgba(255, 107, 107, 0.75)', 'rgba(176, 196, 222, 0.75)'];
+            const brandBorders = ['#00d7ff', '#90ee90', '#ffa500', '#ff6b6b', '#b0c4de'];
+
+            // 1. Brand EBITDA individual (bar)
+            const ctxBrand = getCtx('brandEbitda');
+            if (ctxBrand) new Chart(ctxBrand, {
+                type: 'bar',
+                data: {
+                    labels: brandLabels,
+                    datasets: [{
+                        label: 'EBITDA individual estimado ($m)',
+                        data: [102, 25, 18, 5, 8],
+                        backgroundColor: brandColors,
+                        borderColor: brandBorders,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'EBITDA individual estimado por marca ($m)', color: '#fff', font: { size: 14, weight: 'bold' } }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#2d3d4d' }, ticks: { callback: v => '$' + v + 'm' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // 2. Brand footprint (donut - studios open)
+            const ctxFoot = getCtx('brandFootprint');
+            if (ctxFoot) new Chart(ctxFoot, {
+                type: 'doughnut',
+                data: {
+                    labels: brandLabels,
+                    datasets: [{
+                        label: 'Estudios abiertos FY25',
+                        data: [1414, 625, 531, 194, 333],
+                        backgroundColor: brandColors,
+                        borderColor: '#1a2538',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#b0c4de', padding: 10, font: { size: 11 } } },
+                        title: { display: true, text: 'Distribución de estudios abiertos FY25 (3,097 totales)', color: '#fff', font: { size: 14, weight: 'bold' } }
+                    }
+                }
+            });
+
+            // 3. Brand EV bruto (horizontal bar)
+            const ctxEvBruto = getCtx('brandEvBruto');
+            if (ctxEvBruto) new Chart(ctxEvBruto, {
+                type: 'bar',
+                data: {
+                    labels: brandLabels,
+                    datasets: [{
+                        label: 'EV bruto Base ($m)',
+                        data: [1020, 175, 108, 20, 40],
+                        backgroundColor: brandColors,
+                        borderColor: brandBorders,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'EV bruto SOTP Base por marca ($m) · Total $1,363m', color: '#fff', font: { size: 14, weight: 'bold' } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(ctx) {
+                                    const total = 1363;
+                                    const pct = (ctx.parsed.x / total * 100).toFixed(1);
+                                    return `$${ctx.parsed.x}m (${pct}% del total)`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { beginAtZero: true, grid: { color: '#2d3d4d' }, ticks: { callback: v => '$' + v + 'm' } },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // 4. Prima decomposition (bar - 3 palancas)
+            const ctxPrem = getCtx('primaDecomp');
+            if (ctxPrem) new Chart(ctxPrem, {
+                type: 'bar',
+                data: {
+                    labels: ['Diferenciación\nmúltiplos por marca', 'Costes centrales\na 7x vs 8.5x', '20% costes centrales\neliminables'],
+                    datasets: [{
+                        label: 'Aportación al diferencial SOTP vs contraste ($/acción)',
+                        data: [0.41, 1.62, 1.51],
+                        backgroundColor: ['rgba(255, 165, 0, 0.55)', 'rgba(0, 215, 255, 0.85)', 'rgba(144, 238, 144, 0.85)'],
+                        borderColor: ['#ffa500', '#00d7ff', '#90ee90'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Descomposición de la prima del SOTP ($11.97) vs contraste 8.5x ($8.43) — Diferencial total: $3.54/acción', color: '#fff', font: { size: 13, weight: 'bold' } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(ctx) {
+                                    const pcts = ['12%', '45%', '43%'];
+                                    return `+$${ctx.parsed.y.toFixed(2)}/acción (${pcts[ctx.dataIndex]} del diferencial)`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#2d3d4d' }, ticks: { callback: v => '+$' + v.toFixed(2) } },
+                        x: { grid: { display: false }, ticks: { font: { size: 11 } } }
+                    }
+                }
+            });
+
+            // 5. Sensitivity 20% counterfactual (bar with reference lines)
+            const ctxSens = getCtx('sensitivity20');
+            if (ctxSens) new Chart(ctxSens, {
+                type: 'bar',
+                data: {
+                    labels: ['Precio actual', 'Contraste 8.5x', 'SOTP sin supuesto 20%', 'SOTP completo Base'],
+                    datasets: [{
+                        label: 'Valor implícito por acción ($)',
+                        data: [6.80, 8.43, 10.46, 11.97],
+                        backgroundColor: ['rgba(176, 196, 222, 0.7)', 'rgba(255, 165, 0, 0.75)', 'rgba(255, 215, 100, 0.85)', 'rgba(144, 238, 144, 0.85)'],
+                        borderColor: ['#b0c4de', '#ffa500', '#ffd700', '#90ee90'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Sensibilidad: TP según hipótesis de costes centrales eliminables ($/acción)', color: '#fff', font: { size: 14, weight: 'bold' } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(ctx) {
+                                    const upsides = ['—', '+24.0%', '+53.8%', '+76.0%'];
+                                    return `$${ctx.parsed.y.toFixed(2)} (${upsides[ctx.dataIndex]} frente al precio actual)`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#2d3d4d' }, ticks: { callback: v => '$' + v } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // 6. puente EV→equity waterfall (Base scenario)
+            const ctxPuente = getCtx('evPuente');
+            if (ctxPuente) new Chart(ctxPuente, {
+                type: 'bar',
+                data: {
+                    labels: ['EV SOTP Base', 'Deuda neta FY25', 'Equity Value'],
+                    datasets: [{
+                        label: 'Puente Base ($m)',
+                        data: [1066.2, -479.1, 587.1],
+                        backgroundColor: ['rgba(0, 215, 255, 0.85)', 'rgba(255, 107, 107, 0.75)', 'rgba(144, 238, 144, 0.85)'],
+                        borderColor: ['#00d7ff', '#ff6b6b', '#90ee90'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Puente EV → Equity Value Base · 49.05m acciones → $11.97/acción', color: '#fff', font: { size: 13, weight: 'bold' } }
+                    },
+                    scales: {
+                        y: { grid: { color: '#2d3d4d' }, ticks: { callback: v => '$' + v + 'm' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // 7. Price scenarios (bar with current price line)
+            const ctxPrice = getCtx('priceScenarios');
+            if (ctxPrice) new Chart(ctxPrice, {
+                type: 'bar',
+                data: {
+                    labels: ['Bajista', 'Base', 'Alcista'],
+                    datasets: [
+                        {
+                            label: 'TP SOTP final ($/acción)',
+                            data: [4.48, 11.97, 19.37],
+                            backgroundColor: ['rgba(255, 107, 107, 0.75)', 'rgba(144, 238, 144, 0.85)', 'rgba(0, 215, 255, 0.85)'],
+                            borderColor: ['#ff6b6b', '#90ee90', '#00d7ff'],
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Precio actual',
+                            data: [6.80, 6.80, 6.80],
+                            type: 'line',
+                            borderColor: '#ffa500',
+                            backgroundColor: 'rgba(255, 165, 0, 0.1)',
+                            borderWidth: 3,
+                            borderDash: [5, 5],
+                            pointRadius: 4,
+                            pointBackgroundColor: '#ffa500'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#b0c4de' } },
+                        title: { display: true, text: 'Escenarios TP frente al precio actual $6.80', color: '#fff', font: { size: 14, weight: 'bold' } }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#2d3d4d' }, ticks: { callback: v => '$' + v } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // 8. Net debt path (line FY25-FY30)
+            const ctxDebt = getCtx('netDebtPath');
+            if (ctxDebt) new Chart(ctxDebt, {
+                type: 'line',
+                data: {
+                    labels: ['FY25A', 'FY26E', 'FY27E', 'FY28E', 'FY29E', 'FY30E'],
+                    datasets: [{
+                        label: 'Deuda neta proyectada ($m)',
+                        data: [479.1, 467.9, 428.8, 372.1, 297.0, 207.9],
+                        borderColor: '#00d7ff',
+                        backgroundColor: 'rgba(0, 215, 255, 0.12)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.35,
+                        pointBackgroundColor: '#00d7ff',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#b0c4de' } },
+                        title: { display: true, text: 'Senda de desapalancamiento: net debt FY25-FY30 (modelo v2)', color: '#fff', font: { size: 14, weight: 'bold' } }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#2d3d4d' }, ticks: { callback: v => '$' + v + 'm' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // 9. Legal salida de caja calendar
+            const ctxLegal = getCtx('legalCashout');
+            if (ctxLegal) new Chart(ctxLegal, {
+                type: 'bar',
+                data: {
+                    labels: ['FY26E', 'FY27E', 'FY28E', 'FY29E', 'FY30E'],
+                    datasets: [{
+                        label: 'Salidas de caja legales modelados ($m)',
+                        data: [28.7, 7.6, 7.6, 0, 0],
+                        backgroundColor: 'rgba(255, 165, 0, 0.75)',
+                        borderColor: '#ffa500',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#b0c4de' } },
+                        title: { display: true, text: 'Calendario de salidas de caja legales modeladas (FTC + franquiciados + arrendamientos)', color: '#fff', font: { size: 14, weight: 'bold' } }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#2d3d4d' }, ticks: { callback: v => '$' + v + 'm' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        // Arranque
+        updatePotencial();
+        initCharts();
+    </script>
+</body>
+</html>
