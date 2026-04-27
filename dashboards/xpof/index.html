@@ -647,7 +647,7 @@
 
             <div class="chart-container"><canvas id="brandEvBruto"></canvas></div>
 
-            <h3>2. SOTP completo: EBITDA guía + costes centrales eliminables</h3>
+            <h3>2. SOTP completo: EBITDA guía + ahorro asumido por costes centrales</h3>
             <p>Tras calcular el EV bruto por marcas ($1,363m), el modelo identifica los gastos centrales implícitos como la diferencia entre el EBITDA individual de marcas antes de costes centrales ($158m) y el EBITDA ajustado consolidado FY26E ($105m punto medio), lo que arroja $53m de costes centrales. <strong>La mecánica no consiste en eliminar todos esos costes:</strong> el caso Base asume que el 20% ($10.6m) podría eliminarse en una transacción y que el 80% restante ($42.4m) permanece como coste central residual. Ese coste residual se capitaliza al múltiplo del escenario (7x en Base), mientras que el coste eliminable se trata como ahorro/sinergia potencial (Bajista: 0%, Alcista: 35%).</p>
 
             <div class="table-responsive">
@@ -662,7 +662,7 @@
                     </thead>
                     <tbody>
                         <tr><td>EBITDA ajustado consolidado FY26E</td><td class="num">$100.0m</td><td class="num"><strong>$105.0m</strong></td><td class="num">$110.0m</td></tr>
-                        <tr><td>% costes centrales eliminables</td><td class="num">0.0%</td><td class="num"><strong>20.0%</strong></td><td class="num">35.0%</td></tr>
+                        <tr><td>% ahorro asumido por costes centrales</td><td class="num">0.0%</td><td class="num"><strong>20.0%</strong></td><td class="num">35.0%</td></tr>
                         <tr><td>Costes indirectos estimados (Modelo Flexa)</td><td class="num">$58.0m</td><td class="num">$53.0m</td><td class="num">$48.0m</td></tr>
                         <tr><td>Coste central residual capitalizado tras aplicar % eliminable</td><td class="num">$348.0m</td><td class="num"><strong>$296.8m</strong></td><td class="num">$249.6m</td></tr>
                         <tr><td><strong>EV SOTP ajustado por costes eliminables</strong></td><td class="num"><strong>$699.0m</strong></td><td class="num"><strong>$1,066.2m</strong></td><td class="num"><strong>$1,429.4m</strong></td></tr>
@@ -715,7 +715,7 @@
                     <tbody>
                         <tr><td>Diferenciación múltiplos por marca (Club Pilates 10x · Pure Barre 7x · StretchLab 6x · BFT 5x · YogaSix 4x)</td><td class="num">+$20m</td><td class="num">+$0.41</td><td class="num warning">12%</td></tr>
                         <tr><td><strong>Coste central residual capitalizado a 7x en lugar de 8.5x</strong></td><td class="num"><strong>+$80m</strong></td><td class="num"><strong>+$1.62</strong></td><td class="num positive"><strong>45%</strong></td></tr>
-                        <tr><td><strong>20% de los costes centrales eliminables en una transacción (sinergias)</strong></td><td class="num"><strong>+$74m</strong></td><td class="num"><strong>+$1.51</strong></td><td class="num positive"><strong>43%</strong></td></tr>
+                        <tr><td><strong>20% de los ahorro asumido por costes centrales en una transacción (sinergias)</strong></td><td class="num"><strong>+$74m</strong></td><td class="num"><strong>+$1.51</strong></td><td class="num positive"><strong>43%</strong></td></tr>
                         <tr><td><strong>Diferencial total SOTP completo vs consolidado 8.5x</strong></td><td class="num"><strong>+$173m</strong></td><td class="num"><strong>+$3.54</strong></td><td class="num"><strong>100%</strong></td></tr>
                     </tbody>
                 </table>
@@ -772,7 +772,7 @@
                         <tr><td><strong>Club Pilates es la joya: 1,414 estudios, AUV (volumen medio anual por estudio) ≈$1m, $102m EBITDA individual 2024</strong></td><td>Activo de mayor calidad justifica múltiplo superior</td><td>Club Pilates a 10x vs 4-7x para el resto</td></tr>
                         <tr><td><strong>Guía grupo FY26 = $100-110m vs Club Pilates individual $102m</strong></td><td>Club Pilates genera prácticamente todo el EBITDA del grupo consolidado</td><td>Diferencial $158m − $105m = $53m gastos centrales implícitos</td></tr>
                         <tr><td><strong>&gt;$500m deuda, ~5x apalancamiento neto, ≈$55m gasto financiero anual</strong></td><td>Estructura financiera limita conversión de EBITDA en equity</td><td>Deuda neta de $479.1m restada en el puente EV→equity</td></tr>
-                        <tr><td><strong>Carga de gastos centrales, obligaciones de información de una cotizada, acuerdos y multimarca</strong></td><td>Comprador estratégico/privado podría racionalizar parte de los costes centrales</td><td>Caso Base: 20% de los costes centrales eliminables (Bajista 0%, Alcista 35%)</td></tr>
+                        <tr><td><strong>Carga de gastos centrales, obligaciones de información de una cotizada, acuerdos y multimarca</strong></td><td>Comprador estratégico/privado podría racionalizar parte de los costes centrales</td><td>Caso Base: 20% de los ahorro asumido por costes centrales (Bajista 0%, Alcista 35%)</td></tr>
                         <tr><td><strong>Club Pilates podría operarse mejor como activo individual</strong></td><td>El valor afloraría fuera de la estructura pública actual</td><td>SOTP separa marcas, asume ahorro parcial de costes y capitaliza el coste central residual</td></tr>
                     </tbody>
                 </table>
@@ -1246,7 +1246,7 @@
                     responsive: true, maintainAspectRatio: false,
                     plugins: {
                         legend: { display: false },
-                        title: { display: true, text: 'Sensibilidad: TP según hipótesis de costes centrales eliminables ($/acción)', color: '#fff', font: { size: 14, weight: 'bold' } },
+                        title: { display: true, text: 'Sensibilidad: TP según hipótesis de ahorro asumido por costes centrales ($/acción)', color: '#fff', font: { size: 14, weight: 'bold' } },
                         tooltip: {
                             callbacks: {
                                 label: function(ctx) {
