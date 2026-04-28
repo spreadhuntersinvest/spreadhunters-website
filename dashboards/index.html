@@ -2129,12 +2129,12 @@ async function loadAllPrices() {
                 priceSource: 'manual',
                 riskLevel: 'Medio',
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
-                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
-                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
-                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                status: 'closed_fail',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '2026-24-04',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: 'OPA no ejecutada',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
                 closeReturn: '',            // Rentabilidad total (ej: '+22%')
                 closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
-                closeComment: ''            // Comentario breve
+                closeComment: 'Atlas retira la oferta y no presenta form 2.8 por falta de informacion para la due diligence del board.'           // Comentario breve
             },
                 {
                 id: 'cyan',
