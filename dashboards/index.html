@@ -2101,12 +2101,12 @@ async function loadAllPrices() {
                 priceSource: 'manual',
                 riskLevel: 'Bajo',
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
-                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
-                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
-                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '2026-05-08',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: 'Teder ejecutada - Remanente vendido',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
                 closeReturn: '',            // Rentabilidad total (ej: '+22%')
                 closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
-                closeComment: ''            // Comentario breve
+                closeComment: 'Tender exitosa, buen capital allocation, financiada con venta de activo propio. Se cierra posición para monetizar.'            // Comentario breve
             },
                 {
                 id: 'bcrk',
