@@ -1,1 +1,1219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cygnus Metals (ASX: CY5) — Merger Arb con Central Asia Metals (AIM: CAML) | SpreadHunters</title>
+<meta content="Análisis de merger arbitrage entre Cygnus Metals (CY5.AX) y Central Asia Metals (CAML). Canje 0,06x acciones CAML por CY5. Spread bruto ~34%. Dashboard interactivo SpreadHunters." name="description"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<style>
+        /* ========================================
+           SISTEMA DE VARIABLES - COLORES GLOBALES
+           ======================================== */
+        :root {
+            --primary-color: #00d7ff;
+            --secondary-color: #1a2332;
+            --accent-color: #4A8B9B;
+            --success-color: #90ee90;
+            --danger-color: #ff6b6b;
+            --warning-color: #ffa500;
+            --info-color: #00d7ff;
+            --dark-bg: #1a2332;
+            --darker-bg: #0f1419;
+            --card-bg: #1a2538;
+            --light-bg: #E8E8E8;
+            --text-primary: #d0d8e0;
+            --text-secondary: #b0c4de;
+            --text-tertiary: #808080;
+            --border-color: #2d3d4d;
+            --border-light: #3d5570;
+        }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, rgba(26,35,50,0.95) 0%, rgba(30,50,80,0.95) 100%);
+            background-color: #1a2332;
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+
+        /* ========================================
+           BARRA DE PROGRESO
+           ======================================== */
+        .progress-bar {
+            background: var(--success-color);
+            height: 2px; width: 0%;
+            position: fixed; top: 0; left: 0; z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* ========================================
+           LOGO NAVBAR
+           ======================================== */
+        .logo-navbar {
+            position: fixed; top: 20px; left: 20px; z-index: 900;
+            background: none; padding: 0; border: none; pointer-events: none;
+        }
+        .logo-navbar-img { height: 44px; width: auto; display: block; }
+
+        @media (max-width: 1024px) { .logo-company { max-height: 70px; max-width: 150px; } }
+        @media (max-width: 768px)  { .logo-navbar { top: 15px; left: 15px; } .logo-navbar-img { height: 34px; } }
+        @media (max-width: 480px)  { .logo-navbar { top: 12px; left: 12px; } .logo-navbar-img { height: 30px; } }
+
+        /* ========================================
+           HEADER PROFESIONAL
+           ======================================== */
+        .header-professional {
+            margin: 0; padding: 50px 20px;
+            background: transparent;
+            border-bottom: 1px solid rgba(74,127,127,0.1);
+            backdrop-filter: blur(3px); position: relative; z-index: 2;
+        }
+        .header-professional .container {
+            display: flex; flex-direction: column; align-items: center;
+            text-align: center; gap: 20px; max-width: 1200px; margin: 0 auto;
+        }
+        .header-title-section { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .company-title-row {
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; gap: 12px; text-align: center;
+        }
+        .logo-company {
+            max-height: 70px; max-width: 150px; width: auto; height: auto;
+            object-fit: contain; display: block; margin: 0;
+        }
+        .logo-company--on-dark {
+            filter: brightness(4) contrast(1.5) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+        .page-title {
+            font-size: 1.65rem; font-weight: 700; color: #ffffff;
+            margin: 0; letter-spacing: 1px; line-height: 1.3;
+        }
+        .page-subtitle {
+            font-size: 0.95rem; color: #e0e0e0; margin: 10px 0 0;
+            font-weight: 400; max-width: 680px;
+        }
+        @media (max-width: 1024px) { .page-title { font-size: 1.8rem; } }
+        @media (max-width: 768px)  { .header-professional { padding: 30px 15px; } .page-title { font-size: 1.4rem; } .logo-company { max-height: 65px; max-width: 130px; } .page-subtitle { font-size: 0.9rem; } }
+        @media (max-width: 480px)  { .header-professional { padding: 20px 15px; } .page-title { font-size: 1.15rem; } .logo-company { max-height: 55px; max-width: 110px; } .company-title-row { gap: 10px; } .page-subtitle { font-size: 0.85rem; } }
+
+        /* ========================================
+           TARJETAS DE MÉTRICAS
+           ======================================== */
+        .investment-metrics {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px; margin: 20px 0; width: 100%;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, rgba(26,35,50,0.6) 0%, rgba(30,50,80,0.6) 100%);
+            border: 2px solid rgba(0,215,255,0.3); border-radius: 12px;
+            padding: 18px; text-align: center; backdrop-filter: blur(10px);
+            transition: all 0.3s ease; position: relative; overflow: hidden;
+        }
+        .metric-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, rgba(0,215,255,0.5) 0%, rgba(0,215,255,0) 100%);
+        }
+        .metric-card:hover {
+            border-color: rgba(0,215,255,0.6);
+            background: linear-gradient(135deg, rgba(26,35,50,0.8) 0%, rgba(30,50,80,0.8) 100%);
+            box-shadow: 0 0 20px rgba(0,215,255,0.2);
+        }
+        .metric-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-secondary); margin-bottom: 12px; font-weight: 600; }
+        .metric-value { font-size: 1.7rem; font-weight: 700; margin-bottom: 5px; letter-spacing: -0.5px; }
+        .metric-value.cyan { color: #00d7ff; }
+        .metric-value.green { color: #90ee90; }
+        .metric-value.red { color: #ff6b6b; }
+        .metric-value.orange { color: #ffa500; }
+        .metric-subtitle { font-size: 0.8rem; color: var(--text-tertiary); font-weight: 400; }
+        @media (max-width: 768px) { .investment-metrics { grid-template-columns: repeat(2, 1fr); gap: 12px; } .metric-card { padding: 15px; } .metric-value { font-size: 1.3rem; } }
+
+        /* ========================================
+           NAVEGACIÓN DE PESTAÑAS
+           ======================================== */
+        .nav-tabs {
+            background: var(--card-bg); padding: 20px 0;
+            position: sticky; top: 0; z-index: 100;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .nav-tabs ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+        .nav-tabs a { color: var(--text-secondary); text-decoration: none; padding: 10px 20px; border-radius: 6px; transition: all 0.3s ease; font-weight: 500; }
+        .nav-tabs a:hover, .nav-tabs a.active { background: var(--primary-color); color: var(--dark-bg); }
+        @media (max-width: 768px) {
+            .nav-tabs { padding: 10px 0; }
+            .nav-tabs ul { flex-direction: row; justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; gap: 8px; padding: 0 12px 6px; -webkit-overflow-scrolling: touch; }
+            .nav-tabs li { flex: 0 0 auto; }
+            .nav-tabs a { padding: 7px 12px; font-size: 0.85rem; white-space: nowrap; }
+            .nav-tabs ul::-webkit-scrollbar { height: 6px; }
+            .nav-tabs ul::-webkit-scrollbar-track { background: rgba(15,20,25,0.35); }
+            .nav-tabs ul::-webkit-scrollbar-thumb { background: rgba(0,215,255,0.55); border-radius: 6px; }
+        }
+        @media (max-width: 480px) { .nav-tabs { padding: 8px 0; } .nav-tabs ul { padding: 0 10px 6px; gap: 6px; } .nav-tabs a { padding: 6px 10px; font-size: 0.80rem; } }
+
+        /* ========================================
+           SECCIONES
+           ======================================== */
+        section { padding: 60px 0; border-bottom: 1px solid var(--border-color); position: relative; z-index: 1; }
+        section h2 { font-size: 1.35rem; margin-bottom: 30px; color: var(--primary-color); border-left: 4px solid var(--success-color); padding-left: 20px; }
+        section > h3 { font-size: 1.25rem; margin: 30px 0 15px; color: var(--text-primary); }
+        section > h4 { font-size: 1.0rem; margin: 15px 0 10px; color: var(--text-primary); }
+        @media (max-width: 768px) { .page-title { font-size: 1.4rem; } .page-subtitle { font-size: 0.9rem; } section h2 { font-size: 1.25rem; } section h3 { font-size: 1.1rem; } }
+
+        /* ========================================
+           TARJETAS Y GRÁFICOS
+           ======================================== */
+        .card { background: rgba(26,35,50,0.85); border-radius: 8px; padding: 18px; margin-bottom: 20px; border: 1px solid var(--border-color); backdrop-filter: blur(10px); box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+        .chart-container { background: rgba(26,35,50,0.85); border-radius: 8px; padding: 25px; margin: 30px 0; border: 1px solid var(--border-color); backdrop-filter: blur(10px); position: relative; height: 400px; }
+        .chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; margin: 30px 0; }
+        @media (max-width: 768px) { .chart-grid { grid-template-columns: 1fr; } .chart-container { height: 300px; } }
+
+        /* ========================================
+           GRILLA DE ESTADÍSTICAS
+           ======================================== */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 30px 0; }
+        .stat-card { background: rgba(26,35,50,0.8); padding: 25px; border-radius: 12px; text-align: center; border: 2px solid var(--border-color); backdrop-filter: blur(10px); }
+        .stat-card .label { font-size: 0.9rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .stat-card .value { font-size: 1.8rem; font-weight: 600; color: var(--text-primary); }
+        .stat-card .change { font-size: 0.9rem; margin-top: 5px; }
+        .positive { color: var(--success-color); }
+        .negative { color: var(--danger-color); }
+
+        /* ========================================
+           TABLAS
+           ======================================== */
+        .table-responsive { overflow-x: auto; margin: 30px 0; border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; background: var(--card-bg); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); }
+        thead { background: #1A1F2E; border-bottom: 2px solid var(--primary-color); }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { color: var(--text-secondary); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; }
+        tr:hover { background: rgba(74,127,127,0.05); }
+
+        /* ========================================
+           CAJAS DE ALERTA
+           ======================================== */
+        .alert { padding: 16px 18px; border-radius: 8px; margin: 20px 0; border-left: 4px solid; backdrop-filter: blur(10px); }
+        .alert-success { background: rgba(74,155,111,0.08); border-color: var(--success-color); color: var(--text-primary); }
+        .alert-warning { background: rgba(255,165,0,0.15); border-color: var(--warning-color); color: var(--text-primary); }
+        .alert-info { background: rgba(0,212,212,0.15); border-color: var(--primary-color); color: var(--text-primary); }
+        .alert-danger { background: rgba(255,107,107,0.15); border-color: var(--danger-color); color: var(--text-primary); }
+        .alert strong { color: #ffffff; }
+
+        /* ========================================
+           HIGHLIGHTS
+           ======================================== */
+        .highlights { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 30px 0; }
+        .highlight-item { background: linear-gradient(135deg, var(--card-bg) 0%, rgba(0,212,212,0.1) 100%); padding: 18px; border-radius: 12px; border-left: 4px solid var(--primary-color); backdrop-filter: blur(10px); }
+        .highlight-item h4 { color: var(--primary-color); margin-bottom: 8px; font-size: 1.1rem; }
+        .highlight-item p { color: var(--text-primary); line-height: 1.6; }
+
+        /* ========================================
+           BOTONES
+           ======================================== */
+        .btn { background: var(--primary-color); color: var(--dark-bg); border: 1px solid var(--primary-color); padding: 10px 24px; border-radius: 4px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem; }
+        .btn:hover { background: #00b8d9; border-color: #00b8d9; }
+        .btn-outline { background: transparent; color: var(--primary-color); }
+        .btn-outline:hover { background: var(--primary-color); color: var(--dark-bg); }
+
+        /* ========================================
+           TEXTO DESTACADO
+           ======================================== */
+        .highlight-text { color: var(--primary-color); font-weight: 600; }
+        .strong-text { color: #ffffff; font-weight: 700; }
+
+        /* ========================================
+           LISTAS
+           ======================================== */
+        ul, ol { padding-left: 25px; margin: 15px 0; }
+        li { margin-bottom: 10px; color: var(--text-primary); }
+        p { margin: 15px 0; color: var(--text-primary); }
+
+        /* ========================================
+           BADGES
+           ======================================== */
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px; }
+        .badge-green { background: rgba(144,238,144,0.2); color: var(--success-color); border: 1px solid rgba(144,238,144,0.3); }
+        .badge-red { background: rgba(255,107,107,0.2); color: var(--danger-color); border: 1px solid rgba(255,107,107,0.3); }
+        .badge-orange { background: rgba(255,165,0,0.2); color: var(--warning-color); border: 1px solid rgba(255,165,0,0.3); }
+        .badge-cyan { background: rgba(0,215,255,0.15); color: var(--primary-color); border: 1px solid rgba(0,215,255,0.3); }
+
+        /* ========================================
+           FADE-IN
+           ======================================== */
+        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* ========================================
+           UTILIDADES
+           ======================================== */
+        .mt-10 { margin-top: 10px; }
+        .mt-15 { margin-top: 15px; }
+        .mt-20 { margin-top: 20px; }
+        .mb-10 { margin-bottom: 10px; }
+
+        /* ========================================
+           CALCULADORA INTERACTIVA
+           ======================================== */
+        .calc-container {
+            background: rgba(26,35,50,0.85);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 25px 0;
+            backdrop-filter: blur(10px);
+        }
+        .calc-title {
+            font-size: 1.05rem; font-weight: 700; color: var(--primary-color);
+            margin-bottom: 20px; padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .calc-inputs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .calc-field label {
+            display: block; font-size: 0.75rem; text-transform: uppercase;
+            letter-spacing: 1px; color: var(--text-secondary);
+            margin-bottom: 6px; font-weight: 600;
+        }
+        .calc-field input {
+            width: 100%; background: rgba(15,20,25,0.6);
+            border: 1px solid var(--border-light);
+            border-radius: 6px; padding: 10px 14px;
+            color: var(--text-primary); font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+        .calc-field input:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 2px rgba(0,215,255,0.15); }
+        .calc-results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+            gap: 12px; margin-top: 20px;
+        }
+        .calc-result-card {
+            background: rgba(15,20,25,0.5);
+            border: 1px solid var(--border-color);
+            border-radius: 8px; padding: 14px;
+            text-align: center;
+        }
+        .calc-result-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-tertiary); margin-bottom: 8px; }
+        .calc-result-value { font-size: 1.4rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+        .calc-actions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+
+        /* ========================================
+           TIMELINE
+           ======================================== */
+        .timeline { position: relative; padding-left: 35px; }
+        .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, var(--primary-color) 0%, rgba(0,215,255,0.1) 100%); }
+        .timeline-item { position: relative; margin-bottom: 30px; }
+        .timeline-item::before { content: ''; position: absolute; left: -31px; top: 4px; width: 12px; height: 12px; background: var(--primary-color); border-radius: 50%; box-shadow: 0 0 8px rgba(0,215,255,0.5); }
+        .timeline-item.done::before { background: var(--success-color); box-shadow: 0 0 8px rgba(144,238,144,0.5); }
+        .timeline-item.pending::before { background: var(--warning-color); box-shadow: 0 0 8px rgba(255,165,0,0.5); }
+        .timeline-date { font-size: 0.8rem; color: var(--primary-color); font-weight: 600; letter-spacing: 0.5px; margin-bottom: 5px; }
+        .timeline-content h4 { color: #ffffff; font-size: 1rem; margin-bottom: 6px; }
+        .timeline-content p { color: var(--text-secondary); font-size: 0.9rem; margin: 0; }
+        @media (max-width: 480px) { .timeline::before { left: 8px; } }
+
+        /* ========================================
+           FOOTER
+           ======================================== */
+        footer {
+            background: var(--darker-bg); padding: 40px 20px;
+            border-top: 1px solid var(--border-color);
+            text-align: center; font-size: 0.9rem; color: var(--text-secondary);
+        }
+        footer a { color: var(--primary-color); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        /* Sensitivity table coloring */
+        .cell-green { color: var(--success-color); font-weight: 600; }
+        .cell-red { color: var(--danger-color); font-weight: 600; }
+        .cell-neutral { color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div id="top"></div>
+<!-- Barra de progreso -->
+<div class="progress-bar" id="progressBar"></div>
+
+ <div class="logo-navbar">
+    <img src="../../images/spreadhunter_navbar.svg" alt="SpreadHunters" class="logo-navbar-img">
+  </div>
+
+<!-- Header -->
+<header class="header-professional">
+  <div class="container">
+    <div class="header-title-section">
+      <div class="company-title-row">
+	<img src="../company-logos/cygnus.png" alt="CYGNUS Logo" class="logo-company">
+        <h1 class="page-title">Cygnus Metals Ltd. (ASX: CY5) — Merger Arbitrage</h1>
+      </div>
+      <p class="page-subtitle">Adquisición por Central Asia Metals plc (AIM: CAML) · Canje 0,06x · Scheme of Arrangement · Reunión accionistas: Sep 2026</p>
+    </div>
+
+    <!-- Métricas clave del header -->
+    <div class="investment-metrics">
+      <div class="metric-card">
+        <div class="metric-label">PRECIO CY5 (snapshot)</div>
+        <div class="metric-value cyan" id="hdr_cy5">A$0,1300</div>
+        <div class="metric-subtitle">ASX · 2 jun 2026</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">VALOR IMPLÍCITO CY5</div>
+        <div class="metric-value cyan" id="hdr_implied">A$0,1743</div>
+        <div class="metric-subtitle">0,06 × £1,54 ÷ 0,53</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">SPREAD BRUTO</div>
+        <div class="metric-value green" id="hdr_spread">+34,1%</div>
+        <div class="metric-subtitle">vs valor implícito canje</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">NET P&amp;L (deal cierra)</div>
+        <div class="metric-value green" id="hdr_netpnl">+27,4%</div>
+        <div class="metric-subtitle">Neto sobre cash invertido</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">RETORNO ANUALIZADO</div>
+        <div class="metric-value cyan" id="hdr_annual">+108,7%</div>
+        <div class="metric-subtitle">120 días hasta cierre</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">VALOR ESPERADO</div>
+        <div class="metric-value orange" id="hdr_ev">+15,1%</div>
+        <div class="metric-subtitle">P(éxito) = 85%</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Navegación -->
+<nav class="nav-tabs">
+  <div class="container">
+    <ul>
+      <li><a class="active" href="#resumen">Resumen Ejecutivo</a></li>
+      <li><a href="#dashboard">Dashboard Interactivo</a></li>
+      <li><a href="#tesis">Tesis de Inversión</a></li>
+      <li><a href="#cronologia">Cronología</a></li>
+      <li><a href="#riesgos">Riesgos</a></li>
+      <li><a href="#comparativo">Escenarios</a></li>
+      <li><a href="#sensibilidad">Sensibilidad FX</a></li>
+      <li><a href="#conclusion">Conclusión</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Contenido Principal -->
+<main class="container">
+
+  <!-- ======== SECCIÓN 1: RESUMEN ======== -->
+  <section class="fade-in" id="resumen">
+    <h2>Resumen Ejecutivo</h2>
+    <div class="card">
+      <p><strong>Qué es el deal:</strong> <strong>Cygnus Metals Ltd.</strong> (ASX: CY5) ha firmado un acuerdo definitivo con <strong>Central Asia Metals plc</strong> (AIM: CAML) por el que CAML adquirirá el 100% de las acciones de Cygnus mediante un <em>Australian scheme of arrangement</em>. La contraprestación: <span class="highlight-text">0,06 acciones de CAML por cada acción de CY5</span>, lo que implica una valoración total de <strong>~A$232 millones</strong>.</p>
+    </div>
+
+    <div class="highlights">
+      <div class="highlight-item">
+        <h4>🎯 Activo Clave</h4>
+        <p>El activo que CAML se lleva es <strong>Chibougamau</strong>, proyecto de cobre-oro en Québec (Canadá). Recurso estimado: <strong>6,4 Mt @ 2,3% Cu, 0,8 g/t Au y 7,6 g/t Ag (M&I)</strong> más 8,5 Mt @ 2,1% Cu inferidos. Jurisdicción "tier one", lo que explica el interés estratégico de CAML.</p>
+      </div>
+      <div class="highlight-item">
+        <h4>🏢 Acquirer: Central Asia Metals</h4>
+        <p>CAML cotiza en AIM (Londres) con activos productores en <strong>Kazajistán</strong> (cobre, zinc: Kounrad SXEW) y <strong>Macedonia del Norte</strong> (Sasa, plomo/zinc). Balance operativo, dividendos consistentes. Es significativamente más grande y líquida que Cygnus.</p>
+      </div>
+      <div class="highlight-item">
+        <h4>💡 Por qué es arbitrable</h4>
+        <p>Con CY5 cotizando a <strong>A$0,13</strong> y el implícito del canje a <strong>~A$0,1743</strong>, el spread bruto es <strong>~34%</strong>. El comprador es líquido y la pata de cobertura (short CAML) es más ejecutable que en un arb microcap contra microcap, aunque el FX y el timing siguen siendo riesgos reales.</p>
+      </div>
+      <div class="highlight-item">
+        <h4>⚠️ Punto Crítico FX</h4>
+        <p>La contraprestación <strong>NO es efectivo</strong>: son acciones de CAML en GBP. El valor económico final del canje depende del precio de CAML <em>y</em> del tipo GBP/AUD. El spread puede comprimirse o expandirse por FX aunque el deal avance sin problemas.</p>
+      </div>
+    </div>
+
+    <h3>Estructura del Deal</h3>
+    <div class="table-responsive">
+      <table>
+        <thead><tr><th>Parámetro</th><th>Valor</th><th>Fuente / Nota</th></tr></thead>
+        <tbody>
+          <tr><td>Target</td><td><strong>Cygnus Metals Ltd.</strong></td><td>ASX: CY5 / TSX-V: CYG</td></tr>
+          <tr><td>Acquirer</td><td><strong>Central Asia Metals plc</strong></td><td>AIM: CAML (Londres)</td></tr>
+          <tr><td>Tipo de operación</td><td>Australian Scheme of Arrangement</td><td>100% adquisición por canje</td></tr>
+          <tr><td>Ratio de canje</td><td><span class="highlight-text">0,06 acciones CAML por 1 CY5</span></td><td>Fijo (no ajustable por precio)</td></tr>
+          <tr><td>Valoración implícita total</td><td>~A$232 millones</td><td>Al precio de anuncio</td></tr>
+          <tr><td>Valoración implícita / CY5 (anuncio)</td><td>A$0,176 por acción</td><td>Al precio CAML = £1,54</td></tr>
+          <tr><td>Aprobación requerida accionistas CY5</td><td><span class="highlight-text">75% de votos emitidos</span></td><td>Requisito scheme australiano</td></tr>
+          <tr><td>Apoyo visible (insiders + declarados)</td><td>~29% del capital</td><td>Según anuncio</td></tr>
+          <tr><td>Reunión accionistas CY5 (prevista)</td><td>Septiembre 2026</td><td>Pendiente convocatoria formal</td></tr>
+          <tr><td>Listing post-cierre</td><td>CAML cotinúa en AIM; posible TSX listing</td><td>CAML mencionó intento TSX</td></tr>
+          <tr><td>Fecha de anuncio</td><td>2 de junio de 2026</td><td>Anuncio público conjunto</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ======== SECCIÓN 2: DASHBOARD INTERACTIVO ======== -->
+  <section class="fade-in" id="dashboard">
+    <h2>Dashboard Interactivo</h2>
+
+    <div class="alert alert-info">
+      <strong>📊 Calculadora en tiempo real:</strong> Introduce tus supuestos de mercado y el modelo recalcula automáticamente spread, P&amp;L bruto, P&amp;L neto y valor esperado. Los valores por defecto corresponden al snapshot del 2 de junio de 2026 del Excel de SpreadHunters.
+    </div>
+
+    <!-- Calculadora -->
+    <div class="calc-container">
+      <div class="calc-title">⚙️ Inputs del Modelo — Merger Arb CY5 / CAML</div>
+      <div class="calc-inputs-grid">
+        <div class="calc-field">
+          <label>Precio CY5 (A$)</label>
+          <input id="inp_cy5" type="number" value="0.1300" step="0.001" min="0.001"/>
+        </div>
+        <div class="calc-field">
+          <label>Precio CAML (£)</label>
+          <input id="inp_caml" type="number" value="1.5400" step="0.01" min="0.01"/>
+        </div>
+        <div class="calc-field">
+          <label>GBP/AUD (tipo de cambio)</label>
+          <input id="inp_fx" type="number" value="0.5300" step="0.001" min="0.01"/>
+        </div>
+        <div class="calc-field">
+          <label>Ratio canje (CAML por CY5)</label>
+          <input id="inp_ratio" type="number" value="0.06" step="0.001" min="0.001"/>
+        </div>
+        <div class="calc-field">
+          <label>Nº acciones CY5 (LONG)</label>
+          <input id="inp_shares" type="number" value="50000" step="1000" min="1"/>
+        </div>
+        <div class="calc-field">
+          <label>Días hasta cierre</label>
+          <input id="inp_days" type="number" value="120" step="1" min="1"/>
+        </div>
+        <div class="calc-field">
+          <label>Comisión compra CY5 (%)</label>
+          <input id="inp_commlong" type="number" value="0.25" step="0.01" min="0"/>
+        </div>
+        <div class="calc-field">
+          <label>Comisión short CAML (%)</label>
+          <input id="inp_commshort" type="number" value="3.60" step="0.01" min="0"/>
+        </div>
+        <div class="calc-field">
+          <label>Borrow fee CAML anual (%)</label>
+          <input id="inp_borrow" type="number" value="3.00" step="0.1" min="0"/>
+        </div>
+        <div class="calc-field">
+          <label>FX spread conversión (%)</label>
+          <input id="inp_fxspread" type="number" value="0.25" step="0.01" min="0"/>
+        </div>
+        <div class="calc-field">
+          <label>Precio break CY5 (A$)</label>
+          <input id="inp_break" type="number" value="0.0800" step="0.001" min="0.001"/>
+        </div>
+        <div class="calc-field">
+          <label>Prob. de cierre (%)</label>
+          <input id="inp_prob" type="number" value="85" step="1" min="1" max="99"/>
+        </div>
+      </div>
+      <div class="calc-actions">
+        <button class="btn" onclick="calcular()">🔄 Recalcular</button>
+        <button class="btn btn-outline" onclick="resetDefaults()">↩ Restaurar defaults</button>
+      </div>
+    </div>
+
+    <!-- Resultados de la calculadora -->
+    <div class="calc-results-grid" id="calc-results">
+      <div class="calc-result-card">
+        <div class="calc-result-label">Compra (A$)</div>
+        <div class="calc-result-value cyan" id="res_purchase">A$6.500</div>
+      </div>
+      <div class="calc-result-card">
+        <div class="calc-result-label">Acciones CAML recibidas</div>
+        <div class="calc-result-value cyan" id="res_caml_shares">3.000</div>
+      </div>
+      <div class="calc-result-card">
+        <div class="calc-result-label">Recibido (£)</div>
+        <div class="calc-result-value cyan" id="res_gbp">£4.620</div>
+      </div>
+      <div class="calc-result-card">
+        <div class="calc-result-label">Recibido (A$)</div>
+        <div class="calc-result-value cyan" id="res_aud">A$8.717</div>
+      </div>
+      <div class="calc-result-card">
+        <div class="calc-result-label">Valor implícito / CY5</div>
+        <div class="calc-result-value cyan" id="res_implied">A$0,1743</div>
+      </div>
+      <div class="calc-result-card">
+        <div class="calc-result-label">Gross spread</div>
+        <div class="calc-result-value green" id="res_gross">+34,11%</div>
+      </div>
+      <div class="calc-result-card">
+        <div class="calc-result-label">Costes totales (A$)</div>
+        <div class="calc-result-value" id="res_costs" style="color:#ffa500;">A$438</div>
+      </div>
+      <div class="calc-result-card">
+        <div class="calc-result-label">Net P&amp;L cierre (A$)</div>
+        <div class="calc-result-value green" id="res_netpnl">A$1.779</div>
+      </div>
+      <div class="calc-result-card">
+        <div class="calc-result-label">Net return (cash)</div>
+        <div class="calc-result-value green" id="res_netret">+27,37%</div>
+      </div>
+      <div class="calc-result-card">
+        <div class="calc-result-label">Retorno anualizado</div>
+        <div class="calc-result-value cyan" id="res_annual">+108,74%</div>
+      </div>
+      <div class="calc-result-card">
+        <div class="calc-result-label">Break P&amp;L (A$)</div>
+        <div class="calc-result-value red" id="res_break">-A$3.560</div>
+      </div>
+      <div class="calc-result-card">
+        <div class="calc-result-label">Valor Esperado (A$)</div>
+        <div class="calc-result-value orange" id="res_ev">A$978</div>
+      </div>
+    </div>
+
+    <!-- Fórmulas de referencia -->
+    <h3>Lógica del Modelo</h3>
+    <div class="table-responsive">
+      <table>
+        <thead><tr><th>Métrica</th><th>Fórmula</th><th>Lectura</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Compra (A$)</strong></td><td>shares × precio CY5</td><td>Efectivo inicial invertido en el target.</td></tr>
+          <tr><td><strong>Recibido (£)</strong></td><td>shares × ratio × precio CAML</td><td>Valor en GBP de las acciones CAML si el deal cierra.</td></tr>
+          <tr><td><strong>Recibido (A$)</strong></td><td>GBP ÷ tipo GBP/AUD</td><td>Equivalente en AUD para comparar con la compra.</td></tr>
+          <tr><td><strong>Valor implícito/CY5</strong></td><td>ratio × precio CAML / tipo GBP/AUD</td><td>Lo que vale económicamente cada acción de CY5.</td></tr>
+          <tr><td><strong>Gross spread</strong></td><td>(implícito − precio CY5) / precio CY5</td><td>Prima bruta antes de costes.</td></tr>
+          <tr><td><strong>Net P&L cierre</strong></td><td>recibido A$ − compra A$ − costes</td><td>Resultado neto si el scheme sale adelante.</td></tr>
+          <tr><td><strong>Break P&L</strong></td><td>(breakprice − entry) × shares + P&L hedge − costes</td><td>Pérdida si el deal se rompe (sin hedge: sin P&L hedge).</td></tr>
+          <tr><td><strong>Valor Esperado</strong></td><td>P(éxito) × net P&L + (1-P) × break P&L</td><td>Media ponderada por probabilidad.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="chart-grid">
+      <div class="chart-container">
+        <canvas id="chartScenarios"></canvas>
+      </div>
+      <div class="chart-container">
+        <canvas id="chartFX"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== SECCIÓN 3: TESIS ======== -->
+  <section class="fade-in" id="tesis">
+    <h2>Tesis de Inversión</h2>
+
+    <h3>1. Estructura del Deal y Calidad del Activo</h3>
+    <p>El <em>scheme of arrangement</em> australiano es un proceso formal, regulado por ASIC y aprobado por tribunal, con altos estándares de divulgación. La aprobación requiere el <span class="highlight-text">75% de votos emitidos</span> por los accionistas de Cygnus.</p>
+    <p>El activo que incorpora CAML es <strong>Chibougamau</strong>, en Québec. La última resource estimate publicada cifra el recurso en <strong>6,4 Mt @ 2,3% Cu, 0,8 g/t Au y 7,6 g/t Ag en categoría Medido e Indicado</strong>, más 8,5 Mt @ 2,1% Cu, 1,7 g/t Au y 7,9 g/t Ag en Inferido. Québec es jurisdicción "tier one" minero (estabilidad legal, infraestructura, permisología bien definida), lo que justifica la prima estratégica que paga CAML.</p>
+
+    <h3>2. Ventajas del Acquirer: CAML como Comprador</h3>
+    <div class="highlights">
+      <div class="highlight-item">
+        <h4>🏦 Balance Operativo</h4>
+        <p>CAML genera caja de sus activos productores en Kazajistán y Macedonia. A diferencia de los deals micro-cap contra micro-cap, el acquirer tiene capacidad para financiar el desarrollo post-cierre, reduce el riesgo de que la operación caiga por problemas financieros del comprador.</p>
+      </div>
+      <div class="highlight-item">
+        <h4>📈 Hedge Más Limpio</h4>
+        <p>El ratio 1 CY5 → 0,06 CAML significa que por <strong>50.000 acciones de CY5</strong>, solo se necesitan <strong>3.000 acciones de CAML en short</strong>. CAML cotiza en AIM con liquidez diaria suficiente para esta posición, haciendo la cobertura operativamente factible (aunque con costes de borrow).</p>
+      </div>
+      <div class="highlight-item">
+        <h4>✅ Deal Amistoso</h4>
+        <p>Transacción recomendada unánimemente por el board de Cygnus. El apoyo visible del ~29% del capital (insiders y declarados) proporciona una base sólida hacia el umbral del 75%. No hay oferta rival conocida ni oposición pública de grandes accionistas.</p>
+      </div>
+    </div>
+
+    <h3>3. ¿Dónde Está el Arbitraje?</h3>
+    <p>El arbitraje no es una prima de efectivo cerrada. Es la diferencia entre <em>(i)</em> el valor económico del canje en cada momento —que depende del precio de CAML y del tipo GBP/AUD— y <em>(ii)</em> el precio al que cotiza CY5 en ASX. Con el snapshot del 2 de junio de 2026 (<strong>CY5 A$0,13</strong>, <strong>CAML £1,54</strong>, <strong>GBP/AUD 0,53</strong>), el valor recibido en AUD por 50.000 acciones CY5 es <span class="highlight-text">A$8.716,98</span>, frente a una compra de <strong>A$6.500</strong>. Gross P&L antes de costes: <strong>A$2.216,98</strong>.</p>
+
+    <h3>4. Qué Me Gusta / Qué No Me Gusta</h3>
+    <div class="highlights">
+      <div class="highlight-item">
+        <h4>✅ Lo que me gusta</h4>
+        <p>Transacción amistosa, apoyo del 29%, board unánime. Comprador con balance y dividendos. Activo estratégico en jurisdicción tier-one. Hedge operativamente más limpio que un arb micro-cap puro. Ratio de canje simple y fijo.</p>
+      </div>
+      <div class="highlight-item">
+        <h4>⚠️ Lo que no me gusta</h4>
+        <p>No es cash: el spread depende de CAML. La reunión es en septiembre 2026, no es un arb de 6 semanas. El FX (GBP/AUD) es variable real, no decorativa. El borrow de CAML, aunque factible, tiene coste. Sizing incorrecto puede costar caro si el deal se rompe.</p>
+      </div>
+    </div>
+
+    <div class="alert alert-info">
+      <strong>🔑 Lectura SpreadHunters:</strong> El setup es más institucional y limpio que un arb entre dos microcaps puras. Pero la tesis correcta no es "me pagan A$0,176 fijo", sino "<strong>recibo 0,06 CAML en GBP y tengo que gestionar precio del comprador, divisa y timing</strong>".
+    </div>
+  </section>
+
+  <!-- ======== SECCIÓN 4: CRONOLOGÍA ======== -->
+  <section class="fade-in" id="cronologia">
+    <h2>Cronología Estimada</h2>
+
+    <div class="timeline">
+      <div class="timeline-item done">
+        <div class="timeline-date">2 de junio de 2026</div>
+        <div class="timeline-content">
+          <h4>✅ Anuncio del Deal</h4>
+          <p>CAML y CY5 anuncian acuerdo definitivo de scheme of arrangement. Ratio 0,06x. Valoración implícita A$0,176. Inicio del período de merger arbitrage.</p>
+        </div>
+      </div>
+      <div class="timeline-item pending">
+        <div class="timeline-date">Julio – Agosto 2026</div>
+        <div class="timeline-content">
+          <h4>📄 Documentación Regulatoria</h4>
+          <p>Preparación y depósito del Scheme Booklet ante ASIC. Preparación del circular de CAML para su propia junta. Ambas compañías envían materiales a sus accionistas.</p>
+        </div>
+      </div>
+      <div class="timeline-item pending">
+        <div class="timeline-date">Septiembre 2026 (previsto)</div>
+        <div class="timeline-content">
+          <h4>🗳️ Junta de Accionistas de Cygnus</h4>
+          <p>Votación del scheme. Requiere 75% de votos emitidos. Con ~29% de insiders ya comprometidos, la aprobación es probable pero no garantizada. Principal hito de riesgo binario.</p>
+        </div>
+      </div>
+      <div class="timeline-item pending">
+        <div class="timeline-date">Septiembre – Octubre 2026</div>
+        <div class="timeline-content">
+          <h4>⚖️ Aprobación Judicial + Regulatoria</h4>
+          <p>Hearing ante tribunal australiano (Federal Court). Aprobación ASIC, ASX, AIM. CAML también requiere su propia junta para autorizar la emisión de nuevas acciones.</p>
+        </div>
+      </div>
+      <div class="timeline-item pending">
+        <div class="timeline-date">Octubre – Noviembre 2026 (estimado)</div>
+        <div class="timeline-content">
+          <h4>🔒 Cierre e Implementación</h4>
+          <p>Los accionistas de CY5 reciben 0,06 acciones de CAML por cada CY5. CY5 se delista de ASX y TSX-V. La posición LONG CY5 se convierte en acciones de CAML (si no hay hedge) o se liquida en cobertura.</p>
+        </div>
+      </div>
+      <div class="timeline-item pending">
+        <div class="timeline-date">Posterior al cierre</div>
+        <div class="timeline-content">
+          <h4>📋 Posible Cotización CAML en TSX</h4>
+          <p>CAML ha indicado su intención de solicitar cotización en la Bolsa de Toronto (TSX) sin afectar al listing en AIM. Ampliaría la base inversora para los ex-accionistas de CY5.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Impacto del Tiempo en el Retorno Anualizado</h3>
+    <div class="table-responsive">
+      <table>
+        <thead><tr><th>Días hasta cierre</th><th>Net return (neto)</th><th>Retorno anualizado</th><th>Observación</th></tr></thead>
+        <tbody>
+          <tr><td>90 días</td><td class="cell-green">+27,4%</td><td class="cell-green">+111,1%</td><td>Escenario acelerado</td></tr>
+          <tr><td>120 días <span class="badge badge-cyan">Base</span></td><td class="cell-green">+27,4%</td><td class="cell-green">+108,7%</td><td>Snapshot Excel SpreadHunters</td></tr>
+          <tr><td>150 días</td><td class="cell-green">+27,4%</td><td class="cell-neutral">+66,6%</td><td>Ligero retraso</td></tr>
+          <tr><td>180 días</td><td class="cell-green">+27,4%</td><td class="cell-neutral">+55,6%</td><td>Reunión posterior al plan</td></tr>
+          <tr><td>210 días</td><td class="cell-green">+27,4%</td><td class="cell-neutral">+47,6%</td><td>Retraso significativo</td></tr>
+          <tr><td>270 días</td><td class="cell-green">+27,4%</td><td class="cell-red">+37,0%</td><td>Demora material</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="color:var(--text-tertiary); font-size:0.85rem;">* El net return % no cambia con el tiempo; solo el retorno anualizado se comprime con cada día de retraso adicional.</p>
+  </section>
+
+  <!-- ======== SECCIÓN 5: RIESGOS ======== -->
+  <section class="fade-in" id="riesgos">
+    <h2>Riesgos y Puntos a Vigilar</h2>
+
+    <div class="alert alert-danger">
+      <strong>⚠️ Risk Reminder:</strong> En merger arb, el peor riesgo no es la pérdida media esperada, sino el escenario de ruptura del deal. El break P&L es <strong>asimétrico</strong>: el upside si cierra es ~27%, pero el downside si rompe puede ser –40% a –55%.
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="label">Break Risk</div>
+        <div class="value" style="color:#ff6b6b;">15%</div>
+        <div class="change" style="color:var(--text-secondary);">Prob. estimada de fallo</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Break P&L</div>
+        <div class="value" style="color:#ff6b6b;">–A$3.560</div>
+        <div class="change" style="color:var(--text-secondary);">50.000 acciones sin hedge</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Aprobación requerida</div>
+        <div class="value" style="color:#ffa500;">75%</div>
+        <div class="change" style="color:var(--text-secondary);">De votos emitidos</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Apoyo visible</div>
+        <div class="value" style="color:#90ee90;">~29%</div>
+        <div class="change" style="color:var(--text-secondary);">Insiders + declarados</div>
+      </div>
+    </div>
+
+    <h3>Mapa de Riesgos</h3>
+    <div class="highlights">
+      <div class="highlight-item" style="border-left-color: #ff6b6b;">
+        <h4 style="color:#ff6b6b;">🔴 Break Risk — Junta Rechaza (5–10%)</h4>
+        <p>Si la votación no alcanza el 75%, CY5 vuelve a cotizar como standalone. Precio de vuelta estimado A$0,08–A$0,09. Pérdida potencial <strong>–40% a –54%</strong> en posición no hedgeada.</p>
+      </div>
+      <div class="highlight-item" style="border-left-color: #ffa500;">
+        <h4 style="color:#ffa500;">⚠️ Riesgo CAML (Precio del Comprador)</h4>
+        <p>Si CAML cae un 15% (£1,31), el implícito de CY5 baja a ~A$0,148 → spread se comprime a <strong>+14%</strong>, apenas cubriendo costes. CAML es el termómetro continuo del valor del arb.</p>
+      </div>
+      <div class="highlight-item" style="border-left-color: #ffa500;">
+        <h4 style="color:#ffa500;">⚠️ Riesgo FX (GBP/AUD)</h4>
+        <p>Si AUD se aprecia (GBP/AUD baja de 0,53 a 0,48), el implícito cae a ~A$0,158 → spread bruto baja a <strong>+21%</strong>. Ver sección de sensibilidad FX.</p>
+      </div>
+      <div class="highlight-item" style="border-left-color: #00d7ff;">
+        <h4 style="color:#00d7ff;">⏱️ Time Decay</h4>
+        <p>La reunión es en septiembre. No es un arb de 6 semanas. Cada mes adicional comprime el retorno anualizado en ~8–10 pp. El carry y el borrow fee del short muerden a medida que pasa el tiempo.</p>
+      </div>
+      <div class="highlight-item" style="border-left-color: #b0c4de;">
+        <h4 style="color:#b0c4de;">💧 Liquidez CY5</h4>
+        <p>CY5 es una small-cap australiana. Posiciones > 100.000 acciones pueden sufrir slippage significativo tanto al entry como al exit. Usar órdenes limitadas; evitar market orders.</p>
+      </div>
+      <div class="highlight-item" style="border-left-color: #b0c4de;">
+        <h4 style="color:#b0c4de;">🔧 Coste del Hedge</h4>
+        <p>Short CAML tiene disponibilidad razonable (no es microcap) pero con borrow fee estimado ~3% anual. Comisión de short ~3,6%. Para 120 días, el coste total del hedge es A$400–A$450 sobre 50k CY5.</p>
+      </div>
+    </div>
+
+    <h3>Regla de Sizing</h3>
+    <div class="alert alert-warning">
+      <strong>Regla práctica SpreadHunters:</strong> Si <em>no haces hedge con CAML</em>, interpreta este trade como una situación especial con componente direccional en CAML y FX. Si <em>sí haces hedge</em>, recuerda que el resultado depende de la ejecución del corto y del carry hasta cierre. En cualquier caso, el sizing debe reflejar el break P&L potencial, no solo el upside.
+    </div>
+  </section>
+
+  <!-- ======== SECCIÓN 6: ESCENARIOS ======== -->
+  <section class="fade-in" id="comparativo">
+    <h2>Análisis de Escenarios</h2>
+
+    <h3>Escenarios P&amp;L (50.000 acciones CY5 @ A$0,13)</h3>
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Escenario</th><th>CAML al Cierre</th><th>GBP/AUD</th><th>Implícito CY5</th><th>Compra (A$)</th><th>Recibido (A$)</th><th>Net P&L</th><th>Return</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Base</strong></td><td>£1,54</td><td>0,53</td><td>A$0,1743</td>
+            <td>A$6.500</td><td>A$8.717</td><td class="cell-green">+A$1.779</td><td class="cell-green">+27,4%</td>
+          </tr>
+          <tr>
+            <td><strong>CAML +15%</strong></td><td>£1,77</td><td>0,53</td><td>A$0,2004</td>
+            <td>A$6.500</td><td>A$10.024</td><td class="cell-green">+A$3.087</td><td class="cell-green">+47,5%</td>
+          </tr>
+          <tr>
+            <td><strong>CAML +10%</strong></td><td>£1,69</td><td>0,53</td><td>A$0,1917</td>
+            <td>A$6.500</td><td>A$9.585</td><td class="cell-green">+A$2.648</td><td class="cell-green">+40,7%</td>
+          </tr>
+          <tr>
+            <td><strong>CAML –10%</strong></td><td>£1,39</td><td>0,53</td><td>A$0,1568</td>
+            <td>A$6.500</td><td>A$7.845</td><td class="cell-green">+A$908</td><td class="cell-green">+14,0%</td>
+          </tr>
+          <tr>
+            <td><strong>CAML –20%</strong></td><td>£1,23</td><td>0,53</td><td>A$0,1394</td>
+            <td>A$6.500</td><td>A$6.972</td><td class="cell-green">+A$34</td><td class="cell-neutral">+0,5%</td>
+          </tr>
+          <tr style="background: rgba(255,107,107,0.05);">
+            <td><strong>Deal Break</strong></td><td>N/A</td><td>–</td><td>–</td>
+            <td>A$6.500</td><td>A$4.000 (est.)</td><td class="cell-red">–A$2.938</td><td class="cell-red">–45,2%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="color:var(--text-tertiary); font-size:0.85rem;">* Net P&L = Recibido A$ − Compra A$ − Costes estimados. Break scenario: CY5 vuelve a A$0,08.</p>
+
+    <h3>Distribución de Probabilidades y Valor Esperado</h3>
+    <div class="table-responsive">
+      <table>
+        <thead><tr><th>Escenario</th><th>Probabilidad</th><th>Net P&L (A$)</th><th>Contribución al EV</th></tr></thead>
+        <tbody>
+          <tr><td>Deal cierra, CAML +10%</td><td>25%</td><td class="cell-green">+A$2.648</td><td class="cell-green">+A$662</td></tr>
+          <tr><td>Deal cierra, Base (Flat)</td><td>40%</td><td class="cell-green">+A$1.779</td><td class="cell-green">+A$712</td></tr>
+          <tr><td>Deal cierra, CAML –10%</td><td>20%</td><td class="cell-green">+A$908</td><td class="cell-green">+A$182</td></tr>
+          <tr><td>Deal rompe (~CAML flat)</td><td>15%</td><td class="cell-red">–A$3.560</td><td class="cell-red">–A$534</td></tr>
+          <tr style="border-top: 2px solid var(--primary-color);"><td><strong>VALOR ESPERADO</strong></td><td>100%</td><td class="cell-green"><strong>+A$1.022</strong></td><td class="cell-green"><strong>+15,7%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ======== SECCIÓN 7: SENSIBILIDAD FX ======== -->
+  <section class="fade-in" id="sensibilidad">
+    <h2>Análisis de Sensibilidad FX</h2>
+
+    <div class="alert alert-warning">
+      <strong>⚠️ El FX es el "tercer leg" del arb:</strong> En este deal cross-border (AUD/GBP), el tipo de cambio puede sumar o restar entre 5 y 10 puntos porcentuales al spread neto. No lo ignores.
+    </div>
+
+    <h3>Sensibilidad Spread Bruto a CAML y GBP/AUD</h3>
+    <div class="table-responsive">
+      <table id="sensitivity-table">
+        <thead>
+          <tr>
+            <th>CAML £ \ GBP/AUD</th>
+            <th>0,47</th><th>0,49</th><th>0,51</th>
+            <th>0,53 <span class="badge badge-cyan">Base</span></th>
+            <th>0,55</th><th>0,57</th><th>0,59</th>
+          </tr>
+        </thead>
+        <tbody id="sensitivity-body">
+        </tbody>
+      </table>
+    </div>
+    <p style="color:var(--text-tertiary); font-size:0.85rem;">* Spread bruto = (implícito − A$0,13) / A$0,13. Verde &gt; 20%, naranja 10–20%, rojo &lt; 10% o negativo.</p>
+
+    <div class="chart-container" style="height:350px;">
+      <canvas id="chartSensitivity"></canvas>
+    </div>
+  </section>
+
+  <!-- ======== SECCIÓN 8: CONCLUSIÓN ======== -->
+  <section class="fade-in" id="conclusion">
+    <h2>Conclusión</h2>
+
+    <div class="card">
+      <strong style="color:var(--primary-color);">Tesis:</strong> La operación CY5/CAML presenta un spread bruto de ~34% y un net return esperado de ~27% en 120 días (~109% anualizado), con valor esperado positivo de ~+15–16% ajustando por probabilidad de ruptura del deal.
+    </div>
+    <div class="card">
+      <strong style="color:var(--primary-color);">Ventajas sobre arb microcap puro:</strong>
+      <ul style="margin: 10px 0; padding-left: 20px;">
+        <li>Acquirer con balance operativo y cash flows reales (Kounrad SXEW genera FCF consistente).</li>
+        <li>Hedge limpio: 50.000 CY5 → short solo 3.000 CAML (CAML es AIM-listed, menos difícil de pedir prestada).</li>
+        <li>Activo de calidad (Chibougamau tier-one) da lógica estratégica clara y reduce riesgo de "deal material adverse change".</li>
+      </ul>
+    </div>
+    <div class="card">
+      <strong style="color:var(--warning-color);">Riesgos Clave a Monitorizar:</strong>
+      <ul style="margin: 10px 0; padding-left: 20px;">
+        <li>Precio CAML (el termómetro del valor del arb): caída &gt;20% borra prácticamente el spread neto.</li>
+        <li>FX GBP/AUD: apreciación del AUD comprime el implícito. Sensibilidad: –1% GBP/AUD ≈ –0,65% spread bruto.</li>
+        <li>Timing: reunión en septiembre implica carry de ~4–5 meses. Break P&L asimétrico (–45% vs +27%).</li>
+        <li>Junta de accionistas: 75% necesarios con ~29% comprometidos. El voto es el hito binario definitivo.</li>
+      </ul>
+    </div>
+
+    <h3>Plan de Monitoreo</h3>
+    <ul>
+      <li>Seguimiento del precio de <strong>CAML.L</strong> en AIM (London Stock Exchange) diariamente.</li>
+      <li>Monitoreo del tipo <strong>GBP/AUD</strong> (Bloomberg, Refinitiv, XE.com) como variable crítica del spread.</li>
+      <li>Alerta para publicación del <strong>Scheme Booklet</strong> (ASIC lodgement, ASX announcement) — confirmará fecha definitiva de la junta.</li>
+      <li>Seguimiento de noticias de <strong>Chibougamau</strong> (drill results, permisos) que puedan afectar la valoración implícita del activo.</li>
+      <li>Watch para eventuales <strong>litigios de accionistas</strong> o disputas que puedan retrasar la aprobación judicial.</li>
+      <li>Exit: si spread cae a &lt;12% (neto), considerar cierre anticipado y reasignación del capital.</li>
+    </ul>
+
+    <div class="alert alert-info">
+      <strong>📋 Disclaimer SpreadHunters:</strong> Este análisis se proporciona únicamente con propósitos informativos y educativos. No constituye asesoramiento financiero ni recomendación personalizada de inversión. En situaciones especiales con acciones y divisas, la ejecución, la liquidez y el carry importan tanto como la prima aparente del anuncio.
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <p><strong>Disclaimer:</strong> Este análisis se proporciona únicamente con propósitos informativos y educativos. No constituye asesoramiento financiero ni recomendación personalizada de inversión.</p>
+    <p class="mt-20" style="font-size:0.85rem;">📅 Publicación: 3 de junio de 2026 | 📊 Fuentes: Anuncio oficial CAML / CY5, ASX / AIM, Alliance News / Morningstar, SpreadHunters Excel Model v2.2</p>
+    <p class="mt-15">🔗 <a href="https://spreadhunters.es" target="_blank" rel="noopener noreferrer">SpreadHunters Investment Research</a> | 📝 <a href="https://substack.com/@spreadhunters" target="_blank" rel="noopener noreferrer">Substack</a> | 𝕏 <a href="https://x.com/Spread_Hunters" target="_blank" rel="noopener noreferrer">Twitter/X</a></p>
+  </div>
+</footer>
+
+<script>
+// =============================================
+//  DEFAULTS
+// =============================================
+const DEFAULTS = {
+  cy5: 0.1300, caml: 1.5400, fx: 0.5300, ratio: 0.06,
+  shares: 50000, days: 120,
+  commlong: 0.25, commshort: 3.60, borrow: 3.00, fxspread: 0.25,
+  breakprice: 0.0800, prob: 85
+};
+
+function fmtAUD(v) { return 'A$' + v.toLocaleString('es-ES', {minimumFractionDigits:0, maximumFractionDigits:0}); }
+function fmtGBP(v) { return '£' + v.toLocaleString('es-ES', {minimumFractionDigits:0, maximumFractionDigits:0}); }
+function fmtPct(v) { return (v >= 0 ? '+' : '') + (v*100).toFixed(2) + '%'; }
+function fmtNum(v, dec) { return v.toLocaleString('es-ES', {minimumFractionDigits:dec||0, maximumFractionDigits:dec||4}); }
+
+function calcular() {
+  const cy5    = parseFloat(document.getElementById('inp_cy5').value);
+  const caml   = parseFloat(document.getElementById('inp_caml').value);
+  const fx     = parseFloat(document.getElementById('inp_fx').value);   // GBP/AUD
+  const ratio  = parseFloat(document.getElementById('inp_ratio').value);
+  const shares = parseFloat(document.getElementById('inp_shares').value);
+  const days   = parseFloat(document.getElementById('inp_days').value);
+  const commlong   = parseFloat(document.getElementById('inp_commlong').value) / 100;
+  const commshort  = parseFloat(document.getElementById('inp_commshort').value) / 100;
+  const borrowRate = parseFloat(document.getElementById('inp_borrow').value) / 100;
+  const fxspread   = parseFloat(document.getElementById('inp_fxspread').value) / 100;
+  const breakprice = parseFloat(document.getElementById('inp_break').value);
+  const prob       = parseFloat(document.getElementById('inp_prob').value) / 100;
+
+  const camlShares   = shares * ratio;
+  const purchase     = shares * cy5;
+  const receivedGBP  = camlShares * caml;
+  const receivedAUD  = receivedGBP / fx;
+  const implied      = ratio * caml / fx;
+  const grossSpread  = (implied - cy5) / cy5;
+
+  // Costs
+  const longComm   = purchase * commlong;
+  const shortComm  = receivedAUD * commshort;
+  const borrowCost = receivedAUD * borrowRate * (days / 365);
+  const fxCost     = receivedAUD * fxspread;
+  const totalCosts = longComm + shortComm + borrowCost + fxCost;
+
+  const netPnL    = receivedAUD - purchase - totalCosts;
+  const netReturn = netPnL / purchase;
+  const annualized = Math.pow(1 + netReturn, 365 / days) - 1;
+
+  // Break case: CY5 drops to breakprice
+  const breakPnL = (breakprice - cy5) * shares - totalCosts;
+  const ev = prob * netPnL + (1 - prob) * breakPnL;
+  const evReturn = ev / purchase;
+
+  // Update results
+  document.getElementById('res_purchase').textContent   = fmtAUD(purchase);
+  document.getElementById('res_caml_shares').textContent = fmtNum(camlShares, 0);
+  document.getElementById('res_gbp').textContent        = fmtGBP(receivedGBP);
+  document.getElementById('res_aud').textContent        = fmtAUD(receivedAUD);
+  document.getElementById('res_implied').textContent    = 'A$' + implied.toFixed(4);
+  document.getElementById('res_gross').textContent      = fmtPct(grossSpread);
+  document.getElementById('res_costs').textContent      = fmtAUD(totalCosts);
+  document.getElementById('res_netpnl').textContent     = (netPnL >= 0 ? '+' : '') + fmtAUD(netPnL);
+  document.getElementById('res_netret').textContent     = fmtPct(netReturn);
+  document.getElementById('res_annual').textContent     = fmtPct(annualized);
+  document.getElementById('res_break').textContent      = (breakPnL >= 0 ? '+' : '–') + 'A$' + Math.abs(breakPnL).toLocaleString('es-ES', {maximumFractionDigits:0});
+  document.getElementById('res_ev').textContent         = (ev >= 0 ? '' : '–') + 'A$' + Math.abs(ev).toLocaleString('es-ES', {maximumFractionDigits:0});
+
+  // Colors
+  ['res_gross','res_netpnl','res_netret','res_annual'].forEach(id => {
+    const el = document.getElementById(id);
+    const val = parseFloat(el.textContent.replace(',','.').replace('%',''));
+    el.style.color = val > 0 ? '#90ee90' : val < 0 ? '#ff6b6b' : '#d0d8e0';
+  });
+  document.getElementById('res_break').style.color = breakPnL >= 0 ? '#90ee90' : '#ff6b6b';
+  document.getElementById('res_ev').style.color = ev >= 0 ? '#ffa500' : '#ff6b6b';
+
+  // Header KPIs
+  document.getElementById('hdr_cy5').textContent     = 'A$' + cy5.toFixed(4);
+  document.getElementById('hdr_implied').textContent = 'A$' + implied.toFixed(4);
+  document.getElementById('hdr_spread').textContent  = fmtPct(grossSpread);
+  document.getElementById('hdr_netpnl').textContent  = fmtPct(netReturn);
+  document.getElementById('hdr_annual').textContent  = fmtPct(annualized);
+  document.getElementById('hdr_ev').textContent      = fmtPct(evReturn);
+
+  // Update charts
+  updateChartScenarios(cy5, caml, fx, ratio, shares, totalCosts, purchase);
+  updateChartFX(cy5, caml, ratio, purchase, totalCosts, shares);
+  buildSensitivityTable(cy5, ratio);
+  updateChartSensitivity(cy5, ratio);
+}
+
+function resetDefaults() {
+  Object.keys(DEFAULTS).forEach(k => {
+    const el = document.getElementById('inp_' + k);
+    if (el) el.value = DEFAULTS[k];
+  });
+  calcular();
+}
+
+// =============================================
+//  CHART: Scenarios Bar Chart
+// =============================================
+let chartScenarios, chartFX, chartSens;
+
+function updateChartScenarios(cy5, caml, fx, ratio, shares, costs, purchase) {
+  const labels = ['–20% CAML', '–10% CAML', 'Base', '+10% CAML', '+15% CAML', 'Deal Break'];
+  const camlMults = [0.80, 0.90, 1.00, 1.10, 1.15, null];
+  const breakprice = parseFloat(document.getElementById('inp_break').value);
+
+  const data = camlMults.map((m, i) => {
+    if (m === null) {
+      return ((breakprice - cy5) * shares - costs);
+    }
+    const rec = (caml * m * ratio / fx) * shares;
+    return rec - purchase - costs;
+  });
+
+  const colors = data.map(v => v >= 0 ? 'rgba(144,238,144,0.8)' : 'rgba(255,107,107,0.8)');
+  const borders = data.map(v => v >= 0 ? '#90ee90' : '#ff6b6b');
+
+  if (chartScenarios) {
+    chartScenarios.data.datasets[0].data = data;
+    chartScenarios.data.datasets[0].backgroundColor = colors;
+    chartScenarios.data.datasets[0].borderColor = borders;
+    chartScenarios.update();
+  } else {
+    const ctx = document.getElementById('chartScenarios').getContext('2d');
+    chartScenarios = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Net P&L (A$)',
+          data, backgroundColor: colors, borderColor: borders, borderWidth: 1.5, borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: 'Net P&L por Escenario CAML (A$)', color: '#00d7ff', font: { size: 13, weight: '600' } },
+          tooltip: { callbacks: { label: ctx => 'P&L: ' + (ctx.raw >= 0 ? '+' : '') + 'A$' + ctx.raw.toFixed(0) } }
+        },
+        scales: {
+          x: { ticks: { color: '#b0c4de', font: { size: 11 } }, grid: { color: 'rgba(45,61,77,0.5)' } },
+          y: { ticks: { color: '#b0c4de', font: { size: 11 }, callback: v => 'A$' + (v/1000).toFixed(1) + 'k' }, grid: { color: 'rgba(45,61,77,0.5)' } }
+        }
+      }
+    });
+  }
+}
+
+function updateChartFX(cy5, caml, ratio, purchase, costs, shares) {
+  const fxValues = [0.44, 0.46, 0.48, 0.50, 0.52, 0.53, 0.55, 0.57, 0.60, 0.63];
+  const spreads = fxValues.map(f => ((ratio * caml / f) - cy5) / cy5 * 100);
+
+  if (chartFX) {
+    chartFX.data.labels = fxValues.map(f => f.toFixed(2));
+    chartFX.data.datasets[0].data = spreads;
+    chartFX.update();
+  } else {
+    const ctx = document.getElementById('chartFX').getContext('2d');
+    chartFX = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: fxValues.map(f => f.toFixed(2)),
+        datasets: [{
+          label: 'Gross Spread (%)',
+          data: spreads,
+          borderColor: '#00d7ff', backgroundColor: 'rgba(0,215,255,0.08)',
+          borderWidth: 2, fill: true, tension: 0.3,
+          pointBackgroundColor: '#00d7ff', pointRadius: 4
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          title: { display: true, text: 'Spread Bruto (%) vs Tipo GBP/AUD', color: '#00d7ff', font: { size: 13, weight: '600' } },
+          tooltip: { callbacks: { label: ctx => 'Spread: ' + (ctx.raw >= 0 ? '+' : '') + ctx.raw.toFixed(1) + '%' } }
+        },
+        scales: {
+          x: { title: { display: true, text: 'GBP/AUD', color: '#b0c4de' }, ticks: { color: '#b0c4de' }, grid: { color: 'rgba(45,61,77,0.5)' } },
+          y: { title: { display: true, text: 'Gross Spread (%)', color: '#b0c4de' }, ticks: { color: '#b0c4de', callback: v => v.toFixed(0) + '%' }, grid: { color: 'rgba(45,61,77,0.5)' } }
+        }
+      }
+    });
+  }
+}
+
+// =============================================
+//  SENSITIVITY TABLE
+// =============================================
+function buildSensitivityTable(cy5, ratio) {
+  const fxArr = [0.47, 0.49, 0.51, 0.53, 0.55, 0.57, 0.59];
+  const camlArr = [1.80, 1.70, 1.60, 1.54, 1.45, 1.39, 1.30, 1.20, 1.10];
+
+  let html = '';
+  camlArr.forEach(c => {
+    html += '<tr>';
+    html += '<td style="color:#b0c4de; font-weight:600;">£' + c.toFixed(2) + '</td>';
+    fxArr.forEach(f => {
+      const implied = ratio * c / f;
+      const spread = (implied - cy5) / cy5 * 100;
+      let cls = spread > 20 ? 'cell-green' : spread > 10 ? 'cell-neutral' : 'cell-red';
+      html += '<td class="' + cls + '">' + (spread >= 0 ? '+' : '') + spread.toFixed(1) + '%</td>';
+    });
+    html += '</tr>';
+  });
+  document.getElementById('sensitivity-body').innerHTML = html;
+}
+
+function updateChartSensitivity(cy5, ratio) {
+  const fxArr = [0.47, 0.49, 0.51, 0.53, 0.55, 0.57, 0.59];
+  const camlSets = [1.80, 1.65, 1.54, 1.39, 1.20];
+  const colors = ['#90ee90', '#00d7ff', '#ffa500', '#ffcc44', '#ff6b6b'];
+
+  const datasets = camlSets.map((c, i) => ({
+    label: '£' + c.toFixed(2),
+    data: fxArr.map(f => ((ratio * c / f - cy5) / cy5 * 100)),
+    borderColor: colors[i], backgroundColor: 'transparent',
+    borderWidth: 2, tension: 0.3, pointRadius: 3, pointBackgroundColor: colors[i]
+  }));
+
+  if (chartSens) {
+    chartSens.data.datasets = datasets;
+    chartSens.update();
+  } else {
+    const ctx = document.getElementById('chartSensitivity').getContext('2d');
+    chartSens = new Chart(ctx, {
+      type: 'line',
+      data: { labels: fxArr.map(f => f.toFixed(2)), datasets },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          title: { display: true, text: 'Sensibilidad Spread Bruto: CAML vs GBP/AUD', color: '#00d7ff', font: { size: 13, weight: '600' } },
+          legend: { position: 'bottom', labels: { color: '#b0c4de', font: { size: 11 } } },
+          tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + (ctx.raw >= 0 ? '+' : '') + ctx.raw.toFixed(1) + '%' } }
+        },
+        scales: {
+          x: { title: { display: true, text: 'GBP/AUD', color: '#b0c4de' }, ticks: { color: '#b0c4de' }, grid: { color: 'rgba(45,61,77,0.3)' } },
+          y: { title: { display: true, text: 'Gross Spread (%)', color: '#b0c4de' }, ticks: { color: '#b0c4de', callback: v => v.toFixed(0) + '%' }, grid: { color: 'rgba(45,61,77,0.3)' } }
+        }
+      }
+    });
+  }
+}
+
+// =============================================
+//  PROGRESS BAR + SCROLL NAV
+// =============================================
+window.addEventListener('scroll', function () {
+  var h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  var pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+
+  var sections = document.querySelectorAll('section[id]');
+  var scrollPos = window.scrollY + 120;
+  sections.forEach(function (sec) {
+    if (sec.offsetTop <= scrollPos && sec.offsetTop + sec.offsetHeight > scrollPos) {
+      document.querySelectorAll('.nav-tabs a').forEach(a => a.classList.remove('active'));
+      var link = document.querySelector('.nav-tabs a[href="#' + sec.id + '"]');
+      if (link) link.classList.add('active');
+    }
+  });
+});
+
+document.querySelectorAll('.nav-tabs a[href^="#"]').forEach(function (a) {
+  a.addEventListener('click', function (e) {
+    var target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// =============================================
+//  FADE-IN OBSERVER
+// =============================================
+if (typeof IntersectionObserver !== 'undefined') {
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { if (en.isIntersecting) en.target.classList.add('visible'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fade-in').forEach(function (el) { obs.observe(el); });
+} else {
+  document.querySelectorAll('.fade-in').forEach(function (el) { el.classList.add('visible'); });
+}
+
+// =============================================
+//  INIT
+// =============================================
+document.addEventListener('DOMContentLoaded', function () {
+  calcular();
+});
+</script>
+</body>
+</html>
