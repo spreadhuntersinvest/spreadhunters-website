@@ -2220,6 +2220,34 @@ async function loadAllPrices() {
                 closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
                 closeComment: ''            // Comentario breve
             },
+             {
+                id: 'cygnus',
+                path: './cygnus/index.html',
+                type: 'merger',
+                ticker: 'CY5',
+                company: 'Cygnus Metals Ltd',
+                sector: 'Minera australiana',
+                logo: 'company-logos/cygnus.png',
+                thesisDate: '2026-06-03',
+                thesisPrice: 'A$0.13',
+                fairValue: 'A$0.1743',
+                fairValueRaw: 0.1743,
+                upsideInitial: '+34%',
+                ticker_finnhub: 'CY5',
+                ticker_fincept: 'CY5',
+                currentPrice: 'A$0.13',
+                currency: 'A$',
+                upsideActual: '+34%',
+                priceSource: 'manual',
+                riskLevel: 'Medio',
+                // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
+                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
+                closeComment: ''            // Comentario breve
+            },
             
             
             // ============ EJEMPLO: TESIS CERRADAS ============
