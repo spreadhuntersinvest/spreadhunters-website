@@ -578,24 +578,6 @@
       </div>
     </div>
 
-    <!-- Fórmulas de referencia -->
-    <h3>Lógica del Modelo</h3>
-    <div class="table-responsive">
-      <table>
-        <thead><tr><th>Métrica</th><th>Fórmula</th><th>Lectura</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Compra (A$)</strong></td><td>shares × precio CY5</td><td>Efectivo inicial invertido en el target.</td></tr>
-          <tr><td><strong>Recibido (£)</strong></td><td>shares × ratio × precio CAML</td><td>Valor en GBP de las acciones CAML si el deal cierra.</td></tr>
-          <tr><td><strong>Recibido (A$)</strong></td><td>GBP ÷ tipo GBP/AUD</td><td>Equivalente en AUD para comparar con la compra.</td></tr>
-          <tr><td><strong>Valor implícito/CY5</strong></td><td>ratio × precio CAML / tipo GBP/AUD</td><td>Lo que vale económicamente cada acción de CY5.</td></tr>
-          <tr><td><strong>Gross spread</strong></td><td>(implícito − precio CY5) / precio CY5</td><td>Prima bruta antes de costes.</td></tr>
-          <tr><td><strong>Net P&L cierre</strong></td><td>recibido A$ − compra A$ − costes</td><td>Resultado neto si el scheme sale adelante.</td></tr>
-          <tr><td><strong>Break P&L</strong></td><td>(breakprice − entry) × shares + P&L hedge − costes</td><td>Pérdida si el deal se rompe (sin hedge: sin P&L hedge).</td></tr>
-          <tr><td><strong>Valor Esperado</strong></td><td>P(éxito) × net P&L + (1-P) × break P&L</td><td>Media ponderada por probabilidad.</td></tr>
-        </tbody>
-      </table>
-    </div>
-
     <!-- Gráficos -->
     <div class="chart-grid">
       <div class="chart-container">
