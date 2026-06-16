@@ -2248,6 +2248,35 @@ async function loadAllPrices() {
                 closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
                 closeComment: ''            // Comentario breve
             },
+            {
+                id: 'OPTU',
+                path: './optu/index.html',
+                type: 'odd-lots',
+                ticker: 'OPTU',
+                company: 'OPTU',
+                sector: 'Telecomunicaciones',
+                logo: 'company-logos/optu.png',
+               // NUEVOS CAMPOS
+                thesisDate: '2026-06-05',
+                thesisPrice: '$1.1',
+                fairValue: '$2.5',
+                fairValueRaw: 2.5,
+                upsideInitial: '+127%',
+                ticker_finnhub: 'OPTU',
+                currentPrice: '$1.36',
+                currency: '$',
+                upsideActual: '+127%',  // Se actualiza con API o manual
+                priceSource: 'manual',
+                riskLevel: 'Bajo',
+                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
+                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
+                closeComment: ''            // Comentario breve
+            },
+            
             
             
             // ============ EJEMPLO: TESIS CERRADAS ============
