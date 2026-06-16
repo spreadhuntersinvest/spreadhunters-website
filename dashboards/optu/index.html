@@ -1054,15 +1054,7 @@
                             <td class="positive">$138.60</td>
                             <td class="positive">+127%</td>
                         </tr>
-          
-                        <tr>
-                            <td>Si sube a $1.80</td>
-                            <td>$1.80</td>
-                            <td>$178.20</td>
-                            <td>$247.50</td>
-                            <td class="positive">$69.30</td>
-                            <td class="positive">+39%</td>
-                        </tr>
+
                         <tr>
                             <td>Tender cancelado (vuelta a $0.66)</td>
                             <td>$1.1</td>
@@ -1372,13 +1364,20 @@
 
     </main>
 
-    <!-- FOOTER -->
-    <footer>
-        <div class="container">
-            <p>SpreadHunters · Análisis de Situaciones Especiales · <a href="https://spreadhunters.es" target="_blank" rel="noopener noreferrer">spreadhunters.es</a></p>
-            <p style="margin-top:10px; font-size:0.85rem;">OPTU Odd-Lot Tender Offer · Actualizado: 16 de junio de 2026 · Los datos son orientativos; verificar con fuentes primarias antes de operar.</p>
-        </div>
-    </footer>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p><strong>Disclaimer:</strong> El contenido de esta tesis es puramente informativo y no constituye una recomendación formal de inversión. Los eventos de arbitraje conllevan riesgos de liquidez y ejecución. Asegúrese de leer el documento original Schedule TO (Tender Offer) de la SEC.</p>
+      <p class="mt-20" style="font-size: 0.85rem;">
+        📅 Análisis Actualizado: Febrero 2026 | 📊 Fuentes: SEC Filings, Formularios TO-I, Comunicados de Yext.
+      </p>
+      <p class="mt-15">
+        🔗 <a href="#" target="_blank" rel="noopener noreferrer">SpreadHunters Investment Research</a>
+        | 📝 <a href="#" target="_blank" rel="noopener noreferrer">Substack</a>
+        | 𝕏 <a href="#" target="_blank" rel="noopener noreferrer">Twitter/X</a>
+      </p>
+    </div>
+  </footer>
 
     <script>
         // --- Progress Bar ---
@@ -1478,7 +1477,7 @@
                 new Chart(ctx1, {
                     type: 'bar',
                     data: {
-                        labels: ['$0.66 (pre)', '$1.10 (día 1)', '$1.1 (hoy)', '$1.50', '$1.80'],
+                        labels: ['$0.66 (pre)', '$1.10 (día 1)', '$1.36 (hoy)', '$1.50', '$1.80'],
                         datasets: [{
                             label: 'Spread % (odd-lot 99 acc.)',
                             data: [280, 127, 84, 67, 39],
@@ -1512,7 +1511,7 @@
                         labels: ['Tender OK', 'Cancelación\n→ $0.66', 'Cancelación\n→ $1.00'],
                         datasets: [{
                             label: 'Beneficio / Pérdida Neta ($)',
-                            data: [112.86, -69.30, -35.64],
+                            data: [138, -44, -9.9],
                             backgroundColor: ['rgba(144,238,144,0.5)', 'rgba(255,107,107,0.5)', 'rgba(255,165,0,0.4)'],
                             borderColor: ['#90ee90', '#ff6b6b', '#ffa500'],
                             borderWidth: 2,
@@ -1523,7 +1522,7 @@
                         responsive: true, maintainAspectRatio: false,
                         plugins: {
                             legend: { display: false },
-                            title: { display: true, text: 'Payoff Escenarios — 99 acciones @ $1.1', color: '#ffffff', font: { size: 13, weight: 'bold' } },
+                            title: { display: true, text: 'Payoff Escenarios — 99 acciones @ $1.36', color: '#ffffff', font: { size: 13, weight: 'bold' } },
                             tooltip: { callbacks: { label: ctx => 'P&L: $' + ctx.parsed.y.toFixed(2) } }
                         },
                         scales: {
