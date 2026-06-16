@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPTU (NYSE: OPTU) - Odd-Lot Tender Offer | SpreadHunters</title>
+    <meta name="description" content="Análisis de Situación Especial: Odd-Lot Tender Offer de Optimum Communications. Upside de ~+84% para posiciones de menos de 100 acciones. Precio fijo $2.50. Expira 30 Junio 2026.">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+ <style>
+        /* ========================================
+           SISTEMA DE VARIABLES - COLORES GLOBALES
+           ======================================== */
+        :root {
+            /* COLORES PRIMARIOS - Identidad SpreadHunters */
+            --primary-color: #00d7ff;           /* Cyan brillante */
+            --secondary-color: #1a2332;         /* Azul oscuro base */
+            --accent-color: #4A8B9B;            /* Azul teal claro */
+            
+            /* COLORES FUNCIONALES */
+            --success-color: #90ee90;           /* Verde */
+            --danger-color: #ff6b6b;            /* Rojo */
+            --warning-color: #ffa500;           /* Naranja */
+            --info-color: #00d7ff;              /* Cyan */
+        
+            /* FONDOS */
+            --dark-bg: #1a2332;                 /* Azul principal */
+            --darker-bg: #0f1419;               /* Azul muy oscuro */
+            --card-bg: #1a2538;                 /* Azul para cards */
+            --light-bg: #E8E8E8;                /* Fondo claro */
+        
+            /* TEXTO */
+            --text-primary: #d0d8e0;            /* Gris claro */
+            --text-secondary: #b0c4de;          /* Gris medio */
+            --text-tertiary: #808080;           /* Gris oscuro */
+            
+            /* BORDES */
+            --border-color: #2d3d4d;            /* Borde azulado */
+            --border-light: #3d5570;            /* Borde azul claro */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.95) 0%, rgba(30, 50, 80, 0.95) 100%);
+            background-color: #1a2332;
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ========================================
+           BARRA DE PROGRESO
+           ======================================== */
+        .progress-bar {
+            background: var(--success-color);
+            height: 2px;
+            width: 0%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* ========================================
+               LOGO NAVBAR (SVG – escala por altura)
+               ======================================== */
+            .logo-navbar {
+              position: fixed;
+              top: 20px;
+              left: 20px;
+              z-index: 900;
+              background: none;
+              padding: 0;
+              border: none;
+              backdrop-filter: none;
+            }
+            
+            .logo-navbar-img {
+              height: 44px;   /* ⬅️ MÁS grande (antes ~38–40 visuales) */
+              width: auto;
+              display: block;
+              transition: transform 0.2s;
+            }
+
+            .logo-navbar-img:hover {
+                transform: scale(1.05);
+            }
+            
+            /* Laptop / Tablet grande */
+            @media (max-width: 1024px) {
+              .page-title { font-size: 1.55rem; } 
+              .logo-company { max-height: 70px; max-width: 150px; }
+            }
+            
+            /* Tablet */
+            @media (max-width: 768px) {
+              .logo-navbar { top: 15px; left: 15px; }
+              .logo-navbar-img { height: 34px; }
+            }
+            
+            /* Mobile */
+            @media (max-width: 480px) {
+              .logo-navbar { top: 12px; left: 12px; }
+              .logo-navbar-img { height: 30px; }
+            }
+
+
+
+        /* ========================================
+           HEADER PROFESIONAL
+           ======================================== */
+        .header-professional {
+            margin: 0;
+            padding: 50px 20px;
+            background: transparent;
+            border-bottom: 1px solid rgba(74, 127, 127, 0.1);
+            backdrop-filter: blur(3px);
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-professional .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header-title-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .company-title-row {
+              display: flex;
+              flex-direction: column;   /* ⬅️ logo arriba, título debajo */
+              align-items: center;
+              justify-content: center;
+              gap: 12px;                /* separación logo-título */
+              text-align: center;
+        }
+
+        .logo-company {
+            max-height: 70px;
+            max-width: 150px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: none; /* por defecto: respeta colores originales */
+            display: block;
+            margin: 0;               /* por si algún margen lo desplaza */
+            transition: transform 0.2s;
+            filter: brightness(4) contrast(1.5) invert(1) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+        
+        .logo-company:hover {
+            transform: scale(1.05);
+        }
+
+        /* Opcional: usa esta clase SOLO si necesitas adaptar un logo claro a fondo oscuro */
+        .logo-company--on-dark {
+            filter: brightness(4) contrast(1.5) invert(1) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .page-title {
+            font-size: 1.65rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0;
+            letter-spacing: 1px;
+            line-height: 1.3;
+        }
+
+        .page-subtitle {
+            font-size: 0.95rem;
+            color: #e0e0e0;
+            margin: 10px 0 0;
+            font-weight: 400;
+            max-width: 680px;
+        }
+
+        @media (max-width: 1024px) {
+            .page-title { font-size: 1.8rem; }
+            .logo-company { max-height: 70px; max-width: 150px; }
+        }
+
+        @media (max-width: 768px) {
+            .header-professional { padding: 30px 15px; }
+            .page-title { font-size: 1.4rem; }
+            .logo-company { max-height: 65px; max-width: 130px; }
+            .page-subtitle { font-size: 0.9rem; }
+        }
+
+        /* ========================================
+           TARJETAS DE MÉTRICAS
+           ======================================== */
+        .investment-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.6) 0%, rgba(30, 50, 80, 0.6) 100%);
+            border: 2px solid rgba(0, 215, 255, 0.3);
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(0, 215, 255, 0.5) 0%, rgba(0, 215, 255, 0) 100%);
+        }
+
+        .metric-card:hover {
+            border-color: rgba(0, 215, 255, 0.6);
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.8) 0%, rgba(30, 50, 80, 0.8) 100%);
+            box-shadow: 0 0 20px rgba(0, 215, 255, 0.2);
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .metric-value {
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .metric-value.cyan {
+            color: #00d7ff;
+        }
+
+        .metric-value.green {
+            color: #90ee90;
+        }
+
+        .metric-value.red {
+            color: #ff6b6b;
+        }
+
+        .metric-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            font-weight: 400;
+        }
+
+        @media (max-width: 768px) {
+            .investment-metrics { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .metric-card { padding: 15px; }
+            .metric-value { font-size: 1.3rem; }
+        }
+
+        @media (max-width: 480px) {
+              .header-professional { padding: 20px 15px; }
+              .page-title { font-size: 1.15rem; }
+              .logo-company { max-height: 55px; max-width: 110px; }
+              .company-title-row { gap: 10px; }
+              .page-subtitle { font-size: 0.85rem; }
+            }
+
+        /* ========================================
+           NAVEGACIÓN DE PESTAÑAS
+           ======================================== */
+        .nav-tabs {
+            background: var(--card-bg);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .nav-tabs ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-tabs a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-tabs a:hover,
+        .nav-tabs a.active {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+        }
+
+       @media (max-width: 768px) {
+  .nav-tabs { padding: 10px 0; }
+
+  .nav-tabs ul {
+    flex-direction: row;          /* antes: column */
+    justify-content: flex-start;  /* en vez de center */
+    flex-wrap: nowrap;            /* una sola fila */
+    overflow-x: auto;             /* scroll horizontal */
+    overflow-y: hidden;
+    gap: 8px;
+    padding: 0 12px 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-tabs li { flex: 0 0 auto; }
+
+  .nav-tabs a {
+    padding: 7px 12px;            /* más compacto */
+    font-size: 0.85rem;
+    white-space: nowrap;          /* evita salto de línea */
+  }
+
+  /* opcional: scrollbar horizontal discreta */
+  .nav-tabs ul::-webkit-scrollbar { height: 6px; }
+  .nav-tabs ul::-webkit-scrollbar-track { background: rgba(15, 20, 25, 0.35); }
+  .nav-tabs ul::-webkit-scrollbar-thumb { background: rgba(0, 215, 255, 0.55); border-radius: 6px; }
+}
+
+@media (max-width: 480px) {
+  .nav-tabs { padding: 8px 0; }
+  .nav-tabs ul { padding: 0 10px 6px; gap: 6px; }
+  .nav-tabs a { padding: 6px 10px; font-size: 0.80rem; }
+}
+
+        /* ========================================
+           SECCIONES
+           ======================================== */
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            z-index: 1;
+        }
+
+        section h2 {
+            font-size: 1.35rem;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            border-left: 4px solid var(--success-color);
+            padding-left: 20px;
+        }
+
+                    section > h3 {
+              font-size: 1.25rem;
+              margin: 30px 0 15px;
+              color: var(--text-primary);
+            }
+            section > h4 {
+              font-size: 1.0rem;
+              margin: 15px 0 10px;
+              color: var(--text-primary);
+            }
+
+       @media (max-width: 768px){
+          .page-title{ font-size: 1.4rem; }
+          .page-subtitle{ font-size: 0.9rem; }
+          section h2{ font-size: 1.25rem; }
+          section h3{ font-size: 1.1rem; }
+        }
+
+        /* ========================================
+           TARJETAS Y GRÁFICOS
+           ======================================== */
+        .card {
+            background: rgba(26, 35, 50, 0.85);
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .chart-container {
+            background: rgba(26, 35, 50, 0.85);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            position: relative;
+            height: 400px;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        @media (max-width: 768px) {
+            .chart-grid { grid-template-columns: 1fr; }
+            .chart-container { height: 300px; }
+        }
+
+        /* ========================================
+           GRILLA DE ESTADÍSTICAS
+           ======================================== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: rgba(26, 35, 50, 0.8);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-card .label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .value {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .stat-card .change {
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .positive {
+            color: var(--success-color);
+        }
+
+        .negative {
+            color: var(--danger-color);
+        }
+
+        /* ========================================
+           TABLAS
+           ======================================== */
+        .table-responsive {
+            overflow-x: auto;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        thead {
+            background: #1A1F2E;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: rgba(74, 127, 127, 0.05);
+        }
+
+        /* ========================================
+           CAJAS DE ALERTA
+           ======================================== */
+        .alert {
+            padding: 16px 18px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid;
+            backdrop-filter: blur(10px);
+        }
+
+        .alert-success {
+            background: rgba(74, 155, 111, 0.08);
+            border-color: var(--success-color);
+            color: var(--text-primary);
+        }
+
+        .alert-warning {
+            background: rgba(255, 165, 0, 0.15);
+            border-color: var(--warning-color);
+            color: var(--text-primary);
+        }
+
+        .alert-info {
+            background: rgba(0, 212, 212, 0.15);
+            border-color: var(--primary-color);
+            color: var(--text-primary);
+        }
+
+        .alert-danger {
+            background: rgba(255, 107, 107, 0.15);
+            border-color: var(--danger-color);
+            color: var(--text-primary);
+        }
+
+        .alert strong {
+            color: #ffffff;
+        }
+
+        /* ========================================
+           HIGHLIGHTS
+           ======================================== */
+        .highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .highlight-item {
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(0, 212, 212, 0.1) 100%);
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .highlight-item h4 {
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .highlight-item p {
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* ========================================
+           BOTONES
+           ======================================== */
+        .btn {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+            border: 1px solid var(--primary-color);
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: var(--secondary-color);
+            border-color: var(--accent-color);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-success {
+            font-size: 0.9rem;
+            padding: 8px 18px;
+            border-radius: 6px;
+        }
+
+        .btn-success:hover {
+            background: #00b868;
+        }
+
+        /* ========================================
+           FOOTER
+           ======================================== */
+        footer {
+            background: var(--card-bg);
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 60px;
+            border-top: 2px solid var(--border-color);
+            position: relative;
+            z-index: 1;
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 10px 0;
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        /* ========================================
+           SCROLLBAR
+           ======================================== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 20, 25, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+
+        /* ========================================
+           ANIMACIONES
+           ======================================== */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+            /* ========================================
+           AJUSTE FINO DE ESPACIADO EN CAJAS (COMPACTO)
+           ======================================== */
+        
+        /* Títulos dentro de cajas */
+        .card h3,
+        .card h4,
+        .highlight-item h4 {
+            margin-bottom: 8px; /* antes 10–15px */
+        }
+        
+        /* Texto */
+        .card p,
+        .highlight-item p,
+        .alert p {
+            margin-bottom: 8px;
+            line-height: 1.55; /* ligeramente más compacto */
+        }
+        
+        /* Último párrafo sin espacio extra */
+        .card p:last-child,
+        .highlight-item p:last-child,
+        .alert p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Listas dentro de cards */
+        .card ul {
+            margin-top: 6px;
+            margin-bottom: 0;
+        }
+        
+        .card li {
+            margin-bottom: 4px;
+        }
+                    /* ===========================
+                       COMPACTACIÓN CONSISTENTE
+                       =========================== */
+                    
+                    /* Menos padding */
+                    .card, .highlight-item, .alert{
+                      padding: 14px 16px !important;
+                      line-height: 1.5;
+                    }
+                    
+                    /* Títulos dentro de cajas */
+                    .card h3, .card h4,
+                    .highlight-item h4{
+                      margin: 0 0 8px !important;
+                    }
+                    
+                    /* Párrafos dentro de cajas */
+                    .card p, .highlight-item p, .alert p{
+                      margin: 0 0 8px !important;
+                    }
+                    
+                    /* Último hijo sin margen extra */
+                    .card > *:last-child,
+                    .highlight-item > *:last-child,
+                    .alert > *:last-child{
+                      margin-bottom: 0 !important;
+                    }
+                    
+                    /* Listas */
+                    .card ul, .highlight-item ul, .alert ul{
+                      margin: 6px 0 0 !important;
+                      padding-left: 18px !important;
+                    }
+                    .card li, .highlight-item li, .alert li{
+                      margin: 0 0 4px 0 !important;
+                    }
+                    .card li:last-child,
+                    .highlight-item li:last-child,
+                    .alert li:last-child{
+                      margin-bottom: 0 !important;
+                    }
+
+        /* Mata inline margins dentro de cards para que el layout sea consistente */
+            .card p[style],
+            .card ul[style]{
+              margin-top: 6px !important;
+              margin-bottom: 8px !important;
+            }
+            
+            /* Ajusta indent sin margin-left inline */
+            .card ul[style]{
+              margin-left: 0 !important;
+              padding-left: 18px !important;
+            }
+
+        /* Evita que los anchors queden tapados por la nav sticky */
+        section { scroll-margin-top: 90px; }
+        
+@media (max-width: 768px){
+  section { scroll-margin-top: 120px; }
+}
+        
+        /* Utilidades sencillas para evitar inline */
+        .mt-15 { margin-top: 15px; }
+        .mt-20 { margin-top: 20px; }
+        .mt-30 { margin-top: 30px; }
+        .text-center { text-align: center; }
+        
+        /* Clase usada en Riesgos */
+        .warning { color: var(--warning-color); }
+        
+        /* Lista compacta usada en Conclusión */
+        .compact-list { margin: 6px 0 0; padding-left: 18px; }
+        .compact-list li { margin: 0 0 4px 0; }
+        .compact-list li:last-child { margin-bottom: 0; }
+        
+        /* Alturas de charts sin inline */
+        .chart-350 { height: 350px; }
+    </style>
+</head>
+<body>
+   <div id="top"></div>
+
+  <!-- Barra de progreso -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- Logo -->
+  <div class="logo-navbar">
+  <img alt="SpreadHunters" class="logo-navbar-img" src="../../images/spreadhunter_navbar.svg"/>
+  </div>
+
+  <!-- Header -->
+  <header class="header-professional">
+    <div class="container">
+      <div class="header-title-section">
+        <div class="company-title-row">
+         <img src="../company-logos/optu.png" alt="Optimum Communications Logo" class="logo-company">
+          <h1 class="page-title">Optimum Communications (NYSE: OPTU)</h1>
+        </div>
+         <p class="page-subtitle">Análisis Situación Especial: Odd-Lot Tender Offer a precio fijo $2.50 · Upside ~+84% · Expira 30 Jun 2026</p>
+      </div>
+
+      <div class="investment-metrics">
+                <div class="metric-card">
+                    <div class="metric-label">PRECIO ACTUAL</div>
+                    <div class="metric-value cyan" id="priceCurrent">$1.1</div>
+                    <div class="metric-subtitle">Cotización 5 Jun 2026</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">PRECIO TENDER</div>
+                    <div class="metric-value cyan" id="fairValue">$2.50</div>
+                    <div class="metric-subtitle">Precio fijo (no Dutch auction)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">UPSIDE ODD-LOT</div>
+                    <div class="metric-value green" id="upsidePct">—</div>
+                    <div class="metric-subtitle">Sin riesgo de prorrateo</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">INVERSIÓN (99 acc.)</div>
+                    <div class="metric-value cyan" id="investAmt">$108.9</div>
+                    <div class="metric-subtitle">Beneficio bruto ~$138.6</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">DÍAS RESTANTES</div>
+                    <div class="metric-value orange" id="daysLeft">—</div>
+                    <div class="metric-subtitle">Expiración 30 Jun 2026</div>
+                </div>
+            </div>
+        </div>
+    </header>
+  
+    <!-- NAV -->
+    <nav class="nav-tabs">
+        <div class="container">
+            <ul>
+                <li><a href="#resumen" class="active">Resumen</a></li>
+                <li><a href="#mecanica">Mecánica</a></li>
+                <li><a href="#spread">Análisis del Spread</a></li>
+                <li><a href="#contexto">Contexto Corp.</a></li>
+                <li><a href="#estrategia">Estrategia</a></li>
+                <li><a href="#timeline">Timeline</a></li>
+                <li><a href="#riesgos">Riesgos</a></li>
+                <li><a href="#conclusion">Conclusión</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="container">
+
+        <!-- ======== RESUMEN ======== -->
+        <section id="resumen" class="fade-in">
+            <h2>Resumen Ejecutivo</h2>
+
+            <div class="alert alert-success">
+                <strong>Tesis de Inversión:</strong> Optimum Communications (OPTU) ofrece una oportunidad de odd-lot con upside bruto de ~84% en menos de 15 días hábiles para posiciones de ≤99 acciones. El precio de la tender es fijo a $2.50/acción. La clave: la prioridad absoluta para odd-lots elimina el riesgo de prorrateo, y la inversión máxima es ~$135. El riesgo principal es una cancelación por acuerdo de reestructuración de deuda antes del 30 de junio, que los precedentes Drahi sugieren improbable en este plazo.
+            </div>
+
+            <div class="highlights">
+                <div class="highlight-item">
+                    <h4>✓ Precio Fijo $2.50 — Sin Dutch Auction</h4>
+                    <p>No hay rango ni subasta. El precio de $2.50/acción está fijado desde el lanzamiento el 1 de junio de 2026. El descuento de mercado no refleja incertidumbre de precio, sino riesgo de cancelación.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>✓ Prioridad Absoluta Odd-Lot (Zero Proration)</h4>
+                    <p>Titulares con menos de 100 acciones en total (beneficial + of record, en todos sus brokers) reciben aceptación 100% garantizada. No hay riesgo de prorrateo si se mantiene la posición total por debajo de 100 acciones.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>✓ Máxima Convexidad con Inversión Mínima</h4>
+                    <p>Con ~$108.9 de inversión (99 acc. × $1.1), el beneficio potencial es ~$113 brutos en ~15 días hábiles. La TIR anualizada implícita supera el 5.000%. El downside absoluto en dólares es acotado.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>⚠️ Riesgo: Cancelación por Reestructuración</h4>
+                    <p>La tender incluye una condición de terminación si se firma un acuerdo de reestructuración de deuda de CSC Holdings antes del 30 de junio. Las negociaciones con acreedores son formales pero lentas (negociar $21.8B lleva meses).</p>
+                </div>
+            </div>
+
+            <h3>Métricas Clave del Evento</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">Tipo de Oferta</div>
+                    <div class="value" style="font-size:1.3rem;">Precio Fijo</div>
+                    <div class="change positive">No Dutch Auction</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Tamaño Máximo</div>
+                    <div class="value">$300M</div>
+                    <div class="change positive">Hasta 120M acciones Class A</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Fecha de Expiración</div>
+                    <div class="value">30 Jun '26</div>
+                    <div class="change warning">17:00 NY Time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Precio Pre-Anuncio</div>
+                    <div class="value">$0.658</div>
+                    <div class="change positive">29 mayo 2026</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Ofertante</div>
+                    <div class="value" style="font-size:1.1rem;">Unsub Topco</div>
+                    <div class="change">CSC Investments II LLC</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Agente Informador</div>
+                    <div class="value" style="font-size:1.0rem;">D.F. King</div>
+                    <div class="change">+1 866-796-1290</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== MECÁNICA ======== -->
+        <section id="mecanica" class="fade-in">
+            <h2>Mecánica y Estructura del Tender</h2>
+
+            <div class="card">
+                <h3>¿Qué es un Odd-Lot Tender Offer?</h3>
+                <p>Un <strong>odd-lot</strong> es una posición de menos de 100 acciones. En las tender offers con "odd-lot priority", estos pequeños tenedores reciben tratamiento preferencial absoluto frente al resto de accionistas.</p>
+                <p>Si presentas al tender ≤99 acciones a $2.50 (siendo tu posición total inferior a 100 acciones en todos tus brokers y cuentas), recibes <strong>100% de aceptación garantizada</strong>, eliminando el riesgo de prorrateo que afecta al resto de inversores.</p>
+            </div>
+
+            <h3>Estructura de Prioridad (Orden de Aceptación)</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Orden</th>
+                            <th>Grupo</th>
+                            <th>Condición</th>
+                            <th>Resultado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1º PRIMERO</strong></td>
+                            <td class="positive"><strong>Odd-Lots (&lt;100 acc.)</strong></td>
+                            <td>Tenderan TODA su posición a $2.50</td>
+                            <td class="positive"><strong>100% acceptance · Sin prorrateo</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>2º SEGUNDO</strong></td>
+                            <td class="warning">Holders normales (≥100 acc.)</td>
+                            <td>Acuden al tender con cualquier cantidad</td>
+                            <td class="warning">Pro-rata · Riesgo de prorrateo elevado</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3º TERCERO</strong></td>
+                            <td>Tenencias condicionales incompletas</td>
+                            <td>Posiciones no completadas en primera ronda</td>
+                            <td>Por sorteo aleatorio</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>Regla crítica:</strong> Para mantener la prioridad odd-lot, el titular debe tener <strong>menos de 100 acciones OPTU Class A en total</strong>, sumando todas sus cuentas y brokers (tanto beneficial como of record). Si el total agregado alcanza 100 o más, se pierde la prioridad y la posición queda sujeta al prorrateo general.
+            </div>
+
+            <h3>Términos Clave de la Oferta</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>Parámetro</th><th>Detalle</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Acción objetivo</td><td>Class A Common Stock de Optimum Communications (OPTU)</td></tr>
+                        <tr><td>CUSIP</td><td>02156K103</td></tr>
+                        <tr><td>Precio de compra</td><td><strong>$2.50/acción en efectivo</strong> (precio fijo)</td></tr>
+                        <tr><td>Máximo de acciones</td><td>Hasta 120.000.000 acciones Class A</td></tr>
+                        <tr><td>Tope de caja</td><td>$300.000.000</td></tr>
+                        <tr><td>% del float ofertado</td><td>~42.5% de las Class A en circulación</td></tr>
+                        <tr><td>Fecha de inicio</td><td>1 de junio de 2026</td></tr>
+                        <tr><td>Fecha de expiración</td><td><strong>30 de junio de 2026, 17:00 NY</strong> (salvo extensión)</td></tr>
+                        <tr><td>Condición mínima</td><td><strong>Ninguna</strong> (no hay minimum tender condition)</td></tr>
+                        <tr><td>Condición de financiación</td><td><strong>No</strong> (fondos ya captados vía private placement)</td></tr>
+                        <tr><td>Pago</td><td>3 días hábiles tras la fecha de expiración</td></tr>
+                        <tr><td>Instrucción al broker</td><td>~25–26 de junio de 2026 (2–3 días hábiles antes)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ======== SPREAD ======== -->
+        <section id="spread" class="fade-in">
+            <h2>Análisis del Spread y Payoff</h2>
+
+            <div class="alert alert-info">
+                <strong>Nota:</strong> Los cálculos de spread son estimaciones basadas en el precio de referencia de $1.1/acción (cotización del 5 de junio de 2026). El spread real variará con el precio de compra efectivo. No incluyen comisiones de broker, impuestos (withholding) ni costes de divisa (FX) para inversores europeos.
+            </div>
+
+            <h3>Tabla de Payoff — Posición Odd-Lot (99 acciones)</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Escenario</th>
+                            <th>Precio Compra</th>
+                            <th>Inversión Total</th>
+                            <th>Ingreso Tender</th>
+                            <th>Beneficio Bruto</th>
+                            <th>Spread %</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Pre-anuncio</td>
+                            <td>$0.658</td>
+                            <td>$65.14</td>
+                            <td>$247.50</td>
+                            <td class="positive">$182.36</td>
+                            <td class="positive">+280%</td>
+                        </tr>
+                        <tr>
+                            <td>Día anuncio</td>
+                            <td>$1.10</td>
+                            <td>$108.90</td>
+                            <td>$247.50</td>
+                            <td class="positive">$138.60</td>
+                            <td class="positive">+127%</td>
+                        </tr>
+          
+                        <tr>
+                            <td>Si sube a $1.80</td>
+                            <td>$1.80</td>
+                            <td>$178.20</td>
+                            <td>$247.50</td>
+                            <td class="positive">$69.30</td>
+                            <td class="positive">+39%</td>
+                        </tr>
+                        <tr>
+                            <td>Tender cancelado (vuelta a $0.66)</td>
+                            <td>$1.1</td>
+                            <td>$108.9</td>
+                            <td>$65.34 (venta mercado)</td>
+                            <td class="negative">-$44</td>
+                            <td class="negative">-40%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-container chart-350">
+                    <canvas id="chartSpread"></canvas>
+                </div>
+                <div class="chart-container chart-350">
+                    <canvas id="chartPayoff"></canvas>
+                </div>
+            </div>
+
+            <h3>Ratio Riesgo / Recompensa</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">Upside (tender completado)</div>
+                    <div class="value positive">+$138.6</div>
+                    <div class="change positive">+127% bruto</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Downside (cancelación + venta $0.66)</div>
+                    <div class="value negative">-$44</div>
+                    <div class="change negative">-401% desde $1.1</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Ratio R/R</div>
+                    <div class="value positive">1:3</div>
+                    <div class="change positive">Positivo · Upside/Downside</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">TIR Anualizada Implícita</div>
+                    <div class="value positive">>3.000%</div>
+                    <div class="change">Asumiendo 25 días hábiles</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== CONTEXTO CORPORATIVO ======== -->
+        <section id="contexto" class="fade-in">
+            <h2>Contexto Corporativo</h2>
+
+            <div class="card">
+                <h3>¿Quién es Optimum Communications (OPTU)?</h3>
+                <p>Optimum Communications (antes Altice USA, ATUS) es el <strong>4.º mayor operador de cable broadband de EE.UU.</strong>, con ~4.3 millones de clientes en 21 estados. Opera bajo la marca Optimum, Optimum Media (publicidad) y News 12 (noticias locales).</p>
+                <p>Patrick Drahi controla el <strong>90.5% del poder de voto</strong> mediante acciones Class B de voto superior. La acción ha caído un ~97% en cinco años. Capitalización de mercado de ~$514M frente a ~$21.8B de deuda en CSC Holdings.</p>
+            </div>
+
+            <h3>La Arquitectura de la Operación: Unsub Topco</h3>
+            <div class="highlights">
+                <div class="highlight-item">
+                    <h4>Paso 1: Creación de CSC Investments II (Unsub Topco)</h4>
+                    <p>El 1 de junio de 2026, OPTU migró sus activos más valiosos (Optimum East Cable + 50.01% de Lightpath, ~$2B EBITDA) a una subsidiaria <em>no restringida</em> que <strong>no garantiza la deuda de CSC Holdings</strong>.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>Paso 2: Private Placement de $512M en Preferentes</h4>
+                    <p>Unsub Topco captó $300M de inversores institucionales en efectivo + $212M de Drahi y directivos, que canjearon sus acciones OPTU a <strong>$2.50/acción</strong>. Este precio es la referencia para la tender.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>Paso 3: Tender Offer Pública a $2.50</h4>
+                    <p>Con los $300M del placement, Unsub Topco lanza la tender para comprar hasta 120M de acciones Class A a los accionistas públicos al mismo precio que Drahi convirtió las suyas. Fija el precio "justo" de negociación.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>Objetivo Estratégico: Presionar a los Acreedores</h4>
+                    <p>Al aislar los activos corona en Unsub Topco, Drahi mejora su posición negociadora: en caso de quiebra de CSC Holdings, el recovery de los acreedores sería mucho peor. Un debt-for-equity swap podría generar >$4B en tax liability que ambas partes quieren evitar.</p>
+                </div>
+            </div>
+
+            <h3>Mapa de Deuda CSC Holdings</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>Concepto</th><th>Importe</th><th>Detalle</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Deuda total CSC Holdings</td><td><strong>~$21.8B</strong></td><td>Bonos + Préstamos sindicados</td></tr>
+                        <tr><td>Vencimientos 2027</td><td>~$6.2B</td><td>Urgencia más próxima (abr. 2027)</td></tr>
+                        <tr><td>Vencimientos 2028</td><td>~$4.1B</td><td>Segundo muro de deuda</td></tr>
+                        <tr><td>EBITDA activos en Unsub Topco</td><td>~$2B/año</td><td>Aislados de los acreedores</td></tr>
+                        <tr><td>EBITDA activos restantes en CSC Holdings</td><td>~$1B/año</td><td>Colateral real post-drop-down</td></tr>
+                        <tr><td>Tax liability estimada (quiebra)</td><td>>$4B</td><td>Deconsolidación fiscal: desincentivo clave</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ======== ESTRATEGIA ======== -->
+        <section id="estrategia" class="fade-in">
+            <h2>Estrategia de Ejecución Paso a Paso</h2>
+
+            <div class="alert alert-warning">
+                <strong>Deadline operativo:</strong> El plazo límite para instruir al broker es <strong>~25–26 de junio de 2026</strong> (2–3 días hábiles antes del 30 de junio). Pasado ese plazo, el broker no podrá procesar la instrucción a tiempo.
+            </div>
+
+            <ol class="step-list">
+                <li>
+                    <div class="step-content">
+                        <strong>Verificar posición total en TODOS los brokers</strong>
+                        <span>Asegurarse de que el total de acciones OPTU Class A en TODAS las cuentas y brokers combinados sea INFERIOR a 100 (tanto beneficial como of record). Si supera 99, se pierde la prioridad odd-lot.</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-content">
+                        <strong>Comprar 99 acciones OPTU Class A en mercado</strong>
+                        <span>Adquirir exactamente 99 acciones (no 100 ni más). El precio de referencia actual es ~$1.1. Coste total aproximado: ~$108.9 + comisiones del broker.</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-content">
+                        <strong>Contactar al broker para participar en la tender</strong>
+                        <span>Informar al broker que deseas participar en la tender de CSC Investments II LLC (Schedule TO-I, CUSIP: 02156K103) como "odd-lot holder". El agente informador es D.F. King & Co. (+1 866-796-1290). No todos los brokers facilitan participación en tenders para cuentas pequeñas: verificar previamente.</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-content">
+                        <strong>Instruir la participación antes del deadline interno del broker</strong>
+                        <span>El plazo límite de instrucción al broker suele ser 2–3 días hábiles antes del vencimiento. Para el 30 de junio: <strong>instruir antes del 25 de junio de 2026</strong>. Confirmar con tu broker su deadline específico.</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-content">
+                        <strong>Monitorizar noticias de reestructuración</strong>
+                        <span>Vigilar cualquier filing SC TO-I/A en EDGAR (sec.gov) que anuncie extensión, enmienda o cancelación. También noticias de Bloomberg/Reuters sobre un acuerdo entre OPTU y el Cooperation Agreement de acreedores. Esta es la señal de alerta crítica.</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-content">
+                        <strong>Cobro del pago</strong>
+                        <span>Si la tender se completa, CSC Investments II pagará $2.50 por acción a los 3 días hábiles siguientes a la expiración (aproximadamente el 3–4 de julio de 2026). Sin retención de intereses sobre el principal según los términos de la oferta.</span>
+                    </div>
+                </li>
+            </ol>
+
+            <h3>Consideraciones para Inversores Europeos</h3>
+            <div class="card">
+                <ul>
+                    <li><strong>Riesgo FX EUR/USD:</strong> En un plazo de ~15 días, una depreciación del dólar reduciría el beneficio neto en euros. Considerar cobertura si la exposición es relevante.</li>
+                    <li><strong>Withholding Tax:</strong> Los inversores no-US pueden estar sujetos a retenciones fiscales sobre las ganancias de corporate actions en acciones americanas. La retención habitual bajo el tratado España-EE.UU. puede reducir el beneficio neto. Consultar con el broker.</li>
+                    <li><strong>Compatibilidad del broker:</strong> Verificar que el broker europeo permite participar en tender offers de acciones NYSE para cuentas con posiciones muy pequeñas. Interactive Brokers y similares habitualmente sí; brokers de banca tradicional pueden no soportarlo o cobrar fees elevados.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ======== TIMELINE ======== -->
+        <section id="timeline" class="fade-in">
+            <h2>Timeline del Evento</h2>
+
+            <div class="timeline">
+                <div class="timeline-item completed">
+                    <div class="timeline-date">29 Mayo 2026</div>
+                    <div class="timeline-title">Precio Pre-Anuncio: $0.658</div>
+                    <div class="timeline-desc">Último cierre antes del anuncio de la reestructuración y la tender.</div>
+                </div>
+                <div class="timeline-item completed">
+                    <div class="timeline-date">1 Junio 2026</div>
+                    <div class="timeline-title">🚀 Anuncio: +81% en el Día · Lanzamiento Tender a $2.50</div>
+                    <div class="timeline-desc">OPTU anuncia creación de Unsub Topco (CSC Investments II), private placement $512M y tender offer a precio fijo $2.50/acción. La acción sube de $0.658 a ~$1.19 en el día.</div>
+                </div>
+                <div class="timeline-item completed">
+                    <div class="timeline-date">4 Junio 2026</div>
+                    <div class="timeline-title">Optimum presenta propuesta de reestructuración a asesores de acreedores</div>
+                    <div class="timeline-desc">Creditflux reporta que los asesores de los acreedores están restringidos y revisando documentos de due diligence. Negociaciones formales iniciadas.</div>
+                </div>
+                <div class="timeline-item completed">
+                    <div class="timeline-date">10 Junio 2026</div>
+                    <div class="timeline-title">Junta Anual de Accionistas</div>
+                    <div class="timeline-desc">Annual Meeting de Optimum Communications Inc. Sin novedades materiales sobre la tender.</div>
+                </div>
+                <div class="timeline-item completed">
+                    <div class="timeline-date">16 Junio 2026 (HOY)</div>
+                    <div class="timeline-title">Precio actual: ~$1.1 · Spread odd-lot: ~+84%</div>
+                    <div class="timeline-desc">Tender activa. Sin filing de enmienda (SC TO-I/A) ni cancelación en EDGAR. Quedan ~10 días hábiles.</div>
+                </div>
+                <div class="timeline-item warning-item">
+                    <div class="timeline-date">~25 Junio 2026</div>
+                    <div class="timeline-title">⚠️ Deadline interno de instrucción al broker</div>
+                    <div class="timeline-desc">Fecha límite práctica para instruir al broker la participación en la tender (2–3 días hábiles antes del vencimiento). Confirmar con cada broker.</div>
+                </div>
+                <div class="timeline-item warning-item">
+                    <div class="timeline-date">30 Junio 2026 · 17:00 NY</div>
+                    <div class="timeline-title">🎯 Expiración de la Tender Offer</div>
+                    <div class="timeline-desc">Vencimiento oficial (salvo extensión o terminación anticipada). CSC Investments II publica los resultados y confirma si hay prorrateo (en odd-lots no debería haberlo).</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">~3–4 Julio 2026</div>
+                    <div class="timeline-title">💰 Pago a los Tenedores Aceptados</div>
+                    <div class="timeline-desc">Liquidación del pago de $2.50/acción a los 3 días hábiles siguientes a la expiración.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== RIESGOS ======== -->
+        <section id="riesgos" class="fade-in">
+            <h2>Análisis de Riesgos</h2>
+
+            <div class="risk-grid">
+                <div class="risk-card">
+                    <div class="risk-header">
+                        <div class="risk-title">Cancelación por Reestructuración</div>
+                        <span class="risk-badge high">ALTO</span>
+                    </div>
+                    <div class="risk-bar-track"><div class="risk-bar-fill high" style="width:75%"></div></div>
+                    <div class="risk-desc">La tender puede cancelarse si OPTU y los acreedores de CSC Holdings firman un acuerdo de reestructuración que exija la no-consumación de la oferta. Las negociaciones son formales desde el 4 de junio, pero un deal de $21.8B en 15 días es improbable según los precedentes Drahi (Altice France: 11 meses; Altice International: 6+ meses en curso).</div>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-header">
+                        <div class="risk-title">Extensión del Plazo (sin cancelación)</div>
+                        <span class="risk-badge medium">MEDIO</span>
+                    </div>
+                    <div class="risk-bar-track"><div class="risk-bar-fill medium" style="width:40%"></div></div>
+                    <div class="risk-desc">El ofertante puede extender la fecha de expiración. Esto no cancela la oportunidad pero dilata el cobro y reduce la TIR efectiva. Si se extiende significativamente, el spread puede comprimirse más o aumentar el riesgo de cancelación posterior.</div>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-header">
+                        <div class="risk-title">Riesgo FX (Inversores Europeos)</div>
+                        <span class="risk-badge low">BAJO</span>
+                    </div>
+                    <div class="risk-bar-track"><div class="risk-bar-fill low" style="width:20%"></div></div>
+                    <div class="risk-desc">En un plazo de ~15 días, la variación del EUR/USD es típicamente pequeña. Con un beneficio bruto de ~$113, un movimiento del 2% en el tipo de cambio reduciría el beneficio en ~$2.7, sin cambiar materialmente la tesis. Riesgo muy acotado dado el tamaño de la posición.</div>
+                </div>
+            </div>
+
+            <div class="alert alert-danger mt-20">
+                <strong>Señal de alerta máxima:</strong> Cualquier filing <strong>SC TO-I/A</strong> en EDGAR para el issuer Optimum Communications (CIK 1702780) que mencione extensión o terminación debe revisarse de inmediato. Si se anuncia un acuerdo de reestructuración con el Cooperation Agreement de acreedores (White &amp; Case / Akin Gump), la tender puede cancelarse con efectividad inmediata. Monitorizar: <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1702780&type=SC+TO&dateb=&owner=include&count=10" target="_blank" rel="noopener noreferrer">SEC EDGAR filings OPTU →</a>
+            </div>
+        </section>
+
+        <!-- ======== CONCLUSIÓN ======== -->
+        <section id="conclusion" class="fade-in">
+            <h2>Conclusión y Veredicto</h2>
+
+            <div class="alert alert-success">
+                <strong>Veredicto SpreadHunters:</strong> La odd-lot de OPTU es una de las oportunidades de mayor convexidad positiva del mercado en junio de 2026. Con una inversión máxima de ~$108.9 y un upside bruto de ~$138, el perfil asimétrico es excepcional para una operación de 25 días hábiles. El riesgo es real pero acotado y monitorizable en tiempo real.
+            </div>
+
+            <h3>Resumen del Setup</h3>
+            <div class="highlights">
+                <div class="highlight-item">
+                    <h4>✅ A Favor</h4>
+                    <ul class="compact-list">
+                        <li>Precio fijo $2.50 — sin ambigüedad de precio</li>
+                        <li>Fondos ya captados (no hay financing condition)</li>
+                        <li>Odd-lot priority explícito en el documento</li>
+                        <li>No hay minimum tender condition</li>
+                        <li>Drahi ya convirtió sus propias acciones a $2.50</li>
+                        <li>Inversión total máxima: ~$135</li>
+                        <li>Precedentes Drahi: reestructuraciones llevan meses</li>
+                    </ul>
+                </div>
+                <div class="highlight-item">
+                    <h4>⚠️ En Contra</h4>
+                    <ul class="compact-list">
+                        <li>Condición de cancelación explícita (reestructuración)</li>
+                        <li>Negociaciones formales ya iniciadas con acreedores</li>
+                        <li>Empresa con $21.8B de deuda — situación frágil</li>
+                        <li>Plazo muy ajustado (~15 días hábiles)</li>
+                        <li>Algunos brokers pueden no soportar la participación</li>
+                        <li>Withholding y FX reducen el neto para europeos</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mt-20">
+                <h3>Para un Inversor de Situaciones Especiales</h3>
+                <p>La odd-lot de OPTU es un trade clásico de <em>event-driven</em> con las características ideales: spread amplio, downside absoluto acotado en dólares (~$135 máximo), catalizador a corto plazo bien definido y riesgo monitorizable en tiempo real (filings SEC).</p>
+                <p>La posición correcta es exactamente <strong>99 acciones</strong>, en <strong>una sola cuenta</strong>, sin ninguna acción OPTU adicional en ningún otro broker. La ejecución limpia y la vigilancia de noticias son los únicos factores que el inversor puede controlar.</p>
+            </div>
+
+            <div class="stats-grid mt-20">
+                <div class="stat-card">
+                    <div class="label">Calificación del Setup</div>
+                    <div class="value positive">8/10</div>
+                    <div class="change positive">Fuerte · Riesgo monitorizable</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Probabilidad Estimada de Éxito</div>
+                    <div class="value positive">~70–75%</div>
+                    <div class="change">Basado en precedentes Drahi</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Valor Esperado (EV) Bruto</div>
+                    <div class="value positive">~$44</div>
+                    <div class="change positive">0.72×$113 – 0.28×$69</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Clasificación</div>
+                    <div class="value" style="font-size:1rem;">
+                        <span class="tag tag-cyan">Odd-Lot</span>
+                        <span class="tag tag-orange">Reestructuración</span>
+                        <span class="tag tag-green">Evento Corporativo</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-warning mt-20">
+                <strong>Disclaimer:</strong> Este análisis es elaborado por SpreadHunters con fines exclusivamente informativos y educativos. No constituye asesoramiento de inversión ni recomendación de compra o venta. Las situaciones especiales conllevan riesgos únicos, incluida la pérdida total de la inversión. Cada inversor debe realizar su propia due diligence y consultar con un asesor financiero independiente antes de tomar decisiones de inversión.
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <p>SpreadHunters · Análisis de Situaciones Especiales · <a href="https://spreadhunters.es" target="_blank" rel="noopener noreferrer">spreadhunters.es</a></p>
+            <p style="margin-top:10px; font-size:0.85rem;">OPTU Odd-Lot Tender Offer · Actualizado: 16 de junio de 2026 · Los datos son orientativos; verificar con fuentes primarias antes de operar.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Progress Bar ---
+        window.addEventListener('scroll', function() {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+            document.getElementById('progressBar').style.width = progress + '%';
+        });
+
+        // --- Smooth scroll + active nav ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (!href || href === '#') return;
+                const target = document.querySelector(href);
+                if (!target) return;
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (this.closest('.nav-tabs')) {
+                    document.querySelectorAll('.nav-tabs a').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // --- Fade-in ---
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // --- Active nav on scroll ---
+        window.addEventListener('scroll', function() {
+            let current = '';
+            document.querySelectorAll('section').forEach(section => {
+                if (window.pageYOffset >= section.offsetTop - 200) current = section.getAttribute('id');
+            });
+            document.querySelectorAll('.nav-tabs a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href')?.slice(1) === current) link.classList.add('active');
+            });
+        });
+
+        // --- Upside automático ---
+        function parseMoney(text) {
+            const v = Number(String(text).replace(/[^\d.,-]/g, '').replace(',', '.'));
+            return Number.isFinite(v) ? v : NaN;
+        }
+        function formatPct(v) { return (v >= 0 ? '+' : '') + v.toFixed(1) + '%'; }
+
+        function updateUpside() {
+            const elPrice = document.getElementById('priceCurrent');
+            const elFair = document.getElementById('fairValue');
+            const elUps = document.getElementById('upsidePct');
+            const elInvest = document.getElementById('investAmt');
+            if (!elPrice || !elFair || !elUps) return;
+            const price = parseMoney(elPrice.textContent);
+            const fair = parseMoney(elFair.textContent);
+            if (!Number.isFinite(price) || !Number.isFinite(fair) || price <= 0) { elUps.textContent = '—'; return; }
+            const upside = ((fair / price) - 1) * 100;
+            elUps.textContent = formatPct(upside);
+            elUps.className = 'metric-value ' + (upside >= 0 ? 'green' : 'red');
+            if (elInvest) elInvest.textContent = '$' + (price * 99).toFixed(2);
+        }
+
+        // --- Días restantes ---
+        function updateDaysLeft() {
+            const el = document.getElementById('daysLeft');
+            if (!el) return;
+            const expiry = new Date('2026-06-30T17:00:00-04:00');
+            const now = new Date();
+            const diff = expiry - now;
+            if (diff <= 0) { el.textContent = 'Expirada'; el.className = 'metric-value red'; return; }
+            const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+            el.textContent = days + ' días';
+            el.className = 'metric-value ' + (days <= 5 ? 'red' : days <= 10 ? 'orange' : 'cyan');
+        }
+
+        updateUpside();
+        updateDaysLeft();
+
+        // --- Charts ---
+        function initCharts() {
+            if (typeof Chart === 'undefined') return;
+            Chart.defaults.color = '#b0c4de';
+            Chart.defaults.borderColor = '#2d3d4d';
+
+            // Chart 1: Spread vs precio de compra
+            const ctx1 = document.getElementById('chartSpread');
+            if (ctx1) {
+                new Chart(ctx1, {
+                    type: 'bar',
+                    data: {
+                        labels: ['$0.66 (pre)', '$1.10 (día 1)', '$1.1 (hoy)', '$1.50', '$1.80'],
+                        datasets: [{
+                            label: 'Spread % (odd-lot 99 acc.)',
+                            data: [280, 127, 84, 67, 39],
+                            backgroundColor: ['rgba(0,215,255,0.3)','rgba(0,215,255,0.45)','rgba(0,215,255,0.7)','rgba(0,215,255,0.55)','rgba(0,215,255,0.35)'],
+                            borderColor: '#00d7ff',
+                            borderWidth: 2,
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            title: { display: true, text: 'Spread % Odd-Lot según Precio de Compra', color: '#ffffff', font: { size: 13, weight: 'bold' } },
+                            tooltip: { callbacks: { label: ctx => 'Spread: +' + ctx.parsed.y + '%' } }
+                        },
+                        scales: {
+                            x: { grid: { display: false }, ticks: { color: '#b0c4de', font: { size: 11 } } },
+                            y: { beginAtZero: true, grid: { color: '#2d3d4d' }, ticks: { color: '#b0c4de', callback: v => '+' + v + '%' } }
+                        }
+                    }
+                });
+            }
+
+            // Chart 2: Payoff scenarios
+            const ctx2 = document.getElementById('chartPayoff');
+            if (ctx2) {
+                new Chart(ctx2, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Tender OK', 'Cancelación\n→ $0.66', 'Cancelación\n→ $1.00'],
+                        datasets: [{
+                            label: 'Beneficio / Pérdida Neta ($)',
+                            data: [112.86, -69.30, -35.64],
+                            backgroundColor: ['rgba(144,238,144,0.5)', 'rgba(255,107,107,0.5)', 'rgba(255,165,0,0.4)'],
+                            borderColor: ['#90ee90', '#ff6b6b', '#ffa500'],
+                            borderWidth: 2,
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            title: { display: true, text: 'Payoff Escenarios — 99 acciones @ $1.1', color: '#ffffff', font: { size: 13, weight: 'bold' } },
+                            tooltip: { callbacks: { label: ctx => 'P&L: $' + ctx.parsed.y.toFixed(2) } }
+                        },
+                        scales: {
+                            x: { grid: { display: false }, ticks: { color: '#b0c4de' } },
+                            y: { grid: { color: '#2d3d4d' }, ticks: { color: '#b0c4de', callback: v => '$' + v } }
+                        }
+                    }
+                });
+            }
+        }
+
+        initCharts();
+    </script>
+</body>
+</html>
