@@ -1989,12 +1989,12 @@ async function loadAllPrices() {
                 priceSource: 'manual',
                 riskLevel: 'Medio',
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
-                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
-                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
-                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: '',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
-                closeComment: ''            // Comentario breve
+                status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '2026-06-18',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: 'Vendida a $6.5. El spread se cerró en torno a nuestro precio objetivo',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '20,59%',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '+174,65%',  // IRR (ej: '+18% IRR')
+                closeComment: 'Rendimiento real absoluto de del 174%'            // Comentario breve
             },
 
             {
@@ -2018,12 +2018,12 @@ async function loadAllPrices() {
                 priceSource: 'manual',
                 riskLevel: 'Bajo',
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
-                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
-                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
-                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: '',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
-                closeComment: ''            // Comentario breve
+                status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '2026-06-24',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: 'Upside inicial alcanzado, venta por mejores oportunidades',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '8.66%',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: 'IRR del 30.76%',  // IRR (ej: '+18% IRR')
+                closeComment: 'Tesis semi-ejecutada. Contentos cerrando al haber alcanzado parte del upside.'            // Comentario breve
             },
             {
                 id: 'YEXT',
@@ -2074,11 +2074,11 @@ async function loadAllPrices() {
                 riskLevel: 'Alto',
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
-                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
-                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: '',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
-                closeComment: ''            // Comentario breve
+                closeDate: 'closed_success',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: 'Tesis semi-cumplida, OPA realizada por el CEO',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '22.22%',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '79.67%',  // IRR (ej: '+18% IRR')
+                closeComment: 'Vendida a 2.2 por OPA del CEO a 2.45 + 2 CVR. La venta de SEER generó una ganancia directa del 22.22% en un periodo de 125 días, lo que representa una tasa interna de retorno anualizada (IRR) del 79.67%'            // Comentario breve
             },
             {
                 id: 'hsp',
@@ -2103,7 +2103,7 @@ async function loadAllPrices() {
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '2026-05-08',              // Fecha de cierre (ej: '2026-07-03')
-                closeReason: 'Teder ejecutada - Remanente vendido',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReason: 'Tender ejecutada - Remanente vendido',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
                 closeReturn: '+3.7%',            // Rentabilidad total (ej: '+22%')
                 closeReturnAnnualized: '+24.35% IRR',  // IRR (ej: '+18% IRR')
                 closeComment: 'Tender exitosa, buen capital allocation, financiada con venta de activo propio. Se cierra posición para monetizar.'            // Comentario breve
@@ -2269,12 +2269,12 @@ async function loadAllPrices() {
                 priceSource: 'manual',
                 riskLevel: 'Bajo',
                  // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
-                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
-                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
-                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: '',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
-                closeComment: ''            // Comentario breve
+                status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '2026-06-30',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: 'Odd-lot ejecutada',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '127%',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '1899088%',  // IRR (ej: '+18% IRR')
+                closeComment: 'Odd-lot ejecutada con éxito. 100% de odd-lots con éxito'            // Comentario breve
             },
             
             
