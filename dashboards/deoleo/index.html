@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#00d7ff">
+    <title>Deoleo (BME: OLE) - Análisis de Inversión | SpreadHunters</title>
+    <meta name="description" content="Deoleo (OLE.MC): situación especial M&A. Proceso de venta con ofertas vinculantes el 31 de julio de 2026. Fair value ponderado 0,47 € y upside del 39%.">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+    <style>
+        /* ========================================
+           SISTEMA DE VARIABLES - COLORES GLOBALES
+           ======================================== */
+        :root {
+            --primary-color: #00d7ff;
+            --secondary-color: #1a2332;
+            --accent-color: #4A8B9B;
+
+            --success-color: #90ee90;
+            --danger-color: #ff6b6b;
+            --warning-color: #ffa500;
+            --info-color: #00d7ff;
+            --olive-color: #b5c94e;      /* Verde oliva - acento temático Deoleo */
+
+            --dark-bg: #1a2332;
+            --darker-bg: #0f1419;
+            --card-bg: #1a2538;
+            --light-bg: #E8E8E8;
+
+            --text-primary: #d0d8e0;
+            --text-secondary: #b0c4de;
+            --text-tertiary: #808080;
+
+            --border-color: #2d3d4d;
+            --border-light: #3d5570;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.95) 0%, rgba(30, 50, 80, 0.95) 100%);
+            background-color: #1a2332;
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* BARRA DE PROGRESO */
+        .progress-bar {
+            background: var(--success-color);
+            height: 2px; width: 0%;
+            position: fixed; top: 0; left: 0;
+            z-index: 1000; transition: width 0.3s ease;
+        }
+
+        /* LOGO NAVBAR */
+        .logo-navbar {
+            position: fixed; top: 20px; left: 20px;
+            z-index: 900; background: none; padding: 0; border: none;
+            pointer-events: none;
+        }
+        .logo-navbar-img { height: 44px; width: auto; display: block; }
+
+        @media (max-width: 768px) {
+            .logo-navbar { top: 15px; left: 15px; }
+            .logo-navbar-img { height: 34px; }
+        }
+        @media (max-width: 480px) {
+            .logo-navbar { top: 12px; left: 12px; }
+            .logo-navbar-img { height: 30px; }
+        }
+
+        /* HEADER PROFESIONAL */
+        .header-professional {
+            margin: 0; padding: 50px 20px;
+            background: transparent;
+            border-bottom: 1px solid rgba(74, 127, 127, 0.1);
+            backdrop-filter: blur(3px);
+            position: relative; z-index: 2;
+        }
+        .header-professional .container {
+            display: flex; flex-direction: column; align-items: center;
+            text-align: center; gap: 20px; max-width: 1200px; margin: 0 auto;
+        }
+        .header-title-section { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .company-title-row {
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; gap: 14px; text-align: center;
+        }
+        .logo-company { height: 58px; width: auto; display: block; }
+
+        .header-badges { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 4px; }
+        .badge {
+            font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px;
+            padding: 5px 12px; border-radius: 20px; font-weight: 600;
+        }
+        .badge-special { background: rgba(181, 201, 78, 0.15); color: var(--olive-color); border: 1px solid rgba(181, 201, 78, 0.4); }
+        .badge-event   { background: rgba(255, 165, 0, 0.15); color: var(--warning-color); border: 1px solid rgba(255, 165, 0, 0.4); }
+
+        .page-title {
+            font-size: 1.65rem; font-weight: 700; color: #ffffff; margin: 0;
+            letter-spacing: 1px; line-height: 1.3;
+        }
+        .page-subtitle {
+            font-size: 0.95rem; color: #e0e0e0; margin: 10px 0 0;
+            font-weight: 400; max-width: 720px;
+        }
+
+        @media (max-width: 1024px) { .page-title { font-size: 1.8rem; } }
+        @media (max-width: 768px) {
+            .header-professional { padding: 30px 15px; }
+            .page-title { font-size: 1.4rem; }
+            .logo-company { height: 48px; }
+            .page-subtitle { font-size: 0.9rem; }
+        }
+        @media (max-width: 480px) {
+            .header-professional { padding: 20px 15px; }
+            .page-title { font-size: 1.15rem; }
+            .logo-company { height: 42px; }
+            .page-subtitle { font-size: 0.85rem; }
+        }
+
+        /* TARJETAS DE MÉTRICAS */
+        .investment-metrics {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px; margin: 20px 0; width: 100%;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.6) 0%, rgba(30, 50, 80, 0.6) 100%);
+            border: 2px solid rgba(0, 215, 255, 0.3);
+            border-radius: 12px; padding: 18px; text-align: center;
+            backdrop-filter: blur(10px); transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+        .metric-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, rgba(0, 215, 255, 0.5) 0%, rgba(0, 215, 255, 0) 100%);
+        }
+        .metric-card:hover {
+            border-color: rgba(0, 215, 255, 0.6);
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.8) 0%, rgba(30, 50, 80, 0.8) 100%);
+            box-shadow: 0 0 20px rgba(0, 215, 255, 0.2);
+        }
+        .metric-label {
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px;
+            color: var(--text-secondary); margin-bottom: 12px; font-weight: 600;
+        }
+        .metric-value { font-size: 1.7rem; font-weight: 700; margin-bottom: 5px; letter-spacing: -0.5px; }
+        .metric-value.cyan { color: #00d7ff; }
+        .metric-value.green { color: #90ee90; }
+        .metric-value.red { color: #ff6b6b; }
+        .metric-subtitle { font-size: 0.8rem; color: var(--text-tertiary); font-weight: 400; }
+
+        @media (max-width: 768px) {
+            .investment-metrics { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .metric-card { padding: 15px; }
+            .metric-value { font-size: 1.3rem; }
+        }
+
+        /* NAVEGACIÓN DE PESTAÑAS */
+        .nav-tabs {
+            background: var(--card-bg); padding: 20px 0;
+            position: sticky; top: 0; z-index: 100;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .nav-tabs ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+        .nav-tabs a {
+            color: var(--text-secondary); text-decoration: none; padding: 10px 18px;
+            border-radius: 6px; transition: all 0.3s ease; font-weight: 500; font-size: 0.92rem;
+        }
+        .nav-tabs a:hover, .nav-tabs a.active { background: var(--primary-color); color: var(--dark-bg); }
+
+        @media (max-width: 768px) {
+            .nav-tabs { padding: 10px 0; }
+            .nav-tabs ul {
+                flex-direction: row; justify-content: flex-start; flex-wrap: nowrap;
+                overflow-x: auto; overflow-y: hidden; gap: 8px; padding: 0 12px 6px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .nav-tabs li { flex: 0 0 auto; }
+            .nav-tabs a { padding: 7px 12px; font-size: 0.85rem; white-space: nowrap; }
+            .nav-tabs ul::-webkit-scrollbar { height: 6px; }
+            .nav-tabs ul::-webkit-scrollbar-track { background: rgba(15, 20, 25, 0.35); }
+            .nav-tabs ul::-webkit-scrollbar-thumb { background: rgba(0, 215, 255, 0.55); border-radius: 6px; }
+        }
+        @media (max-width: 480px) {
+            .nav-tabs { padding: 8px 0; }
+            .nav-tabs ul { padding: 0 10px 6px; gap: 6px; }
+            .nav-tabs a { padding: 6px 10px; font-size: 0.80rem; }
+        }
+
+        /* SECCIONES */
+        section {
+            padding: 60px 0; border-bottom: 1px solid var(--border-color);
+            position: relative; z-index: 1; scroll-margin-top: 90px;
+        }
+        section h2 {
+            font-size: 1.35rem; margin-bottom: 30px; color: var(--primary-color);
+            border-left: 4px solid var(--success-color); padding-left: 20px;
+        }
+        section > h3 { font-size: 1.25rem; margin: 30px 0 15px; color: var(--text-primary); }
+        section > h4 { font-size: 1.0rem; margin: 15px 0 10px; color: var(--text-primary); }
+
+        @media (max-width: 768px) {
+            .page-title { font-size: 1.4rem; }
+            .page-subtitle { font-size: 0.9rem; }
+            section h2 { font-size: 1.25rem; }
+            section h3 { font-size: 1.1rem; }
+            section { scroll-margin-top: 120px; }
+        }
+
+        /* TARJETAS Y GRÁFICOS */
+        .card {
+            background: rgba(26, 35, 50, 0.85); border-radius: 8px; padding: 14px 16px;
+            margin-bottom: 20px; border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); line-height: 1.5;
+        }
+        .chart-container {
+            background: rgba(26, 35, 50, 0.85); border-radius: 8px; padding: 25px; margin: 30px 0;
+            border: 1px solid var(--border-color); backdrop-filter: blur(10px);
+            position: relative; height: 400px;
+        }
+        .chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; margin: 30px 0; }
+        .chart-caption { font-size: 0.8rem; color: var(--text-tertiary); text-align: center; margin: -12px 0 20px; }
+
+        @media (max-width: 768px) {
+            .chart-grid { grid-template-columns: 1fr; }
+            .chart-container { height: 320px; padding: 16px; }
+        }
+
+        /* GRILLA DE ESTADÍSTICAS */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin: 30px 0; }
+        .stat-card {
+            background: rgba(26, 35, 50, 0.8); padding: 22px; border-radius: 12px; text-align: center;
+            border: 2px solid var(--border-color); backdrop-filter: blur(10px);
+        }
+        .stat-card .label { font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .stat-card .value { font-size: 1.7rem; font-weight: 600; color: var(--text-primary); }
+        .stat-card .change { font-size: 0.9rem; margin-top: 5px; }
+        .positive { color: var(--success-color); }
+        .negative { color: var(--danger-color); }
+        .neutral  { color: var(--primary-color); }
+
+        /* TABLAS */
+        .table-responsive { overflow-x: auto; margin: 30px 0; border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; background: var(--card-bg); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); font-size: 0.92rem; }
+        thead { background: #1A1F2E; border-bottom: 2px solid var(--primary-color); }
+        th, td { padding: 13px 15px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { color: var(--text-secondary); font-weight: 600; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.5px; }
+        tr:hover { background: rgba(74, 127, 127, 0.05); }
+        td.num { text-align: right; font-variant-numeric: tabular-nums; }
+        th.num { text-align: right; }
+
+        /* CAJAS DE ALERTA */
+        .alert { padding: 16px 18px; border-radius: 8px; margin: 20px 0; border-left: 4px solid; backdrop-filter: blur(10px); }
+        .alert-success { background: rgba(74, 155, 111, 0.08); border-color: var(--success-color); color: var(--text-primary); }
+        .alert-warning { background: rgba(255, 165, 0, 0.15); border-color: var(--warning-color); color: var(--text-primary); }
+        .alert-info { background: rgba(0, 212, 212, 0.15); border-color: var(--primary-color); color: var(--text-primary); }
+        .alert-danger { background: rgba(255, 107, 107, 0.15); border-color: var(--danger-color); color: var(--text-primary); }
+        .alert strong { color: #ffffff; }
+        .alert p { margin-bottom: 8px; } .alert p:last-child { margin-bottom: 0; }
+
+        /* HIGHLIGHTS */
+        .highlights { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 30px 0; }
+        .highlight-item {
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(0, 212, 212, 0.1) 100%);
+            padding: 16px 18px; border-radius: 12px; border-left: 4px solid var(--primary-color); backdrop-filter: blur(10px);
+        }
+        .highlight-item h4 { color: var(--primary-color); margin-bottom: 8px; font-size: 1.05rem; }
+        .highlight-item p { color: var(--text-primary); line-height: 1.55; }
+
+        /* PROCESO / TIMELINE M&A */
+        .flag { font-size: 1.05rem; }
+        .pill { display:inline-block; padding: 2px 9px; border-radius: 12px; font-size: 0.72rem; font-weight: 600; }
+        .pill-live { background: rgba(255,165,0,0.18); color: var(--warning-color); }
+
+        /* BOTONES */
+        .btn { background: var(--primary-color); color: var(--dark-bg); border: 1px solid var(--primary-color); padding: 10px 24px; border-radius: 4px; font-weight: 500; transition: all 0.2s ease; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn:hover { background: var(--secondary-color); border-color: var(--accent-color); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); }
+        .btn-success { font-size: 0.9rem; padding: 8px 18px; border-radius: 6px; }
+
+        /* FOOTER */
+        footer { background: var(--card-bg); padding: 40px 0; text-align: center; margin-top: 60px; border-top: 2px solid var(--border-color); position: relative; z-index: 1; }
+        footer p { color: var(--text-secondary); font-size: 0.9rem; margin: 10px 0; }
+        footer a { color: var(--primary-color); text-decoration: none; }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: rgba(15, 20, 25, 0.5); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 5px; }
+
+        /* ANIMACIONES */
+        .fade-in { animation: fadeIn 0.6s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } html { scroll-behavior: auto; } }
+
+        /* UTILIDADES */
+        .mt-15 { margin-top: 15px; } .mt-20 { margin-top: 20px; } .mt-30 { margin-top: 30px; }
+        .text-center { text-align: center; } .warning { color: var(--warning-color); }
+        .compact-list { margin: 6px 0 0; padding-left: 18px; } .compact-list li { margin: 0 0 6px 0; }
+        .chart-350 { height: 350px; } .chart-320 { height: 320px; }
+        code.mono { background: rgba(15,20,25,0.7); padding: 1px 6px; border-radius: 4px; font-size: 0.85em; color: var(--olive-color); }
+
+        @media (max-width: 768px) { .container { padding: 0 15px; } }
+    </style>
+</head>
+<body>
+    <div id="top"></div>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Logo SpreadHunters -->
+    <div class="logo-navbar">
+    <img src="../../images/spreadhunter_navbar.svg" alt="SpreadHunters" class="logo-navbar-img">
+  </div>
+
+    <!-- Header -->
+    <header class="header-professional">
+        <div class="container">
+            <div class="header-title-section">
+                <div class="company-title-row">
+                 	<img src="../company-logos/deoleo.png" alt="Deoleo Logo" class="logo-company">  
+                	<h1 class="page-title">Deoleo (BME: OLE)</h1>
+                </div>
+                <div class="header-badges">
+                    <span class="badge badge-special">Special Situation · M&A</span>
+                    <span class="badge badge-event">Ofertas vinculantes · 31 Jul 2026</span>
+                </div>
+                <p class="page-subtitle">Líder mundial en aceite de oliva envasado en proceso formal de venta. CVC y Alchemy han abierto la puja: el desenlace corporativo es inminente y la asimetría riesgo/recompensa es favorable.</p>
+            </div>
+
+            <div class="investment-metrics">
+                <div class="metric-card">
+                    <div class="metric-label">Precio actual</div>
+                    <div class="metric-value cyan" id="priceCurrent">0,338 €</div>
+                    <div class="metric-subtitle">Cotización ~inicio julio 2026</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Fair Value</div>
+                    <div class="metric-value cyan" id="fairValue">0,47 €</div>
+                    <div class="metric-subtitle">Ponderado por probabilidad</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Upside potencial</div>
+                    <div class="metric-value green" id="upsidePct">—</div>
+                    <div class="metric-subtitle">Retorno esperado cartera: +38,5%</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navegación -->
+    <nav class="nav-tabs">
+        <div class="container">
+            <ul>
+                <li><a href="#resumen" class="active">Resumen</a></li>
+                <li><a href="#empresa">Empresa</a></li>
+                <li><a href="#transformacion">Transformación</a></li>
+                <li><a href="#proceso">Proceso de Venta</a></li>
+                <li><a href="#valuation">Valuación</a></li>
+                <li><a href="#catalysts">Catalizadores</a></li>
+                <li><a href="#riesgos">Riesgos</a></li>
+                <li><a href="#conclusion">Conclusión</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <!-- ===================== RESUMEN ===================== -->
+        <section id="resumen" class="fade-in">
+            <h2>Resumen Ejecutivo</h2>
+
+            <div class="alert alert-success">
+                <strong>Tesis de Inversión:</strong> Deoleo (OLE.MC), líder mundial en aceite de oliva envasado (Carbonell, Bertolli, Hojiblanca, Carapelli), está en una situación especial de tipo M&A. Sus fondos mayoritarios —CVC Capital Partners y Alchemy Partners— han abierto formalmente un proceso de venta asesorado por KPMG y William Blair, con ofertas vinculantes calendadas para el <strong>31 de julio de 2026</strong>. Tras la reestructuración de 2020 y el plan EVOOlution, el balance está saneado y el mercado aún no computa con precisión la opcionalidad alcista de los intangibles ni la competencia en la puja.
+            </div>
+
+            <div class="highlights">
+                <div class="highlight-item">
+                    <h4>✓ Catalizador con fecha</h4>
+                    <p>Proceso de venta activo desde finales de junio de 2026. Ofertas vinculantes previstas para el 31 de julio: un desenlace corporativo con timing definido, no una tesis de "value" indefinida.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>✓ Balance saneado</h4>
+                    <p>Deuda neta reducida a 2,0x EBITDA en 2025 (desde 3,5x). La compañía proyecta <strong>caja neta positiva en 2028e</strong>, muy lejos de la crisis de deuda de +550 M€ que motivó la reestructuración.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>✓ Marcas líderes mundiales</h4>
+                    <p>29 marcas en +70 países, 74% de ingresos internacionales. Bertolli (líder en EE.UU.) y Carbonell son activos codiciados por industriales estratégicos.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>✓ Suelo regulatorio sólido</h4>
+                    <p>El marco de "precio equitativo" de la CNMV fija un suelo técnico en el entorno de 0,29–0,35 €, minimizando el riesgo real de pérdida frente al recorrido estratégico al alza.</p>
+                </div>
+            </div>
+
+            <h3>Métricas Clave</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">Revalorización YTD</div>
+                    <div class="value positive">+81%</div>
+                    <div class="change neutral">2026 hasta julio</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">EBITDA Rec. 2025</div>
+                    <div class="value">49,9 M€</div>
+                    <div class="change positive">+50% interanual</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Apalancamiento</div>
+                    <div class="value">2,0x</div>
+                    <div class="change positive">desde 3,5x en 2024</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">FCF Yield</div>
+                    <div class="value neutral">&gt;12%</div>
+                    <div class="change neutral">sobre capitalización</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== EMPRESA ===================== -->
+        <section id="empresa" class="fade-in">
+            <h2>La Compañía y su Estructura</h2>
+
+            <div class="card">
+                <h3>Quiénes son</h3>
+                <p>Deoleo es el mayor grupo aceitero del mundo por ventas de aceite envasado. Comercializa más de <strong>29 marcas en más de 70 países</strong>, con el <strong>74% de sus ingresos procedentes de mercados internacionales</strong> en 2025. Su historia reciente es la de una recuperación: entró en 2014 con CVC como accionista de control, acumuló una deuda que superó los 550 M€ y fue sometida a una reestructuración integral en 2020 (conversión de deuda en equity, entrada de Alchemy, reducción de ~1.400 a 500 millones de acciones). Bajo el liderazgo de Ignacio Silva, ha ejecutado el plan EVOOlution con éxito notable.</p>
+
+                <h4>Cartera de marcas</h4>
+                <ul>
+                    <li><strong>Carbonell / Koipe / Hojiblanca</strong> → España</li>
+                    <li><strong>Bertolli</strong> → Principal marca en EE.UU., fuente de ingresos clave</li>
+                    <li><strong>Carapelli / Sasso</strong> → Italia</li>
+                    <li><strong>Figaro</strong> → India (80% de cuota en el segmento cosmético)</li>
+                </ul>
+            </div>
+
+            <h3>Estructura accionarial de la cotizada (OLE.MC)</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>Accionista</th><th class="num">Participación</th><th>Rol</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>CVC Capital Partners</strong></td><td class="num neutral">57,0%</td><td>Control efectivo de la cotizada</td></tr>
+                        <tr><td><strong>Aceites del Sur (Acesur)</strong></td><td class="num">5,1%</td><td>Industrial español</td></tr>
+                        <tr><td><strong>Free Float</strong></td><td class="num">~38,0%</td><td>~190 M acciones · ~63 M€</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>La complejidad del holding</h3>
+            <div class="card">
+                <p>La arquitectura societaria es clave para entender los incentivos de los vendedores:</p>
+                <ul>
+                    <li><strong>Deoleo SA</strong> (cotizada, 500 M acciones) posee el <strong>51% de Deoleo Holding</strong>.</li>
+                    <li><strong>Alchemy Partners</strong> posee el <strong>~41% restante</strong> del holding (vía Deoleo Financial).</li>
+                    <li>Deoleo Holding posee el <strong>100% de Deoleo Global</strong> (activos operativos).</li>
+                    <li>En el cómputo consolidado del holding: CVC ≈ 30% y Alchemy ≈ 41%.</li>
+                </ul>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>Insight:</strong> Cualquier operación corporativa requiere el alineamiento de CVC y Alchemy. El pacto de socios permite instar al consejo a iniciar la desinversión <strong>desde el 24 de diciembre de 2024</strong>, y quien controle ≥40% del capital tiene derecho de <em>drag along</em> (arrastre). Esto explica el timing: el contrato lo permitía desde finales de 2024 y los resultados de 2025 han dado el viento de cola necesario.
+            </div>
+        </section>
+
+        <!-- ===================== TRANSFORMACIÓN ===================== -->
+        <section id="transformacion" class="fade-in">
+            <h2>Transformación Operacional (Plan EVOOlution)</h2>
+
+            <h3>Métricas financieras clave · 2024 real → 2028e</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Métrica</th>
+                            <th class="num">2024</th>
+                            <th class="num">2025</th>
+                            <th class="num">2026e</th>
+                            <th class="num">2027e</th>
+                            <th class="num">2028e</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Ingresos (M€)</strong></td><td class="num">1.007</td><td class="num">848</td><td class="num">916</td><td class="num">985</td><td class="num">1.050</td></tr>
+                        <tr><td><strong>EBITDA Rec. (M€)</strong></td><td class="num">33,4</td><td class="num">49,9</td><td class="num">61,1</td><td class="num">69,8</td><td class="num">78,9</td></tr>
+                        <tr><td><strong>Margen EBITDA</strong></td><td class="num">3,3%</td><td class="num">5,9%</td><td class="num">6,7%</td><td class="num">7,1%</td><td class="num">7,5%</td></tr>
+                        <tr><td><strong>Deuda Neta (M€)</strong></td><td class="num">115,5</td><td class="num">98,1</td><td class="num">68,8</td><td class="num">33,6</td><td class="num positive">-6,3</td></tr>
+                        <tr><td><strong>DN / EBITDA</strong></td><td class="num">3,5x</td><td class="num">2,0x</td><td class="num">1,1x</td><td class="num">0,5x</td><td class="num positive">-0,1x</td></tr>
+                        <tr><td><strong>FCF Rec. (M€)</strong></td><td class="num">9,7</td><td class="num">27,0</td><td class="num">34,2</td><td class="num">40,2</td><td class="num">44,9</td></tr>
+                        <tr><td><strong>Beneficio Neto (M€)</strong></td><td class="num negative">-28,3*</td><td class="num">9,1</td><td class="num">9,3</td><td class="num">11,0</td><td class="num">13,3</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="chart-caption">*Las pérdidas de 2024 incluyen la provisión de 60,8 M€ por el litigio fiscal de Carapelli Italia. · Fuente: Lighthouse / IEAF Servicios de Análisis (marzo y junio 2026).</p>
+
+            <h3>Gráficos</h3>
+            <div class="chart-grid">
+                <div class="chart-container"><canvas id="ebitdaMargin"></canvas></div>
+                <div class="chart-container"><canvas id="deleveraging"></canvas></div>
+            </div>
+            <div class="chart-container chart-350"><canvas id="revenueFcf"></canvas></div>
+
+            <div class="alert alert-success">
+                <strong>Clave de la transformación:</strong> El EBITDA creció +50% en 2025 gracias a mayores volúmenes (+11%), la normalización del precio del aceite y la eficiencia de márgenes. El apalancamiento pasó de 3,5x a 2,0x en un año y la compañía apunta a <strong>cero deuda neta en 2028e</strong>, con un FCF yield que supera el 12% sobre capitalización a cierre de junio 2026.
+            </div>
+        </section>
+
+        <!-- ===================== PROCESO DE VENTA (M&A) ===================== -->
+        <section id="proceso" class="fade-in">
+            <h2>El Proceso de Venta: Compradores y Estructura</h2>
+
+            <div class="highlights">
+                <div class="highlight-item">
+                    <h4>🏦 Asesores</h4>
+                    <p>KPMG lidera el proceso; William Blair actúa como banco de inversión.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>⏱️ Fase actual <span class="pill pill-live">EN CURSO</span></h4>
+                    <p>Segunda fase de <em>due diligence</em>, iniciada en julio de 2026.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>📌 Hito</h4>
+                    <p>Ofertas vinculantes previstas para el <strong>31 de julio de 2026</strong> (calendario indicativo).</p>
+                </div>
+            </div>
+
+            <h3>Candidatos identificados</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>Candidato</th><th>País</th><th>Perfil</th><th>Interés principal</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Coricelli</strong></td><td><span class="flag">🇮🇹</span> Italia</td><td>Industrial familiar, ~400 M€ facturación</td><td>Activos USA (Bertolli); avanzó en 2ª fase</td></tr>
+                        <tr><td><strong>NewPrinces</strong></td><td><span class="flag">🇮🇹</span> Italia</td><td>Familia Mastrolia, ~6.500 M€ facturación</td><td>Competidor de Coricelli en 2ª fase</td></tr>
+                        <tr><td><strong>Dcoop</strong></td><td><span class="flag">🇪🇸</span> España</td><td>Mayor envasador mundial, 1.421 M€ facturación</td><td>Negocio español o la totalidad</td></tr>
+                        <tr><td><strong>Lesieur (Groupe Avril)</strong></td><td><span class="flag">🇫🇷</span> Francia</td><td>División de aceite del Grupo Avril (8.200 M€)</td><td>Proceso confirmado</td></tr>
+                        <tr><td><strong>Otros industriales / financieros</strong></td><td>Internacional</td><td>No identificados públicamente</td><td>Proceso abierto</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>¿Puede haber OPA sobre la cotizada?</h3>
+            <div class="card">
+                <h4>🟢 Escenario 1 · Venta total del holding</h4>
+                <p>El comprador adquiere el negocio operativo. Como CVC controla la cotizada (57%), un cambio de control implicaría una <strong>eventual OPA sobre OLE.MC</strong> si el comprador supera el 30% (obligación CNMV). En la práctica, comprar la participación de CVC desencadenaría una OPA sobre el free float. <em>Es el escenario que el mercado está poniendo en precio.</em></p>
+            </div>
+            <div class="card">
+                <h4>🟡 Escenario 2 · Venta de activos por partes</h4>
+                <p>No genera necesariamente OPA. El comprador de activos específicos (ej. Bertolli USA) no toma control de la cotizada. Puede implicar reestructuración societaria y el free float podría no capturar prima.</p>
+            </div>
+            <div class="card">
+                <h4>🟡 Escenario 3 · Fusión con un industrial</h4>
+                <p>Podría articularse mediante canje de acciones que diluyera a CVC y Alchemy, evitando la obligación de OPA en efectivo.</p>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>Lectura clave:</strong> El proceso contempla tanto la venta total como la venta selectiva de activos. Esa flexibilidad es la principal fuente de incertidumbre para el minoritario, pero el re-rating del +81% YTD refleja que el mercado descuenta principalmente el Escenario 1.
+            </div>
+        </section>
+
+        <!-- ===================== VALUACIÓN ===================== -->
+        <section id="valuation" class="fade-in">
+            <h2>Valuación: ¿A qué precio?</h2>
+
+            <h3>Enterprise Value actual (~0,33 € / acción)</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead><tr><th>Componente</th><th class="num">Valor (M€)</th></tr></thead>
+                    <tbody>
+                        <tr><td>Market Cap (500 M acc. × ~0,338 €)</td><td class="num">~169</td></tr>
+                        <tr><td>+ Minoritarios (Alchemy vía holding)</td><td class="num">~214</td></tr>
+                        <tr><td>+ Provisiones y otros pasivos LP</td><td class="num">~126</td></tr>
+                        <tr><td>+ Deuda financiera neta</td><td class="num">~86–98</td></tr>
+                        <tr><td>– Activo fiscal diferido y otros</td><td class="num">~(53)</td></tr>
+                        <tr><td><strong>Enterprise Value estimado</strong></td><td class="num neutral"><strong>~540–560</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Múltiplos EV/EBITDA vs. comparables</h3>
+            <div class="chart-container chart-350"><canvas id="multipleComparison"></canvas></div>
+            <p class="chart-caption">El múltiplo de Deoleo en bolsa (~8,8x sobre EBITDA 2026e de 61,1 M€) refleja un descuento frente a las multinacionales europeas de alimentación (10–11,1x) y frente al único comparable puro de aceite de oliva, Cobram Estate (23,5x). Fuente proxy: Fiscal AI.</p>
+
+            <div class="alert alert-warning">
+                <strong>Perspectiva clave:</strong> En 2023 la propia Deoleo valoró solo el intangible de sus marcas en <strong>456,3 M€</strong> (Bertolli 241,6 M€; Carbonell 88,9 M€), muy por encima de su capitalización bursátil histórica. La única OPA previa fue la de CVC en 2014 a 0,395 €/acción, en un contexto radicalmente distinto (empresa muy endeudada; hoy el balance es sólido).
+            </div>
+
+            <h3>Escenarios de precio objetivo</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>Escenario</th><th class="num">Prob.</th><th>EV/EBITDA</th><th class="num">Price Target</th><th class="num">Upside</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Sin OPA / venta de activos <span class="negative">(BEAR)</span></td><td class="num">20%</td><td>—</td><td class="num negative">0,29 €</td><td class="num negative">-13,9%</td></tr>
+                        <tr><td>OPA al mínimo regulatorio <span class="warning">(BEAR)</span></td><td class="num">10%</td><td>~8,5x</td><td class="num">0,35 €</td><td class="num">+3,6%</td></tr>
+                        <tr><td><strong>Base · comprador estratégico</strong></td><td class="num"><strong>40%</strong></td><td><strong>10–11x</strong></td><td class="num neutral"><strong>0,48 €</strong></td><td class="num positive"><strong>+42,0%</strong></td></tr>
+                        <tr><td>Prima de control plena <span class="positive">(BULL)</span></td><td class="num">25%</td><td>11x</td><td class="num positive">0,60 €</td><td class="num positive">+77,5%</td></tr>
+                        <tr><td>Bidding war <span class="positive">(SUPER BULL)</span></td><td class="num">5%</td><td>12x</td><td class="num positive">0,72 €</td><td class="num positive">+113,0%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-container"><canvas id="scenarioTargets"></canvas></div>
+                <div class="chart-container"><canvas id="probabilityMix"></canvas></div>
+            </div>
+
+            <div class="alert alert-success">
+                <strong>Retorno esperado ponderado:</strong> El modelo <em>Probability-Weighted Return Analysis</em> arroja un valor objetivo de <strong>0,47 € por acción</strong>. Frente a los ~0,34 € actuales, representa un <strong>upside del 39,0%</strong> y un retorno esperado final para la estrategia del <strong>38,5%</strong>. El resultado valida técnicamente la asimetría positiva del valor.
+            </div>
+        </section>
+
+        <!-- ===================== CATALIZADORES ===================== -->
+        <section id="catalysts" class="fade-in">
+            <h2>Catalizadores y Timing</h2>
+
+            <div class="highlights">
+                <div class="highlight-item">
+                    <h4>📅 Ofertas vinculantes (31 Jul 2026)</h4>
+                    <p>El hito más inmediato. La recepción de ofertas vinculantes puede fijar por primera vez un precio de referencia para los activos y para una eventual OPA.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>🤝 Anuncio de comprador / estructura</h4>
+                    <p>La elección entre venta total del holding vs. venta de activos determina si el free float captura prima. Un comprador estratégico por el 100% es el catalizador alcista central.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>⚖️ Precio equitativo CNMV</h4>
+                    <p>En caso de OPA de exclusión, la CNMV puede exigir un precio equitativo (como en 2014, de 0,38 € a 0,395 €), fijando un suelo por encima del mínimo regulatorio.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>🌿 Desapalancamiento continuado</h4>
+                    <p>La marcha hacia caja neta positiva en 2028e y un FCF yield &gt;12% sostienen el valor incluso si el proceso se dilata.</p>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>Timeline esperado:</strong> Ofertas vinculantes a finales de julio 2026; negociación y estructuración a lo largo del 2º semestre. Los procesos M&A de este tipo pueden alargarse varios meses, por lo que el calendario del 31 de julio es indicativo, no una fecha de cierre.
+            </div>
+        </section>
+
+        <!-- ===================== RIESGOS ===================== -->
+        <section id="riesgos" class="fade-in">
+            <h2>Análisis de Riesgos</h2>
+
+            <h3>Riesgos del proceso M&A</h3>
+            <div class="card">
+                <h4>🟡 Riesgo #1 · Proceso fragmentado — Medio</h4>
+                <p><strong>Escenario:</strong> La opción de vender "activos selectivos" favorece a los compradores (compran solo lo que quieren) y puede reducir el precio total percibido por los minoritarios de OLE.MC.</p>
+                <p><strong>Mitigante:</strong> La competencia entre varios candidatos (Coricelli, NewPrinces, Dcoop, Lesieur) presiona al alza el precio.</p>
+            </div>
+            <div class="card">
+                <h4>🔴 Riesgo #2 · Ausencia de OPA garantizada — Alto para el free float</h4>
+                <p><strong>Escenario:</strong> No hay obligación legal de lanzar OPA sobre OLE.MC si la transacción se estructura como compraventa del holding. El free float podría no beneficiarse de la prima.</p>
+                <p><strong>Mitigante:</strong> Comprar la participación de CVC en la cotizada sí desencadenaría OPA; el escenario central del mercado es la venta total.</p>
+            </div>
+            <div class="card">
+                <h4>🟡 Riesgo #3 · Litigio fiscal Italia (Carapelli) — Medio</h4>
+                <p><strong>Escenario:</strong> Reclamación de 64,7 M€ de la agencia tributaria italiana; Deoleo ha apelado ante el Tribunal Supremo italiano.</p>
+                <p><strong>Mitigante:</strong> CVC y Alchemy suscriben bonos subordinados para cubrir costes sin impactar la caja operativa.</p>
+            </div>
+
+            <h3>Riesgos operativos, de mercado y de liquidez</h3>
+            <div class="card">
+                <h4>🟡 Materia prima y aranceles</h4>
+                <p>El negocio es sensible al precio del aceite (cosecha 2025/26 ~3,4 Mn t, estable). El mercado norteamericano (~28% de ingresos) queda expuesto a una eventual escalada arancelaria sobre Bertolli y Carapelli USA. El margen EBITDA 2026e (6,7%) sigue por debajo del ~14,4% de las multinacionales de alimentación: hay recorrido, pero también dependencia de la ejecución.</p>
+            </div>
+            <div class="card">
+                <h4>🔴 Iliquidez extrema del valor</h4>
+                <p>Rotación anual de solo el <strong>42,7%</strong> de la capitalización y volumen medio diario cercano a <strong>0,24 M€</strong>. El free float es del 38% (~190 M acciones, ~63 M€). Esta falta de profundidad amplifica la volatilidad y limita las ventanas de salida fuera de un evento de OPA formal ("riesgo de atrapamiento" institucional).</p>
+            </div>
+
+            <div class="alert alert-success">
+                <strong>🛡️ Perfil riesgo/recompensa:</strong> Altamente favorable. El suelo técnico de la CNMV (0,29–0,35 €) acota la pérdida potencial mientras el recorrido estratégico al alza alcanza 0,60–0,72 € en escenarios de prima de control o guerra de ofertas. La asimetría justifica la tesis.
+            </div>
+        </section>
+
+        <!-- ===================== CONCLUSIÓN ===================== -->
+        <section id="conclusion" class="fade-in">
+            <h2>Tesis de Inversión y Conclusión</h2>
+
+            <div class="card">
+                <h3>Lecturas clave del análisis</h3>
+                <ul class="compact-list">
+                    <li>El proceso de desinversión iniciado por CVC y Alchemy convierte a Deoleo en una de las situaciones especiales M&A más claras del mercado continuo español en 2026.</li>
+                    <li>Tras la reestructuración de 2020 y el plan EVOOlution, el balance está saneado: apalancamiento en 2,0x y camino a caja neta positiva en 2028e.</li>
+                    <li>El mercado no computa con precisión la opcionalidad de los intangibles (marcas valoradas en 456 M€ en 2023) ni la competencia en la puja.</li>
+                    <li>El modelo ponderado por probabilidad arroja un precio objetivo de 0,47 €, un upside del 39,0% y un retorno esperado del 38,5%.</li>
+                    <li>El marco de precio equitativo de la CNMV fija un suelo sólido (0,29–0,35 €); la asimetría riesgo/recompensa es favorable.</li>
+                </ul>
+            </div>
+
+            <div class="alert alert-info mt-20">
+                <strong>Nota metodológica:</strong> El precio implícito por acción se obtiene restando deuda neta, minoritarios y provisiones al Enterprise Value y dividiendo entre 500 M de acciones. El modelo Probability-Weighted Return asigna pesos a cada escenario corporativo (base 40%, bear 30% combinado, bull/super bull 30% combinado). Estimaciones basadas en Lighthouse / IEAF y Fiscal AI.
+            </div>
+
+            <div class="text-center mt-30">
+                <a href="#top" class="btn btn-success">⬆ Volver al inicio</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p><strong>Disclaimer:</strong> Este análisis es de carácter informativo y no constituye asesoramiento de inversión. Las estimaciones y valoraciones son propias o de terceros citados. Toda inversión en situaciones especiales conlleva riesgos específicos, incluyendo la posibilidad de que el proceso M&A no se complete o se articule de forma que no beneficie a los accionistas minoritarios de la cotizada.</p>
+            <p class="mt-20" style="font-size: 0.85rem;">
+                📅 Análisis actualizado: Julio 2026 · 📊 Fuentes: Lighthouse / IEAF Servicios de Análisis, Fiscal AI, CNMV, información pública del proceso.
+            </p>
+            <p class="mt-15">
+                🔗 <a href="https://spreadhuntersinvest.github.io/SpreadHunters.researchs/" target="_blank" rel="noopener noreferrer">SpreadHunters Investment Research</a>
+                | 📰 <a href="https://spreadhunters.substack.com/" target="_blank" rel="noopener noreferrer">Substack</a>
+                | 𝕏 <a href="https://x.com/Spread_Hunters" target="_blank" rel="noopener noreferrer">Twitter/X</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+    // ---------- Scroll progress ----------
+    window.addEventListener('scroll', function () {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+        const bar = document.getElementById("progressBar");
+        if (bar) bar.style.width = scrolled + "%";
+    });
+
+    // ---------- Smooth scroll + active tab ----------
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (!href || href === '#') return;
+            const target = document.querySelector(href);
+            if (!target) return;
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (this.closest('.nav-tabs')) {
+                document.querySelectorAll('.nav-tabs a').forEach(link => link.classList.remove('active'));
+                this.classList.add('active');
+            }
+        });
+    });
+
+    // ---------- Fade-in ----------
+    const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(entry => { if (entry.isIntersecting) { entry.target.style.opacity = '1'; entry.target.style.transform = 'translateY(0)'; } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    document.querySelectorAll('.fade-in').forEach(el => {
+        el.style.opacity = '0'; el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+        observer.observe(el);
+    });
+
+    // ---------- Active nav on scroll ----------
+    window.addEventListener('scroll', function () {
+        let current = '';
+        document.querySelectorAll('section').forEach(section => {
+            if (window.pageYOffset >= (section.offsetTop - 200)) current = section.getAttribute('id');
+        });
+        document.querySelectorAll('.nav-tabs a').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href')?.slice(1) === current) link.classList.add('active');
+        });
+    });
+
+    // ---------- Upside automático (EUR) ----------
+    function parseMoney(text) {
+        const cleaned = String(text).replace(/[^\d.,-]/g, '').replace(',', '.');
+        const value = Number(cleaned);
+        return Number.isFinite(value) ? value : NaN;
+    }
+    function formatPct(v) { return (v >= 0 ? '+' : '') + v.toFixed(1) + '%'; }
+    function updateUpside() {
+        const elPrice = document.getElementById('priceCurrent');
+        const elFair = document.getElementById('fairValue');
+        const elUps = document.getElementById('upsidePct');
+        if (!elPrice || !elFair || !elUps) return;
+        const price = parseMoney(elPrice.textContent);
+        const fair = parseMoney(elFair.textContent);
+        if (!Number.isFinite(price) || !Number.isFinite(fair) || price <= 0) { elUps.textContent = '—'; return; }
+        const upside = ((fair / price) - 1) * 100;
+        elUps.textContent = formatPct(upside);
+        elUps.classList.toggle('green', upside >= 0);
+        elUps.classList.toggle('red', upside < 0);
+    }
+
+    // ---------- Charts ----------
+    function getCtx(id) { const el = document.getElementById(id); return el && el.getContext ? el.getContext('2d') : null; }
+
+    const YEARS = ['2024', '2025', '2026e', '2027e', '2028e'];
+    const CY = '#00d7ff', GR = '#90ee90', OR = '#ffa500', RD = '#ff6b6b', OL = '#b5c94e';
+
+    function initCharts() {
+        if (typeof Chart === 'undefined') { console.warn('Chart.js no cargado'); return; }
+        Chart.defaults.color = '#b0c4de';
+        Chart.defaults.borderColor = '#2d3d4d';
+        Chart.defaults.font.family = "-apple-system, 'Segoe UI', Roboto, Arial, sans-serif";
+
+        // 1. EBITDA (barras) + Margen (línea, eje secundario)
+        const c1 = getCtx('ebitdaMargin');
+        if (c1) new Chart(c1, {
+            type: 'bar',
+            data: {
+                labels: YEARS,
+                datasets: [
+                    { type: 'bar', label: 'EBITDA Rec. (M€)', data: [33.4, 49.9, 61.1, 69.8, 78.9], backgroundColor: 'rgba(0,215,255,0.65)', borderColor: CY, borderWidth: 2, yAxisID: 'y', order: 2 },
+                    { type: 'line', label: 'Margen EBITDA (%)', data: [3.3, 5.9, 6.7, 7.1, 7.5], borderColor: GR, backgroundColor: 'rgba(144,238,144,0.1)', borderWidth: 3, tension: 0.35, pointBackgroundColor: GR, pointBorderColor: '#fff', pointBorderWidth: 2, pointRadius: 5, yAxisID: 'y1', order: 1 }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#b0c4de', font: { size: 11 } } },
+                    title: { display: true, text: 'Crecimiento de EBITDA y expansión de margen', color: '#fff', font: { size: 13, weight: 'bold' } }
+                },
+                scales: {
+                    y: { beginAtZero: true, position: 'left', grid: { color: '#2d3d4d' }, ticks: { color: '#b0c4de', callback: v => v + ' M€' } },
+                    y1: { beginAtZero: true, position: 'right', max: 10, grid: { drawOnChartArea: false }, ticks: { color: GR, callback: v => v + '%' } },
+                    x: { grid: { display: false }, ticks: { color: '#b0c4de' } }
+                }
+            }
+        });
+
+        // 2. Desapalancamiento: Deuda Neta (barras) + DN/EBITDA (línea)
+        const c2 = getCtx('deleveraging');
+        if (c2) new Chart(c2, {
+            type: 'bar',
+            data: {
+                labels: YEARS,
+                datasets: [
+                    { type: 'bar', label: 'Deuda Neta (M€)', data: [115.5, 98.1, 68.8, 33.6, -6.3], backgroundColor: [ 'rgba(255,107,107,0.6)','rgba(255,165,0,0.6)','rgba(255,215,0,0.5)','rgba(144,238,144,0.5)','rgba(144,238,144,0.75)'], borderColor: '#3d5570', borderWidth: 1, yAxisID: 'y', order: 2 },
+                    { type: 'line', label: 'DN / EBITDA (x)', data: [3.5, 2.0, 1.1, 0.5, -0.1], borderColor: CY, backgroundColor: 'rgba(0,215,255,0.1)', borderWidth: 3, tension: 0.35, pointBackgroundColor: CY, pointBorderColor: '#fff', pointBorderWidth: 2, pointRadius: 5, yAxisID: 'y1', order: 1 }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#b0c4de', font: { size: 11 } } },
+                    title: { display: true, text: 'Desapalancamiento hacia caja neta positiva', color: '#fff', font: { size: 13, weight: 'bold' } }
+                },
+                scales: {
+                    y: { position: 'left', grid: { color: '#2d3d4d' }, ticks: { color: '#b0c4de', callback: v => v + ' M€' } },
+                    y1: { position: 'right', grid: { drawOnChartArea: false }, ticks: { color: CY, callback: v => v + 'x' } },
+                    x: { grid: { display: false }, ticks: { color: '#b0c4de' } }
+                }
+            }
+        });
+
+        // 3. Ingresos (barras) + FCF (línea)
+        const c3 = getCtx('revenueFcf');
+        if (c3) new Chart(c3, {
+            type: 'bar',
+            data: {
+                labels: YEARS,
+                datasets: [
+                    { type: 'bar', label: 'Ingresos (M€)', data: [1007, 848, 916, 985, 1050], backgroundColor: 'rgba(74,139,155,0.55)', borderColor: '#4A8B9B', borderWidth: 2, yAxisID: 'y', order: 2 },
+                    { type: 'line', label: 'FCF Rec. (M€)', data: [9.7, 27.0, 34.2, 40.2, 44.9], borderColor: OL, backgroundColor: 'rgba(181,201,78,0.1)', borderWidth: 3, tension: 0.35, pointBackgroundColor: OL, pointBorderColor: '#fff', pointBorderWidth: 2, pointRadius: 5, yAxisID: 'y1', order: 1 }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#b0c4de', font: { size: 11 } } },
+                    title: { display: true, text: 'Ingresos y generación de caja libre (FCF)', color: '#fff', font: { size: 13, weight: 'bold' } }
+                },
+                scales: {
+                    y: { position: 'left', beginAtZero: true, grid: { color: '#2d3d4d' }, ticks: { color: '#b0c4de', callback: v => v + ' M€' } },
+                    y1: { position: 'right', beginAtZero: true, max: 60, grid: { drawOnChartArea: false }, ticks: { color: OL, callback: v => v + ' M€' } },
+                    x: { grid: { display: false }, ticks: { color: '#b0c4de' } }
+                }
+            }
+        });
+
+        // 4. Múltiplos EV/EBITDA (barra horizontal)
+        const c4 = getCtx('multipleComparison');
+        if (c4) new Chart(c4, {
+            type: 'bar',
+            data: {
+                labels: ['Deoleo (bolsa, 2026e)', 'Multinacionales alim. EU', 'Cobram Estate (puro aceite)'],
+                datasets: [{ label: 'EV/EBITDA (x)', data: [8.8, 10.5, 23.5], backgroundColor: ['rgba(255,165,0,0.7)','rgba(0,215,255,0.7)','rgba(144,238,144,0.7)'], borderColor: [OR, CY, GR], borderWidth: 2 }]
+            },
+            options: {
+                indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Múltiplo EV/EBITDA: Deoleo cotiza con descuento', color: '#fff', font: { size: 13, weight: 'bold' } },
+                    tooltip: { callbacks: { label: c => c.parsed.x + 'x' } }
+                },
+                scales: {
+                    x: { beginAtZero: true, max: 25, grid: { color: '#2d3d4d' }, ticks: { color: '#b0c4de', callback: v => v + 'x' } },
+                    y: { grid: { display: false }, ticks: { color: '#b0c4de' } }
+                }
+            }
+        });
+
+        // 5. Escenarios de price target (barras coloreadas por tipo)
+        const c5 = getCtx('scenarioTargets');
+        if (c5) new Chart(c5, {
+            type: 'bar',
+            data: {
+                labels: ['Sin OPA', 'OPA mín.', 'Base', 'Prima control', 'Bidding war'],
+                datasets: [{ label: 'Price target (€)', data: [0.29, 0.35, 0.48, 0.60, 0.72], backgroundColor: ['rgba(255,107,107,0.75)','rgba(255,165,0,0.75)','rgba(0,215,255,0.8)','rgba(144,238,144,0.75)','rgba(181,201,78,0.85)'], borderColor: [RD, OR, CY, GR, OL], borderWidth: 2 }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Precio objetivo por escenario (actual: 0,34 €)', color: '#fff', font: { size: 13, weight: 'bold' } },
+                    tooltip: { callbacks: { label: c => c.parsed.y.toFixed(2).replace('.', ',') + ' €' } }
+                },
+                scales: {
+                    y: { beginAtZero: true, max: 0.8, grid: { color: '#2d3d4d' }, ticks: { color: '#b0c4de', callback: v => v.toFixed(2).replace('.', ',') + ' €' } },
+                    x: { grid: { display: false }, ticks: { color: '#b0c4de' } }
+                }
+            }
+        });
+
+        // 6. Distribución de probabilidad (doughnut)
+        const c6 = getCtx('probabilityMix');
+        if (c6) new Chart(c6, {
+            type: 'doughnut',
+            data: {
+                labels: ['Base (40%)', 'Sin OPA (20%)', 'OPA mín. (10%)', 'Prima control (25%)', 'Bidding war (5%)'],
+                datasets: [{ data: [40, 20, 10, 25, 5], backgroundColor: ['rgba(0,215,255,0.8)','rgba(255,107,107,0.8)','rgba(255,165,0,0.8)','rgba(144,238,144,0.8)','rgba(181,201,78,0.85)'], borderColor: '#1a2332', borderWidth: 2 }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false, cutout: '58%',
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#b0c4de', font: { size: 11 }, padding: 12 } },
+                    title: { display: true, text: 'Pesos del modelo ponderado por probabilidad', color: '#fff', font: { size: 13, weight: 'bold' } },
+                    tooltip: { callbacks: { label: c => c.label } }
+                }
+            }
+        });
+    }
+
+    updateUpside();
+    initCharts();
+    </script>
+</body>
+</html>
