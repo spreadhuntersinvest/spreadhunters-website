@@ -1,1 +1,2115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>oOh!media (ASX: OML) — Subasta competitiva y SOTP | SpreadHunters</title>
+    <meta name="description" content="Tesis de inversión de oOh!media integrada con las propuestas de PEP, I Squared y Oaktree, escenarios interactivos y SOTP CY27E.">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    
+    <style>
+        /* ========================================
+           SISTEMA DE VARIABLES - COLORES GLOBALES
+           ======================================== */
+        :root {
+            /* COLORES PRIMARIOS - Identidad SpreadHunters */
+            --primary-color: #00d7ff;           /* Cyan brillante */
+            --secondary-color: #1a2332;         /* Azul oscuro base */
+            --accent-color: #4A8B9B;            /* Azul teal claro */
+            
+            /* COLORES FUNCIONALES */
+            --success-color: #90ee90;           /* Verde */
+            --danger-color: #ff6b6b;            /* Rojo */
+            --warning-color: #ffa500;           /* Naranja */
+            --info-color: #00d7ff;              /* Cyan */
+        
+            /* FONDOS */
+            --dark-bg: #1a2332;                 /* Azul principal */
+            --darker-bg: #0f1419;               /* Azul muy oscuro */
+            --card-bg: #1a2538;                 /* Azul para cards */
+            --light-bg: #E8E8E8;                /* Fondo claro */
+        
+            /* TEXTO */
+            --text-primary: #d0d8e0;            /* Gris claro */
+            --text-secondary: #b0c4de;          /* Gris medio */
+            --text-tertiary: #808080;           /* Gris oscuro */
+            
+            /* BORDES */
+            --border-color: #2d3d4d;            /* Borde azulado */
+            --border-light: #3d5570;            /* Borde azul claro */
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--primary-color);
+            outline-offset: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.95) 0%, rgba(30, 50, 80, 0.95) 100%);
+            background-color: #1a2332;
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ========================================
+           BARRA DE PROGRESO
+           ======================================== */
+        .progress-bar {
+            background: var(--success-color);
+            height: 2px;
+            width: 0%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* ========================================
+               LOGO NAVBAR (SVG – escala por altura)
+               ======================================== */
+            .logo-navbar {
+              position: fixed;
+              top: 20px;
+              left: 20px;
+              z-index: 900;
+              background: none;
+              padding: 0;
+              border: none;
+              backdrop-filter: none;
+              pointer-events: none; /* no clicable */
+            }
+            
+            .logo-navbar-img {
+              height: 44px;   /* ⬅️ MÁS grande (antes ~38–40 visuales) */
+              width: auto;
+              display: block;
+            }
+            
+            /* Laptop / Tablet grande */
+            @media (max-width: 1024px) {
+              .page-title { font-size: 1.55rem; } 
+              .logo-company { max-height: 70px; max-width: 150px; }
+            }
+            
+            /* Tablet */
+            @media (max-width: 768px) {
+              .logo-navbar { top: 15px; left: 15px; }
+              .logo-navbar-img { height: 34px; }
+            }
+            
+            /* Mobile */
+            @media (max-width: 480px) {
+              .logo-navbar { top: 12px; left: 12px; }
+              .logo-navbar-img { height: 30px; }
+            }
+
+
+
+        /* ========================================
+           HEADER PROFESIONAL
+           ======================================== */
+        .header-professional {
+            margin: 0;
+            padding: 50px 20px;
+            background: transparent;
+            border-bottom: 1px solid rgba(74, 127, 127, 0.1);
+            backdrop-filter: blur(3px);
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-professional .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header-title-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .company-title-row {
+              display: flex;
+              flex-direction: column;   /* ⬅️ logo arriba, título debajo */
+              align-items: center;
+              justify-content: center;
+              gap: 12px;                /* separación logo-título */
+              text-align: center;
+        }
+
+        .logo-company {
+            max-height: 70px;
+            max-width: 150px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: none; /* por defecto: respeta colores originales */
+            display: block;
+            margin: 0;               /* por si algún margen lo desplaza */
+        }
+
+/* Opcional: usa esta clase SOLO si necesitas adaptar un logo claro a fondo oscuro */
+.logo-company--on-dark {
+            filter: brightness(4) contrast(1.5) invert(1) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+        .page-title {
+            font-size: 1.65rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0;
+            letter-spacing: 1px;
+            line-height: 1.3;
+        }
+
+        .page-subtitle {
+            font-size: 0.95rem;
+            color: #e0e0e0;
+            margin: 10px 0 0;
+            font-weight: 400;
+            max-width: 680px;
+        }
+
+        @media (max-width: 1024px) {
+            .page-title { font-size: 1.8rem; }
+            .logo-company { max-height: 70px; max-width: 150px; }
+        }
+
+        @media (max-width: 768px) {
+            .header-professional { padding: 30px 15px; }
+            .page-title { font-size: 1.4rem; }
+            .logo-company { max-height: 65px; max-width: 130px; }
+            .page-subtitle { font-size: 0.9rem; }
+        }
+
+        /* ========================================
+           TARJETAS DE MÉTRICAS
+           ======================================== */
+        .investment-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.6) 0%, rgba(30, 50, 80, 0.6) 100%);
+            border: 2px solid rgba(0, 215, 255, 0.3);
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(0, 215, 255, 0.5) 0%, rgba(0, 215, 255, 0) 100%);
+        }
+
+        .metric-card:hover {
+            border-color: rgba(0, 215, 255, 0.6);
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.8) 0%, rgba(30, 50, 80, 0.8) 100%);
+            box-shadow: 0 0 20px rgba(0, 215, 255, 0.2);
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .metric-value {
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .metric-value.cyan {
+            color: #00d7ff;
+        }
+
+        .metric-value.green {
+            color: #90ee90;
+        }
+
+        .metric-value.red {
+            color: #ff6b6b;
+        }
+
+        .metric-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            font-weight: 400;
+        }
+
+        @media (max-width: 768px) {
+            .investment-metrics { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .metric-card { padding: 15px; }
+            .metric-value { font-size: 1.3rem; }
+        }
+
+        @media (max-width: 480px) {
+              .header-professional { padding: 20px 15px; }
+              .page-title { font-size: 1.15rem; }
+              .logo-company { max-height: 55px; max-width: 110px; }
+              .company-title-row { gap: 10px; }
+              .page-subtitle { font-size: 0.85rem; }
+            }
+
+        /* ========================================
+           NAVEGACIÓN DE PESTAÑAS
+           ======================================== */
+        .nav-tabs {
+            background: var(--card-bg);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .nav-tabs ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-tabs a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-tabs a:hover,
+        .nav-tabs a.active {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+        }
+
+       @media (max-width: 768px) {
+  .nav-tabs { padding: 10px 0; }
+
+  .nav-tabs ul {
+    flex-direction: row;          /* antes: column */
+    justify-content: flex-start;  /* en vez de center */
+    flex-wrap: nowrap;            /* una sola fila */
+    overflow-x: auto;             /* scroll horizontal */
+    overflow-y: hidden;
+    gap: 8px;
+    padding: 0 12px 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-tabs li { flex: 0 0 auto; }
+
+  .nav-tabs a {
+    padding: 7px 12px;            /* más compacto */
+    font-size: 0.85rem;
+    white-space: nowrap;          /* evita salto de línea */
+  }
+
+  /* opcional: scrollbar horizontal discreta */
+  .nav-tabs ul::-webkit-scrollbar { height: 6px; }
+  .nav-tabs ul::-webkit-scrollbar-track { background: rgba(15, 20, 25, 0.35); }
+  .nav-tabs ul::-webkit-scrollbar-thumb { background: rgba(0, 215, 255, 0.55); border-radius: 6px; }
+}
+
+@media (max-width: 480px) {
+  .nav-tabs { padding: 8px 0; }
+  .nav-tabs ul { padding: 0 10px 6px; gap: 6px; }
+  .nav-tabs a { padding: 6px 10px; font-size: 0.80rem; }
+}
+
+        /* ========================================
+           SECCIONES
+           ======================================== */
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            z-index: 1;
+        }
+
+        section h2 {
+            font-size: 1.35rem;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            border-left: 4px solid var(--success-color);
+            padding-left: 20px;
+        }
+
+                    section > h3 {
+              font-size: 1.25rem;
+              margin: 30px 0 15px;
+              color: var(--text-primary);
+            }
+            section > h4 {
+              font-size: 1.0rem;
+              margin: 15px 0 10px;
+              color: var(--text-primary);
+            }
+
+       @media (max-width: 768px){
+          .page-title{ font-size: 1.4rem; }
+          .page-subtitle{ font-size: 0.9rem; }
+          section h2{ font-size: 1.25rem; }
+          section h3{ font-size: 1.1rem; }
+        }
+
+        /* ========================================
+           TARJETAS Y GRÁFICOS
+           ======================================== */
+        .card {
+            background: rgba(26, 35, 50, 0.85);
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .chart-container {
+            background: rgba(26, 35, 50, 0.85);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            position: relative;
+            height: 400px;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        @media (max-width: 768px) {
+            .chart-grid { grid-template-columns: 1fr; }
+            .chart-container { height: 300px; }
+        }
+
+        /* ========================================
+           GRILLA DE ESTADÍSTICAS
+           ======================================== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: rgba(26, 35, 50, 0.8);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-card .label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .value {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .stat-card .change {
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .positive {
+            color: var(--success-color);
+        }
+
+        .negative {
+            color: var(--danger-color);
+        }
+
+        /* ========================================
+           TABLAS
+           ======================================== */
+        .table-responsive {
+            overflow-x: auto;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        thead {
+            background: #1A1F2E;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: rgba(74, 127, 127, 0.05);
+        }
+
+        /* ========================================
+           CAJAS DE ALERTA
+           ======================================== */
+        .alert {
+            padding: 16px 18px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid;
+            backdrop-filter: blur(10px);
+        }
+
+        .alert-success {
+            background: rgba(74, 155, 111, 0.08);
+            border-color: var(--success-color);
+            color: var(--text-primary);
+        }
+
+        .alert-warning {
+            background: rgba(255, 165, 0, 0.15);
+            border-color: var(--warning-color);
+            color: var(--text-primary);
+        }
+
+        .alert-info {
+            background: rgba(0, 212, 212, 0.15);
+            border-color: var(--primary-color);
+            color: var(--text-primary);
+        }
+
+        .alert-danger {
+            background: rgba(255, 107, 107, 0.15);
+            border-color: var(--danger-color);
+            color: var(--text-primary);
+        }
+
+        .alert strong {
+            color: #ffffff;
+        }
+
+        /* ========================================
+           HIGHLIGHTS
+           ======================================== */
+        .highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .highlight-item {
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(0, 212, 212, 0.1) 100%);
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .highlight-item h4 {
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .highlight-item p {
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* ========================================
+           BOTONES
+           ======================================== */
+        .btn {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+            border: 1px solid var(--primary-color);
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: var(--secondary-color);
+            border-color: var(--accent-color);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-success {
+            font-size: 0.9rem;
+            padding: 8px 18px;
+            border-radius: 6px;
+        }
+
+        .btn-success:hover {
+            background: #00b868;
+        }
+
+        /* ========================================
+           FOOTER
+           ======================================== */
+        footer {
+            background: var(--card-bg);
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 60px;
+            border-top: 2px solid var(--border-color);
+            position: relative;
+            z-index: 1;
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 10px 0;
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        /* ========================================
+           SCROLLBAR
+           ======================================== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 20, 25, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+
+        /* ========================================
+           ANIMACIONES
+           ======================================== */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+            /* ========================================
+           AJUSTE FINO DE ESPACIADO EN CAJAS (COMPACTO)
+           ======================================== */
+        
+        /* Títulos dentro de cajas */
+        .card h3,
+        .card h4,
+        .highlight-item h4 {
+            margin-bottom: 8px; /* antes 10–15px */
+        }
+        
+        /* Texto */
+        .card p,
+        .highlight-item p,
+        .alert p {
+            margin-bottom: 8px;
+            line-height: 1.55; /* ligeramente más compacto */
+        }
+        
+        /* Último párrafo sin espacio extra */
+        .card p:last-child,
+        .highlight-item p:last-child,
+        .alert p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Listas dentro de cards */
+        .card ul {
+            margin-top: 6px;
+            margin-bottom: 0;
+        }
+        
+        .card li {
+            margin-bottom: 4px;
+        }
+                    /* ===========================
+                       COMPACTACIÓN CONSISTENTE
+                       =========================== */
+                    
+                    /* Menos padding */
+                    .card, .highlight-item, .alert{
+                      padding: 14px 16px !important;
+                      line-height: 1.5;
+                    }
+                    
+                    /* Títulos dentro de cajas */
+                    .card h3, .card h4,
+                    .highlight-item h4{
+                      margin: 0 0 8px !important;
+                    }
+                    
+                    /* Párrafos dentro de cajas */
+                    .card p, .highlight-item p, .alert p{
+                      margin: 0 0 8px !important;
+                    }
+                    
+                    /* Último hijo sin margen extra */
+                    .card > *:last-child,
+                    .highlight-item > *:last-child,
+                    .alert > *:last-child{
+                      margin-bottom: 0 !important;
+                    }
+                    
+                    /* Listas */
+                    .card ul, .highlight-item ul, .alert ul{
+                      margin: 6px 0 0 !important;
+                      padding-left: 18px !important;
+                    }
+                    .card li, .highlight-item li, .alert li{
+                      margin: 0 0 4px 0 !important;
+                    }
+                    .card li:last-child,
+                    .highlight-item li:last-child,
+                    .alert li:last-child{
+                      margin-bottom: 0 !important;
+                    }
+
+        /* Mata inline margins dentro de cards para que el layout sea consistente */
+            .card p[style],
+            .card ul[style]{
+              margin-top: 6px !important;
+              margin-bottom: 8px !important;
+            }
+            
+            /* Ajusta indent sin margin-left inline */
+            .card ul[style]{
+              margin-left: 0 !important;
+              padding-left: 18px !important;
+            }
+
+        /* Evita que los anchors queden tapados por la nav sticky */
+        section { scroll-margin-top: 90px; }
+        
+@media (max-width: 768px){
+  section { scroll-margin-top: 120px; }
+}
+        
+        /* Utilidades sencillas para evitar inline */
+        .mt-15 { margin-top: 15px; }
+        .mt-20 { margin-top: 20px; }
+        .mt-30 { margin-top: 30px; }
+        .text-center { text-align: center; }
+        
+        /* Clase usada en Riesgos */
+        .warning { color: var(--warning-color); }
+        
+        /* Lista compacta usada en Conclusión */
+        .compact-list { margin: 6px 0 0; padding-left: 18px; }
+        .compact-list li { margin: 0 0 4px 0; }
+        .compact-list li:last-child { margin-bottom: 0; }
+        
+        /* Alturas de charts sin inline */
+        .chart-350 { height: 350px; }
+
+        /* Adaptación OML — strategic review / M&A */
+        .brand-mark {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            height: 42px;
+            color: #fff;
+            font-weight: 800;
+            font-size: 0.9rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-shadow: 0 0 14px rgba(0, 215, 255, 0.25);
+        }
+        .brand-mark::before {
+            content: "";
+            width: 11px;
+            height: 28px;
+            border: 3px solid var(--primary-color);
+            border-right-width: 7px;
+            border-radius: 3px;
+            transform: skewX(-9deg);
+        }
+        .company-monogram {
+            width: 74px;
+            height: 74px;
+            display: grid;
+            place-items: center;
+            border-radius: 18px;
+            background: linear-gradient(145deg, #00d7ff 0%, #176b87 100%);
+            color: #07121a;
+            font-weight: 900;
+            font-size: 1.45rem;
+            letter-spacing: -0.04em;
+            box-shadow: 0 8px 24px rgba(0, 215, 255, 0.18);
+        }
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .thesis-badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+        }
+        .badge, .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid var(--border-light);
+            border-radius: 999px;
+            padding: 4px 9px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            line-height: 1.25;
+            white-space: nowrap;
+        }
+        .badge-info, .status-info { color: var(--primary-color); background: rgba(0, 215, 255, 0.08); }
+        .badge-warn, .status-warn { color: var(--warning-color); background: rgba(255, 165, 0, 0.08); }
+        .badge-risk, .status-risk { color: var(--danger-color); background: rgba(255, 107, 107, 0.08); }
+        .badge-good, .status-good { color: var(--success-color); background: rgba(144, 238, 144, 0.08); }
+        .metric-value.good { color: var(--success-color); }
+        .metric-value.bad { color: var(--danger-color); }
+        .metric-value.warn { color: var(--warning-color); }
+        .metric-kicker {
+            color: var(--text-secondary);
+            font-size: 0.74rem;
+            margin-top: 4px;
+        }
+        .section-lead {
+            max-width: 900px;
+            color: var(--text-secondary);
+            margin: -8px auto 20px;
+            text-align: center;
+        }
+        .two-col {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+        .three-col {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+        .four-col {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+        }
+        .kpi-mini {
+            padding: 13px 14px;
+            background: rgba(15, 20, 25, 0.42);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+        }
+        .kpi-mini .kpi-label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.76rem;
+            margin-bottom: 4px;
+        }
+        .kpi-mini .kpi-value {
+            display: block;
+            color: #fff;
+            font-size: 1.12rem;
+            font-weight: 800;
+        }
+        .kpi-mini .kpi-note {
+            color: var(--text-secondary);
+            font-size: 0.72rem;
+        }
+        .key-line {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 13px;
+        }
+        .status-table td:first-child { min-width: 125px; }
+        .numeric { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+        .table-note {
+            color: var(--text-secondary);
+            font-size: 0.78rem;
+            margin-top: 8px;
+        }
+        .source-chip {
+            display: inline-flex;
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            padding: 3px 8px;
+            color: var(--text-secondary);
+            font-size: 0.72rem;
+            margin-top: 8px;
+        }
+        .timeline {
+            position: relative;
+            display: grid;
+            gap: 14px;
+            margin-top: 18px;
+        }
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 92px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: var(--border-light);
+        }
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 78px 24px 1fr;
+            gap: 10px;
+            align-items: start;
+        }
+        .timeline-date {
+            color: var(--text-secondary);
+            font-size: 0.78rem;
+            text-align: right;
+            padding-top: 2px;
+        }
+        .timeline-dot {
+            position: relative;
+            z-index: 1;
+            width: 12px;
+            height: 12px;
+            margin: 4px auto 0;
+            border-radius: 50%;
+            background: var(--primary-color);
+            box-shadow: 0 0 0 4px var(--card-bg);
+        }
+        .timeline-dot.warn { background: var(--warning-color); }
+        .timeline-dot.pending { background: var(--text-secondary); }
+        .timeline-content strong { color: #fff; }
+        .timeline-content p { color: var(--text-secondary); font-size: 0.86rem; margin: 3px 0 0 !important; }
+        .calculator {
+            border: 1px solid rgba(0, 215, 255, 0.3);
+            background: linear-gradient(145deg, rgba(20, 33, 49, 0.95), rgba(15, 20, 25, 0.88));
+        }
+        .calc-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: end;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .input-cluster {
+            display: grid;
+            gap: 4px;
+            min-width: 170px;
+        }
+        .input-cluster label, .control-row label {
+            color: var(--text-secondary);
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+        input[type="number"], input[type="range"] { accent-color: var(--primary-color); }
+        input[type="number"] {
+            width: 100%;
+            color: #fff;
+            background: var(--darker-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 7px;
+            padding: 8px 9px;
+            font: inherit;
+        }
+        input[type="range"] { width: 100%; min-height: 28px; }
+        .btn-reset {
+            border: 1px solid var(--primary-color);
+            background: rgba(0, 215, 255, 0.08);
+            color: var(--primary-color);
+            border-radius: 8px;
+            padding: 8px 13px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .btn-reset:hover { background: rgba(0, 215, 255, 0.16); }
+        .control-head, .control-row {
+            display: grid;
+            grid-template-columns: minmax(170px, 1.35fr) minmax(120px, 1fr) 86px;
+            gap: 12px;
+            align-items: center;
+        }
+        .control-head {
+            color: var(--text-secondary);
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 0 8px 5px;
+        }
+        .control-row {
+            padding: 8px;
+            border-top: 1px solid var(--border-color);
+        }
+        .control-name strong { display: block; color: #fff; font-size: 0.86rem; }
+        .control-name span { color: var(--text-secondary); font-size: 0.7rem; }
+        .prob-wrap { display: grid; grid-template-columns: 1fr 48px; gap: 7px; align-items: center; }
+        .prob-value {
+            color: var(--primary-color);
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+            text-align: right;
+        }
+        .prob-auto {
+            display: grid;
+            place-items: center;
+            min-height: 35px;
+            border-radius: 7px;
+            color: var(--warning-color);
+            background: rgba(255, 165, 0, 0.07);
+            font-weight: 800;
+        }
+        .calc-output {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .output-card {
+            border: 1px solid var(--border-color);
+            border-radius: 9px;
+            padding: 11px;
+            text-align: center;
+            background: rgba(15, 20, 25, 0.45);
+        }
+        .output-label { color: var(--text-secondary); font-size: 0.72rem; }
+        .output-value { color: #fff; font-size: 1.25rem; font-weight: 900; font-variant-numeric: tabular-nums; }
+        .chart-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 18px;
+            align-items: start;
+        }
+        .chart-grid > *, .two-col > *, .three-col > *, .four-col > * { min-width: 0; }
+        .chart-shell {
+            position: relative;
+            min-height: 330px;
+        }
+        .chart-shell canvas { max-height: 330px; }
+        .chart-fallback {
+            color: var(--warning-color);
+            text-align: center;
+            padding: 18px;
+        }
+        .valuation-bridge {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 9px;
+            align-items: stretch;
+            margin: 15px 0;
+        }
+        .valuation-bridge .bridge-step:last-child { grid-column: 1 / -1; }
+        .bridge-step {
+            position: relative;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 9px;
+            text-align: center;
+            background: rgba(15, 20, 25, 0.42);
+        }
+        .bridge-step:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            font-weight: 900;
+            z-index: 2;
+        }
+        .bridge-step span { display: block; color: var(--text-secondary); font-size: 0.7rem; }
+        .bridge-step strong { display: block; color: #fff; font-size: 1.05rem; }
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+        .risk-card { border-left: 4px solid var(--warning-color); }
+        .risk-card.high { border-left-color: var(--danger-color); }
+        .risk-card h4 { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+        .decision-box {
+            border: 1px solid rgba(144, 238, 144, 0.42);
+            background: linear-gradient(145deg, rgba(144, 238, 144, 0.08), rgba(0, 215, 255, 0.04));
+        }
+        .source-list {
+            display: grid;
+            gap: 9px;
+            padding-left: 20px;
+        }
+        .source-list a { color: var(--primary-color); word-break: break-word; }
+        .method-note {
+            border-left: 4px solid var(--warning-color);
+            background: rgba(255, 165, 0, 0.06);
+        }
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: nowrap;
+            gap: 4px;
+            max-width: 1200px;
+            margin: 0 auto;
+            scrollbar-width: thin;
+        }
+        .nav-tab { flex: 0 0 auto; white-space: nowrap; }
+        @media (max-width: 900px) {
+            .three-col, .four-col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .chart-grid { grid-template-columns: 1fr; }
+            .calc-output { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .bridge-step::after { display: none; }
+        }
+        @media (max-width: 768px) {
+            body { overflow-x: hidden; }
+            .two-col, .risk-grid { grid-template-columns: 1fr; }
+            .control-head { display: none; }
+            .control-row { grid-template-columns: 1fr; gap: 7px; }
+            .timeline::before { left: 72px; }
+            .timeline-item { grid-template-columns: 58px 20px 1fr; }
+            .timeline-date { font-size: 0.7rem; }
+            .company-monogram { width: 62px; height: 62px; font-size: 1.25rem; }
+            .nav-tabs { max-width: 100vw; overflow: hidden; }
+            .nav-container {
+                justify-content: flex-start;
+                overflow-x: auto;
+                overflow-y: hidden;
+                width: 100%;
+                max-width: 100vw;
+                padding: 0 10px 6px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .nav-tab { padding: 7px 11px !important; font-size: 0.82rem !important; }
+            .table-responsive { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            section { scroll-margin-top: 135px; }
+        }
+        @media (max-width: 480px) {
+            .three-col, .four-col, .calc-output, .valuation-bridge { grid-template-columns: 1fr; }
+            .valuation-bridge .bridge-step:last-child { grid-column: auto; }
+            .brand-mark { font-size: 0.7rem; }
+            .header-professional { padding: 78px 15px 30px; }
+            .chart-shell { min-height: 280px; }
+            .chart-shell canvas { max-height: 280px; }
+            .investment-metrics { grid-template-columns: 1fr 1fr; gap: 9px; }
+            .metric-card { padding: 12px 8px; }
+            .metric-value { font-size: 1.35rem; }
+            .metric-label { font-size: 0.72rem; }
+        }
+
+    </style>
+</head>
+
+<body>
+  <div id="top"></div>
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+
+  <div class="logo-navbar" aria-label="SpreadHunters">
+    <div class="brand-mark">SpreadHunters</div>
+  </div>
+
+  <header class="header-professional">
+    <div class="container">
+      <div class="header-title-section">
+        <span class="eyebrow">Situación especial · Strategic review</span>
+        <div class="company-title-row">
+          <div class="company-monogram" aria-hidden="true">oOh!</div>
+          <h1 class="page-title">oOh!media Limited (ASX: OML)</h1>
+        </div>
+        <p class="page-subtitle">Valor standalone respaldado por una subasta competitiva: PEP, I Squared y Oaktree avanzan con propuestas indicativas revisadas.</p>
+        <div class="thesis-badges" aria-label="Clasificación de la tesis">
+          <span class="badge badge-info">Perfil principal: subasta competitiva</span>
+          <span class="badge badge-warn">Propuestas aún condicionales y no vinculantes</span>
+          <span class="badge badge-good">Fecha de corte: 15 jun 2026</span>
+        </div>
+      </div>
+
+      <div class="investment-metrics" aria-label="Métricas principales">
+        <div class="metric-card">
+          <div class="metric-label">Precio de referencia</div>
+          <div class="metric-value cyan" id="priceCurrent">A$1,24</div>
+          <div class="metric-subtitle">Referencia pre-update del research · 3/06/2026</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Propuestas revisadas</div>
+          <div class="metric-value good">A$1,60</div>
+          <div class="metric-subtitle">Varias propuestas indicativas · 15/06/2026</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Gap SOTP / A$1,60</div>
+          <div class="metric-value good">+18,8%</div>
+          <div class="metric-subtitle">A$0,30 por acción hasta valor fundamental</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">SOTP CY27E</div>
+          <div class="metric-value cyan">A$1,90</div>
+          <div class="metric-subtitle">+53% vs referencia pre-update · sin cambios</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav-tabs" aria-label="Navegación del dashboard">
+    <div class="nav-container">
+      <a class="nav-tab active" href="#resumen">Resumen</a>
+      <a class="nav-tab" href="#proceso">Proceso M&amp;A</a>
+      <a class="nav-tab" href="#escenarios">Escenarios</a>
+      <a class="nav-tab" href="#fundamentales">Fundamentales</a>
+      <a class="nav-tab" href="#sotp">SOTP</a>
+      <a class="nav-tab" href="#catalizadores">Catalizadores</a>
+      <a class="nav-tab" href="#riesgos">Riesgos</a>
+      <a class="nav-tab" href="#conclusion">Conclusión</a>
+      <a class="nav-tab" href="#fuentes">Fuentes</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section id="resumen" class="fade-in">
+      <h2 class="section-title">Resumen ejecutivo</h2>
+      <p class="section-lead">La tesis pasa de opcionalidad M&amp;A residual a una subasta competitiva real. El valor standalone no cambia, pero ahora tres sponsors han presentado propuestas tras due diligence limitada.</p>
+
+      <div class="alert alert-info key-line">
+        <strong>Tesis central:</strong> el 15 de junio, OML confirmó propuestas indicativas de PEP, I Squared y Oaktree, varias a A$1,60 por acción. Ese nivel cristalizaría parte del descuento, pero aún queda un 18,8% hasta el SOTP CY27E de A$1,90. La competencia refuerza el contexto; no elimina el riesgo porque todas las propuestas siguen siendo condicionales y no vinculantes.
+      </div>
+
+      <div class="highlights-grid">
+        <div class="highlight-item">
+          <h4>✓ Red física difícil de replicar</h4>
+          <p>Más de 30.000 activos y alcance semanal del 99% de los australianos metropolitanos. Las concesiones y sites son la base del moat.</p>
+        </div>
+        <div class="highlight-item">
+          <h4>✓ Tres sponsors en la siguiente fase</h4>
+          <p>PEP, I Squared y Oaktree presentaron propuestas tras tres semanas de due diligence limitada. El board abrió una fase adicional de hasta seis semanas.</p>
+        </div>
+        <div class="highlight-item">
+          <h4>✓ Mejora operativa visible</h4>
+          <p>A$12m de beneficios cash pre-tax desde CY27 entre Operational Excellence y la salida de reo; capex CY26 guiado a A$45–55m.</p>
+        </div>
+        <div class="highlight-item">
+          <h4>! Competencia no equivale a cierre</h4>
+          <p>No hay oferta vinculante ni certeza de transacción. Una incidencia común en due diligence o la retirada simultánea de bidders puede reabrir el downside standalone.</p>
+        </div>
+      </div>
+
+      <div class="four-col mt-20">
+        <div class="kpi-mini">
+          <span class="kpi-label">Market cap de referencia</span>
+          <span class="kpi-value">A$657m</span>
+          <span class="kpi-note">Research · A$1,24</span>
+        </div>
+        <div class="kpi-mini">
+          <span class="kpi-label">Adj. EBITDA CY25A</span>
+          <span class="kpi-value">A$139,1m</span>
+          <span class="kpi-note">Modelo adjunto</span>
+        </div>
+        <div class="kpi-mini">
+          <span class="kpi-label">Deuda neta / EBITDA</span>
+          <span class="kpi-value">0,81x</span>
+          <span class="kpi-note">CY25A</span>
+        </div>
+        <div class="kpi-mini">
+          <span class="kpi-label">FCF CY27E</span>
+          <span class="kpi-value">A$74,1m</span>
+          <span class="kpi-note">Pre-dividendo</span>
+        </div>
+      </div>
+
+      <div class="two-col mt-20">
+        <div class="card">
+          <h3>Qué hace OML</h3>
+          <p>Opera publicidad Out-of-Home en Australia y Nueva Zelanda mediante billboards, street furniture, rail, retail, airports y office. Monetiza inventario clásico y digital vendido a marcas y agencias, con capas crecientes de programática, datos y medición MOVE.</p>
+        </div>
+        <div class="card">
+          <h3>Cómo leer la oportunidad</h3>
+          <p><strong>Primero:</strong> separar el ancla fundamental de A$1,90 de las propuestas indicativas a A$1,60. <strong>Después:</strong> valorar si la competencia se convierte en una oferta vinculante, mejora el precio o se diluye durante la due diligence. A$1,60 tampoco es todavía un suelo contractual.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="proceso" class="fade-in">
+      <h2 class="section-title">Proceso M&amp;A y situación actual</h2>
+      <p class="section-lead">El anuncio corporativo del 15 de junio supera la narrativa previa de un proceso enfriándose: hay tres proponentes identificados y varias propuestas a A$1,60. La siguiente fase sigue siendo due diligence, no una transacción acordada.</p>
+
+      <div class="table-responsive">
+        <table class="status-table">
+          <thead>
+            <tr>
+              <th>Parte</th>
+              <th>Estado a 15 jun 2026</th>
+              <th class="numeric">Referencia</th>
+              <th>Lectura</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Pacific Equity Partners</strong></td>
+              <td><span class="status-badge status-info">Propuesta revisada + DD</span></td>
+              <td class="numeric">No desglosado*</td>
+              <td>Continúa tras su propuesta inicial de A$1,40 y participa en la fase adicional de información.</td>
+            </tr>
+            <tr>
+              <td><strong>I Squared Capital</strong></td>
+              <td><span class="status-badge status-info">Propuesta revisada + DD</span></td>
+              <td class="numeric">No desglosado*</td>
+              <td>La propuesta oficial posterior deja superada la lectura de prensa del 3 de junio sobre una posible retirada.</td>
+            </tr>
+            <tr>
+              <td><strong>Oaktree Capital Management</strong></td>
+              <td><span class="status-badge status-info">Propuesta + DD</span></td>
+              <td class="numeric">No desglosado*</td>
+              <td>Nuevo proponente identificado públicamente entre quienes presentaron propuestas tras la DD limitada.</td>
+            </tr>
+            <tr>
+              <td><strong>Bain / otros sponsors</strong></td>
+              <td><span class="status-badge status-warn">Contactados en fase inicial</span></td>
+              <td class="numeric">Sin propuesta publicada</td>
+              <td>Recibieron acceso limitado a información, pero el anuncio no los incluye entre los tres proponentes de esta ronda.</td>
+            </tr>
+            <tr>
+              <td><strong>Board de OML</strong></td>
+              <td><span class="status-badge status-good">DD adicional</span></td>
+              <td class="numeric">Hasta 6 semanas</td>
+              <td>Facilita más información y recomienda no actuar. No asegura una oferta vinculante ni una transacción.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-note">* El anuncio indica que “varias” propuestas ofrecían A$1,60; no asigna públicamente ese precio a cada proponente por separado.</p>
+
+      <div class="timeline" aria-label="Cronología del proceso">
+        <div class="timeline-item">
+          <div class="timeline-date">Feb 2026</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content"><strong>Buyback de hasta el 10%</strong><p>Más de 10m de acciones recompradas a A$0,93 de media antes de pausarse por los NBIOs.</p></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">29 abr</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content"><strong>PEP presenta A$1,40</strong><p>Oferta no vinculante, condicionada a due diligence, apoyo del board, IER y aprobaciones.</p></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">11 may</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content"><strong>ISQ presenta A$1,45</strong><p>La segunda NBIO crea tensión competitiva, pero tampoco constituye una oferta firme.</p></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">14 may</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content"><strong>AGM: otras partes y DD limitada</strong><p>El board mantiene que las propuestas no reflejan el valor intrínseco y busca ofertas revisadas recomendables.</p></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">3 jun</div>
+          <div class="timeline-dot warn"></div>
+          <div class="timeline-content"><strong>Ruido de prensa sobre ISQ</strong><p>Se publica que ISQ estaría “pens down”. El anuncio corporativo posterior confirma que sí presentó una propuesta y deja esta lectura desactualizada.</p></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">15 jun</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content"><strong>Subasta de tres sponsors</strong><p>PEP, I Squared y Oaktree presentan propuestas indicativas; varias ofrecen A$1,60. El board abre hasta seis semanas de DD adicional.</p></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Próximo hito</div>
+          <div class="timeline-dot pending"></div>
+          <div class="timeline-content"><strong>Binding bid, mejora o ruptura</strong><p>La due diligence debe desembocar en una propuesta vinculante y recomendable, una extensión o la caída del proceso.</p></div>
+        </div>
+      </div>
+
+      <div class="four-col mt-20">
+        <div class="kpi-mini">
+          <span class="kpi-label">Equity value a A$1,60</span>
+          <span class="kpi-value">A$847,5m</span>
+          <span class="kpi-note">529,7m acciones</span>
+        </div>
+        <div class="kpi-mini">
+          <span class="kpi-label">EV implícito a A$1,60</span>
+          <span class="kpi-value">A$960,3m</span>
+          <span class="kpi-note">Con deuda neta CY25A</span>
+        </div>
+        <div class="kpi-mini">
+          <span class="kpi-label">EV / EBITDA CY25A</span>
+          <span class="kpi-value">6,90x</span>
+          <span class="kpi-note">A$139,1m EBITDA</span>
+        </div>
+        <div class="kpi-mini">
+          <span class="kpi-label">Precio máx. @ 20% TIR</span>
+          <span class="kpi-value">A$1,61</span>
+          <span class="kpi-note">Reverse LBO; no es oferta</span>
+        </div>
+      </div>
+      <div class="alert alert-warning mt-15">
+        <strong>Lectura del LBO:</strong> A$1,60 está prácticamente en el techo teórico de A$1,608 que arroja el reverse LBO para una TIR del 20%. Una mejora adicional necesitaría una menor exigencia de retorno, mejor ejecución, sinergias o presión competitiva. El descuento de A$0,30 hasta el SOTP existe, pero no todo ese valor es necesariamente financiable por un sponsor.
+      </div>
+    </section>
+
+    <section id="escenarios" class="fade-in">
+      <h2 class="section-title">Calculadora de escenarios</h2>
+      <p class="section-lead">Ajusta probabilidades y precios tras el anuncio del 15 de junio. Son supuestos del analista —no guidance ni probabilidades de OML—; las cuatro primeras se editan y el escenario adverso absorbe el residual hasta 100%.</p>
+
+      <div class="card calculator">
+        <div class="calc-toolbar">
+          <div class="input-cluster">
+            <label for="currentPriceInput">Precio de referencia (A$/acción)</label>
+            <input id="currentPriceInput" type="number" min="0.50" max="2.50" step="0.01" value="1.24">
+          </div>
+          <button class="btn-reset" type="button" id="resetCalculator">Restablecer caso base</button>
+        </div>
+
+        <div class="control-head" aria-hidden="true">
+          <span>Desenlace</span><span>Probabilidad</span><span>Precio A$</span>
+        </div>
+
+        <div class="control-row">
+          <div class="control-name"><strong>Oferta vinculante alrededor de A$1,60</strong><span>Conversión de una propuesta indicativa sin mejora material</span></div>
+          <div class="prob-wrap"><input aria-label="Probabilidad de oferta vinculante" id="prob0" type="range" min="0" max="85" step="1" value="50"><span class="prob-value" id="probVal0">50%</span></div>
+          <input aria-label="Precio de oferta vinculante" id="price0" type="number" min="1.40" max="1.80" step="0.01" value="1.60">
+        </div>
+        <div class="control-row">
+          <div class="control-name"><strong>Mejora competitiva por encima de A$1,60</strong><span>Tensión entre bidders o estructura estratégica superior</span></div>
+          <div class="prob-wrap"><input aria-label="Probabilidad de mejora competitiva" id="prob1" type="range" min="0" max="60" step="1" value="15"><span class="prob-value" id="probVal1">15%</span></div>
+          <input aria-label="Precio de mejora competitiva" id="price1" type="number" min="1.60" max="2.00" step="0.01" value="1.70">
+        </div>
+        <div class="control-row">
+          <div class="control-name"><strong>Proceso se alarga sin binding bid</strong><span>Las propuestas siguen vivas, pero la visibilidad disminuye</span></div>
+          <div class="prob-wrap"><input aria-label="Probabilidad de proceso prolongado" id="prob2" type="range" min="0" max="60" step="1" value="15"><span class="prob-value" id="probVal2">15%</span></div>
+          <input aria-label="Precio con proceso prolongado" id="price2" type="number" min="1.20" max="1.70" step="0.01" value="1.50">
+        </div>
+        <div class="control-row">
+          <div class="control-name"><strong>Sin deal, ejecución standalone</strong><span>El proceso termina, pero la tesis fundamental permanece</span></div>
+          <div class="prob-wrap"><input aria-label="Probabilidad standalone" id="prob3" type="range" min="0" max="70" step="1" value="10"><span class="prob-value" id="probVal3">10%</span></div>
+          <input aria-label="Precio standalone" id="price3" type="number" min="1.00" max="1.90" step="0.01" value="1.35">
+        </div>
+        <div class="control-row">
+          <div class="control-name"><strong>DD negativa / colapso del proceso</strong><span>Rango de estrés A$1,00–1,10; residual automático</span></div>
+          <div class="prob-auto" id="probVal4" aria-live="polite">10%</div>
+          <input aria-label="Precio escenario adverso" id="price4" type="number" min="0.80" max="1.25" step="0.01" value="1.05">
+        </div>
+
+        <div class="calc-output" aria-live="polite">
+          <div class="output-card"><div class="output-label">Probabilidad de deal</div><div class="output-value" id="dealProbability">65%</div></div>
+          <div class="output-card"><div class="output-label">Valor esperado 12m</div><div class="output-value" id="expectedPrice">A$1,52</div></div>
+          <div class="output-card"><div class="output-label">Retorno vs referencia</div><div class="output-value" id="expectedReturn">+22,6%</div></div>
+          <div class="output-card"><div class="output-label">Downside adverso</div><div class="output-value" id="failureDownside">−15,3%</div></div>
+        </div>
+      </div>
+
+      <div class="chart-grid mt-20">
+        <div class="card">
+          <h3>Precio por desenlace vs referencia</h3>
+          <div class="chart-shell">
+            <canvas id="scenarioChart" role="img" aria-label="Precios por escenario comparados con el precio de referencia"></canvas>
+            <p class="chart-fallback" id="scenarioFallback" hidden>El gráfico no pudo cargarse; consulta la tabla de escenarios.</p>
+          </div>
+          <p class="table-note">Lectura: el valor esperado no es un precio objetivo fundamental; es la media ponderada de desenlaces a 12 meses.</p>
+        </div>
+        <div class="card">
+          <h3>Atribución del valor esperado</h3>
+          <div class="table-responsive">
+            <table>
+              <thead><tr><th>Escenario</th><th class="numeric">Prob.</th><th class="numeric">A$</th><th class="numeric">Contrib.</th></tr></thead>
+              <tbody id="scenarioTableBody"></tbody>
+              <tfoot><tr><th>Total</th><th class="numeric">100%</th><th></th><th class="numeric" id="scenarioTableTotal">A$1,52</th></tr></tfoot>
+            </table>
+          </div>
+          <div class="alert alert-info mt-15">
+            <strong>Tres anclas distintas:</strong> A$1,24 es la referencia de mercado previa al update; A$1,60 es el nivel indicado para varias propuestas; A$1,90 es el SOTP CY27E standalone. El valor esperado de la calculadora mezcla desenlaces y cambia con los supuestos del usuario.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="fundamentales" class="fade-in">
+      <h2 class="section-title">Fundamentales y desapalancamiento</h2>
+      <p class="section-lead">El Excel adjunto es la fuente prioritaria para las proyecciones: crecimiento moderado en CY26E y salto de margen desde CY27E por ahorro de costes y salida de reo.</p>
+
+      <div class="card">
+        <h3>Trayectoria operativa del modelo (A$m)</h3>
+        <div class="chart-shell">
+          <canvas id="financialChart" role="img" aria-label="Evolución de ventas, EBITDA, flujo de caja libre y deuda neta de OML"></canvas>
+          <p class="chart-fallback" id="financialFallback" hidden>El gráfico no pudo cargarse; consulta la tabla financiera.</p>
+        </div>
+        <p class="table-note">Ventas en el eje izquierdo; EBITDA, FCF y deuda neta en el derecho. CY24A–CY25A reportados; CY26E–CY28E estimaciones del modelo.</p>
+      </div>
+
+      <div class="table-responsive mt-20">
+        <table>
+          <thead>
+            <tr>
+              <th>A$m, salvo % y múltiplos</th>
+              <th class="numeric">CY24A</th>
+              <th class="numeric">CY25A</th>
+              <th class="numeric">CY26E</th>
+              <th class="numeric">CY27E</th>
+              <th class="numeric">CY28E</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Revenue</strong></td><td class="numeric">635,6</td><td class="numeric">691,4</td><td class="numeric">715,5</td><td class="numeric">748,2</td><td class="numeric">787,0</td></tr>
+            <tr><td><strong>Adj. EBITDA</strong></td><td class="numeric">128,9</td><td class="numeric">139,1</td><td class="numeric">144,3</td><td class="numeric">165,7</td><td class="numeric">179,2</td></tr>
+            <tr><td>Margen EBITDA</td><td class="numeric">20,3%</td><td class="numeric">20,1%</td><td class="numeric">20,2%</td><td class="numeric">22,1%</td><td class="numeric">22,8%</td></tr>
+            <tr><td>Adj. EBIT</td><td class="numeric">93,5</td><td class="numeric">99,5</td><td class="numeric">103,3</td><td class="numeric">122,9</td><td class="numeric">134,1</td></tr>
+            <tr><td>Net income modelado</td><td class="numeric">58,8</td><td class="numeric">63,0</td><td class="numeric">61,5</td><td class="numeric">80,0</td><td class="numeric">89,0</td></tr>
+            <tr><td><strong>FCF pre-dividendo</strong></td><td class="numeric">49,2</td><td class="numeric">26,6</td><td class="numeric">59,9</td><td class="numeric">74,1</td><td class="numeric">80,4</td></tr>
+            <tr><td>Deuda neta ajustada</td><td class="numeric">108,2</td><td class="numeric">112,8</td><td class="numeric">85,5</td><td class="numeric">53,8</td><td class="numeric">20,6</td></tr>
+            <tr><td>Deuda neta / EBITDA</td><td class="numeric">0,84x</td><td class="numeric">0,81x</td><td class="numeric">0,59x</td><td class="numeric">0,32x</td><td class="numeric">0,11x</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="source-chip">Fuente: OML_Valuation_Model(1).xlsx · outputs calculados</p>
+
+      <div class="three-col mt-20">
+        <div class="card">
+          <h3>Motor CY26E</h3>
+          <p>Revenue +3,5% y EBITDA prácticamente estable en margen. El modelo incluye A$6m de coste no recurrente/restructuración, por lo que el beneficio neto no refleja todavía la mejora plena.</p>
+        </div>
+        <div class="card">
+          <h3>Inflección CY27E</h3>
+          <p>El margen EBITDA sube a 22,1% y el FCF a A$74,1m. La credibilidad del SOTP depende de materializar Operational Excellence y la salida de reo.</p>
+        </div>
+        <div class="card">
+          <h3>Balance</h3>
+          <p>La deuda neta cae de A$112,8m en CY25A a A$53,8m en CY27E. Esto amplía la opcionalidad de buyback, dividendos o apalancamiento de un sponsor.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="sotp" class="fade-in">
+      <h2 class="section-title">SOTP CY27E y valor fundamental</h2>
+      <p class="section-lead">El SOTP valora el beneficio operativo ajustado pre-IFRS 16 por segmento, resta la deuda neta CY27E y divide por 529,7m de acciones diluidas.</p>
+
+      <div class="chart-grid">
+        <div class="card">
+          <h3>Composición del enterprise value</h3>
+          <div class="chart-shell">
+            <canvas id="sotpChart" role="img" aria-label="Composición del enterprise value SOTP de OML por segmento"></canvas>
+            <p class="chart-fallback" id="sotpFallback" hidden>El gráfico no pudo cargarse; consulta la tabla SOTP.</p>
+          </div>
+          <p class="table-note">Billboards y Street &amp; Rail explican aproximadamente el 74% del EV. Fuente: hoja 6.SOTP.</p>
+        </div>
+
+        <div class="card">
+          <h3>Puente a valor por acción</h3>
+          <div class="valuation-bridge">
+            <div class="bridge-step"><span>EV segmentos</span><strong>A$1.062,4m</strong></div>
+            <div class="bridge-step"><span>− Deuda neta CY27E</span><strong>A$53,8m</strong></div>
+            <div class="bridge-step"><span>Equity value</span><strong>A$1.008,5m</strong></div>
+            <div class="bridge-step"><span>Acciones diluidas</span><strong>529,7m</strong></div>
+            <div class="bridge-step"><span>Valor / acción</span><strong>A$1,90</strong></div>
+          </div>
+          <div class="alert alert-success">
+            <strong>Upside fundamental:</strong> A$1,90 implica aproximadamente +53% frente a A$1,24. El horizonte es CY27E normalizado; no debe compararse mecánicamente con un NBIO sujeto a due diligence y tiempo.
+          </div>
+          <div class="alert alert-warning mt-15">
+            <strong>Sensibilidad principal:</strong> A$785,4m del EV procede de Billboards y Street &amp; Rail. Una reducción conjunta de 1,0x EV/EBIT en esos segmentos restaría aproximadamente A$89,5m al equity, o A$0,17 por acción.
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive mt-20">
+        <table>
+          <thead>
+            <tr><th>Segmento</th><th class="numeric">Adj. op. profit CY27E</th><th class="numeric">EV/EBIT</th><th class="numeric">EV</th><th class="numeric">% EV</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Billboards</strong></td><td class="numeric">A$49,0m</td><td class="numeric">9,0x</td><td class="numeric">A$440,6m</td><td class="numeric">41,5%</td></tr>
+            <tr><td><strong>Street &amp; Rail</strong></td><td class="numeric">A$40,6m</td><td class="numeric">8,5x</td><td class="numeric">A$344,9m</td><td class="numeric">32,5%</td></tr>
+            <tr><td>Retail</td><td class="numeric">A$17,0m</td><td class="numeric">7,0x</td><td class="numeric">A$119,3m</td><td class="numeric">11,2%</td></tr>
+            <tr><td>Airports</td><td class="numeric">A$15,2m</td><td class="numeric">10,0x</td><td class="numeric">A$152,3m</td><td class="numeric">14,3%</td></tr>
+            <tr><td>Other (reo / Office)</td><td class="numeric">A$1,1m</td><td class="numeric">5,0x</td><td class="numeric">A$5,3m</td><td class="numeric">0,5%</td></tr>
+          </tbody>
+          <tfoot><tr><th>Total EV</th><th class="numeric">A$122,9m</th><th></th><th class="numeric">A$1.062,4m</th><th class="numeric">100,0%</th></tr></tfoot>
+        </table>
+      </div>
+    </section>
+
+    <section id="catalizadores" class="fade-in">
+      <h2 class="section-title">Catalizadores y señales a vigilar</h2>
+      <div class="highlights-grid">
+        <div class="highlight-item">
+          <h4>Hasta finales de julio</h4>
+          <p>Finaliza la fase adicional de due diligence, prevista por el board en hasta seis semanas desde el 15 de junio.</p>
+        </div>
+        <div class="highlight-item">
+          <h4>Siguiente anuncio M&amp;A</h4>
+          <p>Oferta vinculante y recomendable, mejora competitiva sobre A$1,60, ampliación del calendario o cierre del proceso.</p>
+        </div>
+        <div class="highlight-item">
+          <h4>H2 2026</h4>
+          <p>Resultados 1H validan pacing, ahorro de costes y estabilización de Retail OOH.</p>
+        </div>
+        <div class="highlight-item">
+          <h4>CY2027</h4>
+          <p>A$12m de beneficios cash pre-tax, normalización de márgenes, FCF y menor deuda neta.</p>
+        </div>
+      </div>
+
+      <div class="two-col mt-20">
+        <div class="card">
+          <h3>Confirmaciones positivas</h3>
+          <ul class="compact-list">
+            <li>Al menos un bidder convierte su propuesta en vinculante.</li>
+            <li>Competencia de precio por encima de A$1,60 o términos más limpios.</li>
+            <li>El dividendo ordinario del semestre se mantiene sin ajuste del precio ofrecido.</li>
+            <li>Capex dentro de A$45–55m y ahorro operativo visible.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Señales de deterioro</h3>
+          <ul class="compact-list">
+            <li>Ninguna propuesta vinculante al terminar la DD adicional.</li>
+            <li>Retirada coordinada o condiciones materiales comunes a los tres bidders.</li>
+            <li>Rebaja de guidance, pérdida de contratos o capex superior.</li>
+            <li>Oferta final por debajo de A$1,60 o sin recomendación del board.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="riesgos" class="fade-in">
+      <h2 class="section-title">Riesgos materiales</h2>
+      <div class="risk-grid">
+        <div class="card risk-card high">
+          <h4>No llega una oferta vinculante <span class="status-badge status-risk">Alta</span></h4>
+          <p>Las tres propuestas pueden expirar o no superar condiciones. El mercado perdería el ancla de A$1,60 y volvería a valorar ejecución standalone y calendario.</p>
+        </div>
+        <div class="card risk-card high">
+          <h4>Red flag común en due diligence <span class="status-badge status-risk">Alta</span></h4>
+          <p>No existe evidencia pública de una incidencia, pero contratos, rentas de sites, capex digital o covenants pueden afectar simultáneamente a todos los bidders.</p>
+        </div>
+        <div class="card risk-card">
+          <h4>Ciclicidad publicitaria <span class="status-badge status-warn">Media</span></h4>
+          <p>Los ingresos no son infraestructura core: dependen del ciclo publicitario, pricing y ocupación. Billboards mostró presión sectorial en Q1.</p>
+        </div>
+        <div class="card risk-card">
+          <h4>Techo financiero del sponsor <span class="status-badge status-warn">Media</span></h4>
+          <p>A$1,60 ya roza el precio máximo del reverse LBO a 20% de TIR. El board puede buscar más valor, pero el margen para una mejora puramente financiera parece limitado.</p>
+        </div>
+        <div class="card risk-card">
+          <h4>Digitalización y capex <span class="status-badge status-warn">Media</span></h4>
+          <p>El DOOH aumenta yield, pero exige capital y ejecución. El supuesto de FCF puede fallar si la conversión de activos es más costosa.</p>
+        </div>
+        <div class="card risk-card">
+          <h4>Competencia / bundling <span class="status-badge status-warn">Media</span></h4>
+          <p>Nine/QMS y JCDecaux pueden presionar pricing y acceso a activos. La escala y MOVE mitigan, pero no eliminan el riesgo.</p>
+        </div>
+      </div>
+
+      <div class="alert alert-danger mt-20">
+        <strong>Riesgo de tesis:</strong> tres propuestas reducen el riesgo idiosincrático de un único bidder, pero no convierten A$1,60 en un suelo. La posición solo es coherente si el inversor acepta ser accionista standalone en un escenario sin deal.
+      </div>
+    </section>
+
+    <section id="conclusion" class="fade-in">
+      <h2 class="section-title">Conclusión de inversión</h2>
+      <div class="card decision-box">
+        <h3>TESIS REFORZADA — subasta competitiva con respaldo standalone</h3>
+        <ul class="compact-list">
+          <li><strong>Valor fundamental:</strong> SOTP CY27E de A$1,90, apoyado por mejora de margen y desapalancamiento.</li>
+          <li><strong>Contexto M&amp;A:</strong> PEP, I Squared y Oaktree han presentado propuestas indicativas; varias alcanzan A$1,60.</li>
+          <li><strong>Valor esperado editable:</strong> A$1,52 en el caso base de escenarios, +22,6% frente a la referencia pre-update de A$1,24.</li>
+          <li><strong>Límite financiero:</strong> A$1,60 coincide prácticamente con el techo del reverse LBO a 20% de TIR; una puja superior exige presión o supuestos mejores.</li>
+          <li><strong>Disciplina de entrada:</strong> claramente por debajo de A$1,60 hay asimetría event-driven; cerca de A$1,60 es merger arb aún no vinculante; por encima se necesita una mejora de precio.</li>
+        </ul>
+      </div>
+
+      <div class="three-col mt-20">
+        <div class="kpi-mini"><span class="kpi-label">Break / stress price</span><span class="kpi-value">A$1,00–1,10</span><span class="kpi-note">−19% a −11%</span></div>
+        <div class="kpi-mini"><span class="kpi-label">Propuestas indicativas</span><span class="kpi-value">A$1,60</span><span class="kpi-note">Varias; aún no vinculantes</span></div>
+        <div class="kpi-mini"><span class="kpi-label">SOTP normalizado</span><span class="kpi-value">A$1,90</span><span class="kpi-note">+53%</span></div>
+      </div>
+
+      <div class="card method-note mt-20">
+        <h3>Metodología y reconciliación de fuentes</h3>
+        <p>El estado del proceso se actualiza con el anuncio oficial de OML del 15/06/2026. El precio de A$1,24 es una referencia pre-update del research del 3/06/2026, no una cotización atribuida al 15 de junio. Las proyecciones, el SOTP y el LBO proceden del Excel adjunto y no cambian con esta actualización.</p>
+        <p>Ejemplo material: el research muestra revenue CY27E de A$770m, mientras el Excel que alimenta el SOTP utiliza A$748,2m y un margen superior; EBITDA y valoración permanecen aproximadamente alineados. El dashboard usa A$748,2m para mantener trazabilidad con el SOTP.</p>
+      </div>
+    </section>
+
+    <section id="fuentes" class="fade-in">
+      <h2 class="section-title">Fuentes y alcance</h2>
+      <div class="two-col">
+        <div class="card">
+          <h3>Archivos analizados</h3>
+          <ul class="source-list">
+            <li><strong>update_opa_ooh media(1).pdf</strong> — anuncio oficial del 15 de junio sobre propuestas revisadas y due diligence adicional.</li>
+            <li><strong>OML_Research_Update_Jun2026(2).docx</strong> — tesis, proceso, escenarios, catalizadores y riesgos.</li>
+            <li><strong>OML_Valuation_Model(1).xlsx</strong> — Income Statement, FCF, segmentos, SOTP, LBO y sensibilidades.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Fuentes primarias y corporativas</h3>
+          <ol class="source-list">
+            <li><a href="https://announcements.asx.com.au/asxpdf/20260615/pdf/070mg0jgrqwnpw.pdf" target="_blank" rel="noopener noreferrer">OML — Update on Potential Change of Control Transaction, 15 Jun 2026</a></li>
+            <li><a href="https://announcements.asx.com.au/asxpdf/20260514/pdf/06zkzkbjby1tv8.pdf" target="_blank" rel="noopener noreferrer">OML — Strategy &amp; Trading Update and 2026 AGM Materials, 14 May 2026</a></li>
+            <li><a href="https://investors.oohmedia.com.au/DownloadFile.axd?file=%2FReport%2FComNews%2F20260511%2F03088540.pdf" target="_blank" rel="noopener noreferrer">OML — Receipt of ISQ Non-Binding Indicative Offer, 11 May 2026</a></li>
+            <li><a href="https://investors.oohmedia.com.au/DownloadFile.axd?file=%2FReport%2FComNews%2F20260429%2F03083433.pdf" target="_blank" rel="noopener noreferrer">OML — Response to PEP Non-Binding Indicative Offer, 29 Apr 2026</a></li>
+            <li><a href="https://www.pep.com.au/about/" target="_blank" rel="noopener noreferrer">Pacific Equity Partners — About PEP</a></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="card mt-20">
+        <h3>Fuentes de prensa usadas en el research</h3>
+        <ol class="source-list">
+          <li><a href="https://www.theaustralian.com.au/business/dataroom/oohmedias-auction-narrows-to-one-as-isquared-retreats/news-story/f92fce7c7b53b85060707e9b276a34b5" target="_blank" rel="noopener noreferrer">The Australian DataRoom — I Squared looks to retreat from oOh!media takeover bid</a></li>
+          <li><a href="https://www.theaustralian.com.au/business/dataroom/brendan-cook-and-james-warburton-enlisted-as-pep-mounts-serious-tilt-at-oohmedia/news-story/05d2c743977b62cbe8a56e4b0ce48ff7" target="_blank" rel="noopener noreferrer">The Australian DataRoom — Cook and Warburton enlisted by PEP</a></li>
+          <li><a href="https://www.mediaweek.com.au/oohmedia-backs-independent-future-as-bidders-line-up/" target="_blank" rel="noopener noreferrer">Mediaweek — oOh!media backs independent future as bidders line up</a></li>
+        </ol>
+        <p class="table-note">Las informaciones de prensa se identifican como tales. La noticia del 3 de junio sobre ISQ se conserva solo como antecedente histórico y queda superada por el anuncio corporativo del 15 de junio.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p><strong>Disclaimer:</strong> análisis financiero privado con fines de investigación. No constituye asesoramiento financiero ni recomendación regulada. El autor o usuario puede mantener posiciones en OML. Las estimaciones dependen de EBITDA, capex, coste de capital, múltiplos, probabilidad de deal y calendario.</p>
+      <p>📅 Fecha de corte: 15 junio 2026 · 📊 Moneda: dólar australiano (A$) · 🧭 Perfil: Competitive sale process / M&amp;A event-driven</p>
+      <p><a href="https://spreadhunters.es/dashboards/" target="_blank" rel="noopener noreferrer">SpreadHunters Investment Dashboards</a></p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var baseState = {
+        current: 1.24,
+        probabilities: [50, 15, 15, 10],
+        prices: [1.60, 1.70, 1.50, 1.35, 1.05]
+      };
+      var scenarioNames = [
+        "Binding ~A$1,60",
+        "Mejora competitiva",
+        "Proceso prolongado",
+        "Standalone",
+        "Colapso / DD negativa"
+      ];
+      var scenarioChart = null;
+
+      function byId(id) { return document.getElementById(id); }
+      function numberValue(id, fallback) {
+        var value = parseFloat(byId(id).value);
+        return Number.isFinite(value) ? value : fallback;
+      }
+      function money(value) {
+        return "A$" + value.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+      function pct(value, digits) {
+        var sign = value > 0 ? "+" : value < 0 ? "−" : "";
+        return sign + Math.abs(value * 100).toLocaleString("es-ES", { minimumFractionDigits: digits, maximumFractionDigits: digits }) + "%";
+      }
+      function plainPct(value) {
+        return value.toLocaleString("es-ES", { maximumFractionDigits: 0 }) + "%";
+      }
+      function safeNumber(value, min, max, fallback) {
+        if (!Number.isFinite(value)) return fallback;
+        return Math.min(max, Math.max(min, value));
+      }
+
+      function constrainProbability(changedIndex) {
+        var totalOthers = 0;
+        for (var i = 0; i < 4; i += 1) {
+          if (i !== changedIndex) totalOthers += numberValue("prob" + i, 0);
+        }
+        var input = byId("prob" + changedIndex);
+        var current = numberValue("prob" + changedIndex, 0);
+        if (current + totalOthers > 100) input.value = Math.max(0, 100 - totalOthers);
+      }
+
+      function readState() {
+        var probs = [];
+        var sum = 0;
+        for (var i = 0; i < 4; i += 1) {
+          var p = safeNumber(numberValue("prob" + i, 0), 0, 100, 0);
+          probs.push(p);
+          sum += p;
+        }
+        probs.push(Math.max(0, 100 - sum));
+
+        var prices = [];
+        for (var j = 0; j < 5; j += 1) {
+          prices.push(safeNumber(numberValue("price" + j, baseState.prices[j]), 0, 10, baseState.prices[j]));
+        }
+        return {
+          current: safeNumber(numberValue("currentPriceInput", baseState.current), 0.01, 10, baseState.current),
+          probabilities: probs,
+          prices: prices
+        };
+      }
+
+      function renderScenarioTable(state, expected) {
+        var html = "";
+        for (var i = 0; i < 5; i += 1) {
+          var contribution = state.probabilities[i] / 100 * state.prices[i];
+          html += "<tr><td>" + scenarioNames[i] + "</td><td class=\"numeric\">" +
+            plainPct(state.probabilities[i]) + "</td><td class=\"numeric\">" +
+            money(state.prices[i]) + "</td><td class=\"numeric\">" +
+            money(contribution) + "</td></tr>";
+        }
+        byId("scenarioTableBody").innerHTML = html;
+        byId("scenarioTableTotal").textContent = money(expected);
+      }
+
+      function updateCalculator() {
+        var state = readState();
+        var expected = 0;
+        for (var i = 0; i < 5; i += 1) {
+          expected += state.probabilities[i] / 100 * state.prices[i];
+          byId("probVal" + i).textContent = plainPct(state.probabilities[i]);
+        }
+        var expectedReturn = expected / state.current - 1;
+        var failureDownside = state.prices[4] / state.current - 1;
+        var dealProbability = state.probabilities[0] + state.probabilities[1];
+
+        byId("dealProbability").textContent = plainPct(dealProbability);
+        byId("expectedPrice").textContent = money(expected);
+        byId("expectedReturn").textContent = pct(expectedReturn, 1);
+        byId("failureDownside").textContent = pct(failureDownside, 1);
+        byId("priceCurrent").textContent = money(state.current);
+
+        byId("expectedReturn").style.color = expectedReturn >= 0 ? "#90ee90" : "#ff6b6b";
+
+        renderScenarioTable(state, expected);
+
+        if (scenarioChart) {
+          scenarioChart.data.datasets[0].data = state.prices;
+          scenarioChart.data.datasets[1].data = [state.current, state.current, state.current, state.current, state.current];
+          scenarioChart.update();
+        }
+      }
+
+      function resetCalculator() {
+        byId("currentPriceInput").value = baseState.current.toFixed(2);
+        for (var i = 0; i < 4; i += 1) byId("prob" + i).value = baseState.probabilities[i];
+        for (var j = 0; j < 5; j += 1) byId("price" + j).value = baseState.prices[j].toFixed(2);
+        updateCalculator();
+      }
+
+      function chartDefaults() {
+        Chart.defaults.color = "#b0c4de";
+        Chart.defaults.borderColor = "rgba(61, 85, 112, 0.55)";
+        Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial, sans-serif";
+      }
+
+      function initCharts() {
+        if (typeof Chart === "undefined") {
+          ["scenarioFallback", "financialFallback", "sotpFallback"].forEach(function (id) { byId(id).hidden = false; });
+          return;
+        }
+        chartDefaults();
+
+        scenarioChart = new Chart(byId("scenarioChart").getContext("2d"), {
+          type: "bar",
+          data: {
+            labels: scenarioNames,
+            datasets: [
+              {
+                label: "Precio del escenario",
+                data: baseState.prices,
+                backgroundColor: ["rgba(144,238,144,.72)", "rgba(0,215,255,.65)", "rgba(80,170,255,.72)", "rgba(255,165,0,.60)", "rgba(255,107,107,.72)"],
+                borderColor: ["#90ee90", "#00d7ff", "#50aaff", "#ffa500", "#ff6b6b"],
+                borderWidth: 1.5,
+                borderRadius: 6
+              },
+              {
+                type: "line",
+                label: "Precio de referencia",
+                data: [1.24, 1.24, 1.24, 1.24, 1.24],
+                borderColor: "#ffffff",
+                backgroundColor: "#ffffff",
+                borderDash: [6, 5],
+                borderWidth: 2,
+                pointRadius: 0,
+                tension: 0
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                suggestedMin: 0.8,
+                suggestedMax: 1.9,
+                ticks: { callback: function (v) { return "A$" + Number(v).toFixed(2); } },
+                title: { display: true, text: "A$ por acción", color: "#b0c4de" }
+              },
+              x: { ticks: { maxRotation: 0, minRotation: 0 } }
+            },
+            plugins: {
+              legend: { labels: { usePointStyle: true } },
+              tooltip: { callbacks: { label: function (ctx) { return ctx.dataset.label + ": A$" + Number(ctx.parsed.y).toFixed(2); } } }
+            }
+          }
+        });
+
+        new Chart(byId("financialChart").getContext("2d"), {
+          data: {
+            labels: ["CY24A", "CY25A", "CY26E", "CY27E", "CY28E"],
+            datasets: [
+              {
+                type: "bar",
+                label: "Revenue",
+                data: [635.6, 691.4, 715.467, 748.213, 787.040],
+                yAxisID: "y",
+                backgroundColor: "rgba(0,215,255,.38)",
+                borderColor: "#00d7ff",
+                borderWidth: 1.5,
+                borderRadius: 5
+              },
+              {
+                type: "line",
+                label: "Adj. EBITDA",
+                data: [128.9, 139.1, 144.257, 165.714, 179.189],
+                yAxisID: "y1",
+                borderColor: "#90ee90",
+                backgroundColor: "#90ee90",
+                borderWidth: 2.5,
+                tension: 0.25,
+                pointRadius: 3
+              },
+              {
+                type: "line",
+                label: "FCF",
+                data: [49.2, 26.6, 59.876, 74.095, 80.361],
+                yAxisID: "y1",
+                borderColor: "#ffa500",
+                backgroundColor: "#ffa500",
+                borderWidth: 2.5,
+                tension: 0.25,
+                pointRadius: 3
+              },
+              {
+                type: "line",
+                label: "Deuda neta",
+                data: [108.2, 112.8, 85.503, 53.807, 20.597],
+                yAxisID: "y1",
+                borderColor: "#ff6b6b",
+                backgroundColor: "#ff6b6b",
+                borderDash: [5, 4],
+                borderWidth: 2,
+                tension: 0.2,
+                pointRadius: 3
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: "index", intersect: false },
+            scales: {
+              y: {
+                beginAtZero: true,
+                position: "left",
+                title: { display: true, text: "Revenue (A$m)", color: "#b0c4de" },
+                suggestedMax: 850
+              },
+              y1: {
+                beginAtZero: true,
+                position: "right",
+                title: { display: true, text: "EBITDA / FCF / deuda neta (A$m)", color: "#b0c4de" },
+                grid: { drawOnChartArea: false },
+                suggestedMax: 200
+              }
+            },
+            plugins: {
+              legend: { labels: { usePointStyle: true } },
+              tooltip: { callbacks: { label: function (ctx) { return ctx.dataset.label + ": A$" + Number(ctx.parsed.y).toLocaleString("es-ES", { maximumFractionDigits: 1 }) + "m"; } } }
+            }
+          }
+        });
+
+        new Chart(byId("sotpChart").getContext("2d"), {
+          type: "doughnut",
+          data: {
+            labels: ["Billboards", "Street & Rail", "Retail", "Airports", "Other"],
+            datasets: [{
+              data: [440.572, 344.859, 119.315, 152.302, 5.304],
+              backgroundColor: ["#00d7ff", "#4a8b9b", "#90ee90", "#ffa500", "#7f8fa6"],
+              borderColor: "#1a2538",
+              borderWidth: 3,
+              hoverOffset: 7
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: "58%",
+            plugins: {
+              legend: { position: "bottom", labels: { usePointStyle: true, padding: 14 } },
+              tooltip: { callbacks: { label: function (ctx) {
+                var total = ctx.dataset.data.reduce(function (a, b) { return a + b; }, 0);
+                var share = ctx.parsed / total * 100;
+                return ctx.label + ": A$" + Number(ctx.parsed).toFixed(1) + "m (" + share.toFixed(1) + "%)";
+              } } }
+            }
+          }
+        });
+      }
+
+      function initNavigation() {
+        var tabs = Array.prototype.slice.call(document.querySelectorAll(".nav-tab"));
+        var sections = Array.prototype.slice.call(document.querySelectorAll("main section"));
+        tabs.forEach(function (tab) {
+          tab.addEventListener("click", function () {
+            tabs.forEach(function (item) { item.classList.remove("active"); });
+            tab.classList.add("active");
+          });
+        });
+        if ("IntersectionObserver" in window) {
+          var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                tabs.forEach(function (tab) {
+                  tab.classList.toggle("active", tab.getAttribute("href") === "#" + entry.target.id);
+                });
+              }
+            });
+          }, { rootMargin: "-30% 0px -60% 0px", threshold: 0.01 });
+          sections.forEach(function (section) { observer.observe(section); });
+        }
+      }
+
+      function initProgress() {
+        function update() {
+          var doc = document.documentElement;
+          var max = doc.scrollHeight - doc.clientHeight;
+          var progress = max > 0 ? doc.scrollTop / max * 100 : 0;
+          byId("progressBar").style.width = progress + "%";
+        }
+        window.addEventListener("scroll", update, { passive: true });
+        update();
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        for (var i = 0; i < 4; i += 1) {
+          (function (index) {
+            byId("prob" + index).addEventListener("input", function () {
+              constrainProbability(index);
+              updateCalculator();
+            });
+          }(i));
+        }
+        ["currentPriceInput", "price0", "price1", "price2", "price3", "price4"].forEach(function (id) {
+          byId(id).addEventListener("input", updateCalculator);
+        });
+        byId("resetCalculator").addEventListener("click", resetCalculator);
+        initCharts();
+        updateCalculator();
+        initNavigation();
+        initProgress();
+        document.documentElement.classList.add("js-ready");
+      });
+    }());
+  </script>
+</body>
+</html>
