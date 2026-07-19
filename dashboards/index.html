@@ -2304,6 +2304,34 @@ async function loadAllPrices() {
                 closeComment: ''
                 // Tesis activa: campos de cierre (closeDate, closeReason, closeReturn...) pendientes de completar cuando cierre.
             },
+               {
+                id: 'oml',
+                path: './oml/index.html',
+                type: 'takeover',
+                ticker: 'OML.AX',
+                company: 'oOh!media Limited',
+                sector: 'Media',
+                logo: 'company-logos/oml.png',
+                thesisDate: '2026-07-19',
+                thesisPrice: 'A$1.33',
+                fairValue: '€1.90',
+                fairValueRaw: 1.90,
+                upsideInitial: '+39%',
+                ticker_finnhub: 'OML.AX',
+                currentPrice: '€1.57',
+                currency: 'A$',
+                upsideActual: '+39%',
+                priceSource: 'manual',
+                riskLevel: 'Medio',
+                // ← CAMPOS DE CIERRE
+                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '',              // Fecha de cierre
+                closeReason: '',            // Motivo de cierre
+                closeReturn: '',            // Rentabilidad total
+                closeReturnAnnualized: '',  // Rentabilidad anualizada
+                closeComment: ''
+                // Tesis activa: campos de cierre (closeDate, closeReason, closeReturn...) pendientes de completar cuando cierre.
+            },
             
             
             
