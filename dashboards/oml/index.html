@@ -1266,7 +1266,6 @@
       <a class="nav-tab" href="#catalizadores">Catalizadores</a>
       <a class="nav-tab" href="#riesgos">Riesgos</a>
       <a class="nav-tab" href="#conclusion">Conclusión</a>
-      <a class="nav-tab" href="#fuentes">Fuentes</a>
     </div>
   </nav>
 
@@ -1276,7 +1275,7 @@
       <p class="section-lead">La tesis pasa de opcionalidad M&amp;A residual a una subasta competitiva real. El valor standalone no cambia, pero ahora tres sponsors han presentado propuestas tras due diligence limitada.</p>
 
       <div class="alert alert-info key-line">
-        <strong>Tesis central:</strong> el 15 de junio, OML confirmó propuestas indicativas de PEP, I Squared y Oaktree, varias a A$1,60 por acción. Ese nivel cristalizaría parte del descuento, pero aún queda un 18,8% hasta el SOTP CY27E de A$1,90. La competencia refuerza el contexto; no elimina el riesgo porque todas las propuestas siguen siendo condicionales y no vinculantes.
+        <strong>Tesis central:</strong> el 15 de junio, OML confirmó propuestas indicativas de PEP, I Squared y Oaktree, varias a A$1,60 por acción. Ese nivel supondría una prima del 20,3% frente al precio inicial de A$1,33, mientras el SOTP CY27E de A$1,90 implica un upside del 42,9% sobre la misma referencia. La competencia refuerza el contexto; no elimina el riesgo porque todas las propuestas siguen siendo condicionales y no vinculantes.
       </div>
 
       <div class="highlights-grid">
@@ -1301,8 +1300,8 @@
       <div class="four-col mt-20">
         <div class="kpi-mini">
           <span class="kpi-label">Market cap de referencia</span>
-          <span class="kpi-value">A$657m</span>
-          <span class="kpi-note">Research · A$1,24</span>
+          <span class="kpi-value">A$704,5m</span>
+          <span class="kpi-note">Precio inicial · A$1,33</span>
         </div>
         <div class="kpi-mini">
           <span class="kpi-label">Adj. EBITDA CY25A</span>
@@ -1455,8 +1454,8 @@
       <div class="card calculator">
         <div class="calc-toolbar">
           <div class="input-cluster">
-            <label for="currentPriceInput">Precio de referencia (A$/acción)</label>
-            <input id="currentPriceInput" type="number" min="0.50" max="2.50" step="0.01" value="1.24">
+            <label for="currentPriceInput">Precio inicial de referencia (A$/acción)</label>
+            <input id="currentPriceInput" type="number" min="0.50" max="2.50" step="0.01" value="1.33">
           </div>
           <button class="btn-reset" type="button" id="resetCalculator">Restablecer caso base</button>
         </div>
@@ -1494,16 +1493,16 @@
         <div class="calc-output" aria-live="polite">
           <div class="output-card"><div class="output-label">Probabilidad de deal</div><div class="output-value" id="dealProbability">65%</div></div>
           <div class="output-card"><div class="output-label">Valor esperado 12m</div><div class="output-value" id="expectedPrice">A$1,52</div></div>
-          <div class="output-card"><div class="output-label">Retorno vs referencia</div><div class="output-value" id="expectedReturn">+22,6%</div></div>
-          <div class="output-card"><div class="output-label">Downside adverso</div><div class="output-value" id="failureDownside">−15,3%</div></div>
+          <div class="output-card"><div class="output-label">Retorno vs precio inicial</div><div class="output-value" id="expectedReturn">+14,3%</div></div>
+          <div class="output-card"><div class="output-label">Downside adverso</div><div class="output-value" id="failureDownside">−21,1%</div></div>
         </div>
       </div>
 
       <div class="chart-grid mt-20">
         <div class="card">
-          <h3>Precio por desenlace vs referencia</h3>
+          <h3>Precio por desenlace vs precio inicial</h3>
           <div class="chart-shell">
-            <canvas id="scenarioChart" role="img" aria-label="Precios por escenario comparados con el precio de referencia"></canvas>
+            <canvas id="scenarioChart" role="img" aria-label="Precios por escenario comparados con el precio inicial"></canvas>
             <p class="chart-fallback" id="scenarioFallback" hidden>El gráfico no pudo cargarse; consulta la tabla de escenarios.</p>
           </div>
           <p class="table-note">Lectura: el valor esperado no es un precio objetivo fundamental; es la media ponderada de desenlaces a 12 meses.</p>
@@ -1518,7 +1517,7 @@
             </table>
           </div>
           <div class="alert alert-info mt-15">
-            <strong>Tres anclas distintas:</strong> A$1,24 es la referencia de mercado previa al update; A$1,60 es el nivel indicado para varias propuestas; A$1,90 es el SOTP CY27E standalone. El valor esperado de la calculadora mezcla desenlaces y cambia con los supuestos del usuario.
+            <strong>Tres anclas distintas:</strong> A$1,33 es el precio inicial de referencia; A$1,60 es el nivel indicado para varias propuestas; A$1,90 es el SOTP CY27E standalone. El valor esperado de la calculadora mezcla desenlaces y cambia con los supuestos del usuario.
           </div>
         </div>
       </div>
@@ -1603,7 +1602,7 @@
             <div class="bridge-step"><span>Valor / acción</span><strong>A$1,90</strong></div>
           </div>
           <div class="alert alert-success">
-            <strong>Upside fundamental:</strong> A$1,90 implica aproximadamente +53% frente a A$1,24. El horizonte es CY27E normalizado; no debe compararse mecánicamente con un NBIO sujeto a due diligence y tiempo.
+            <strong>Upside fundamental:</strong> A$1,90 implica aproximadamente +42,9% frente al precio inicial de A$1,33. El horizonte es CY27E normalizado; no debe compararse mecánicamente con un NBIO sujeto a due diligence y tiempo.
           </div>
           <div class="alert alert-warning mt-15">
             <strong>Sensibilidad principal:</strong> A$785,4m del EV procede de Billboards y Street &amp; Rail. Una reducción conjunta de 1,0x EV/EBIT en esos segmentos restaría aproximadamente A$89,5m al equity, o A$0,17 por acción.
@@ -1712,58 +1711,25 @@
         <ul class="compact-list">
           <li><strong>Valor fundamental:</strong> SOTP CY27E de A$1,90, apoyado por mejora de margen y desapalancamiento.</li>
           <li><strong>Contexto M&amp;A:</strong> PEP, I Squared y Oaktree han presentado propuestas indicativas; varias alcanzan A$1,60.</li>
-          <li><strong>Valor esperado editable:</strong> A$1,52 en el caso base de escenarios, +22,6% frente a la referencia pre-update de A$1,24.</li>
+          <li><strong>Valor esperado editable:</strong> A$1,52 en el caso base de escenarios, +14,3% frente al precio inicial de A$1,33.</li>
           <li><strong>Límite financiero:</strong> A$1,60 coincide prácticamente con el techo del reverse LBO a 20% de TIR; una puja superior exige presión o supuestos mejores.</li>
           <li><strong>Disciplina de entrada:</strong> claramente por debajo de A$1,60 hay asimetría event-driven; cerca de A$1,60 es merger arb aún no vinculante; por encima se necesita una mejora de precio.</li>
         </ul>
       </div>
 
       <div class="three-col mt-20">
-        <div class="kpi-mini"><span class="kpi-label">Break / stress price</span><span class="kpi-value">A$1,00–1,10</span><span class="kpi-note">−19% a −11%</span></div>
+        <div class="kpi-mini"><span class="kpi-label">Break / stress price</span><span class="kpi-value">A$1,00–1,10</span><span class="kpi-note">−24,8% a −17,3%</span></div>
         <div class="kpi-mini"><span class="kpi-label">Propuestas indicativas</span><span class="kpi-value">A$1,60</span><span class="kpi-note">Varias; aún no vinculantes</span></div>
-        <div class="kpi-mini"><span class="kpi-label">SOTP normalizado</span><span class="kpi-value">A$1,90</span><span class="kpi-note">+53%</span></div>
+        <div class="kpi-mini"><span class="kpi-label">SOTP normalizado</span><span class="kpi-value">A$1,90</span><span class="kpi-note">+42,9%</span></div>
       </div>
 
       <div class="card method-note mt-20">
         <h3>Metodología y reconciliación de fuentes</h3>
-        <p>El estado del proceso se actualiza con el anuncio oficial de OML del 15/06/2026. El precio de A$1,24 es una referencia pre-update del research del 3/06/2026, no una cotización atribuida al 15 de junio. Las proyecciones, el SOTP y el LBO proceden del Excel adjunto y no cambian con esta actualización.</p>
+        <p>El estado del proceso se actualiza con el anuncio oficial de OML del 15/06/2026. El precio inicial de referencia utilizado en todo el dashboard es A$1,33. Las proyecciones, el SOTP y el LBO proceden del Excel adjunto y no cambian con esta actualización.</p>
         <p>Ejemplo material: el research muestra revenue CY27E de A$770m, mientras el Excel que alimenta el SOTP utiliza A$748,2m y un margen superior; EBITDA y valoración permanecen aproximadamente alineados. El dashboard usa A$748,2m para mantener trazabilidad con el SOTP.</p>
       </div>
     </section>
 
-    <section id="fuentes" class="fade-in">
-      <h2 class="section-title">Fuentes y alcance</h2>
-      <div class="two-col">
-        <div class="card">
-          <h3>Archivos analizados</h3>
-          <ul class="source-list">
-            <li><strong>update_opa_ooh media(1).pdf</strong> — anuncio oficial del 15 de junio sobre propuestas revisadas y due diligence adicional.</li>
-            <li><strong>OML_Research_Update_Jun2026(2).docx</strong> — tesis, proceso, escenarios, catalizadores y riesgos.</li>
-            <li><strong>OML_Valuation_Model(1).xlsx</strong> — Income Statement, FCF, segmentos, SOTP, LBO y sensibilidades.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Fuentes primarias y corporativas</h3>
-          <ol class="source-list">
-            <li><a href="https://announcements.asx.com.au/asxpdf/20260615/pdf/070mg0jgrqwnpw.pdf" target="_blank" rel="noopener noreferrer">OML — Update on Potential Change of Control Transaction, 15 Jun 2026</a></li>
-            <li><a href="https://announcements.asx.com.au/asxpdf/20260514/pdf/06zkzkbjby1tv8.pdf" target="_blank" rel="noopener noreferrer">OML — Strategy &amp; Trading Update and 2026 AGM Materials, 14 May 2026</a></li>
-            <li><a href="https://investors.oohmedia.com.au/DownloadFile.axd?file=%2FReport%2FComNews%2F20260511%2F03088540.pdf" target="_blank" rel="noopener noreferrer">OML — Receipt of ISQ Non-Binding Indicative Offer, 11 May 2026</a></li>
-            <li><a href="https://investors.oohmedia.com.au/DownloadFile.axd?file=%2FReport%2FComNews%2F20260429%2F03083433.pdf" target="_blank" rel="noopener noreferrer">OML — Response to PEP Non-Binding Indicative Offer, 29 Apr 2026</a></li>
-            <li><a href="https://www.pep.com.au/about/" target="_blank" rel="noopener noreferrer">Pacific Equity Partners — About PEP</a></li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="card mt-20">
-        <h3>Fuentes de prensa usadas en el research</h3>
-        <ol class="source-list">
-          <li><a href="https://www.theaustralian.com.au/business/dataroom/oohmedias-auction-narrows-to-one-as-isquared-retreats/news-story/f92fce7c7b53b85060707e9b276a34b5" target="_blank" rel="noopener noreferrer">The Australian DataRoom — I Squared looks to retreat from oOh!media takeover bid</a></li>
-          <li><a href="https://www.theaustralian.com.au/business/dataroom/brendan-cook-and-james-warburton-enlisted-as-pep-mounts-serious-tilt-at-oohmedia/news-story/05d2c743977b62cbe8a56e4b0ce48ff7" target="_blank" rel="noopener noreferrer">The Australian DataRoom — Cook and Warburton enlisted by PEP</a></li>
-          <li><a href="https://www.mediaweek.com.au/oohmedia-backs-independent-future-as-bidders-line-up/" target="_blank" rel="noopener noreferrer">Mediaweek — oOh!media backs independent future as bidders line up</a></li>
-        </ol>
-        <p class="table-note">Las informaciones de prensa se identifican como tales. La noticia del 3 de junio sobre ISQ se conserva solo como antecedente histórico y queda superada por el anuncio corporativo del 15 de junio.</p>
-      </div>
-    </section>
   </main>
 
   <footer>
@@ -1779,7 +1745,7 @@
       "use strict";
 
       var baseState = {
-        current: 1.24,
+        current: 1.33,
         probabilities: [50, 15, 15, 10],
         prices: [1.60, 1.70, 1.50, 1.35, 1.05]
       };
@@ -1919,8 +1885,8 @@
               },
               {
                 type: "line",
-                label: "Precio de referencia",
-                data: [1.24, 1.24, 1.24, 1.24, 1.24],
+                label: "Precio inicial",
+                data: [1.33, 1.33, 1.33, 1.33, 1.33],
                 borderColor: "#ffffff",
                 backgroundColor: "#ffffff",
                 borderDash: [6, 5],
