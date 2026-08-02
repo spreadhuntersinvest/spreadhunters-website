@@ -1880,12 +1880,12 @@ async function loadAllPrices() {
                 priceSource: 'manual',
                 riskLevel: 'Medio',
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
-                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
-                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
-                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: '',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
-                closeComment: ''            // Comentario breve
+                status: 'closed_fail',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '2026-07-15',              // Fecha de cierre (ej: '2026-07-03')
+                closeReason: 'Tesis rota, a día de hoy no hay catalizadores visibles, aunque la parte commercial vale más del market cap.',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '-40%',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '-63.12%',  // IRR (ej: '+18% IRR')
+                closeComment: 'El activismo ha castigado mucho a la acción. Pensamos que esta infravalorada. Pero hay situaciones mejores, y sería un coste de oportunidad'            // Comentario breve
             },
              {
                 id: 'inspecs',
