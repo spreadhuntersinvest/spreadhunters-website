@@ -1763,7 +1763,7 @@ async function loadAllPrices() {
                 upsideInitial: '+20.6%',
                 ticker_finnhub: 'QEPC',
                 ticker_fincept: 'QEPC',
-                currentPrice: '$39.5',
+                currentPrice: '$49.5',
                 currency: '$',
                 upsideActual: '+20.6%',
                 priceSource: 'manual',
@@ -1772,9 +1772,9 @@ async function loadAllPrices() {
                 status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '2026-04-08',              // Fecha de cierre (ej: '2026-07-03')
                 closeReason: 'Precio objetivo alcanzado',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: '',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '212.8%',  // IRR (ej: '+18% IRR')
-                closeComment: 'Spread se cerró más rápido de lo esperado, en tan solo 3 meses'            // Comentario breve
+                closeReturn: '+30.26%',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '+210.02%',  // IRR (ej: '+18% IRR')
+                closeComment: 'Spread se cerró más rápido de lo esperado, en tan solo 3 meses. Vendida a $49.5'            // Comentario breve
             },
             {
                 id: 'edu',
@@ -2151,14 +2151,14 @@ async function loadAllPrices() {
                 upsideInitial: '+37%',
                 ticker_finnhub: 'CYAN.L',
                 ticker_fincept: 'CYAN',
-                currentPrice: 'GBP0.076',
+                currentPrice: 'GBP0.096',
                 currency: 'GBP',
                 upsideActual: '37%',
                 priceSource: 'manual',
                 riskLevel: 'Medio',
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
-                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closeDate: 'closed_success',              // Fecha de cierre (ej: '2026-07-03')
                 closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
                 closeReturn: '',            // Rentabilidad total (ej: '+22%')
                 closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
