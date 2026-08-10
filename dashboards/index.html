@@ -2332,6 +2332,33 @@ async function loadAllPrices() {
                 closeComment: 'Spread cerrado acorde a estimaciones - LBO'
                 // Tesis activa: campos de cierre (closeDate, closeReason, closeReturn...) pendientes de completar cuando cierre.
             },
+            {
+                id: 'BSX',
+                path: './bsx/index.html',
+                type: 'Turn-around',
+                ticker: 'BSX',
+                company: 'Boston Scientific',
+                sector: 'Media',
+                logo: 'company-logos/bsx.png.png',
+                thesisDate: '2026-07-23',
+                thesisPrice: '$43',
+                fairValue: '$61.83',
+                fairValueRaw: 1.90,
+                upsideInitial: '+44%',
+                ticker_finnhub: 'BSX',
+                currentPrice: '$50',
+                currency: '$',
+                upsideActual: '+30%',
+                priceSource: 'manual',
+                riskLevel: 'Medio',
+                // ← CAMPOS DE CIERRE
+                status: 'Active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '2026-08-10',              // Fecha de cierre
+                closeReason: '',            // Motivo de cierre
+                closeReturn: '',            // Rentabilidad total
+                closeReturnAnnualized: '',  // Rentabilidad anualizada
+                closeComment: '' // Tesis activa: campos de cierre (closeDate, closeReason, closeReturn...) pendientes de completar cuando cierre.
+            },
             
             
             
