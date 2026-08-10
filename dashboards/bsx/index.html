@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#00d7ff">
+    <title>Boston Scientific (NYSE: BSX) - Análisis de Inversión | SpreadHunters</title>
+    <meta name="description" content="Boston Scientific (BSX): situación especial event-driven. De-rating del 58% en un líder MedTech. TP blended $65,05 (+51%) y TP ponderado $61,83 (+44%).">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #00d7ff;
+            --secondary-color: #1a2332;
+            --accent-color: #4A8B9B;
+            --success-color: #90ee90;
+            --danger-color: #ff6b6b;
+            --warning-color: #ffa500;
+            --info-color: #00d7ff;
+            --medtech-color: #7B68EE;
+            --dark-bg: #1a2332;
+            --darker-bg: #0f1419;
+            --card-bg: #1a2538;
+            --light-bg: #E8E8E8;
+            --text-primary: #d0d8e0;
+            --text-secondary: #b0c4de;
+            --text-tertiary: #808080;
+            --border-color: #2d3d4d;
+            --border-light: #3d5570;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.95) 0%, rgba(30, 50, 80, 0.95) 100%);
+            background-color: #1a2332;
+            color: var(--text-primary); line-height: 1.6; min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+        .progress-bar { background: var(--success-color); height: 2px; width: 0%; position: fixed; top: 0; left: 0; z-index: 1000; transition: width 0.3s ease; }
+        .logo-navbar { position: fixed; top: 20px; left: 20px; z-index: 900; background: none; padding: 0; border: none; pointer-events: none; }
+        .logo-navbar-img { height: 44px; width: auto; display: block; }
+        @media (max-width: 768px) { .logo-navbar { top: 15px; left: 15px; } .logo-navbar-img { height: 34px; } }
+        @media (max-width: 480px) { .logo-navbar { top: 12px; left: 12px; } .logo-navbar-img { height: 30px; } }
+
+        .header-professional { margin: 0; padding: 50px 20px; background: transparent; border-bottom: 1px solid rgba(74, 127, 127, 0.1); backdrop-filter: blur(3px); position: relative; z-index: 2; }
+        .header-professional .container { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 20px; max-width: 1200px; margin: 0 auto; }
+        .header-title-section { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .company-title-row { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; }
+        .logo-company { height: 58px; width: auto; display: block; }
+        .header-badges { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 4px; }
+        .badge { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; padding: 5px 12px; border-radius: 20px; font-weight: 600; }
+        .badge-special { background: rgba(123, 104, 238, 0.15); color: var(--medtech-color); border: 1px solid rgba(123, 104, 238, 0.4); }
+        .badge-event { background: rgba(255, 165, 0, 0.15); color: var(--warning-color); border: 1px solid rgba(255, 165, 0, 0.4); }
+        .page-title { font-size: 1.65rem; font-weight: 700; color: #ffffff; margin: 0; letter-spacing: 1px; line-height: 1.3; }
+        .page-subtitle { font-size: 0.95rem; color: #e0e0e0; margin: 10px 0 0; font-weight: 400; max-width: 780px; }
+        @media (max-width: 768px) { .header-professional { padding: 30px 15px; } .page-title { font-size: 1.4rem; } .logo-company { height: 48px; } .page-subtitle { font-size: 0.9rem; } }
+        @media (max-width: 480px) { .header-professional { padding: 20px 15px; } .page-title { font-size: 1.15rem; } .logo-company { height: 42px; } }
+
+        .investment-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; width: 100%; }
+        .metric-card { background: linear-gradient(135deg, rgba(26, 35, 50, 0.6) 0%, rgba(30, 50, 80, 0.6) 100%); border: 2px solid rgba(0, 215, 255, 0.3); border-radius: 12px; padding: 18px; text-align: center; backdrop-filter: blur(10px); transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .metric-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, rgba(0, 215, 255, 0.5) 0%, rgba(0, 215, 255, 0) 100%); }
+        .metric-card:hover { border-color: rgba(0, 215, 255, 0.6); background: linear-gradient(135deg, rgba(26, 35, 50, 0.8) 0%, rgba(30, 50, 80, 0.8) 100%); box-shadow: 0 0 20px rgba(0, 215, 255, 0.2); }
+        .metric-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-secondary); margin-bottom: 12px; font-weight: 600; }
+        .metric-value { font-size: 1.6rem; font-weight: 700; margin-bottom: 5px; letter-spacing: -0.5px; }
+        .metric-value.cyan { color: #00d7ff; } .metric-value.green { color: #90ee90; } .metric-value.red { color: #ff6b6b; } .metric-value.purple { color: #7B68EE; }
+        .metric-subtitle { font-size: 0.78rem; color: var(--text-tertiary); font-weight: 400; }
+        @media (max-width: 768px) { .investment-metrics { grid-template-columns: repeat(2, 1fr); gap: 12px; } .metric-card { padding: 14px; } .metric-value { font-size: 1.25rem; } }
+
+        .nav-tabs { background: var(--card-bg); padding: 20px 0; position: sticky; top: 0; z-index: 100; border-bottom: 2px solid var(--border-color); }
+        .nav-tabs ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+        .nav-tabs a { color: var(--text-secondary); text-decoration: none; padding: 10px 18px; border-radius: 6px; transition: all 0.3s ease; font-weight: 500; font-size: 0.90rem; }
+        .nav-tabs a:hover, .nav-tabs a.active { background: var(--primary-color); color: var(--dark-bg); }
+        @media (max-width: 768px) { .nav-tabs { padding: 10px 0; } .nav-tabs ul { flex-direction: row; justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; gap: 8px; padding: 0 12px 6px; -webkit-overflow-scrolling: touch; } .nav-tabs li { flex: 0 0 auto; } .nav-tabs a { padding: 7px 12px; font-size: 0.83rem; white-space: nowrap; } .nav-tabs ul::-webkit-scrollbar { height: 6px; } .nav-tabs ul::-webkit-scrollbar-track { background: rgba(15, 20, 25, 0.35); } .nav-tabs ul::-webkit-scrollbar-thumb { background: rgba(0, 215, 255, 0.55); border-radius: 6px; } }
+
+        section { padding: 60px 0; border-bottom: 1px solid var(--border-color); position: relative; z-index: 1; scroll-margin-top: 90px; }
+        section h2 { font-size: 1.35rem; margin-bottom: 30px; color: var(--primary-color); border-left: 4px solid var(--success-color); padding-left: 20px; }
+        section h3 { font-size: 1.15rem; margin: 30px 0 15px; color: var(--text-primary); }
+        section h4 { font-size: 1.0rem; margin: 15px 0 10px; color: var(--text-primary); }
+        @media (max-width: 768px) { section h2 { font-size: 1.25rem; } section { scroll-margin-top: 120px; } }
+
+        .card { background: rgba(26, 35, 50, 0.85); border-radius: 8px; padding: 14px 16px; margin-bottom: 20px; border: 1px solid var(--border-color); backdrop-filter: blur(10px); box-shadow: 0 1px 3px rgba(0,0,0,0.2); line-height: 1.55; }
+        .card ul { margin: 8px 0 0; padding-left: 18px; } .card li { margin: 0 0 6px 0; }
+        .chart-container { background: rgba(26, 35, 50, 0.85); border-radius: 8px; padding: 25px; margin: 30px 0; border: 1px solid var(--border-color); backdrop-filter: blur(10px); position: relative; height: 400px; }
+        .chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; margin: 30px 0; }
+        .chart-caption { font-size: 0.8rem; color: var(--text-tertiary); text-align: center; margin: -12px 0 20px; }
+        @media (max-width: 768px) { .chart-grid { grid-template-columns: 1fr; } .chart-container { height: 320px; padding: 16px; } }
+        .chart-350 { height: 350px; } .chart-320 { height: 320px; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 30px 0; }
+        .stat-card { background: rgba(26, 35, 50, 0.8); padding: 20px; border-radius: 12px; text-align: center; border: 2px solid var(--border-color); backdrop-filter: blur(10px); }
+        .stat-card .label { font-size: 0.82rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .stat-card .value { font-size: 1.6rem; font-weight: 600; color: var(--text-primary); }
+        .stat-card .change { font-size: 0.88rem; margin-top: 5px; }
+        .positive { color: var(--success-color); } .negative { color: var(--danger-color); } .neutral { color: var(--primary-color); } .warning { color: var(--warning-color); }
+
+        .table-responsive { overflow-x: auto; margin: 30px 0; border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; background: var(--card-bg); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); font-size: 0.90rem; }
+        thead { background: #1A1F2E; border-bottom: 2px solid var(--primary-color); }
+        th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { color: var(--text-secondary); font-weight: 600; text-transform: uppercase; font-size: 0.70rem; letter-spacing: 0.5px; }
+        tr:hover { background: rgba(74, 127, 127, 0.05); }
+        td.num { text-align: right; font-variant-numeric: tabular-nums; } th.num { text-align: right; }
+
+        .alert { padding: 16px 18px; border-radius: 8px; margin: 20px 0; border-left: 4px solid; backdrop-filter: blur(10px); }
+        .alert-success { background: rgba(74, 155, 111, 0.08); border-color: var(--success-color); color: var(--text-primary); }
+        .alert-warning { background: rgba(255, 165, 0, 0.15); border-color: var(--warning-color); color: var(--text-primary); }
+        .alert-info { background: rgba(0, 212, 212, 0.15); border-color: var(--primary-color); color: var(--text-primary); }
+        .alert-danger { background: rgba(255, 107, 107, 0.15); border-color: var(--danger-color); color: var(--text-primary); }
+        .alert strong { color: #ffffff; } .alert p { margin-bottom: 8px; } .alert p:last-child { margin-bottom: 0; }
+
+        .highlights { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 30px 0; }
+        .highlight-item { background: linear-gradient(135deg, var(--card-bg) 0%, rgba(0, 212, 212, 0.1) 100%); padding: 16px 18px; border-radius: 12px; border-left: 4px solid var(--primary-color); backdrop-filter: blur(10px); }
+        .highlight-item h4 { color: var(--primary-color); margin-bottom: 8px; font-size: 1.02rem; }
+        .highlight-item p { color: var(--text-primary); line-height: 1.55; }
+        .highlight-item.purple-border { border-left-color: var(--medtech-color); }
+        .highlight-item.purple-border h4 { color: var(--medtech-color); }
+
+        .pill { display: inline-block; padding: 2px 9px; border-radius: 12px; font-size: 0.72rem; font-weight: 600; }
+        .pill-red { background: rgba(255,107,107,0.18); color: var(--danger-color); }
+        .pill-green { background: rgba(144,238,144,0.18); color: var(--success-color); }
+
+        .btn { background: var(--primary-color); color: var(--dark-bg); border: 1px solid var(--primary-color); padding: 10px 24px; border-radius: 4px; font-weight: 500; transition: all 0.2s ease; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn:hover { background: var(--secondary-color); border-color: var(--accent-color); box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+        .btn-success { font-size: 0.9rem; padding: 8px 18px; border-radius: 6px; }
+
+        footer { background: var(--card-bg); padding: 40px 0; text-align: center; margin-top: 60px; border-top: 2px solid var(--border-color); position: relative; z-index: 1; }
+        footer p { color: var(--text-secondary); font-size: 0.9rem; margin: 10px 0; }
+        footer a { color: var(--primary-color); text-decoration: none; }
+
+        ::-webkit-scrollbar { width: 10px; } ::-webkit-scrollbar-track { background: rgba(15, 20, 25, 0.5); } ::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 5px; }
+        .fade-in { animation: fadeIn 0.6s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } html { scroll-behavior: auto; } }
+        .mt-15 { margin-top: 15px; } .mt-20 { margin-top: 20px; } .mt-30 { margin-top: 30px; }
+        .text-center { text-align: center; }
+        .compact-list { margin: 6px 0 0; padding-left: 18px; } .compact-list li { margin: 0 0 6px 0; }
+        @media (max-width: 768px) { .container { padding: 0 15px; } }
+    </style>
+</head>
+<body>
+    <div id="top"></div>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="logo-navbar">
+        <img src="../../images/spreadhunter_navbar.svg" alt="SpreadHunters" class="logo-navbar-img">
+    </div>
+
+    <header class="header-professional">
+        <div class="container">
+            <div class="header-title-section">
+                <div class="company-title-row">
+                    <img src="../company-logos/boston-scientific.png" alt="Boston Scientific Logo" class="logo-company">
+                    <h1 class="page-title">Boston Scientific Corporation (NYSE: BSX)</h1>
+                </div>
+                <div class="header-badges">
+                    <span class="badge badge-special">Event-Driven · Situación Especial</span>
+                    <span class="badge badge-event">De-rating 58% · Q2 29-Jul-2026</span>
+                </div>
+                <p class="page-subtitle">Líder global en MedTech con de-rating del 58% tras cinco golpes en seis meses. El mercado descuenta daño estructural permanente; los números reportan un negocio que creció +9,4% orgánico el último trimestre. Asimetría riesgo/recompensa excepcional.</p>
+            </div>
+
+            <div class="investment-metrics">
+                <div class="metric-card">
+                    <div class="metric-label">Precio actual</div>
+                    <div class="metric-value cyan" id="priceCurrent">$42,97</div>
+                    <div class="metric-subtitle">Cierre 22-jul-2026</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">TP Blended</div>
+                    <div class="metric-value cyan">$65,05</div>
+                    <div class="metric-subtitle">+51,4% upside · modelo v3.0</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">TP Prob. Ponderado</div>
+                    <div class="metric-value green">$61,83</div>
+                    <div class="metric-subtitle">+43,9% retorno esperado</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">P/E Fwd 2026E</div>
+                    <div class="metric-value purple">12,5x</div>
+                    <div class="metric-subtitle">Peers: 18,2x · descuento -31%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">EV/EBITDA LTM</div>
+                    <div class="metric-value purple">12,1x</div>
+                    <div class="metric-subtitle">Peers: 16,5x · descuento -27%</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-tabs">
+        <div class="container">
+            <ul>
+                <li><a href="#resumen" class="active">Resumen</a></li>
+                <li><a href="#situacion">Situación Especial</a></li>
+                <li><a href="#empresa">Empresa</a></li>
+                <li><a href="#financials">Financieros</a></li>
+                <li><a href="#valuation">Valuación</a></li>
+                <li><a href="#catalysts">Catalizadores</a></li>
+                <li><a href="#riesgos">Riesgos</a></li>
+                <li><a href="#conclusion">Conclusión</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <!-- ===================== RESUMEN ===================== -->
+        <section id="resumen" class="fade-in">
+            <h2>Resumen Ejecutivo</h2>
+
+            <div class="alert alert-success">
+                <strong>Tesis de inversión:</strong> Boston Scientific cerró 2025 como la mejor historia de crecimiento large-cap MedTech ($20.074M de ventas, +19,9%; Adj EPS $3,06, +22%; FCF $3,66B). Doce meses después su acción ha caído un <strong>58,6%</strong> desde máximos (~$104-108 → $42,97). El colapso responde a una convergencia de cinco golpes — no a un deterioro estructural del negocio. El modelo v3.0 arroja un <strong>TP blended de $65,05 (+51%)</strong> y un TP ponderado de <strong>$61,83 (+44%)</strong>, con un bear case de $41,89 que esencialmente coincide con el spot actual.
+            </div>
+
+            <div class="highlights">
+                <div class="highlight-item">
+                    <h4>📉 De-rating extremo</h4>
+                    <p>De >25x P/E fwd (compounder premium) a 12,5x — por debajo de Medtronic, que crece menos de la mitad. El mercado trata problemas cíclicos/de mix como deterioro estructural permanente.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>📊 Los números no mienten</h4>
+                    <p>Q1-2026: +9,4% orgánico, batió guía en ingresos y EPS. El negocio que los números reportan no es el negocio que el precio descuenta.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>🎯 Barra de expectativas baja</h4>
+                    <p>Guía FY26 ya rebajada dos veces. El consenso de Q2 ($0,83) coincide con la propia guía. Para subir basta con cumplir; para caer hace falta evidencia nueva de deterioro.</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>💰 FCF como amortiguador</h4>
+                    <p>$4B de FCF guiado para FY26 financia el desapalancamiento post-Penumbra sin ampliar capital. FCF yield implícito >6% sobre market cap.</p>
+                </div>
+            </div>
+
+            <h3>Métricas clave FY2025</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">Ventas 2025</div>
+                    <div class="value neutral">$20.074M</div>
+                    <div class="change positive">+19,9% reportado</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Adj EPS 2025</div>
+                    <div class="value">$3,06</div>
+                    <div class="change positive">+22% interanual</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">FCF 2025</div>
+                    <div class="value">$3,66B</div>
+                    <div class="change positive">+38% · conv. 80%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Margen Op. Adj.</div>
+                    <div class="value">28,0%</div>
+                    <div class="change positive">+100 pbs vs 2024</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Pacientes tratados</div>
+                    <div class="value">~48M</div>
+                    <div class="change neutral">59.000 empleados</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== SITUACIÓN ESPECIAL ===================== -->
+        <section id="situacion" class="fade-in">
+            <h2>La Situación Especial: Anatomía del De-Rating</h2>
+
+            <h3>Cinco golpes en seis meses</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead><tr><th>Fecha</th><th>Evento</th><th>Lectura del mercado</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>15-ene-26</strong></td><td>Acuerdo para comprar <strong>Penumbra: $14,5B</strong> (~73% caja + ~27% acciones). Dilutivo $0,06-0,08 año 1.</td><td class="negative">~10x ventas por activo de crecimiento 17%: miedo a sobrepago y apalancamiento (~2,9x pro forma)</td></tr>
+                        <tr><td><strong>Feb-26</strong></td><td><strong>WATCHMAN</strong> registra el primer descenso de volumen de su historia tras crecer ~30% en 2025.</td><td class="negative">¿Saturación del TAM? ¿Canibalización por procedimientos concomitantes?</td></tr>
+                        <tr><td><strong>28-mar-26</strong></td><td><strong>CHAMPION-AF</strong> cumple endpoints (no-inferioridad vs DOACs) pero con señal de más ictus isquémicos (45 vs 27).</td><td class="warning">Catalizador binario queda en "empate técnico" — expansión a primera línea aplazada</td></tr>
+                        <tr><td><strong>22-abr-26</strong></td><td>Q1-26 bate guía pero <strong>recorte de guía FY26</strong>: orgánico de 10,5-11,5% → 6,5-8,0%; EPS $3,34-3,41.</td><td class="warning">Rebote +9% ese día (alivio) que se evapora al digerir el recorte</td></tr>
+                        <tr><td><strong>May-Jul 26</strong></td><td>Pérdida de cuota <strong>PFA vs MDT</strong> (miss $33M en EP); recalls de packaging (CRE, AXIOS); cascada de recortes de PT.</td><td class="negative">Capitulación: de "compounder de calidad" a "franquicia cuestionada"</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>¿Quién vende?</strong> El vendedor marginal no es un analista fundamental recalculando DCFs: es la rotación de estilo. BSX era posición de consenso del growth/momentum de calidad en healthcare (+106% TSR en tres años) y ha protagonizado tres decepciones consecutivas. Los fondos momentum venden porque el precio cae; los growth porque la guía se ha reducido; los quality-index porque las revisiones de beneficios son negativas. Nadie tiene mandato de comprar una historia rota mientras se rompe — ese vacío de demanda crea el precio de entrada.
+            </div>
+
+            <h3>¿Cíclico o estructural? El diagnóstico problema a problema</h3>
+            <div class="card">
+                <h4>🟢 WATCHMAN standalone en declive</h4>
+                <p><strong>Evidencia de cíclico/mix:</strong> La demanda migra a procedimientos concomitantes (FARAPULSE + WATCHMAN en una sesión). Q1-26 aún +19,2% ($506M); ALIGN-AF muestra 100% de éxito combinado; nuevo CMS payment code apoya el reembolso. El paciente no desaparece: cambia el workflow.</p>
+                <p><strong>Lo que lo haría estructural:</strong> Volumen total negativo varios trimestres; CHAMPION 5 años confirmando señal de ictus; payors restringiendo cobertura.</p>
+            </div>
+            <div class="card">
+                <h4>🟡 Competencia PFA (MDT, JNJ, ABT)</h4>
+                <p><strong>Evidencia de cíclico:</strong> El mercado PFA sigue expandiéndose (>60% de penetración esperada); EP creció +24% en Q1-26 ($905M); AVANT GUARD posiciona a Farapulse como única PFA con datos de primera línea en persistent AF (56% vs 30% AADs); pipeline Farawave Nav + Faraflex + mapping Opal.</p>
+                <p><strong>Lo que lo haría estructural:</strong> Cuota por debajo de ~40% en EE.UU. con erosión de ASP; datos clínicos de competidores superiores.</p>
+            </div>
+            <div class="card">
+                <h4>🟢 Urología / Axonics</h4>
+                <p><strong>Evidencia de cíclico:</strong> +0,5% orgánico Q1-26 por integración, no por demanda (incontinencia/BPH son demográficamente crecientes). Valencia (eCoin) cerrada en Q1-26 añade adyacencia.</p>
+            </div>
+            <div class="card">
+                <h4>🟡 Penumbra ($14,5B)</h4>
+                <p><strong>Evidencia de cíclico:</strong> Dilución año 1 guiada; accretive año 3+; solapamiento mínimo; accionistas PEN aprobaron. Entrada escalada en trombectomía mecánica/neurovascular.</p>
+            </div>
+
+            <div class="alert alert-success">
+                <strong>Conclusión:</strong> De los cinco frentes, ninguno muestra hoy evidencia concluyente de daño estructural, y tres (WATCHMAN, urología, Penumbra) tienen dinámica clásica de transición operativa. El único con riesgo estructural genuino es la cuota PFA — y ahí BSX conserva el mejor dataset clínico y el pipeline más profundo. La tesis no exige que todo salga bien: exige que el precio de un colapso estructural no se materialice.
+            </div>
+        </section>
+
+        <!-- ===================== EMPRESA ===================== -->
+        <section id="empresa" class="fade-in">
+            <h2>Perfil de Negocio: Dos Segmentos, Ocho Franquicias</h2>
+
+            <div class="chart-grid">
+                <div class="chart-container"><canvas id="segmentRevenue"></canvas></div>
+                <div class="chart-container"><canvas id="geoRevenue"></canvas></div>
+            </div>
+
+            <h3>Cardiovascular (66% de ventas · $13.250M · +20,8% org.)</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead><tr><th>Franquicia</th><th class="num">Ventas 2025</th><th class="num">% Total</th><th>Rol en la tesis</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Interventional Cardiology & Vascular</strong></td><td class="num">$4.639M</td><td class="num">23,1%</td><td>Motor de volumen estable. Stents, AGENT DCB, PAD. Crecimiento doble dígito sin sobresaltos</td></tr>
+                        <tr><td><strong>Electrophysiology</strong></td><td class="num">$3.325M</td><td class="num">16,6%</td><td class="warning">Epicentro del debate. FARAPULSE, PFA, competencia con MDT/JNJ/ABT</td></tr>
+                        <tr><td><strong>WATCHMAN</strong></td><td class="num">$1.958M</td><td class="num">9,8%</td><td class="warning">Cierre de orejuela (LAAC). CHAMPION-AF mixto. Transición a concomitante</td></tr>
+                        <tr><td><strong>Cardiac Rhythm Management</strong></td><td class="num">$2.332M</td><td class="num">11,6%</td><td>Mercado maduro. Marcapasos, DAI, CRT. Base recurrente</td></tr>
+                        <tr><td><strong>Int. Oncology & Embolization</strong></td><td class="num">$996M</td><td class="num">5,0%</td><td>Nicho de alto crecimiento. Opcionalidad a largo plazo</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>MedSurg (34% de ventas · $6.824M · +6,7% org.)</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead><tr><th>Franquicia</th><th class="num">Ventas 2025</th><th class="num">% Total</th><th>Rol en la tesis</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Endoscopy</strong></td><td class="num">$2.916M</td><td class="num">14,5%</td><td>Base defensiva. Procedimientos esenciales, consumibles recurrentes. Recalls menores en packaging</td></tr>
+                        <tr><td><strong>Urology</strong></td><td class="num">$2.709M</td><td class="num">13,5%</td><td>Integración Axonics. Demográficamente creciente (próstata, litiasis, incontinencia)</td></tr>
+                        <tr><td><strong>Neuromodulation</strong></td><td class="num">$1.199M</td><td class="num">6,0%</td><td>Mayor crecimiento % de MedSurg. Dolor crónico, Parkinson, vejiga hiperactiva</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>Insight clave:</strong> El mercado castiga a BSX por WATCHMAN y por cuota en PFA — dos franquicias que juntas pesan el <strong>26% de las ventas</strong> pero representan el <strong>45-50% del crecimiento esperado</strong>. De ahí la violencia de la reacción. Sin embargo, el 74% restante del negocio sigue ejecutando a plan.
+            </div>
+        </section>
+
+        <!-- ===================== FINANCIEROS ===================== -->
+        <section id="financials" class="fade-in">
+            <h2>Proyecciones Financieras (Modelo v3.0)</h2>
+
+            <h3>Income Statement simplificado · standalone ex-Penumbra</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>USD M</th><th class="num">2022</th><th class="num">2023</th><th class="num">2024</th><th class="num">2025</th><th class="num">2026E</th><th class="num">2027E</th><th class="num">2028E</th><th class="num">2029E</th><th class="num">2030E</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Ventas</strong></td><td class="num">12.682</td><td class="num">14.240</td><td class="num">16.747</td><td class="num">20.074</td><td class="num neutral">21.580</td><td class="num">23.306</td><td class="num">25.287</td><td class="num">27.183</td><td class="num">29.086</td></tr>
+                        <tr><td>Crecimiento</td><td class="num">+6,7%</td><td class="num">+12,3%</td><td class="num">+17,6%</td><td class="num">+19,9%</td><td class="num">+7,5%</td><td class="num">+8,0%</td><td class="num">+8,5%</td><td class="num">+7,5%</td><td class="num">+7,0%</td></tr>
+                        <tr><td><strong>Adj EBITDA</strong></td><td class="num">3.702</td><td class="num">4.215</td><td class="num">5.007</td><td class="num">6.117</td><td class="num neutral">6.690</td><td class="num">7.341</td><td class="num">8.092</td><td class="num">8.767</td><td class="num">9.453</td></tr>
+                        <tr><td>Margen EBITDA</td><td class="num">29,2%</td><td class="num">29,6%</td><td class="num">29,9%</td><td class="num">30,5%</td><td class="num">31,0%</td><td class="num">31,5%</td><td class="num">32,0%</td><td class="num">32,3%</td><td class="num">32,5%</td></tr>
+                        <tr><td><strong>Adj Op. Income</strong></td><td class="num">3.247</td><td class="num">3.745</td><td class="num">4.522</td><td class="num">5.621</td><td class="num neutral">6.150</td><td class="num">6.759</td><td class="num">7.460</td><td class="num">8.087</td><td class="num">8.726</td></tr>
+                        <tr><td>Margen operativo</td><td class="num">25,6%</td><td class="num">26,3%</td><td class="num">27,0%</td><td class="num">28,0%</td><td class="num">28,5%</td><td class="num">29,0%</td><td class="num">29,5%</td><td class="num">29,8%</td><td class="num">30,0%</td></tr>
+                        <tr><td><strong>Adj EPS</strong></td><td class="num">$1,56</td><td class="num">$2,01</td><td class="num">$2,32</td><td class="num">$3,06</td><td class="num neutral">$3,34</td><td class="num">$3,69</td><td class="num">$4,09</td><td class="num">$4,45</td><td class="num">$4,81</td></tr>
+                        <tr><td><strong>FCFF</strong></td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num neutral">4.527</td><td class="num">4.963</td><td class="num">5.472</td><td class="num">6.025</td><td class="num">6.674</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="chart-caption">2026E calibrado al extremo bajo de la guía ($3,34-3,41). 2027-28 asumen recuperación gradual (~8-8,5%), por debajo del 10%+ del LRP del Investor Day. Fuente: modelo v3.0.</p>
+
+            <div class="chart-grid">
+                <div class="chart-container"><canvas id="revenueGrowth"></canvas></div>
+                <div class="chart-container"><canvas id="marginExpansion"></canvas></div>
+            </div>
+            <div class="chart-container chart-350"><canvas id="epsTrajectory"></canvas></div>
+        </section>
+
+        <!-- ===================== VALUACIÓN ===================== -->
+        <section id="valuation" class="fade-in">
+            <h2>Valuación (Modelo v3.0)</h2>
+
+            <h3>Target Price por método y blended</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead><tr><th>Método</th><th class="num">TP ($)</th><th class="num">Upside</th><th class="num">Peso</th></tr></thead>
+                    <tbody>
+                        <tr><td>DCF FCFF Exit 15x (WACC 8,06%)</td><td class="num">$72,80</td><td class="num positive">+69%</td><td class="num">15%</td></tr>
+                        <tr><td>DCF FCFF Gordon (g 2,75%)</td><td class="num">$67,02</td><td class="num positive">+56%</td><td class="num">10%</td></tr>
+                        <tr><td>DCF FCFE (Ke 8,70%)</td><td class="num">$56,79</td><td class="num positive">+32%</td><td class="num">10%</td></tr>
+                        <tr><td>EV/EBITDA 15x 2026E</td><td class="num">$60,99</td><td class="num positive">+42%</td><td class="num">15%</td></tr>
+                        <tr><td>EV/EBITDA 15x 2027E</td><td class="num">$67,55</td><td class="num positive">+57%</td><td class="num">10%</td></tr>
+                        <tr><td>P/E 19x 2026E</td><td class="num">$63,27</td><td class="num positive">+47%</td><td class="num">10%</td></tr>
+                        <tr><td>P/E 19x 2027E</td><td class="num">$69,86</td><td class="num positive">+63%</td><td class="num">10%</td></tr>
+                        <tr><td>EV/EBIT 17x 2026E</td><td class="num">$63,81</td><td class="num positive">+48%</td><td class="num">5%</td></tr>
+                        <tr><td>EV/Sales 4,5x 2026E</td><td class="num">$58,81</td><td class="num positive">+37%</td><td class="num">5%</td></tr>
+                        <tr><td>SOTP standalone 2026E</td><td class="num">$64,05</td><td class="num positive">+49%</td><td class="num">10%</td></tr>
+                        <tr style="border-top: 2px solid var(--primary-color);"><td><strong>TP BLENDED</strong></td><td class="num neutral"><strong>$65,05</strong></td><td class="num positive"><strong>+51,4%</strong></td><td class="num"><strong>100%</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="chart-container chart-350"><canvas id="footballField"></canvas></div>
+
+            <h3>Escenarios y TP ponderado por probabilidad</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead><tr><th>Escenario</th><th>Supuestos</th><th class="num">TP ($)</th><th class="num">Prob.</th></tr></thead>
+                    <tbody>
+                        <tr><td><span class="positive">■</span> <strong>Bull</strong></td><td>Q2/Q3 baten; WATCHMAN vuelve a mid-teens; cuota PFA se estabiliza; re-rating 18x EBITDA</td><td class="num positive">$78,00</td><td class="num">20%</td></tr>
+                        <tr><td><span class="neutral">■</span> <strong>Base</strong></td><td>Guía FY26 rebajada se cumple; recuperación gradual 2027-28 (8-8,5%); exit 15x</td><td class="num neutral">$72,80</td><td class="num">45%</td></tr>
+                        <tr><td><span class="warning">■</span> <strong>Bear</strong></td><td>Tercer recorte de guía; WATCHMAN plano; presión ASP en PFA; 12x exit, WACC 8,75%</td><td class="num warning">$41,89</td><td class="num">25%</td></tr>
+                        <tr><td><span class="negative">■</span> <strong>Severe Bear</strong></td><td>Daño estructural moat EP + integración Penumbra fallida con ~2,9x de deuda; 10x</td><td class="num negative">$30,00</td><td class="num">10%</td></tr>
+                        <tr style="border-top: 2px solid var(--primary-color);"><td colspan="2"><strong>TP ponderado por probabilidad</strong></td><td class="num neutral"><strong>$61,83</strong></td><td class="num positive"><strong>+43,9%</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-container"><canvas id="scenarioChart"></canvas></div>
+                <div class="chart-container"><canvas id="probabilityDonut"></canvas></div>
+            </div>
+
+            <div class="alert alert-warning">
+                <strong>Sensibilidad:</strong> El rango WACC 7,0-9,0% × exit 12-18x produce TPs de ~$54 a ~$92. Para que el DCF justifique el precio actual hacen falta simultáneamente WACC >9% y exit <11x — supuestos de empresa ex-growth. La valoración pre-catalizador (spot) equivale a 12,5x P/E fwd; la post-catalizador (guía cumplida + múltiplo de peer mediano) es la zona $60-70.
+            </div>
+
+            <div class="alert alert-info">
+                <strong>SOTP y Penumbra:</strong> La suma de partes valora el conjunto en EV $105B ($64,05/acción) vs los $73,4B de EV actual — un descuento de ~30% sobre la suma de franquicias a múltiplos de peer mediano. Pro forma Penumbra: el valor por acción (~$64,7) es neutral vs SOTP standalone. El deal destruye valor solo si el activo vale materialmente menos de $14,5B. El mercado ha borrado ~$40B de market cap desde el anuncio, una pena que multiplica por varias veces el peor caso razonable de sobrepago.
+            </div>
+        </section>
+
+        <!-- ===================== CATALIZADORES ===================== -->
+        <section id="catalysts" class="fade-in">
+            <h2>Timeline de Catalizadores</h2>
+
+            <div class="table-responsive">
+                <table>
+                    <thead><tr><th>Ventana</th><th>Catalizador</th><th>Estado</th><th>Impacto</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>29-jul-2026</strong></td><td>Q2-26: consenso EPS $0,83, ventas $5,39B (+6,5%). Color sobre WATCHMAN y cuota PFA</td><td><span class="pill pill-red">Pendiente</span></td><td><strong>ALTO</strong> — gatillo de entrada/ampliación</td></tr>
+                        <tr><td>H2 2026</td><td>Cierre de Penumbra (aprobado por accionistas PEN). Detalle de financiación e integración</td><td><span class="pill pill-green">Confirmado</span></td><td><strong>ALTO</strong> — elimina overhang de términos</td></tr>
+                        <tr><td>H2 2026</td><td>Lanzamientos EP: Farawave Nav + ramp mapping Opal; datos Faraflex (ELEVATE-PF: PVI 96,4%)</td><td><span class="pill pill-green">En curso</span></td><td>Medio-Alto — defensa de cuota PFA</td></tr>
+                        <tr><td>Q3-Q4 2026</td><td>Trimestres de validación: ¿WATCHMAN total se estabiliza? ¿Reacelera urología?</td><td><span class="pill pill-red">Pendiente</span></td><td><strong>ALTO</strong> — desmonta (o confirma) el bear</td></tr>
+                        <tr><td>2027</td><td>AVANT GUARD hacia label expansion; REMATCH-AF; CHAMPION-AF datos 5 años</td><td><span class="pill pill-red">Pendiente</span></td><td>Medio — reabre bull case de TAM</td></tr>
+                        <tr><td>FY2027</td><td>Primer año completo de Penumbra: revenue +~7pp; año 2 neutral/accretive en EPS</td><td><span class="pill pill-red">Pendiente</span></td><td>Medio-Alto</td></tr>
+                        <tr><td>Continuo</td><td>Desapalancamiento pro forma ~2,9x → ~2,3x con $4B+ FCF/año; potencial reanudación buybacks</td><td><span class="pill pill-green">En curso</span></td><td>Medio</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="highlights">
+                <div class="highlight-item purple-border">
+                    <h4>⚡ Próximo catalizador: Q2-26 (29 julio)</h4>
+                    <p>Primera oportunidad de batir una guía ya rebajada dos veces. El posicionamiento es tan negativo que el día del anterior recorte de guía la acción subió +9%. Si Q2 cumple, empieza a erosionar la narrativa de daño estructural.</p>
+                </div>
+                <div class="highlight-item purple-border">
+                    <h4>📋 Nota sobre CHAMPION-AF</h4>
+                    <p>Ya no es catalizador pendiente: leyó el 28-mar-26, cumplió todos los endpoints pero con caveats. Consolida LAAC como alternativa en decisión compartida. La opcionalidad de primera línea queda viva (datos a 5 años, LAAOS-4) pero sin pagarla — a este precio, cualquier avance regulatorio es opción gratuita.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== RIESGOS ===================== -->
+        <section id="riesgos" class="fade-in">
+            <h2>Análisis de Riesgos</h2>
+
+            <div class="table-responsive">
+                <table>
+                    <thead><tr><th>Riesgo</th><th>Invalidador concreto</th><th>Señal temprana a vigilar</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Tercer recorte de guía</strong></td><td>FY26 orgánico revisado <6% o EPS <$3,30</td><td>Q2 (29-jul): pricing H2 implícito; tono sobre julio</td></tr>
+                        <tr><td><strong>PFA estructural</strong></td><td>Cuota EE.UU. Farapulse <40% con erosión ASP; EP por debajo de mercado</td><td>Ramp de Volt (ABT) y Varipulse (JNJ); ASPs en ASCs</td></tr>
+                        <tr><td><strong>WATCHMAN</strong></td><td>Volumen total (stand. + concom.) negativo 2T seguidos; datos 5Y adversos</td><td>Mix concomitante (~25%+ del vol.); utilización CMS code</td></tr>
+                        <tr><td><strong>Penumbra</strong></td><td>Ruptura del deal (fee $900M) o cierre con condiciones gravosas; fuga talento</td><td>Timeline regulatorio H2-26; retención management PEN</td></tr>
+                        <tr><td><strong>Calidad/regulatorio</strong></td><td>Escalada recalls a Class I en core; warning letter FDA</td><td>Enforcement reports; coste de remediación Q2-Q3</td></tr>
+                        <tr><td><strong>Balance</strong></td><td>ND/EBITDA pro forma >3,25x sin trayectoria bajista; rating negativo</td><td>Detalle financiación al cierre; calendario vencimientos</td></tr>
+                        <tr><td><strong>Macro</strong></td><td>Fed forzada a subir; de-rating adicional de duración en healthcare</td><td>Core PCE reacelerando; 10Y >5%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert alert-danger">
+                <strong>Stop de tesis:</strong> Tercer recorte de guía, o cuota PFA &lt;40%, o volumen WATCHMAN total negativo 2 trimestres seguidos. La tesis es "cíclico, no estructural" — estos datos la falsarían.
+            </div>
+
+            <div class="alert alert-success">
+                <strong>Coste de oportunidad:</strong> Frente a alternativas del mismo perfil — MDT a 13,8x fwd con ~5% de crecimiento, ABT a 17,4x con ~7-8% — BSX a 12,5x con 6,5-8% guiado y 10%+ a medio plazo ofrece más crecimiento por unidad de múltiplo que cualquier peer. La prima de calidad se ha convertido en descuento sin que el perfil de crecimiento relativo se haya invertido.
+            </div>
+        </section>
+
+        <!-- ===================== CONCLUSIÓN ===================== -->
+        <section id="conclusion" class="fade-in">
+            <h2>Conclusión: Asimetría, Sizing y Triggers</h2>
+
+            <div class="alert alert-success">
+                <strong>La aritmética:</strong> BSX ofrece <strong>+51% al TP blended</strong> y <strong>+44% al ponderado</strong>, contra -2,5% al bear DCF y -30% al severe bear (10% de probabilidad). La esperanza matemática es fuertemente positiva. La barra de expectativas ya está en el suelo: guía rebajada, posicionamiento limpio, consenso Q2 dentro de la propia guía. El tiempo juega a favor: cada trimestre de cumplimiento simple erosiona la narrativa de daño estructural.
+            </div>
+
+            <h3>Plan de acción</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead><tr><th>Decisión</th><th>Parámetro</th><th>Racional</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Posición inicial</strong></td><td>3% de la cartera a ~$43</td><td>La asimetría ya existe; no se paga por esperar a Q2</td></tr>
+                        <tr><td><strong>Ampliación 1 (→4,5%)</strong></td><td>Q2-26 cumple/bate y NO hay tercer recorte</td><td>Primer dato de que el bache es FY26-específico</td></tr>
+                        <tr><td><strong>Ampliación 2 (→6%)</strong></td><td>Cierre limpio de Penumbra + estabilización cuota PFA en Q3</td><td>Elimina los dos overhangs mayores</td></tr>
+                        <tr><td><strong>Stop de tesis</strong></td><td>Tercer recorte, cuota PFA <40%, WATCHMAN total neg. 2T</td><td>La tesis es "cíclico, no estructural"; estos datos la falsan</td></tr>
+                        <tr><td><strong>Toma de beneficios</strong></td><td>Zona $62-68 (TP) o P/E fwd >18x sin mejora de guía</td><td>Gap vs peers cerrado; situación especial terminada</td></tr>
+                        <tr><td><strong>Horizonte</strong></td><td>24-36 meses</td><td>Cubre validación + primer año Penumbra + label EP</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card mt-20">
+                <h4>Lo que NO es esta tesis</h4>
+                <p>No es deep value (no hay suelo de activos), no es una apuesta binaria a un ensayo (CHAMPION ya leyó), y no requiere que BSX recupere su múltiplo de compounder. Es una apuesta probabilística a que un negocio que creció +9,4% orgánico el último trimestre, con la mejor evidencia clínica en PFA y LAAC, no vale 12,5 veces beneficios — y a que la secuencia de catalizadores de los próximos 2-3 trimestres obligará al mercado a re-precificar de pánico a mediocridad. De $43 a $60 no hace falta que pase nada extraordinario; solo que deje de pasar lo extraordinario.</p>
+            </div>
+
+            <div class="text-center mt-30">
+                <a href="#top" class="btn btn-success">⬆ Volver al inicio</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p><strong>Disclaimer:</strong> Este análisis es de carácter informativo y no constituye asesoramiento de inversión. Las valoraciones dependen de supuestos del modelo y deben actualizarse con cotización, deuda, acciones y consenso vigentes. Toda inversión en situaciones especiales conlleva riesgos específicos.</p>
+            <p class="mt-20" style="font-size: 0.85rem;">
+                📅 Análisis: 23 de julio de 2026 · 📊 Fuentes: BSX IR, Annual Report 2025, modelo v3.0, stockanalysis.com, FOMC, MedTech Dive.
+            </p>
+            <p class="mt-15">
+                🔗 <a href="https://spreadhuntersinvest.github.io/SpreadHunters.researchs/" target="_blank" rel="noopener noreferrer">SpreadHunters Investment Research</a>
+                | 📰 <a href="https://spreadhunters.substack.com/" target="_blank" rel="noopener noreferrer">Substack</a>
+                | 𝕏 <a href="https://x.com/Spread_Hunters" target="_blank" rel="noopener noreferrer">Twitter/X</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+    // Progress bar
+    window.addEventListener('scroll', function () {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const bar = document.getElementById("progressBar");
+        if (bar && height > 0) bar.style.width = ((winScroll / height) * 100) + "%";
+    });
+
+    // Smooth scroll + active tab
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (!href || href === '#') return;
+            const target = document.querySelector(href);
+            if (!target) return;
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (this.closest('.nav-tabs')) {
+                document.querySelectorAll('.nav-tabs a').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            }
+        });
+    });
+
+    // Fade-in observer
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => { if (entry.isIntersecting) { entry.target.style.opacity = '1'; entry.target.style.transform = 'translateY(0)'; } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    document.querySelectorAll('.fade-in').forEach(el => {
+        el.style.opacity = '0'; el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+        observer.observe(el);
+    });
+
+    // Active nav on scroll
+    window.addEventListener('scroll', function () {
+        let current = '';
+        document.querySelectorAll('section').forEach(s => {
+            if (window.pageYOffset >= (s.offsetTop - 200)) current = s.getAttribute('id');
+        });
+        document.querySelectorAll('.nav-tabs a').forEach(l => {
+            l.classList.remove('active');
+            if (l.getAttribute('href')?.slice(1) === current) l.classList.add('active');
+        });
+    });
+
+    // Charts
+    function getCtx(id) { const el = document.getElementById(id); return el && el.getContext ? el.getContext('2d') : null; }
+    const CY = '#00d7ff', GR = '#90ee90', OR = '#ffa500', RD = '#ff6b6b', PU = '#7B68EE', TL = '#4A8B9B';
+
+    function initCharts() {
+        if (typeof Chart === 'undefined') return;
+        Chart.defaults.color = '#b0c4de';
+        Chart.defaults.borderColor = '#2d3d4d';
+        Chart.defaults.font.family = "-apple-system, 'Segoe UI', Roboto, Arial, sans-serif";
+
+        // 1. Segment Revenue (doughnut)
+        const c1 = getCtx('segmentRevenue');
+        if (c1) new Chart(c1, {
+            type: 'doughnut',
+            data: {
+                labels: ['Int. Cardio & Vasc.', 'Electrophysiology', 'WATCHMAN', 'Cardiac Rhythm', 'Int. Oncology', 'Endoscopy', 'Urology', 'Neuromodulation'],
+                datasets: [{ data: [4639,3325,1958,2332,996,2916,2709,1199],
+                    backgroundColor: ['rgba(0,215,255,0.85)','rgba(123,104,238,0.85)','rgba(255,165,0,0.85)','rgba(74,139,155,0.85)','rgba(144,238,144,0.7)','rgba(255,215,0,0.7)','rgba(255,107,107,0.7)','rgba(181,201,78,0.7)'],
+                    borderColor: '#1a2332', borderWidth: 2 }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false, cutout: '50%',
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#b0c4de', font: { size: 10 }, padding: 8 } },
+                    title: { display: true, text: 'Ventas 2025 por franquicia ($20.074M)', color: '#fff', font: { size: 13, weight: 'bold' } },
+                    tooltip: { callbacks: { label: c => c.label + ': $' + c.parsed.toLocaleString() + 'M (' + ((c.parsed/20074)*100).toFixed(1) + '%)' } }
+                }
+            }
+        });
+
+        // 2. Geography (doughnut)
+        const c2 = getCtx('geoRevenue');
+        if (c2) new Chart(c2, {
+            type: 'doughnut',
+            data: {
+                labels: ['EE.UU. (64,1%)', 'EMEA (17,2%)', 'Asia-Pacífico (15,3%)', 'LACA (3,4%)'],
+                datasets: [{ data: [12864,3451,3080,678],
+                    backgroundColor: ['rgba(0,215,255,0.85)','rgba(123,104,238,0.8)','rgba(144,238,144,0.8)','rgba(255,165,0,0.75)'],
+                    borderColor: '#1a2332', borderWidth: 2 }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false, cutout: '50%',
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#b0c4de', font: { size: 11 }, padding: 10 } },
+                    title: { display: true, text: 'Ventas 2025 por geografía', color: '#fff', font: { size: 13, weight: 'bold' } },
+                    tooltip: { callbacks: { label: c => c.label + ': $' + c.parsed.toLocaleString() + 'M' } }
+                }
+            }
+        });
+
+        // 3. Revenue + Growth
+        const YEARS_FULL = ['2022','2023','2024','2025','2026E','2027E','2028E','2029E','2030E'];
+        const c3 = getCtx('revenueGrowth');
+        if (c3) new Chart(c3, {
+            type: 'bar',
+            data: {
+                labels: YEARS_FULL,
+                datasets: [
+                    { type: 'bar', label: 'Ventas ($M)', data: [12682,14240,16747,20074,21580,23306,25287,27183,29086], backgroundColor: 'rgba(0,215,255,0.6)', borderColor: CY, borderWidth: 2, yAxisID: 'y', order: 2 },
+                    { type: 'line', label: 'Crecimiento (%)', data: [6.7,12.3,17.6,19.9,7.5,8.0,8.5,7.5,7.0], borderColor: GR, backgroundColor: 'rgba(144,238,144,0.1)', borderWidth: 3, tension: 0.35, pointBackgroundColor: GR, pointBorderColor: '#fff', pointBorderWidth: 2, pointRadius: 5, yAxisID: 'y1', order: 1 }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { labels: { color: '#b0c4de', font: { size: 11 } } }, title: { display: true, text: 'Ventas y tasa de crecimiento', color: '#fff', font: { size: 13, weight: 'bold' } } },
+                scales: {
+                    y: { beginAtZero: true, position: 'left', grid: { color: '#2d3d4d' }, ticks: { color: '#b0c4de', callback: v => '$' + (v/1000).toFixed(0) + 'B' } },
+                    y1: { position: 'right', min: 0, max: 25, grid: { drawOnChartArea: false }, ticks: { color: GR, callback: v => v + '%' } },
+                    x: { grid: { display: false }, ticks: { color: '#b0c4de' } }
+                }
+            }
+        });
+
+        // 4. Margin expansion (op margin + EBITDA margin)
+        const c4 = getCtx('marginExpansion');
+        if (c4) new Chart(c4, {
+            type: 'line',
+            data: {
+                labels: YEARS_FULL,
+                datasets: [
+                    { label: 'Margen EBITDA (%)', data: [29.2,29.6,29.9,30.5,31.0,31.5,32.0,32.3,32.5], borderColor: CY, backgroundColor: 'rgba(0,215,255,0.1)', borderWidth: 3, tension: 0.35, pointBackgroundColor: CY, pointBorderColor: '#fff', pointBorderWidth: 2, pointRadius: 5, fill: true },
+                    { label: 'Margen Op. Adj. (%)', data: [25.6,26.3,27.0,28.0,28.5,29.0,29.5,29.8,30.0], borderColor: PU, backgroundColor: 'rgba(123,104,238,0.1)', borderWidth: 3, tension: 0.35, pointBackgroundColor: PU, pointBorderColor: '#fff', pointBorderWidth: 2, pointRadius: 5, fill: true }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { labels: { color: '#b0c4de', font: { size: 11 } } }, title: { display: true, text: 'Expansión de márgenes ajustados', color: '#fff', font: { size: 13, weight: 'bold' } } },
+                scales: {
+                    y: { min: 24, max: 34, grid: { color: '#2d3d4d' }, ticks: { color: '#b0c4de', callback: v => v + '%' } },
+                    x: { grid: { display: false }, ticks: { color: '#b0c4de' } }
+                }
+            }
+        });
+
+        // 5. EPS trajectory
+        const c5 = getCtx('epsTrajectory');
+        if (c5) new Chart(c5, {
+            type: 'bar',
+            data: {
+                labels: YEARS_FULL,
+                datasets: [{ label: 'Adj EPS ($)', data: [1.56,2.01,2.32,3.06,3.34,3.69,4.09,4.45,4.81],
+                    backgroundColor: ['rgba(74,139,155,0.6)','rgba(74,139,155,0.6)','rgba(74,139,155,0.6)','rgba(74,139,155,0.6)','rgba(0,215,255,0.7)','rgba(0,215,255,0.7)','rgba(0,215,255,0.7)','rgba(0,215,255,0.7)','rgba(0,215,255,0.7)'],
+                    borderColor: CY, borderWidth: 2 }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false }, title: { display: true, text: 'Trayectoria de Adj EPS ($) — histórico y proyectado', color: '#fff', font: { size: 13, weight: 'bold' } }, tooltip: { callbacks: { label: c => '$' + c.parsed.y.toFixed(2) } } },
+                scales: {
+                    y: { beginAtZero: true, max: 5.5, grid: { color: '#2d3d4d' }, ticks: { color: '#b0c4de', callback: v => '$' + v.toFixed(2) } },
+                    x: { grid: { display: false }, ticks: { color: '#b0c4de' } }
+                }
+            }
+        });
+
+        // 6. Football field (horizontal bar — TP by method)
+        const c6 = getCtx('footballField');
+        if (c6) new Chart(c6, {
+            type: 'bar',
+            data: {
+                labels: ['DCF FCFF Exit 15x','DCF Gordon','P/E 19x 2027E','EV/EBITDA 2027E','SOTP 2026E','P/E 19x 2026E','EV/EBIT 17x','TP BLENDED','EV/EBITDA 2026E','EV/Sales 4,5x','DCF FCFE','Bear case'],
+                datasets: [{ label: 'TP ($)', data: [72.80,67.02,69.86,67.55,64.05,63.27,63.81,65.05,60.99,58.81,56.79,41.89],
+                    backgroundColor: function(ctx) { return ctx.raw > 65 ? 'rgba(144,238,144,0.75)' : ctx.raw > 55 ? 'rgba(0,215,255,0.75)' : ctx.raw > 45 ? 'rgba(255,165,0,0.75)' : 'rgba(255,107,107,0.75)'; },
+                    borderColor: '#3d5570', borderWidth: 1 }]
+            },
+            options: {
+                indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false }, title: { display: true, text: 'Football Field — TP por método vs spot $42,97', color: '#fff', font: { size: 13, weight: 'bold' } }, tooltip: { callbacks: { label: c => '$' + c.parsed.x.toFixed(2) } },
+                    annotation: { } },
+                scales: {
+                    x: { min: 25, max: 80, grid: { color: '#2d3d4d' }, ticks: { color: '#b0c4de', callback: v => '$' + v } },
+                    y: { grid: { display: false }, ticks: { color: '#b0c4de', font: { size: 10 } } }
+                }
+            }
+        });
+
+        // 7. Scenario targets (bar)
+        const c7 = getCtx('scenarioChart');
+        if (c7) new Chart(c7, {
+            type: 'bar',
+            data: {
+                labels: ['Severe Bear','Bear','TP Ponderado','Base (DCF)','Bull'],
+                datasets: [{ label: 'TP ($)', data: [30,41.89,61.83,72.80,78],
+                    backgroundColor: ['rgba(255,107,107,0.8)','rgba(255,165,0,0.8)','rgba(123,104,238,0.85)','rgba(0,215,255,0.8)','rgba(144,238,144,0.8)'],
+                    borderColor: [RD, OR, PU, CY, GR], borderWidth: 2 }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false }, title: { display: true, text: 'Escenarios de precio objetivo (spot: $42,97)', color: '#fff', font: { size: 13, weight: 'bold' } }, tooltip: { callbacks: { label: c => '$' + c.parsed.y.toFixed(2) } } },
+                scales: {
+                    y: { beginAtZero: true, max: 90, grid: { color: '#2d3d4d' }, ticks: { color: '#b0c4de', callback: v => '$' + v } },
+                    x: { grid: { display: false }, ticks: { color: '#b0c4de' } }
+                }
+            }
+        });
+
+        // 8. Probability donut
+        const c8 = getCtx('probabilityDonut');
+        if (c8) new Chart(c8, {
+            type: 'doughnut',
+            data: {
+                labels: ['Base (45%)','Bear (25%)','Bull (20%)','Severe Bear (10%)'],
+                datasets: [{ data: [45,25,20,10],
+                    backgroundColor: ['rgba(0,215,255,0.8)','rgba(255,165,0,0.8)','rgba(144,238,144,0.8)','rgba(255,107,107,0.8)'],
+                    borderColor: '#1a2332', borderWidth: 2 }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false, cutout: '58%',
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#b0c4de', font: { size: 11 }, padding: 12 } },
+                    title: { display: true, text: 'Pesos del modelo ponderado por probabilidad', color: '#fff', font: { size: 13, weight: 'bold' } }
+                }
+            }
+        });
+    }
+
+    initCharts();
+    </script>
+</body>
+</html>
