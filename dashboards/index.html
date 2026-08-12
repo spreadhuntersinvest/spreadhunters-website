@@ -1555,26 +1555,26 @@ function getUpsideClass(upsidePercent) {
 /* ============================================
    FUNCIÓN: Símbolo según dirección
 ============================================ */
-function getUpsideSymbol(upsideP*rcent) {
-    const value = parsePc*(upsidePercent);
+function getUpsideSymbol(upsidePercent) {
+    const value = parsePct(upsidePercent);
 
-    if (value ==* null) return '📊';
+    if (value === null) return '📊';
 
-    return va*ue >= 0 ? '📈' : '📉';
+    return value >= 0 ? '📈' : '📉';
 }
 
 // ============================================
-// FUNCIÓN: Obtener precio actual (API o manual) - CON TIMEOUT
-// ============================================
-async function fetchCurrentPrice(research) {
- // ✅ Si la tesis está cerrada, NO llamamos a la API.
-// El precio final viene de closePrice o, en su defecto, de currentPrice.
-if (isClosedSta*us(research.status)) {
-    prepare*losedThesis(research);
-    researc*.currentPrice = research.finalPric*;
-    research.currentPriceRaw = r*search.finalPriceRaw;
-    research*priceSource = 'manual';
-    return*research;
+       FUNCIÓN: Obtener precio actual (API o manual) - CON TIMEOUT
+    ============================================ */
+    async function fetchCurrentPrice(research) {
+        // ✅ Si la tesis está cerrada, NO llamamos a la API.
+        // El precio final viene de closePrice o, en su defecto, de currentPrice.
+        if (isClosedStatus(research.status)) {
+            prepareClosedThesis(research);
+            research.currentPrice = research.finalPrice;
+            research.currentPriceRaw = research.finalPriceRaw;
+            research.priceSource = 'manual';
+            return research;
 }
 
   try {
@@ -2908,7 +2908,7 @@ finished.forEach(item => prepareClosedThesis(item));
             <div class="track-stat">
                 <div class="track-stat-value ${parseFloat(winRate) >= 50 ? 'positive' : 'negative'}">${winRate}%</div>
                 <div class="track-stat-label">Win Rate</div>
-            </div>
+            </div>`;
             
 
         // Group by investment type for finished
