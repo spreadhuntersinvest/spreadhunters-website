@@ -1265,173 +1265,317 @@ header p:hover {
 ">
 </div>
 
-    <script>
-        // ============================================
-// CONFIGURACIÓN API FINNHUB
-// ============================================
-const FINNHUB_API_KEY = 'd5bvi7pr01qsbmghj0sgd5bvi7pr01qsbmghj0t0';  // ← REEMPLAZA CON TU KEY
+ <script>
+/* ============================================
+   CONFIGURACIÓN API FINNHUB
+============================================ */
+const FINNHUB_API_KEY = 'd5bvi7pr01qsbmghj0sgd5bvi7pr01qsbmghj0t0';
 const FINNHUB_BASE_URL = 'https://finnhub.io/api/v1/quote';
 
-// ============================================
-// CONFIGURACIÓN API FINCEPT
-// ============================================
+/* ============================================
+   CONFIGURACIÓN API FINCEPT
+============================================ */
 const FINCEPT_API_KEY = 'fk_user_Hszvr4huTsq5lH2C3EMOGEdBRfmBUl652vwvY4bHnTA';
 const FINCEPT_QUOTE_URL = 'https://api.fincept.in/market/batch/prices';
 const FINCEPT_SEARCH_URL = 'https://api.fincept.in/market/search';
 
-// ============================================
-// FUNCIÓN: Calcular upside actual automático
-// ============================================
+/* ============================================
+   FUNCIÓN: Calcular upside actual automático
+============================================ */
 function calculateCurrentUpside(currentPriceRaw, fairValueRaw) {
     if (!currentPriceRaw || !fairValueRaw || currentPriceRaw === 0) {
         return '—';
     }
-    
+
     const upside = ((fairValueRaw - currentPriceRaw) / currentPriceRaw) * 100;
-    const rounded = upside.toFixed(1);
-    
-    return upside >= 0 ? `+${rounded}%` : `${rounded}%`;
-}
-        // ============================================
-        // FUNCIÓN: Extraer número de string de precio  ← AQUÍ VA
-        // ============================================
-    function extractPriceValue(priceString) {
-        // Extrae solo números y punto decimal
-        // Ejemplo: "PLN9.98" → 9.98
-        const match = priceString.match(/[\d.]+/);
-        return match ? parseFloat(match[0]) : 0;
+    return formatPct(upside, 1);
 }
 
-// ============================================
-// HELPERS: Estado cerrado, persistencia y cálculo de retorno
-// ============================================
+/* ============================================
+   FUNCIÓN: Extraer número de string de precio
+   Ejemplos:
+   "$49.5"       -> 49.5
+   "GBP0.84"     -> 0.84
+   "A$1.66"      -> 1.66
+   "20,59%"      -> 20.59
+============================================ */
+function extractPriceValue(value) {
+    if (value === null || value === undefined) return 0;
+
+    const str = value.toString().trim();
+
+    const match = str.match(/-?\d+(?:[.,]\d+)?/);
+    if (!match) return 0;
+
+    return parseFloat(match[0].replace(',', '.'));
+}
+
+/* ============================================
+   FUNCIÓN: Formatear porcentaje
+============================================ */
+function formatPct(value, decimals = 2, suffix = '%') {
+    if (value === null || value === undefined || !Number.isFinite(value)) {
+        return '—';
+    }
+
+    const sign = value >= 0 ? '+' : '';
+    return `${sign}${value.toFixed(decimals)}${suffix}`;
+}
+
+/* ============================================
+   FUNCIÓN: Formatear CAGR
+============================================ */
+function formatCAGR(value, decimals = 1) {
+    if (value === null || value === undefined || !Number.isFinite(value)) {
+        return '—';
+    }
+
+    const sign = value >= 0 ? '+' : '';
+    return `${sign}${value.toFixed(decimals)}% CAGR`;
+}
+
+/* ============================================
+   HELPERS: Estado cerrado
+============================================ */
 function isClosedStatus(status) {
-  return status && status !== 'active';
+    return status && status !== 'active';
 }
 
+/* ============================================
+   LOCAL STORAGE
+   Se mantiene solo como fallback antiguo.
+   La fuente principal para tesis cerradas será closePrice.
+============================================ */
 function setLocal(key, value) {
-  try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+    } catch (e) {}
 }
+
 function getLocal(key) {
-  try {
-    const v = localStorage.getItem(key);
-    return v ? JSON.parse(v) : null;
-  } catch (e) {
-    return null;
-  }
+    try {
+        const v = localStorage.getItem(key);
+        return v ? JSON.parse(v) : null;
+    } catch (e) {
+        return null;
+    }
 }
 
-// Guardamos el último precio conocido (API o manual) para poder congelarlo al cerrar
 function persistLastPrice(research) {
-  if (!research || !research.id) return;
-  setLocal(`lastPrice_${research.id}`, {
-    currentPrice: research.currentPrice,
-    currentPriceRaw: research.currentPriceRaw,
-    currency: research.currency,
-    ts: Date.now()
-  });
+    if (!research || !research.id) return;
+
+    setLocal(`lastPrice_${research.id}`, {
+        currentPrice: research.currentPrice,
+        currentPriceRaw: research.currentPriceRaw,
+        currency: research.currency,
+        ts: Date.now()
+    });
 }
 
-// Congela el precio final: una vez que una tesis está cerrada, fija finalPrice a lastPrice (si existe)
-// y lo persiste para que NO cambie en el futuro aunque se recargue la web.
-function getOrFreezeFinalPrice(research) {
-  if (!research || !research.id) return research && research.currentPrice;
+/* ============================================
+   PRECIO FINAL DE TESIS CERRADA
+   Prioridad:
+   1. closePrice
+   2. currentPrice
+   3. localStorage antiguo
+   4. —
+============================================ */
+function getFinalPrice(research) {
+    if (!research || !research.id) return '—';
 
-  // Si ya está persistido, usarlo
-  const frozen = getLocal(`finalPrice_${research.id}`);
-  if (frozen && frozen.finalPrice) return frozen.finalPrice;
+    if (research.closePrice && research.closePrice.toString().trim() !== '') {
+        return research.closePrice;
+    }
 
-  // Si no existe, intentar congelar desde el último precio conocido
-  const last = getLocal(`lastPrice_${research.id}`);
-  const candidate = (last && last.currentPrice) ? last.currentPrice : research.currentPrice;
+    if (research.currentPrice && research.currentPrice.toString().trim() !== '') {
+        return research.currentPrice;
+    }
 
-  // Persistimos el freeze
-  setLocal(`finalPrice_${research.id}`, {
-    finalPrice: candidate,
-    ts: Date.now()
-  });
+    const frozen = getLocal(`finalPrice_${research.id}`);
+    if (frozen && frozen.finalPrice) {
+        return frozen.finalPrice;
+    }
 
-  return candidate;
+    const last = getLocal(`lastPrice_${research.id}`);
+    if (last && last.currentPrice) {
+        return last.currentPrice;
+    }
+
+    return '—';
 }
 
+/* ============================================
+   PARSEAR PORCENTAJE
+============================================ */
 function parsePct(pctStr) {
-  if (!pctStr) return null;
-  const v = pctStr.toString().replace('+','').replace('%','').replace(',', '.').trim();
-  const n = parseFloat(v);
-  return Number.isFinite(n) ? n : null;
+    if (!pctStr) return null;
+
+    const n = extractPriceValue(pctStr);
+    return Number.isFinite(n) ? n : null;
 }
 
+/* ============================================
+   CÁLCULO RETORNO TOTAL
+   Fórmula:
+   Precio final / Precio inicial - 1
+============================================ */
 function calcCloseReturnPct(initialPriceRaw, finalPriceRaw) {
-  if (!initialPriceRaw || !finalPriceRaw || initialPriceRaw === 0) return null;
-  return ((finalPriceRaw / initialPriceRaw) - 1) * 100;
+    if (
+        initialPriceRaw === null ||
+        finalPriceRaw === null ||
+        !Number.isFinite(initialPriceRaw) ||
+        !Number.isFinite(finalPriceRaw) ||
+        initialPriceRaw <= 0 ||
+        finalPriceRaw <= 0
+    ) {
+        return null;
+    }
+
+    return ((finalPriceRaw / initialPriceRaw) - 1) * 100;
 }
 
-function formatPctNoPlus(value, decimals = 2) {
-  if (value == null || !Number.isFinite(value)) return '—';
-  const rounded = value.toFixed(decimals);
-  // En tu UI actual no usas '+' en closeReturn (ej. '7.12%'), así que mantenemos ese formato.
-  return `${rounded}%`;
+/* ============================================
+   CÁLCULO CAGR
+   Fórmula:
+   (Precio final / Precio inicial) ^ (365.25 / días) - 1
+============================================ */
+function calcCAGR(initialPriceRaw, finalPriceRaw, startDate, endDate) {
+    if (
+        initialPriceRaw === null ||
+        finalPriceRaw === null ||
+        !Number.isFinite(initialPriceRaw) ||
+        !Number.isFinite(finalPriceRaw) ||
+        initialPriceRaw <= 0 ||
+        finalPriceRaw <= 0 ||
+        !startDate ||
+        !endDate
+    ) {
+        return null;
+    }
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
+        return null;
+    }
+
+    const days = (end - start) / (1000 * 60 * 60 * 24);
+
+    if (!Number.isFinite(days) || days <= 0) {
+        return null;
+    }
+
+    const years = days / 365.25;
+
+    return (Math.pow(finalPriceRaw / initialPriceRaw, 1 / years) - 1) * 100;
 }
 
+/* ============================================
+   PREPARAR TESIS CERRADA
+   Calcula automáticamente:
+   - Precio final
+   - Retorno total
+   - CAGR
+   - Mismatch frente a valores manuales antiguos
+============================================ */
 function prepareClosedThesis(item) {
-  // Congelar precio final desde el último precio conocido
-  item.finalPrice = getOrFreezeFinalPrice(item);
-  item.finalPriceRaw = extractPriceValue(item.finalPrice);
-  item.thesisPriceRaw = extractPriceValue(item.thesisPrice);
+    if (!item) return item;
 
-  const computed = calcCloseReturnPct(item.thesisPriceRaw, item.finalPriceRaw);
-  item.closeReturnComputed = formatPctNoPlus(computed, 2);
-  item.closeReturnComputedRaw = computed;
+    item.finalPrice = getFinalPrice(item);
+    item.finalPriceRaw = extractPriceValue(item.finalPrice);
+    item.thesisPriceRaw = extractPriceValue(item.thesisPrice);
 
-  // Si closeReturn está vacío, lo rellenamos automáticamente
-  if (!item.closeReturn || item.closeReturn.toString().trim() === '') {
-    item.closeReturn = item.closeReturnComputed;
-    item.closeReturnMismatch = false;
-  } else {
-    // Validación: si difiere mucho, marcamos mismatch
-    const existing = parsePct(item.closeReturn);
-    item.closeReturnMismatch = (existing != null && computed != null) ? Math.abs(existing - computed) > 0.20 : false;
-  }
+    const returnPct = calcCloseReturnPct(
+        item.thesisPriceRaw,
+        item.finalPriceRaw
+    );
 
-  // En cerradas, la fuente del precio final siempre debe ser manual (freeze)
-  item.priceSource = 'manual';
-  return item;
+    const cagrPct = calcCAGR(
+        item.thesisPriceRaw,
+        item.finalPriceRaw,
+        item.thesisDate,
+        item.closeDate
+    );
+
+    item.closeReturnComputedRaw = returnPct;
+    item.closeReturnAnnualizedComputedRaw = cagrPct;
+
+    item.closeReturnComputed = formatPct(returnPct, 2);
+    item.closeReturnAnnualizedComputed = formatCAGR(cagrPct, 1);
+
+    /*
+       Desde ahora, la web usa SIEMPRE los valores calculados.
+       Los campos closeReturn y closeReturnAnnualized pueden quedarse
+       en el array como referencia histórica, pero no mandan.
+    */
+    item.closeReturnDisplay = item.closeReturnComputed;
+    item.closeReturnAnnualizedDisplay = item.closeReturnAnnualizedComputed;
+
+    /*
+       Validación visual por si quieres detectar diferencias con los datos manuales.
+       No bloquea nada, solo marca warning si difiere mucho.
+    */
+    const manualReturn = parsePct(item.closeReturn);
+    item.closeReturnMismatch =
+        manualReturn !== null &&
+        returnPct !== null &&
+        Math.abs(manualReturn - returnPct) > 0.20;
+
+    const manualAnnualized = parsePct(item.closeReturnAnnualized);
+    item.closeReturnAnnualizedMismatch =
+        manualAnnualized !== null &&
+        cagrPct !== null &&
+        Math.abs(manualAnnualized - cagrPct) > 1.00;
+
+    item.priceSource = 'manual';
+
+    return item;
 }
 
-
-// ============================================
-// FUNCIÓN: Clasificar color según upside
-// ============================================
+/* ============================================
+   FUNCIÓN: Clasificar color según porcentaje
+============================================ */
 function getUpsideClass(upsidePercent) {
-    const value = parseFloat(upsidePercent.replace('+', '').replace('%', ''));
-    
+    if (!upsidePercent || upsidePercent === '—') {
+        return 'upside-negative';
+    }
+
+    const value = parsePct(upsidePercent);
+
+    if (value === null) return 'upside-negative';
+
     if (value >= 50) return 'upside-very-positive';
     if (value > 0) return 'upside-positive';
     if (value < -50) return 'upside-very-negative';
+
     return 'upside-negative';
 }
 
-// ============================================
-// FUNCIÓN: Símbolo según dirección
-// ============================================
-function getUpsideSymbol(upsidePercent) {
-    const value = parseFloat(upsidePercent.replace('+', '').replace('%', ''));
-    return value >= 0 ? '📈' : '📉';
+/* ============================================
+   FUNCIÓN: Símbolo según dirección
+============================================ */
+function getUpsideSymbol(upsideP*rcent) {
+    const value = parsePc*(upsidePercent);
+
+    if (value ==* null) return '📊';
+
+    return va*ue >= 0 ? '📈' : '📉';
 }
 
 // ============================================
 // FUNCIÓN: Obtener precio actual (API o manual) - CON TIMEOUT
 // ============================================
 async function fetchCurrentPrice(research) {
-  // ✅ Si la tesis está cerrada, NO llamamos a la API.
-  // El precio final se congela con el último precio conocido (persistido en localStorage).
-  if (isClosedStatus(research.status)) {
-    research.finalPrice = getOrFreezeFinalPrice(research);
-    research.currentPrice = research.finalPrice;
-    research.currentPriceRaw = extractPriceValue(research.currentPrice);
-    research.priceSource = 'manual';
-    return research;
-  }
+ // ✅ Si la tesis está cerrada, NO llamamos a la API.
+// El precio final viene de closePrice o, en su defecto, de currentPrice.
+if (isClosedSta*us(research.status)) {
+    prepare*losedThesis(research);
+    researc*.currentPrice = research.finalPric*;
+    research.currentPriceRaw = r*search.finalPriceRaw;
+    research*priceSource = 'manual';
+    return*research;
+}
 
   try {
     // 🔑 CLAVE: Timeout de 2 segundos máximo
@@ -1734,7 +1878,7 @@ async function loadAllPrices() {
                 upsideInitial: '+75,4%',
                 ticker_finnhub: 'PUUILO.HE',
                 ticker_fincept: 'PUUILO',
-                currentPrice: '€17.52',
+                currentPrice: '€17.02',
                 currency: '€',
                 upsideActual: '+113%',  // Se actualiza con API o manual
                 priceSource: 'manual',
@@ -1742,9 +1886,8 @@ async function loadAllPrices() {
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: '',
                 closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: '',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
                 closeComment: ''            // Comentario breve
             },
             {
@@ -1771,9 +1914,10 @@ async function loadAllPrices() {
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '2026-04-08',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: '$49.5',
                 closeReason: 'Precio objetivo alcanzado',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: '+30.26%',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '+210.02%',  // IRR (ej: '+18% IRR')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  //  (ej: '+18% CAGR')
                 closeComment: 'Spread se cerró más rápido de lo esperado, en tan solo 3 meses. Vendida a $49.5'            // Comentario breve
             },
             {
@@ -1791,7 +1935,7 @@ async function loadAllPrices() {
                 upsideInitial: '+105,3%',
                 ticker_finnhub: 'EDU.AX',
                 ticker_fincept: 'EDU',
-                currentPrice: 'AUD1.04',
+                currentPrice: 'AUD1.16',
                 currency: 'AUD',
                 upsideActual: '+207%',
                 priceSource: 'manual',
@@ -1799,9 +1943,10 @@ async function loadAllPrices() {
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: '',
                 closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
                 closeReturn: '',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
+                closeReturnAnnualized: '',  // 
                 closeComment: ''            // Comentario breve
             },
             {
@@ -1826,9 +1971,10 @@ async function loadAllPrices() {
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '2026-02-20',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: '$14.60',
                 closeReason: 'Catalizador venta TOPGOLF ok, resultados Q4FY25 estimaciones EBITDA más bajas de los esperado para 2026',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: '+22.9%',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '+433%',  // IRR (ej: '+18% IRR')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  //
                 closeComment: 'Tesis ejecutada parcialmente.'            // Comentario breve
             },
             {
@@ -1846,7 +1992,7 @@ async function loadAllPrices() {
                 upsideInitial: '+52.7%',
                 ticker_finnhub: 'TOA.WA',
                 ticker_fincept: 'TOA',
-                currentPrice: 'PLN9.61',
+                currentPrice: 'PLN9.49',
                 currency: 'PLN',
                 upsideActual: '+52.7%',
                 priceSource: 'manual',
@@ -1854,9 +2000,10 @@ async function loadAllPrices() {
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: '',
                 closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
                 closeReturn: '',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
+                closeReturnAnnualized: '',  // 
                 closeComment: ''            // Comentario breve
             },
             {
@@ -1882,9 +2029,10 @@ async function loadAllPrices() {
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'closed_fail',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '2026-07-15',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: 'AUD0.47',
                 closeReason: 'Tesis rota, a día de hoy no hay catalizadores visibles, aunque la parte commercial vale más del market cap.',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: '-40%',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '-63.12%',  // IRR (ej: '+18% IRR')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // 
                 closeComment: 'El activismo ha castigado mucho a la acción. Pensamos que esta infravalorada. Pero hay situaciones mejores, y sería un coste de oportunidad'            // Comentario breve
             },
              {
@@ -1909,9 +2057,10 @@ async function loadAllPrices() {
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '2026-02-20',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: 'GBP0.84',
                 closeReason: 'Tesis cumplida, precio objetivo alcanzado',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: '+22%',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '689,17%',  // IRR (ej: '+18% IRR')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // 
                 closeComment: 'Retorno anualizado desde el 14 de enero a cierre 22 de feb del 689,17%'            // Comentario breve
             },
              {
@@ -1936,9 +2085,10 @@ async function loadAllPrices() {
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '2026-02-19',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: 'CAD0.125',
                 closeReason: 'Gran parte del upside realizado',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: '+47%',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '4110%',  // IRR (ej: '+18% IRR')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // 
                 closeComment: 'éxito de la tesis aunque no se haya esperado hasta el cierre del merger'            // Comentario breve
             },
              {
@@ -1956,7 +2106,7 @@ async function loadAllPrices() {
                 upsideInitial: '+50%',
                 ticker_finnhub: 'FSJ.L',
                  ticker_fincept: 'FSJ',
-                currentPrice: 'GBP4.82',
+                currentPrice: 'GBP4.69',
                 currency: 'GBP',
                 upsideActual: '50%',
                 priceSource: 'manual',
@@ -1964,9 +2114,10 @@ async function loadAllPrices() {
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: '',
                 closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
                 closeReturn: '',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
+                closeReturnAnnualized: '',  // 
                 closeComment: ''            // Comentario breve
             },
               {
@@ -1991,9 +2142,10 @@ async function loadAllPrices() {
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '2026-06-18',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: '',
                 closeReason: 'Vendida a $6.5. El spread se cerró en torno a nuestro precio objetivo',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: '20,59%',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '+174,65%',  // IRR (ej: '+18% IRR')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // 
                 closeComment: 'Rendimiento real absoluto de del 174%'            // Comentario breve
             },
 
@@ -2020,9 +2172,8 @@ async function loadAllPrices() {
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '2026-06-24',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: 'CAD18.00',
                 closeReason: 'Upside inicial alcanzado, venta por mejores oportunidades',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: '8.66%',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: 'IRR del 30.76%',  // IRR (ej: '+18% IRR')
                 closeComment: 'Tesis semi-ejecutada. Contentos cerrando al haber alcanzado parte del upside.'            // Comentario breve
             },
             {
@@ -2048,9 +2199,10 @@ async function loadAllPrices() {
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '2026-03-02',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: '$5.72',
                 closeReason: 'Vendida a $5.72. El spread se cerró. El precio ha rozado el rango min.',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: ' 7.12%',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '328.71%',  // IRR (ej: '+18% IRR')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // 
                 closeComment: 'No se han tenido en cuenta los costes de la operación para el calculo del retorno'            // Comentario breve
             },
             {
@@ -2067,7 +2219,7 @@ async function loadAllPrices() {
                 fairValueRaw: 3.5,
                 upsideInitial: '+93%',
                 ticker_finnhub: 'SEER',
-                currentPrice: '$1.78',
+                currentPrice: '$2.2',
                 currency: '$',
                 upsideActual: '93%',
                 priceSource: 'manual',
@@ -2075,10 +2227,11 @@ async function loadAllPrices() {
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '2026-07-07',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: '$2.2',
                 closeReason: 'Tesis semi-cumplida, OPA realizada por el CEO',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: '22.22%',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '79.67%',  // IRR (ej: '+18% IRR')
-                closeComment: 'Vendida a 2.2 por OPA del CEO a 2.45 + 2 CVR. La venta de SEER generó una ganancia directa del 22.22% en un periodo de 125 días, lo que representa una tasa interna de retorno anualizada (IRR) del 79.67%'            // Comentario breve
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // 
+                closeComment: 'Vendida a 2.2 por OPA del CEO a 2.45 + 2 CVR. La venta de SEER generó una ganancia directa del 22.22% en un periodo de 125 días, lo que representa una tasa interna de retorno anualizada del 79.67%'            // Comentario breve
             },
             {
                 id: 'hsp',
@@ -2103,9 +2256,10 @@ async function loadAllPrices() {
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '2026-05-08',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: '',
                 closeReason: 'Tender ejecutada - Remanente vendido',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: '+3.7%',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '+24.35% IRR',  // IRR (ej: '+18% IRR')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // 
                 closeComment: 'Tender exitosa, buen capital allocation, financiada con venta de activo propio. Se cierra posición para monetizar.'            // Comentario breve
             },
                 {
@@ -2131,9 +2285,10 @@ async function loadAllPrices() {
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'closed_fail',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '2026-04-24',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: 'GBP0.54',
                 closeReason: 'OPA no ejecutada',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
                 closeReturn: '',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
+                closeReturnAnnualized: '',  // 
                 closeComment: 'Atlas retira la oferta y no presenta form 2.8 por falta de informacion para la due diligence del board.'           // Comentario breve
             },
                 {
@@ -2159,9 +2314,10 @@ async function loadAllPrices() {
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '2026-08-03',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: 'GBP0.0975',
                 closeReason: 'Tesis cumplida. Easysoft hace una intención firme de compra por 10.165p por acción',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: '+28.29%',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '+139.72% IRR',  // IRR (ej: '+18% IRR')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // CAGR (ej: '+18% CAGR')
                 closeComment: 'Venta completada según precio de mercado de la fecha de cierre. Intención firme de compra (bajo la Regla 2.7 )'            // Comentario breve
             },
             {
@@ -2187,9 +2343,10 @@ async function loadAllPrices() {
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '2026-04-27',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: '',
                 closeReason: 'Odd-lot ejecutada con éxito',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: '+67%',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '+3.000 IRR%',  // IRR (ej: '+18% IRR')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // 
                 closeComment: 'Odd-lot éxitosa'            // Comentario breve
             },
             {
@@ -2215,9 +2372,10 @@ async function loadAllPrices() {
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: '',
                 closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
                 closeReturn: '',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
+                closeReturnAnnualized: '',  // 
                 closeComment: ''            // Comentario breve
             },
              {
@@ -2243,9 +2401,10 @@ async function loadAllPrices() {
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: '',
                 closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
                 closeReturn: '',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '',  // IRR (ej: '+18% IRR')
+                closeReturnAnnualized: '',  // 
                 closeComment: ''            // Comentario breve
             },
             {
@@ -2271,9 +2430,10 @@ async function loadAllPrices() {
                  // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
                 status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '2026-06-30',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: '',
                 closeReason: 'Odd-lot ejecutada',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: '127%',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '1899088%',  // IRR (ej: '+18% IRR')
+                closeReturn: '',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '',  // 
                 closeComment: 'Odd-lot ejecutada con éxito. 100% de odd-lots con éxito'            // Comentario breve
             },
             {
@@ -2298,6 +2458,7 @@ async function loadAllPrices() {
                 // ← CAMPOS DE CIERRE
                 status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '',              // Fecha de cierre
+                closePrice: '',
                 closeReason: '',            // Motivo de cierre
                 closeReturn: '',            // Rentabilidad total
                 closeReturnAnnualized: '',  // Rentabilidad anualizada
@@ -2314,11 +2475,11 @@ async function loadAllPrices() {
                 logo: 'company-logos/oml.png',
                 thesisDate: '2026-07-19',
                 thesisPrice: 'A$1.33',
-                fairValue: '€1.90',
+                fairValue: 'A$1.90',
                 fairValueRaw: 1.90,
                 upsideInitial: '+39%',
                 ticker_finnhub: 'OML.AX',
-                currentPrice: '€1.66',
+                currentPrice: 'A$1.66',
                 currency: 'A$',
                 upsideActual: '+39%',
                 priceSource: 'manual',
@@ -2326,9 +2487,10 @@ async function loadAllPrices() {
                 // ← CAMPOS DE CIERRE
                 status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '2026-08-10',              // Fecha de cierre
+                closePrice: 'A$1.66',
                 closeReason: 'I Squared - Offer vinculante A$1.70',            // Motivo de cierre
                 closeReturn: '',            // Rentabilidad total
-                closeReturnAnnualized: '+261,2% IRR',  // Rentabilidad anualizada
+                closeReturnAnnualized: '',  // Rentabilidad anualizada
                 closeComment: 'Spread cerrado acorde a estimaciones - LBO'
                 // Tesis activa: campos de cierre (closeDate, closeReason, closeReturn...) pendientes de completar cuando cierre.
             },
@@ -2355,6 +2517,7 @@ async function loadAllPrices() {
                 // ← CAMPOS DE CIERRE
                 status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '2026-08-10',              // Fecha de cierre
+                closePrice: '',
                 closeReason: '',            // Motivo de cierre
                 closeReturn: '',            // Rentabilidad total
                 closeReturnAnnualized: '',  // Rentabilidad anualizada
@@ -2389,9 +2552,8 @@ async function loadAllPrices() {
                 // ← CAMPOS DE CIERRE
                 status: 'closed_success',          // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
                 closeDate: '2026-03-15',            // Fecha de cierre
+                closePrice: '',
                 closeReason: 'OPA ejecutada',       // Motivo de cierre
-                closeReturn: '+48%',                // Rentabilidad total
-                closeReturnAnnualized: '+62% IRR',  // Rentabilidad anualizada
                 closeComment: 'Spread se cerró más rápido de lo esperado tras mejora de la oferta.'
             },
             */
@@ -2455,98 +2617,154 @@ async function loadAllPrices() {
 
     // ==================== RENDER CARD (shared) ====================
     function renderCard(item, isClosed) {
-        const statusInfo = getStatusInfo(item.status || 'active');
-  // Precio a mostrar: en cerradas es el precio final congelado
-  const closed = isClosed || isClosedStatus(item.status);
-  if (closed) {
-    prepareClosedThesis(item);
-  }
-  const displayPrice = closed ? (item.finalPrice || item.currentPrice) : item.currentPrice;
-  const displaySource = closed ? 'manual' : (item.priceSource || 'manual');
+    const statusInfo = getStatusInfo(item.status || 'active');
 
+    const closed = isClosed || isClosedStatus(item.status);
 
-        // Upside/Result section
-        let upsideSection = '';
-        if (isClosed && item.closeReturn) {
-            upsideSection = `
-                <div class="indicator ${getUpsideClass(item.closeReturn)}" style="grid-column: 1 / -1;">
-                    <div class="indicator-label">🏁 Resultado Final</div>
-                    <div class="indicator-value" style="font-size: 1.3em;">${item.closeReturn}</div>
-                    <div class="indicator-subtext">Rentabilidad total</div>
-                </div>`;
-        } else {
-            upsideSection = `
-                <div class="indicator ${getUpsideClass(item.upsideActual)}" style="grid-column: 1 / -1;">
-                    <div class="indicator-label">${getUpsideSymbol(item.upsideActual)} Upside/Downside ACTUAL</div>
-                    <div class="indicator-value" style="font-size: 1.3em;">${item.upsideActual}</div>
-                    <div class="indicator-subtext">Ahora mismo</div>
-                </div>`;
-        }
+    if (closed) {
+        prepareClosedThesis(item);
+    }
 
-        // Post-mortem block for closed theses
-        let postMortem = '';
-        if (isClosed) {
-            postMortem = `
-                <div class="result-block" style="grid-column: 1 / -1;">
-                    <div class="result-block-title">📊 Resultados de la Operación</div>
-                    ${item.closeDate ? `<div class="result-row"><span class="result-label">📅 Fecha cierre</span><span class="result-value">${item.closeDate}</span></div>` : ''}
-                    ${item.closeReason ? `<div class="result-row"><span class="result-label">📌 Motivo</span><span class="result-value">${item.closeReason}</span></div>` : ''}
-                    ${item.closeReturn ? `<div class="result-row"><span class="result-label">💰 Rentabilidad</span><span class="result-value ${getReturnClass(item.closeReturn)}">${item.closeReturn}${item.closeReturnMismatch ? ' ⚠️' : ''}</span></div>` : ''}
-                    ${item.closeReturnAnnualized ? `<div class="result-row"><span class="result-label">📈 IRR</span><span class="result-value ${getReturnClass(item.closeReturnAnnualized)}">${item.closeReturnAnnualized}</span></div>` : ''}
-                    ${item.closeComment ? `<div class="result-comment">💬 ${item.closeComment}</div>` : ''}
-                </div>`;
-        }
+    const displayPrice = closed
+        ? (item.finalPrice || item.currentPrice)
+        : item.currentPrice;
 
-        return `
-            <a href="${item.path}" class="research-card ${statusInfo.cardClass}" style="position: relative;">
-                <div class="status-pill ${statusInfo.cssClass}">${statusInfo.icon} ${statusInfo.label}</div>
-                <div class="card-header">
-                    <img src="${item.logo}" alt="${item.company}" class="card-logo ${['ELY.V', 'SPEC.L', 'CALY', 'YEXT', 'EMPRESA3','EMPRESA3'].includes(item.ticker) ? 'logo-blanco' : ''}">
-                    <div class="card-ticker">${item.ticker}</div>
-                    <div class="card-company">${item.company}</div>
-                    <div class="card-sector">${item.sector}</div>
+    const displaySource = closed
+        ? 'manual'
+        : (item.priceSource || 'manual');
+
+    const totalReturn = closed
+        ? item.closeReturnDisplay
+        : item.upsideActual;
+
+    const annualizedReturn = closed
+        ? item.closeReturnAnnualizedDisplay
+        : '';
+
+    let upsideSection = '';
+
+    if (closed && totalReturn && totalReturn !== '—') {
+        upsideSection = `
+            <div class="indicator ${getUpsideClass(totalReturn)}" style="grid-column: 1 / -1;">
+                <div class="indicator-label">🏁 Resultado Final</div>
+                <div class="indicator-value" style="font-size: 1.3em;">
+                    ${totalReturn}${item.closeReturnMismatch ? ' ⚠️' : ''}
                 </div>
-                <div class="card-body">
-                    <div class="card-indicators">
-                        <div class="indicator indicator-date">
-                            <div class="indicator-label">📅 Fecha Tesis</div>
-                            <div class="indicator-value">${item.thesisDate}</div>
-                        </div>
-                        <div class="indicator indicator-target">
-                            <div class="indicator-label">🎯 Precio Objetivo</div>
-                            <div class="indicator-value">${item.fairValue}</div>
-                        </div>
-                        <div class="indicator" style="grid-column: 1 / -1;">
-                            <div class="indicator-label">💰 Precio ${isClosed ? 'Final' : 'Actual'}</div>
-                            <div class="indicator-value">
-                                ${displayPrice}
-                                <span class="price-badge ${displaySource === 'api' ? 'api' : 'manual'}" title="${displaySource === 'api' ? 'Actualizado desde API' : 'Precio manual'}">
+                <div class="indicator-subtext">Rentabilidad total calculada automáticamente</div>
+            </div>`;
+    } else {
+        upsideSection = `
+            <div class="indicator ${getUpsideClass(item.upsideActual)}" style="grid-column: 1 / -1;">
+                <div class="indicator-label">${getUpsideSymbol(item.upsideActual)} Upside/Downside ACTUAL</div>
+                <div class="indicator-value" style="font-size: 1.3em;">${item.upsideActual}</div>
+                <div class="indicator-subtext">Ahora mismo</div>
+            </div>`;
+    }
+
+    let postMortem = '';
+
+    if (closed) {
+        postMortem = `
+            <div class="result-block" style="grid-column: 1 / -1;">
+                <div class="result-block-title">📊 Resultados de la Operación</div>
+
+                ${item.closeDate ? `
+                    <div class="result-row">
+                        <span class="result-label">📅 Fecha cierre</span>
+                        <span class="result-value">${item.closeDate}</span>
+                    </div>` : ''}
+
+                ${item.closeReason ? `
+                    <div class="result-row">
+                        <span class="result-label">📌 Motivo</span>
+                        <span class="result-value">${item.closeReason}</span>
+                    </div>` : ''}
+
+                ${totalReturn ? `
+                    <div class="result-row">
+                        <span class="result-label">💰 Rentabilidad</span>
+                        <span class="result-value ${getReturnClass(totalReturn)}">
+                            ${totalReturn}${item.closeReturnMismatch ? ' ⚠️' : ''}
+                        </span>
+                    </div>` : ''}
+
+                ${annualizedReturn ? `
+                    <div class="result-row">
+                        <span class="result-label">📈 CAGR</span>
+                        <span class="result-value ${getReturnClass(annualizedReturn)}">
+                            ${annualizedReturn}${item.closeReturnAnnualizedMismatch ? ' ⚠️' : ''}
+                        </span>
+                    </div>` : ''}
+
+                ${item.closeComment ? `
+                    <div class="result-comment">💬 ${item.closeComment}</div>` : ''}
+            </div>`;
+    }
+
+    return `
+        <a href="${item.path}" class="research-card ${statusInfo.cardClass}" style="position: relative;">
+            <div class="status-pill ${statusInfo.cssClass}">
+                ${statusInfo.icon} ${statusInfo.label}
+            </div>
+
+            <div class="card-header">
+                <img src="${item.logo}" alt="${item.company}" class="card-logo ${['ELY.V', 'SPEC.L', 'CALY', 'YEXT', 'EMPRESA3'].includes(item.ticker) ? 'logo-blanco' : ''}">
+                <div class="card-ticker">${item.ticker}</div>
+                <div class="card-company">${item.company}</div>
+                <div class="card-sector">${item.sector}</div>
+            </div>
+
+            <div class="card-body">
+                <div class="card-indicators">
+
+                    <div class="indicator indicator-date">
+                        <div class="indicator-label">📅 Fecha Tesis</div>
+                        <div class="indicator-value">${item.thesisDate}</div>
+                    </div>
+
+                    <div class="indicator indicator-target">
+                        <div class="indicator-label">🎯 Precio Objetivo</div>
+                        <div class="indicator-value">${item.fairValue}</div>
+                    </div>
+
+                    <div class="indicator" style="grid-column: 1 / -1;">
+                        <div class="indicator-label">💰 Precio ${closed ? 'Final' : 'Actual'}</div>
+                        <div class="indicator-value">
+                            ${displayPrice}
+                            <span class="price-badge ${displaySource === 'api' ? 'api' : 'manual'}"
+                                  title="${displaySource === 'api' ? 'Actualizado desde API' : 'Precio manual'}">
                                 ${displaySource === 'api' ? '🌐 API' : '📌 Manual'}
                             </span>
+                        </div>
+                    </div>
+
+                    <div class="thesis-metrics" style="grid-column: 1 / -1;">
+                        <div class="thesis-metric">
+                            <div class="thesis-metric-label">💵 Precio Inicial</div>
+                            <div class="thesis-metric-value">${item.thesisPrice}</div>
+                        </div>
+                        <div class="thesis-metric">
+                            <div class="thesis-metric-label">📊 Upside Inicial</div>
+                            <div class="thesis-metric-value" style="color: var(--accent-positive);">
+                                ${item.upsideInitial}
                             </div>
                         </div>
-                        <div class="thesis-metrics" style="grid-column: 1 / -1;">
-                            <div class="thesis-metric">
-                                <div class="thesis-metric-label">💵 Precio Inicial</div>
-                                <div class="thesis-metric-value">${item.thesisPrice}</div>
-                            </div>
-                            <div class="thesis-metric">
-                                <div class="thesis-metric-label">📊 Upside Inicial</div>
-                                <div class="thesis-metric-value" style="color: var(--accent-positive);">${item.upsideInitial}</div>
-                            </div>
-                        </div>
-                        ${upsideSection}
-                        ${postMortem}
                     </div>
-                    <div style="margin-top: 12px; margin-bottom: 20px; text-align: center;">
-                        <span class="risk-badge ${item.riskLevel === 'Bajo' ? 'risk-bajo' : item.riskLevel === 'Medio' ? 'risk-medio' : 'risk-alto'}">
-                            ⚠️ Riesgo: ${item.riskLevel}
-                        </span>
-                    </div>
-                    <span class="card-button">▶ VER ANÁLISIS COMPLETO →</span>
+
+                    ${upsideSection}
+                    ${postMortem}
                 </div>
-            </a>`;
-    }
+
+                <div style="margin-top: 12px; margin-bottom: 20px; text-align: center;">
+                    <span class="risk-badge ${item.riskLevel === 'Bajo' ? 'risk-bajo' : item.riskLevel === 'Medio' ? 'risk-medio' : 'risk-alto'}">
+                        ⚠️ Riesgo: ${item.riskLevel}
+                    </span>
+                </div>
+
+                <span class="card-button">▶ VER ANÁLISIS COMPLETO →</span>
+            </div>
+        </a>`;
+}
 
     // ==================== RENDER ACTIVE RESULTS ====================
     function renderResults() {
@@ -2630,8 +2848,8 @@ async function loadAllPrices() {
 
         const finished = researchesData.filter(r => r.status && r.status !== 'active');
 
- // ✅ Preparar tesis cerradas: congelar precio final + calcular/validar closeReturn
- finished.forEach(item => prepareClosedThesis(item));
+// ✅ Preparar tesis cerradas: calcular precio final, retorno total y CAGR
+finished.forEach(item => prepareClosedThesis(item));
 
         updateTabCounts();
 
@@ -2645,8 +2863,18 @@ async function loadAllPrices() {
         const successes = finished.filter(r => r.status === 'closed_success').length;
         const fails = finished.filter(r => r.status === 'closed_fail').length;
         const neutrals = finished.filter(r => r.status === 'closed_neutral').length;
-        const returns = finished.filter(r => r.closeReturn).map(r => parseFloat(r.closeReturn.replace('+', '').replace('%', '').replace(',', '.')));
-        const avgReturn = returns.length > 0 ? (returns.reduce((a, b) => a + b, 0) / returns.length).toFixed(1) : '—';
+        const returns = finished
+            .map(r => r.closeReturnComputedRaw)
+            .filter(v => v !== null && v !== undefined && Number.isFinite(v));
+        const cagrs = finished
+            .map(r => r.closeReturnAnnualizedComputedRaw)
+            .filter(v => v !== null && v !== undefined && Number.isFinite(v));
+        const avgReturn = returns.length > 0
+            ? (returns.reduce((a, b) => a + b, 0) / returns.length).toFixed(1)
+            : '—';
+        const avgCAGR = cagrs.length > 0
+            ? (cagrs.reduce((a, b) => a + b, 0) / cagrs.length).toFixed(1)
+            : '—';
         const winRate = finished.length > 0 ? ((successes / finished.length) * 100).toFixed(0) : '—';
 
         trackRecord.style.display = 'grid';
@@ -2667,14 +2895,21 @@ async function loadAllPrices() {
                 <div class="track-stat-value">${neutrals}</div>
                 <div class="track-stat-label">⚪ Neutras</div>
             </div>
-            <div class="track-stat">
+           <div class="track-stat">
                 <div class="track-stat-value ${parseFloat(avgReturn) >= 0 ? 'positive' : 'negative'}">${avgReturn}%</div>
                 <div class="track-stat-label">Rentab. Media</div>
             </div>
+            
+            <div class="track-stat">
+                <div class="track-stat-value ${parseFloat(avgCAGR) >= 0 ? 'positive' : 'negative'}">${avgCAGR}%</div>
+                <div class="track-stat-label">CAGR Medio</div>
+            </div>
+            
             <div class="track-stat">
                 <div class="track-stat-value ${parseFloat(winRate) >= 50 ? 'positive' : 'negative'}">${winRate}%</div>
                 <div class="track-stat-label">Win Rate</div>
-            </div>`;
+            </div>
+            
 
         // Group by investment type for finished
         const groupedFinished = {};
