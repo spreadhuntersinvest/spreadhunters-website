@@ -2399,13 +2399,13 @@ async function loadAllPrices() {
                 priceSource: 'manual',
                 riskLevel: 'Medio',
                 // ← CAMPOS DE ESTADO (cambiar para cerrar tesis)
-                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
-                closeDate: '',              // Fecha de cierre (ej: '2026-07-03')
-                closePrice: '',
-                closeReason: '',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
-                closeReturn: '',            // Rentabilidad total (ej: '+22%')
-                closeReturnAnnualized: '',  // 
-                closeComment: ''            // Comentario breve
+                status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '2026/09/10',              // Fecha de cierre (ej: '2026-07-03')
+                closePrice: 'A$0.185',
+                closeReason: 'Valor objetivo, y mayor parte del upside logrado',            // Motivo (ej: 'OPA ejecutada', 'Tesis rota')
+                closeReturn: '42.3%',            // Rentabilidad total (ej: '+22%')
+                closeReturnAnnualized: '267%',  // 
+                closeComment: 'La revalorización del oro en este periodo aceleró el cierre del spread de Cygnus al revalorizarse CAML antes de lo esperado'            // Comentario breve
             },
             {
                 id: 'OPTU',
@@ -2456,13 +2456,13 @@ async function loadAllPrices() {
                 priceSource: 'manual',
                 riskLevel: 'Medio',
                 // ← CAMPOS DE CIERRE
-                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
-                closeDate: '',              // Fecha de cierre
-                closePrice: '',
-                closeReason: '',            // Motivo de cierre
-                closeReturn: '',            // Rentabilidad total
-                closeReturnAnnualized: '',  // Rentabilidad anualizada
-                closeComment: ''
+                status: 'closed_success',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '2026-08-19',              // Fecha de cierre
+                closePrice: '€0.40',
+                closeReason: 'Mayor parte del uspide logrado. El riesgo ya no compensa el upside residual',            // Motivo de cierre
+                closeReturn: '18.34%',            // Rentabilidad total
+                closeReturnAnnualized: '348%',  // Rentabilidad anualizada
+                closeComment: 'Tesis éxitosa con rentabilidad certa al objetivo en menor tiempo'
                 // Tesis activa: campos de cierre (closeDate, closeReason, closeReturn...) pendientes de completar cuando cierre.
             },
                {
