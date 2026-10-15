@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingenia Communities Group (ASX: INA) - Situación Especial | SpreadHunters</title>
+    <meta name="description" content="Situación especial Ingenia Communities (ASX: INA): ultimátum de Warburg Pincus a A$5,25 vs adquisición de Peet. Precedentes, escenarios con probabilidades y retorno ponderado.">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    
+    <style>
+        /* ========================================
+           SISTEMA DE VARIABLES - COLORES GLOBALES
+           ======================================== */
+        :root {
+            /* COLORES PRIMARIOS - Identidad SpreadHunters */
+            --primary-color: #00d7ff;           /* Cyan brillante */
+            --secondary-color: #1a2332;         /* Azul oscuro base */
+            --accent-color: #4A8B9B;            /* Azul teal claro */
+            
+            /* COLORES FUNCIONALES */
+            --success-color: #90ee90;           /* Verde */
+            --danger-color: #ff6b6b;            /* Rojo */
+            --warning-color: #ffa500;           /* Naranja */
+            --info-color: #00d7ff;              /* Cyan */
+        
+            /* FONDOS */
+            --dark-bg: #1a2332;                 /* Azul principal */
+            --darker-bg: #0f1419;               /* Azul muy oscuro */
+            --card-bg: #1a2538;                 /* Azul para cards */
+            --light-bg: #E8E8E8;                /* Fondo claro */
+        
+            /* TEXTO */
+            --text-primary: #d0d8e0;            /* Gris claro */
+            --text-secondary: #b0c4de;          /* Gris medio */
+            --text-tertiary: #808080;           /* Gris oscuro */
+            
+            /* BORDES */
+            --border-color: #2d3d4d;            /* Borde azulado */
+            --border-light: #3d5570;            /* Borde azul claro */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.95) 0%, rgba(30, 50, 80, 0.95) 100%);
+            background-color: #1a2332;
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ========================================
+           BARRA DE PROGRESO
+           ======================================== */
+        .progress-bar {
+            background: var(--success-color);
+            height: 2px;
+            width: 0%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* ========================================
+               LOGO NAVBAR (SVG – escala por altura)
+               ======================================== */
+            .logo-navbar {
+              position: fixed;
+              top: 20px;
+              left: 20px;
+              z-index: 900;
+              background: none;
+              padding: 0;
+              border: none;
+              backdrop-filter: none;
+              pointer-events: none; /* no clicable */
+            }
+            
+            .logo-navbar-img {
+              height: 44px;   /* ⬅️ MÁS grande (antes ~38–40 visuales) */
+              width: auto;
+              display: block;
+            }
+            
+            /* Laptop / Tablet grande */
+            @media (max-width: 1024px) {
+              .page-title { font-size: 1.55rem; } 
+              .logo-company { max-height: 70px; max-width: 150px; }
+            }
+            
+            /* Tablet */
+            @media (max-width: 768px) {
+              .logo-navbar { top: 15px; left: 15px; }
+              .logo-navbar-img { height: 34px; }
+            }
+            
+            /* Mobile */
+            @media (max-width: 480px) {
+              .logo-navbar { top: 12px; left: 12px; }
+              .logo-navbar-img { height: 30px; }
+            }
+
+
+
+        /* ========================================
+           HEADER PROFESIONAL
+           ======================================== */
+        .header-professional {
+            margin: 0;
+            padding: 50px 20px;
+            background: transparent;
+            border-bottom: 1px solid rgba(74, 127, 127, 0.1);
+            backdrop-filter: blur(3px);
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-professional .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header-title-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .company-title-row {
+              display: flex;
+              flex-direction: column;   /* ⬅️ logo arriba, título debajo */
+              align-items: center;
+              justify-content: center;
+              gap: 12px;                /* separación logo-título */
+              text-align: center;
+        }
+
+        .logo-company {
+            max-height: 70px;
+            max-width: 150px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: none; /* por defecto: respeta colores originales */
+            display: block;
+            margin: 0;               /* por si algún margen lo desplaza */
+        }
+
+/* Opcional: usa esta clase SOLO si necesitas adaptar un logo claro a fondo oscuro */
+.logo-company--on-dark {
+            filter: brightness(4) contrast(1.5) invert(1) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+        .page-title {
+            font-size: 1.65rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0;
+            letter-spacing: 1px;
+            line-height: 1.3;
+        }
+
+        .page-subtitle {
+            font-size: 0.95rem;
+            color: #e0e0e0;
+            margin: 10px 0 0;
+            font-weight: 400;
+            max-width: 680px;
+        }
+
+        @media (max-width: 1024px) {
+            .page-title { font-size: 1.8rem; }
+            .logo-company { max-height: 70px; max-width: 150px; }
+        }
+
+        @media (max-width: 768px) {
+            .header-professional { padding: 30px 15px; }
+            .page-title { font-size: 1.4rem; }
+            .logo-company { max-height: 65px; max-width: 130px; }
+            .page-subtitle { font-size: 0.9rem; }
+        }
+
+        /* ========================================
+           TARJETAS DE MÉTRICAS
+           ======================================== */
+        .investment-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.6) 0%, rgba(30, 50, 80, 0.6) 100%);
+            border: 2px solid rgba(0, 215, 255, 0.3);
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(0, 215, 255, 0.5) 0%, rgba(0, 215, 255, 0) 100%);
+        }
+
+        .metric-card:hover {
+            border-color: rgba(0, 215, 255, 0.6);
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.8) 0%, rgba(30, 50, 80, 0.8) 100%);
+            box-shadow: 0 0 20px rgba(0, 215, 255, 0.2);
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .metric-value {
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .metric-value.cyan {
+            color: #00d7ff;
+        }
+
+        .metric-value.green {
+            color: #90ee90;
+        }
+
+        .metric-value.red {
+            color: #ff6b6b;
+        }
+
+        .metric-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            font-weight: 400;
+        }
+
+        @media (max-width: 768px) {
+            .investment-metrics { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .metric-card { padding: 15px; }
+            .metric-value { font-size: 1.3rem; }
+        }
+
+        @media (max-width: 480px) {
+              .header-professional { padding: 20px 15px; }
+              .page-title { font-size: 1.15rem; }
+              .logo-company { max-height: 55px; max-width: 110px; }
+              .company-title-row { gap: 10px; }
+              .page-subtitle { font-size: 0.85rem; }
+            }
+
+        /* ========================================
+           NAVEGACIÓN DE PESTAÑAS
+           ======================================== */
+        .nav-tabs {
+            background: var(--card-bg);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .nav-tabs ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-tabs a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-tabs a:hover,
+        .nav-tabs a.active {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+        }
+
+       @media (max-width: 768px) {
+  .nav-tabs { padding: 10px 0; }
+
+  .nav-tabs ul {
+    flex-direction: row;          /* antes: column */
+    justify-content: flex-start;  /* en vez de center */
+    flex-wrap: nowrap;            /* una sola fila */
+    overflow-x: auto;             /* scroll horizontal */
+    overflow-y: hidden;
+    gap: 8px;
+    padding: 0 12px 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-tabs li { flex: 0 0 auto; }
+
+  .nav-tabs a {
+    padding: 7px 12px;            /* más compacto */
+    font-size: 0.85rem;
+    white-space: nowrap;          /* evita salto de línea */
+  }
+
+  /* opcional: scrollbar horizontal discreta */
+  .nav-tabs ul::-webkit-scrollbar { height: 6px; }
+  .nav-tabs ul::-webkit-scrollbar-track { background: rgba(15, 20, 25, 0.35); }
+  .nav-tabs ul::-webkit-scrollbar-thumb { background: rgba(0, 215, 255, 0.55); border-radius: 6px; }
+}
+
+@media (max-width: 480px) {
+  .nav-tabs { padding: 8px 0; }
+  .nav-tabs ul { padding: 0 10px 6px; gap: 6px; }
+  .nav-tabs a { padding: 6px 10px; font-size: 0.80rem; }
+}
+
+        /* ========================================
+           SECCIONES
+           ======================================== */
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            z-index: 1;
+        }
+
+        section h2 {
+            font-size: 1.35rem;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            border-left: 4px solid var(--success-color);
+            padding-left: 20px;
+        }
+
+                    section > h3 {
+              font-size: 1.25rem;
+              margin: 30px 0 15px;
+              color: var(--text-primary);
+            }
+            section > h4 {
+              font-size: 1.0rem;
+              margin: 15px 0 10px;
+              color: var(--text-primary);
+            }
+
+       @media (max-width: 768px){
+          .page-title{ font-size: 1.4rem; }
+          .page-subtitle{ font-size: 0.9rem; }
+          section h2{ font-size: 1.25rem; }
+          section h3{ font-size: 1.1rem; }
+        }
+
+        /* ========================================
+           TARJETAS Y GRÁFICOS
+           ======================================== */
+        .card {
+            background: rgba(26, 35, 50, 0.85);
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .chart-container {
+            background: rgba(26, 35, 50, 0.85);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            position: relative;
+            height: 400px;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        @media (max-width: 768px) {
+            .chart-grid { grid-template-columns: 1fr; }
+            .chart-container { height: 300px; }
+        }
+
+        /* ========================================
+           GRILLA DE ESTADÍSTICAS
+           ======================================== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: rgba(26, 35, 50, 0.8);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-card .label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .value {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .stat-card .change {
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .positive {
+            color: var(--success-color);
+        }
+
+        .negative {
+            color: var(--danger-color);
+        }
+
+        /* ========================================
+           TABLAS
+           ======================================== */
+        .table-responsive {
+            overflow-x: auto;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        thead {
+            background: #1A1F2E;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: rgba(74, 127, 127, 0.05);
+        }
+
+        /* ========================================
+           CAJAS DE ALERTA
+           ======================================== */
+        .alert {
+            padding: 16px 18px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid;
+            backdrop-filter: blur(10px);
+        }
+
+        .alert-success {
+            background: rgba(74, 155, 111, 0.08);
+            border-color: var(--success-color);
+            color: var(--text-primary);
+        }
+
+        .alert-warning {
+            background: rgba(255, 165, 0, 0.15);
+            border-color: var(--warning-color);
+            color: var(--text-primary);
+        }
+
+        .alert-info {
+            background: rgba(0, 212, 212, 0.15);
+            border-color: var(--primary-color);
+            color: var(--text-primary);
+        }
+
+        .alert-danger {
+            background: rgba(255, 107, 107, 0.15);
+            border-color: var(--danger-color);
+            color: var(--text-primary);
+        }
+
+        .alert strong {
+            color: #ffffff;
+        }
+
+        /* ========================================
+           HIGHLIGHTS
+           ======================================== */
+        .highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .highlight-item {
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(0, 212, 212, 0.1) 100%);
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .highlight-item h4 {
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .highlight-item p {
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* ========================================
+           BOTONES
+           ======================================== */
+        .btn {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+            border: 1px solid var(--primary-color);
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: var(--secondary-color);
+            border-color: var(--accent-color);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-success {
+            font-size: 0.9rem;
+            padding: 8px 18px;
+            border-radius: 6px;
+        }
+
+        .btn-success:hover {
+            background: #00b868;
+        }
+
+        /* ========================================
+           FOOTER
+           ======================================== */
+        footer {
+            background: var(--card-bg);
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 60px;
+            border-top: 2px solid var(--border-color);
+            position: relative;
+            z-index: 1;
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 10px 0;
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        /* ========================================
+           SCROLLBAR
+           ======================================== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 20, 25, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+
+        /* ========================================
+           ANIMACIONES
+           ======================================== */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+            /* ========================================
+           AJUSTE FINO DE ESPACIADO EN CAJAS (COMPACTO)
+           ======================================== */
+        
+        /* Títulos dentro de cajas */
+        .card h3,
+        .card h4,
+        .highlight-item h4 {
+            margin-bottom: 8px; /* antes 10–15px */
+        }
+        
+        /* Texto */
+        .card p,
+        .highlight-item p,
+        .alert p {
+            margin-bottom: 8px;
+            line-height: 1.55; /* ligeramente más compacto */
+        }
+        
+        /* Último párrafo sin espacio extra */
+        .card p:last-child,
+        .highlight-item p:last-child,
+        .alert p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Listas dentro de cards */
+        .card ul {
+            margin-top: 6px;
+            margin-bottom: 0;
+        }
+        
+        .card li {
+            margin-bottom: 4px;
+        }
+                    /* ===========================
+                       COMPACTACIÓN CONSISTENTE
+                       =========================== */
+                    
+                    /* Menos padding */
+                    .card, .highlight-item, .alert{
+                      padding: 14px 16px !important;
+                      line-height: 1.5;
+                    }
+                    
+                    /* Títulos dentro de cajas */
+                    .card h3, .card h4,
+                    .highlight-item h4{
+                      margin: 0 0 8px !important;
+                    }
+                    
+                    /* Párrafos dentro de cajas */
+                    .card p, .highlight-item p, .alert p{
+                      margin: 0 0 8px !important;
+                    }
+                    
+                    /* Último hijo sin margen extra */
+                    .card > *:last-child,
+                    .highlight-item > *:last-child,
+                    .alert > *:last-child{
+                      margin-bottom: 0 !important;
+                    }
+                    
+                    /* Listas */
+                    .card ul, .highlight-item ul, .alert ul{
+                      margin: 6px 0 0 !important;
+                      padding-left: 18px !important;
+                    }
+                    .card li, .highlight-item li, .alert li{
+                      margin: 0 0 4px 0 !important;
+                    }
+                    .card li:last-child,
+                    .highlight-item li:last-child,
+                    .alert li:last-child{
+                      margin-bottom: 0 !important;
+                    }
+
+        /* Mata inline margins dentro de cards para que el layout sea consistente */
+            .card p[style],
+            .card ul[style]{
+              margin-top: 6px !important;
+              margin-bottom: 8px !important;
+            }
+            
+            /* Ajusta indent sin margin-left inline */
+            .card ul[style]{
+              margin-left: 0 !important;
+              padding-left: 18px !important;
+            }
+
+        /* Evita que los anchors queden tapados por la nav sticky */
+        section { scroll-margin-top: 90px; }
+        
+@media (max-width: 768px){
+  section { scroll-margin-top: 120px; }
+}
+        
+        /* Utilidades sencillas para evitar inline */
+        .mt-15 { margin-top: 15px; }
+        .mt-20 { margin-top: 20px; }
+        .mt-30 { margin-top: 30px; }
+        .text-center { text-align: center; }
+        
+        /* Clase usada en Riesgos */
+        .warning { color: var(--warning-color); }
+        
+        /* Lista compacta usada en Conclusión */
+        .compact-list { margin: 6px 0 0; padding-left: 18px; }
+        .compact-list li { margin: 0 0 4px 0; }
+        .compact-list li:last-child { margin-bottom: 0; }
+        
+        /* Alturas de charts sin inline */
+        .chart-350 { height: 350px; }
+
+        /* ===== Añadidos específicos de esta tesis (mismo sistema de colores) ===== */
+        .tag { display:inline-block; padding:2px 10px; border-radius:999px; font-size:0.72rem; font-weight:600; letter-spacing:0.5px; text-transform:uppercase; }
+        .tag-cyan { background:rgba(0,215,255,0.15); color:#00d7ff; border:1px solid rgba(0,215,255,0.4); }
+        .tag-green { background:rgba(144,238,144,0.12); color:#90ee90; border:1px solid rgba(144,238,144,0.4); }
+        .tag-red { background:rgba(255,107,107,0.12); color:#ff6b6b; border:1px solid rgba(255,107,107,0.4); }
+        .tag-orange { background:rgba(255,165,0,0.12); color:#ffa500; border:1px solid rgba(255,165,0,0.4); }
+        tr.row-key { background: rgba(0,215,255,0.06); }
+        tr.row-total td { border-top: 2px solid var(--primary-color); font-weight: 700; color:#ffffff; }
+        td.num, th.num { text-align: right; white-space: nowrap; }
+        .sens td { text-align:center; font-weight:600; }
+        .sens td:first-child { text-align:left; }
+        .s-pos { color:#90ee90; background:rgba(144,238,144,0.08); }
+        .s-mid { color:#ffa500; background:rgba(255,165,0,0.08); }
+        .s-neg { color:#ff6b6b; background:rgba(255,107,107,0.08); }
+        .s-base { outline:2px solid #00d7ff; outline-offset:-2px; }
+        .countdown { font-size:0.85rem; color:var(--text-secondary); margin-top:6px; }
+        .source-list { font-size:0.82rem; color:var(--text-secondary); padding-left:18px; }
+        .source-list li { margin-bottom:4px; word-break: break-word; }
+        .source-list a { color: var(--primary-color); text-decoration:none; }
+        .small-note { font-size:0.8rem; color:var(--text-tertiary); margin-top:-18px; margin-bottom:20px; }
+        @media (max-width: 480px){ th, td { padding: 10px; font-size: 0.85rem; } }
+    </style>
+</head>
+<body>
+  <div id="top"></div>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <div class="logo-navbar">
+    <img src="https://spreadhunters.es/images/spreadhunter_navbar.svg" alt="SpreadHunters" class="logo-navbar-img">
+  </div>
+
+  <header class="header-professional">
+    <div class="container">
+      <div class="header-title-section">
+        <div class="company-title-row">
+          <img src="https://spreadhunters.es/dashboards/company-logos/ina.png" alt="Ingenia Communities Logo" class="logo-company" onerror="this.style.display='none'">
+          <h1 class="page-title">Ingenia Communities Group (ASX: INA)</h1>
+        </div>
+        <p class="page-subtitle">Situación especial: Warburg Pincus ofrece A$5,25 “best and final” y exige al Board elegir antes del 19-oct entre su oferta y la compra de Peet. Precedentes, escenarios y retorno ponderado.</p>
+        <span class="tag tag-orange">Event-driven · Actualizado 15-oct-2026</span>
+      </div>
+
+      <div class="investment-metrics">
+        <div class="metric-card">
+          <div class="metric-label">PRECIO ACTUAL</div>
+          <div class="metric-value cyan" id="priceCurrent">A$4,08</div>
+          <div class="metric-subtitle">Cierre 15-oct-2026 (−10,9%)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">VALOR ESPERADO</div>
+          <div class="metric-value cyan" id="fairValue">A$4,36</div>
+          <div class="metric-subtitle">Ponderado por 5 escenarios</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">UPSIDE POTENCIAL</div>
+          <div class="metric-value green" id="upsidePct">—</div>
+          <div class="metric-subtitle">Si cierra: A$5,30 (+29,9%)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">DECISIÓN DEL BOARD</div>
+          <div class="metric-value red">19-oct</div>
+          <div class="metric-subtitle" id="countdown">Fecha límite de Warburg</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav-tabs">
+    <div class="container">
+      <ul>
+        <li><a href="#resumen" class="active">Resumen</a></li>
+        <li><a href="#situacion">El ultimátum</a></li>
+        <li><a href="#empresa">Empresa</a></li>
+        <li><a href="#precedentes">Precedentes</a></li>
+        <li><a href="#valuation">Escenarios</a></li>
+        <li><a href="#catalysts">Catalizadores</a></li>
+        <li><a href="#riesgos">Riesgos</a></li>
+        <li><a href="#conclusion">Conclusión</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- RESUMEN -->
+    <section id="resumen" class="fade-in">
+      <h2>Resumen ejecutivo</h2>
+
+      <div class="alert alert-success">
+        <strong>Tesis de inversión:</strong> Warburg Pincus ha dejado de negociar el precio y exige una decisión. Ofrece A$5,25 en efectivo más una distribución de hasta 5c, declarado “best and final”. A cambio pide que el Board declare públicamente, antes del lunes 19-oct, que su oferta es mejor que la compra de Peet. El mercado lo interpreta como un probable “no”: INA cae a A$4,08 y descuenta ≈24% de probabilidad de que la operación salga adelante. Con los precedentes estimamos ≈40%. El valor esperado es A$4,36 (+6,9%), con un upside del +30% frente a un downside probable del −9%. La ventaja es estrecha, binaria y solo existe antes de la decisión.
+      </div>
+
+      <div class="highlights">
+        <div class="highlight-item">
+          <h4>✓ Precio fijado, decisión pendiente</h4>
+          <p>Warburg subió de A$4,75 a A$5,05 y a A$5,25 (+10,5%) y ahora lo declara final. La política australiana de “truth in takeovers” le impide subir sin un rival: la variable ya no es el precio, sino la voluntad del Board.</p>
+        </div>
+        <div class="highlight-item">
+          <h4>✓ Salida de Peet barata pero tardía</h4>
+          <p>Ingenia puede terminar el acuerdo con Peet antes de la segunda vista judicial (principios de diciembre) pagando A$10m (≈A$0,025/security). El coste es trivial; el reputacional para un Board que ha defendido Peet en público, no.</p>
+        </div>
+        <div class="highlight-item">
+          <h4>✓ Los accionistas no votan Peet</h4>
+          <p>Cohen &amp; Steers, CPP, HMC y APG se oponen a Peet según la prensa, pero la operación no requiere el voto de los holders de Ingenia. Su palanca es la presión pública, no la mecánica.</p>
+        </div>
+        <div class="highlight-item">
+          <h4>✓ El mercado es más pesimista que los precedentes</h4>
+          <p>A A$4,08 el precio implica ≈24% para la vía Warburg. Nuestro árbol, calibrado con precedentes, da ≈40%. El break-even está en ≈18%.</p>
+        </div>
+      </div>
+
+      <h3>Métricas clave</h3>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="label">Oferta Warburg</div>
+          <div class="value">A$5,25</div>
+          <div class="change positive">+≤5c distr. · equity ≈A$2,14bn</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Prima vs NTA</div>
+          <div class="value">+22,8%</div>
+          <div class="change">NTA FY26 A$4,28 · precio 0,95x NTA</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Prob. vía Warburg</div>
+          <div class="value">≈40%</div>
+          <div class="change warning">Mercado ≈24% · break-even 18%</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Prob. de pérdida</div>
+          <div class="value">55%</div>
+          <div class="change negative">Pérdida típica −9% · bear −17%</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SITUACIÓN -->
+    <section id="situacion" class="fade-in">
+      <h2>El ultimátum de Warburg (15-oct-2026)</h2>
+
+      <div class="card">
+        <h3>Qué pide exactamente la carta</h3>
+        <ul>
+          <li><strong>Precio:</strong> A$5,25 cash por stapled security vía scheme of arrangement, “best and final in the absence of a superior proposal”, reconfirmado tras revisar la due diligence inicial.</li>
+          <li><strong>Distribución:</strong> el accionista conserva la distribución del semestre a 31-dic-2026, hasta A$0,05, sin que baje el precio. Valor total ≈A$5,30.</li>
+          <li><strong>Condición previa:</strong> el Board debe confirmar que la propuesta es <em>más favorable que la adquisición de Peet</em>. Equivale a adelantar el juicio de “Bidder Superior Proposal” antes de la DD confirmatoria.</li>
+          <li><strong>Exclusividad:</strong> DD exclusiva bajo un process deed, firmado antes del lunes 19-oct-2026.</li>
+          <li><strong>Financiación:</strong> equity comprometido, carta “highly confident” de Deutsche Bank y sin condición de financiación en la oferta vinculante.</li>
+        </ul>
+      </div>
+
+      <h3>Precio vs. propuestas de Warburg</h3>
+      <div class="chart-container">
+        <canvas id="priceChart"></canvas>
+      </div>
+      <p class="small-note">Puntos seleccionados (cierres o intradía según la fuente): Yahoo/Investing, Motley Fool, IBTimes, Kapitales, Stockopedia/Grafa. No es una serie diaria completa.</p>
+
+      <h3>Mecánica: por qué el 19-oct importa tanto</h3>
+      <div class="highlights">
+        <div class="highlight-item">
+          <h4>Truth in takeovers</h4>
+          <p>ASIC (RG 25) y el Takeovers Panel obligan a cumplir una declaración de “last and final”, también en schemes. La reserva de Warburg es “absent a superior proposal”: sin un rival, subir le expondría a una declaración de unacceptable circumstances.</p>
+        </div>
+        <div class="highlight-item">
+          <h4>SID de Peet</h4>
+          <p>Ingenia puede terminarlo antes de las 8:00 del día de la segunda vista si el Board determina que existe una Bidder Superior Proposal, con asesoramiento externo. Reverse break fee: A$10m.</p>
+        </div>
+        <div class="highlight-item">
+          <h4>Sin voto de los holders</h4>
+          <p>Un requerimiento de junta (s249D, ≥5%) obliga a convocar en 21 días y celebrar en dos meses: llega tarde para el calendario de diciembre.</p>
+        </div>
+        <div class="highlight-item">
+          <h4>Frustrating action</h4>
+          <p>Warburg podría acudir al Panel (GN 12), pero el SID de Peet es anterior a su aproximación: la probabilidad de éxito es baja. No lo modelizamos por separado.</p>
+        </div>
+      </div>
+
+      <h3>Quién está a cada lado</h3>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Parte</th><th>Posición / incentivos</th><th>Peso en el desenlace</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Board y CEO (Carfi)</strong></td><td>Promotores de Peet: pipeline de ≈8.800 a ≈14.800 sites y +11% de EPS FY26 pro forma. Han rechazado A$4,75 y A$5,05; no recomiendan A$5,25.</td><td><span class="tag tag-red">Decisivo</span></td></tr>
+            <tr><td><strong>Institucionales de INA</strong></td><td>Según prensa, Cohen &amp; Steers (~8,75%), CPP (~6,1%), HMC y APG se oponen a Peet. BlackRock sube al 6,08%; State Street baja al 7,37%.</td><td><span class="tag tag-orange">Alto en presión, bajo en mecánica</span></td></tr>
+            <tr><td><strong>Warburg Pincus</strong></td><td>Equity comprometido; asesores DB y Jefferies. Ha fijado precio y plazo; tiene alternativas en real estate APAC (ESR, JSB).</td><td><span class="tag tag-cyan">Puede irse; no subir</span></td></tr>
+            <tr><td><strong>Peet / Scorpio (14,5%)</strong></td><td>Board de Peet a favor; Scorpio vota a favor salvo propuesta superior.</td><td><span class="tag tag-green">Peet probable si INA sigue</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="alert alert-warning">
+        <strong>Lectura del mercado:</strong> el −10,9% del 15-oct se explica porque la carta obliga al Board a pronunciarse públicamente contra su propia estrategia, y porque el Board reiteró su confianza en el plan estratégico. A A$4,08, el mercado asigna ≈24% a la vía Warburg.
+      </div>
+    </section>
+
+    <!-- EMPRESA -->
+    <section id="empresa" class="fade-in">
+      <h2>Descripción de la empresa</h2>
+      <div class="card">
+        <h3>Quiénes son</h3>
+        <p>Ingenia es un grupo stapled cotizado en ASX que posee, desarrolla y opera comunidades residenciales (land lease para seniors y downsizers) y vacacionales en Australia. Tiene un portfolio de ≈A$3,0bn con ≈16.400 sites generadores de ingresos; ≈51% de los ingresos son recurrentes y el land lease supone ≈69% del portfolio. El pipeline alcanza ≈8.800 sites.</p>
+        <h4>Motores de negocio</h4>
+        <ul>
+          <li><strong>Lifestyle Rental / Land Lease:</strong> site fees recurrentes; cada settlement añade un contrato de renta de larga duración.</li>
+          <li><strong>Lifestyle Development:</strong> margen por venta de homes; intensivo en capital (≈A$185m de development investment en FY26).</li>
+          <li><strong>Ingenia Holidays y Gardens:</strong> parques vacacionales (más cíclicos) y alquiler asequible para seniors.</li>
+        </ul>
+      </div>
+
+      <h3>FY26 en cifras</h3>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Métrica</th><th class="num">FY26</th><th>Lectura</th></tr></thead>
+          <tbody>
+            <tr><td><strong>EBIT</strong></td><td class="num">A$193,4m</td><td class="positive">+18% interanual</td></tr>
+            <tr><td><strong>Underlying EPS</strong></td><td class="num">35,8c</td><td class="positive">+16%</td></tr>
+            <tr><td><strong>Operating cash flow</strong></td><td class="num">A$152,5m</td><td>FCF tras development: (A$37,5m)</td></tr>
+            <tr><td><strong>NTA / security</strong></td><td class="num">A$4,28</td><td>Ancla patrimonial</td></tr>
+            <tr><td><strong>Gearing</strong></td><td class="num">31%</td><td>Asset recycling de ≈A$124m confirmado</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Peet: la otra opción del Board</h3>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Elemento</th><th>Detalle</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Contraprestación</strong></td><td>A$0,68 cash + 0,3367 securities INA por acción de Peet (mix &amp; match); EV A$1.266m</td></tr>
+            <tr><td><strong>Lógica</strong></td><td>5.000–7.000 lotes de Peet convertibles a land lease (≈A$1bn de end value); contratos de Peet por A$851m</td></tr>
+            <tr><td><strong>Reacción</strong></td><td class="negative">INA de A$4,26 a A$3,59 tras el anuncio (−16%)</td></tr>
+            <tr><td><strong>Calendario</strong></td><td>Primera vista a finales de oct → booklet a principios de nov → junta y segunda vista a principios de dic → implementación a finales de dic</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PRECEDENTES -->
+    <section id="precedentes" class="fade-in">
+      <h2>Precedentes: cómo se comporta Warburg y cómo acaban estas situaciones</h2>
+
+      <h3>Warburg Pincus en operaciones sobre cotizadas</h3>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Caso</th><th>Qué hizo WP</th><th>Desenlace</th><th>Lectura</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Inmarsat (UK, 2019)</strong></td><td>Consorcio Apax/WP/CPPIB/OTPP a US$7,21. Ante hedge funds, declara que no subirá ni extenderá.</td><td class="positive">Cerrada a US$7,21 (≈79% de votos)</td><td>Cumple su “final”</td></tr>
+            <tr><td><strong>JTC plc (UK, 2025)</strong></td><td>Tres propuestas compitiendo con Permira.</td><td class="negative">Permira gana a 1.340p; WP se retira</td><td>No persigue el precio</td></tr>
+            <tr><td><strong>PSI Software (DE, 2025)</strong></td><td>€45 (+84%) tras subasta competitiva.</td><td class="positive">82% de aceptación, sin subir precio</td><td>Precio “knockout” de una vez</td></tr>
+            <tr><td><strong>ESR Group (HK, 2025)</strong></td><td>Consorcio con Starwood: HK$13 (+55,7%).</td><td class="positive">Aprobado en jun-25</td><td>Apetito por real estate APAC</td></tr>
+            <tr><td><strong>J.S.B. (JP, 2026)</strong></td><td>OPA JPY 9.000; 58% comprometido.</td><td class="positive">Completada el 28-jul-26</td><td>Operación amistosa y blindada</td></tr>
+            <tr class="row-key"><td><strong>Ingenia (AU, 2026)</strong></td><td>A$4,75 → 5,05 → 5,25 + ultimátum.</td><td class="warning">Pendiente (19-oct)</td><td>Mismo patrón</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Australia y el “target que también compra”</h3>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Caso</th><th>Situación</th><th>Desenlace</th><th>Lectura para INA</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Sydney Airport / IFM (2021)</strong></td><td>A$8,25 y 8,45 rechazados; A$8,75 → DD</td><td class="positive">SID y cierre</td><td>Sin plan alternativo, el Board cede</td></tr>
+            <tr><td><strong>Ramsay / KKR (2022)</strong></td><td>A$88 con DD; KKR no avanza</td><td class="negative">Retirada; −4,7% ese día</td><td>La DD puede romper la operación</td></tr>
+            <tr><td><strong>Origin / Brookfield-EIG (2023)</strong></td><td>Board a favor; AustralianSuper en contra</td><td class="negative">68,9% &lt; 75%: fracasa</td><td>INA no tiene accionista bloqueante</td></tr>
+            <tr class="row-key"><td><strong>Perpetual / Regal + BPEA (2022)</strong></td><td>A$30 y A$33 condicionados a terminar la compra de Pendal</td><td class="negative">Rechazados; Pendal se completa</td><td><strong>La analogía más cercana: el Board prevalece</strong></td></tr>
+            <tr><td><strong>Mylan / Teva (2015)</strong></td><td>Teva condiciona a abandonar Perrigo</td><td class="negative">Teva se va a Allergan Generics</td><td>El oferente no espera indefinidamente</td></tr>
+            <tr><td><strong>Spirit / JetBlue (2022)</strong></td><td>Fusión con Frontier firmada; OPA hostil</td><td class="positive">Los accionistas votan contra Frontier</td><td>Ganó porque había voto; en INA no lo hay</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="alert alert-info">
+        <strong>Base rate amplio:</strong> de 11 bear hugs públicos en UK (ene–jul 2026, White &amp; Case), 5 acabaron recomendados con una subida mediana del +18,5%; 3 siguen hostiles y 3 se retiraron. La subida acumulada de Warburg en Ingenia (+10,5%) queda por debajo de esa mediana, y el “best and final” le impide cerrar la diferencia.
+      </div>
+
+      <div class="alert alert-success">
+        <strong>Lecciones aplicadas a Ingenia:</strong> (1) Cuando el target tiene su propia operación firmada y los accionistas no la votan, el Board suele prevalecer. (2) Los Boards sin plan alternativo ceden tras dos o tres subidas, pero ceder no garantiza el cierre. (3) Warburg es creíble en su precio y disciplinado para irse; cuando firma, cierra. (4) La salida al alza depende de que el Board cambie de postura o de que aparezca un rival, no de negociar.
+      </div>
+    </section>
+
+    <!-- ESCENARIOS -->
+    <section id="valuation" class="fade-in">
+      <h2>Escenarios, probabilidades y retorno ponderado</h2>
+
+      <h3>De los base rates a la probabilidad</h3>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Paso</th><th class="num">Dato</th><th class="num">Peso / ajuste</th></tr></thead>
+          <tbody>
+            <tr><td>Target-comprador (Perpetual, Mylan, Spirit)</td><td class="num">1/3</td><td class="num">50%</td></tr>
+            <tr><td>AU: el Board se compromete tras subidas (Sydney Airport, Ramsay, Origin)</td><td class="num">3/3</td><td class="num">20%</td></tr>
+            <tr><td>Bear hugs UK 2026 recomendados</td><td class="num">5/11</td><td class="num">30%</td></tr>
+            <tr class="row-key"><td><strong>Base rate ponderado</strong></td><td class="num"></td><td class="num"><strong>50,3%</strong></td></tr>
+            <tr><td>Board pro-Peet (8-oct) y reafirmación el 15-oct</td><td class="num"></td><td class="num negative">−6 pp</td></tr>
+            <tr><td>El ultimátum exige declarar “mejor que Peet” antes de la DD</td><td class="num"></td><td class="num negative">−4 pp</td></tr>
+            <tr><td>Los holders no votan Peet</td><td class="num"></td><td class="num negative">−5 pp</td></tr>
+            <tr><td>Precio dentro del rango “convincente” de Citi (A$5,25–5,50)</td><td class="num"></td><td class="num positive">+3 pp</td></tr>
+            <tr><td>Salida barata de Peet (A$10m)</td><td class="num"></td><td class="num positive">+2 pp</td></tr>
+            <tr class="row-total"><td>P(vía Warburg) · P(cierre | vía Warburg)</td><td class="num"></td><td class="num">40,3% · 80,3%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Árbol de escenarios</h3>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Escenario</th><th class="num">Prob.</th><th class="num">Precio</th><th class="num">Retorno</th></tr></thead>
+          <tbody>
+            <tr><td><strong>S1</strong> · El Board confirma → scheme Warburg se cierra (~abr-27)</td><td class="num">32,4%</td><td class="num">A$5,30</td><td class="num positive">+29,9%</td></tr>
+            <tr><td><strong>S2</strong> · El Board confirma → la DD o la negociación rompe</td><td class="num">7,9%</td><td class="num">A$4,00</td><td class="num warning">−2,0%</td></tr>
+            <tr><td><strong>S3</strong> · Rival / precio superior</td><td class="num">4,0%</td><td class="num">A$5,60</td><td class="num positive">+37,3%</td></tr>
+            <tr><td><strong>S4</strong> · El Board rechaza → WP se retira → Peet se completa</td><td class="num">47,3%</td><td class="num">A$3,70</td><td class="num negative">−9,3%</td></tr>
+            <tr><td><strong>S5</strong> · WP se retira y Peet tampoco se completa</td><td class="num">8,4%</td><td class="num">A$4,20</td><td class="num positive">+2,9%</td></tr>
+            <tr class="row-total"><td>Valor esperado ponderado</td><td class="num">100%</td><td class="num">A$4,36</td><td class="num positive">+6,9%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="chart-grid">
+        <div class="chart-container"><canvas id="scenarioProb"></canvas></div>
+        <div class="chart-container"><canvas id="scenarioRet"></canvas></div>
+      </div>
+
+      <h3>Sensibilidad: retorno esperado según P(vía Warburg) y el precio en S4</h3>
+      <div class="table-responsive">
+        <table class="sens">
+          <thead><tr><th>P(vía WP) \ Precio S4</th><th>A$3,40</th><th>A$3,55</th><th>A$3,70</th><th>A$3,85</th><th>A$4,00</th></tr></thead>
+          <tbody id="sensBody"></tbody>
+        </table>
+      </div>
+      <div class="chart-container chart-350"><canvas id="sensChart"></canvas></div>
+
+      <div class="alert alert-warning">
+        <strong>Lectura:</strong> el valor esperado solo es negativo si la probabilidad cae a ≤25% y el downside llega a A$3,55 o menos. El break-even de la vía Warburg está en ≈18% (el mercado descuenta ≈24%). A A$5,25, la TIR del sponsor en nuestro LBO simplificado es ≈13,3% con salida a 15x: Warburg no tiene margen para pagar más sin palancas adicionales.
+      </div>
+    </section>
+
+    <!-- CATALIZADORES -->
+    <section id="catalysts" class="fade-in">
+      <h2>Catalizadores y calendario</h2>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Fecha</th><th>Hito</th><th>Estado</th></tr></thead>
+          <tbody>
+            <tr><td>26-ago-2026</td><td>SID con Peet; INA cae a A$3,59</td><td><span class="tag tag-green">Materializado</span></td></tr>
+            <tr><td>7 / 21 / 25-sep</td><td>Warburg A$4,75 → A$5,05 → A$5,25</td><td><span class="tag tag-green">Materializado</span></td></tr>
+            <tr><td>5-oct</td><td>DD inicial no exclusiva</td><td><span class="tag tag-green">Materializado</span></td></tr>
+            <tr><td>15-oct</td><td>“Best and final” + ultimátum</td><td><span class="tag tag-green">Materializado</span></td></tr>
+            <tr class="row-key"><td><strong>19-oct (lun)</strong></td><td><strong>Fecha límite para la confirmación del Board y el process deed</strong></td><td><span class="tag tag-orange">Punto binario</span></td></tr>
+            <tr><td>Finales oct</td><td>Primera vista judicial de Peet</td><td><span class="tag tag-cyan">Pendiente</span></td></tr>
+            <tr><td>Principios nov</td><td>Booklet de Peet e informe del experto</td><td><span class="tag tag-cyan">Pendiente</span></td></tr>
+            <tr class="row-key"><td><strong>Principios dic</strong></td><td><strong>Junta de Peet y segunda vista: último momento para terminar el SID</strong></td><td><span class="tag tag-red">Última salida</span></td></tr>
+            <tr><td>~abr-2027</td><td>Implementación del scheme Warburg (si S1)</td><td><span class="tag tag-cyan">Condicional</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="highlights">
+        <div class="highlight-item"><h4>Señal 1 · Respuesta del Board</h4><p>Anuncio a ASX el 19/20-oct: confirmación, rechazo, extensión o contrapropuesta.</p></div>
+        <div class="highlight-item"><h4>Señal 2 · Movimientos de Warburg</h4><p>Retirada formal, extensión del plazo o mejoras no-precio (exclusividad más corta, break fee, FIRB).</p></div>
+        <div class="highlight-item"><h4>Señal 3 · Institucionales</h4><p>Cartas públicas de Cohen &amp; Steers, CPP, HMC o APG; avisos de substantial holder; requerimientos s249D.</p></div>
+        <div class="highlight-item"><h4>Señal 4 · Terceros</h4><p>Rumores creíbles de otro comprador o una solicitud al Takeovers Panel.</p></div>
+      </div>
+    </section>
+
+    <!-- RIESGOS -->
+    <section id="riesgos" class="fade-in">
+      <h2>Análisis de riesgos</h2>
+      <h3>Riesgos principales</h3>
+
+      <div class="card">
+        <h4>🔴 Riesgo #1: Warburg se retira y Peet sigue adelante · Alto</h4>
+        <p><strong>Escenario:</strong> el Board no confirma el 19-oct, Warburg se retira y Peet se implementa a finales de diciembre. INA vuelve al rango post-Peet (A$3,59–3,65) más algo de opcionalidad residual.</p>
+        <p><strong>Mitigantes:</strong> precio ya por debajo del NTA (0,95x); presión institucional; el Board puede cambiar de postura hasta principios de diciembre.</p>
+        <p><strong>Probabilidad:</strong> <span class="warning">≈47% · −9%</span></p>
+      </div>
+
+      <div class="card">
+        <h4>🟡 Riesgo #2: ruptura tras la confirmación · Medio</h4>
+        <p><strong>Escenario:</strong> el Board confirma y termina Peet, pero la DD confirmatoria o la documentación rompen la operación, o Warburg reprecia (como KKR/Ramsay).</p>
+        <p><strong>Impacto:</strong> Ingenia sin Peet y sin oferta → ≈A$4,00.</p>
+        <p><strong>Mitigantes:</strong> precio reconfirmado tras la DD inicial; financiación comprometida; las cuatro operaciones firmadas de Warburg en la muestra se cerraron.</p>
+        <p><strong>Probabilidad:</strong> <span class="warning">≈8%</span></p>
+      </div>
+
+      <div class="card">
+        <h4>🟡 Riesgo #3: bear case de mercado · Bajo-Medio</h4>
+        <p><strong>Escenario:</strong> el mercado castiga más Peet (capex, ciclo residencial, tipos) → A$3,40 (−17%).</p>
+        <p><strong>Mitigantes:</strong> NTA de A$4,28; activos con ingresos recurrentes; tamaño de posición limitado.</p>
+        <p><strong>Probabilidad:</strong> <span class="positive">Cola baja</span></p>
+      </div>
+
+      <h3>Upside</h3>
+      <div class="card">
+        <h4>🟢 Upside #1: el Board confirma · Alto impacto</h4>
+        <p><strong>Escenario:</strong> exclusividad → SID → votación hacia marzo de 2027 → cobro de A$5,25 + 5c.</p>
+        <p><strong>Probabilidad:</strong> <span class="positive">≈32% de que se cierre (+30%)</span></p>
+      </div>
+      <div class="card">
+        <h4>🟢 Upside #2: rival · Muy alto impacto</h4>
+        <p><strong>Escenario:</strong> un tercero libera la reserva del “best and final” → A$5,50–5,80.</p>
+        <p><strong>Impacto:</strong> +37% sobre A$4,08.</p>
+        <p><strong>Probabilidad:</strong> <span class="positive">≈4%</span></p>
+      </div>
+
+      <div class="alert alert-success">
+        <strong>🛡️ Perfil riesgo/recompensa:</strong> +30% de upside con ≈36% de probabilidad frente a un −9% probable con ≈55%. El valor esperado es positivo (+6,9%; ≈13% anualizado hasta la resolución), pero la volatilidad del resultado es alta: el tamaño debe asumir la pérdida probable.
+      </div>
+    </section>
+
+    <!-- CONCLUSIÓN -->
+    <section id="conclusion" class="fade-in">
+      <h2>Conclusiones</h2>
+
+      <div class="card">
+        <h3>Lecturas clave del análisis</h3>
+        <ul class="compact-list">
+          <li>El precio ya no es la variable. El historial de Warburg (Inmarsat, JTC) y la política de truth in takeovers hacen creíble el “best and final”.</li>
+          <li>La variable es la voluntad del Board de abandonar Peet. Los precedentes más parecidos (Perpetual, Mylan) favorecen al Board.</li>
+          <li>Con base rates y ajustes, estimamos ≈40% para la vía Warburg frente al ≈24% del mercado. EV A$4,36 (+6,9%).</li>
+          <li>Esperar a la confirmación no compensa: el precio saltaría a A$5,00–5,10 y el spread restante, con ~20% de riesgo de ruptura, tiene un EV cercano a cero.</li>
+          <li>Si Warburg se retira, la tesis cambia: Ingenia + Peet por debajo del NTA es una decisión fundamental distinta.</li>
+        </ul>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Disciplina</th><th>Regla</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Tamaño</strong></td><td>2–3% de la cartera (pérdida en S4 ≈0,2–0,3% de la cartera; bear ≈0,5%)</td></tr>
+            <tr><td><strong>Entrada</strong></td><td>Antes del 19-oct, a ≤A$4,20 (EV ≈+3,8%). Por encima de A$4,36 el EV es nulo.</td></tr>
+            <tr><td><strong>Si el Board confirma</strong></td><td>Vender la mayor parte por encima de A$5,00; mantener un remanente solo si cotiza ≤A$4,90.</td></tr>
+            <tr><td><strong>Si Warburg se retira</strong></td><td>Salir del trade event-driven y reevaluar Ingenia + Peet como tesis fundamental aparte.</td></tr>
+            <tr><td><strong>Si hay extensión o contrapropuesta</strong></td><td>Mantener: una extensión pactada es una señal positiva.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="alert alert-info mt-20">
+        <strong>Nota metodológica:</strong> las probabilidades combinan base rates de precedentes (target-comprador 50%, oferentes australianos 20%, bear hugs UK 2026 30%) con ajustes explícitos por los rasgos del caso. Los precios de cada escenario son juicios anclados en precios observados (post-Peet A$3,59–3,65; pre-Peet A$4,26; NTA A$4,28). El grupo más parecido solo tiene tres casos, así que conviene leer la sensibilidad como parte central del análisis. Modelo propio SpreadHunters.
+      </div>
+
+      <div class="card mt-20">
+        <h4>Fuentes principales</h4>
+        <ul class="source-list">
+          <li>Ingenia – ASX, 5-oct-2026: <a href="https://announcements.asx.com.au/asxpdf/20261005/pdf/074xxpmv17nxy8.pdf" target="_blank" rel="noopener noreferrer">announcements.asx.com.au</a></li>
+          <li>Carta Warburg 15-oct: <a href="https://www.sharecafe.com.au/2026/10/15/ingenia-communities-receives-updated-takeover-proposal-from-warburg-pincus/" target="_blank" rel="noopener noreferrer">ShareCafe</a> · <a href="https://kalkinemedia.com/au/news/announcements/ingenia-communities-group-receives-revised-525-per-security-offer-from-warburg-pincus-with-board-decision-deadline-on-19-october-2026" target="_blank" rel="noopener noreferrer">Kalkine</a> · <a href="https://finimize.com/content/warburg-pincus-presses-ingenia-to-pick-its-au525-offer" target="_blank" rel="noopener noreferrer">Finimize</a></li>
+          <li>Precio: <a href="https://www.stockopedia.com/share-prices/ingenia-communities-ASX:INA/" target="_blank" rel="noopener noreferrer">Stockopedia</a> · <a href="https://grafa.com/en/news/australia/ingenia-communities-receives-updated-5-25-takeover-offer" target="_blank" rel="noopener noreferrer">Grafa</a> · <a href="https://www.fool.com.au/tickers/asx-ina/" target="_blank" rel="noopener noreferrer">Motley Fool</a></li>
+          <li>Peet SID: <a href="https://www.marketindex.com.au/data-api/api/v1/announcements/XASX:INA:2A1692133/pdf/inline/ingenia-proposed-acquisition-of-peet" target="_blank" rel="noopener noreferrer">Ingenia/MarketIndex</a> · Proceso: <a href="https://www.mingtiandi.com/real-estate/finance/ingenia-opens-books-to-warburg-pincus-on-1-5b-takeover-bid/" target="_blank" rel="noopener noreferrer">Mingtiandi</a> · <a href="https://www.theweeklysource.com.au/ingenia-communities-chooses-peet-unless-warburg-pays-more/" target="_blank" rel="noopener noreferrer">The Weekly SOURCE</a></li>
+          <li>Truth in takeovers: <a href="https://www.allens.com.au/insights-news/explore/2026/the-allens-handbook-on-takeovers-in-australia/other-takeovers-issues/" target="_blank" rel="noopener noreferrer">Allens</a></li>
+          <li>Precedentes WP: <a href="https://www.cityam.com/private-equity-firms-rule-out-increasing-inmarsat-bid-ahead-of-high-court-hearing/" target="_blank" rel="noopener noreferrer">Inmarsat</a> · <a href="https://www.investing.com/news/company-news/warburg-pincus-withdraws-from-potential-jtc-takeover-93CH-4373417" target="_blank" rel="noopener noreferrer">JTC</a> · <a href="https://psi.de/en/company/investor-relations/takeover-offer-warburg-pincus" target="_blank" rel="noopener noreferrer">PSI</a> · <a href="https://www.financierworldwide.com/esr-taken-private-for-711bn" target="_blank" rel="noopener noreferrer">ESR</a> · <a href="https://warburgpincus.com/2026/06/12/warburg-pincus-announces-tender-offer-for-j-s-b-co-ltd/" target="_blank" rel="noopener noreferrer">JSB</a></li>
+          <li>Otros precedentes: <a href="https://www.investordaily.com.au/sydney-airport-agrees-to-takeover-bid" target="_blank" rel="noopener noreferrer">Sydney Airport</a> · <a href="https://www.businessnewsaus.com.au/articles/kkr-walks-away-from--20bn-ramsay-health-care-takeover.html" target="_blank" rel="noopener noreferrer">Ramsay</a> · <a href="https://fool.com.au/2023/12/04/origin-shares-on-watch-after-takeover-collapses" target="_blank" rel="noopener noreferrer">Origin</a> · <a href="https://www.hopgoodganim.com.au/news-insights/pendal-perpetual-regal-consortium/" target="_blank" rel="noopener noreferrer">Perpetual</a> · <a href="https://www.medthority.com/news/2015/07/teva-withdraws-plan-to-acquire-mylan/" target="_blank" rel="noopener noreferrer">Mylan/Teva</a> · <a href="https://www.bostonglobe.com/2022/07/27/business/spirit-frontier-end-merger-bid-paving-way-jetblue-deal" target="_blank" rel="noopener noreferrer">Spirit/JetBlue</a> · <a href="https://www.whitecase.com/insight-alert/year-bear-hug-what-eleven-uk-public-bids-tell-us" target="_blank" rel="noopener noreferrer">White &amp; Case</a></li>
+        </ul>
+      </div>
+
+      <div class="text-center mt-30">
+        <a href="#top" class="btn btn-success">⬆ Volver al inicio</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p><strong>Disclaimer:</strong> Este contenido tiene fines informativos y no constituye recomendación de inversión. Las probabilidades y los precios de cada escenario son estimaciones propias que pueden cambiar con nueva información; el proceso corporativo puede evolucionar rápidamente.</p>
+      <p class="mt-20" style="font-size: 0.85rem;">
+        📅 Análisis actualizado: 15 de octubre de 2026 | 📊 Fuentes: anuncios ASX de Ingenia y Peet, prensa financiera y modelo propio SpreadHunters
+      </p>
+      <p class="mt-15">
+        🔗 <a href="https://spreadhunters.es" target="_blank" rel="noopener noreferrer">SpreadHunters Investment Research</a>
+        | 📝 <a href="https://spreadhunters.substack.com/" target="_blank" rel="noopener noreferrer">Substack</a>
+        | 𝕏 <a href="https://x.com/Spread_Hunters" target="_blank" rel="noopener noreferrer">Twitter/X</a>
+      </p>
+    </div>
+  </footer>
+
+    <script>
+
+  // Scroll Progress Bar
+  window.addEventListener('scroll', function () {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+    const bar = document.getElementById("progressBar");
+    if (bar) bar.style.width = scrolled + "%";
+  });
+
+  // Smooth Scroll (y "active" solo desde menú)
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (!href || href === '#') return;
+
+      const target = document.querySelector(href);
+      if (!target) return;
+
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      if (this.closest('.nav-tabs')) {
+        document.querySelectorAll('.nav-tabs a').forEach(link => link.classList.remove('active'));
+        this.classList.add('active');
+      }
+    });
+  });
+
+  // Fade-in animations
+  const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+  const observer = new IntersectionObserver(function (entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.fade-in').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+    observer.observe(el);
+  });
+
+  // Active nav on scroll
+  window.addEventListener('scroll', function () {
+    let current = '';
+    document.querySelectorAll('section').forEach(section => {
+      const sectionTop = section.offsetTop;
+      if (window.pageYOffset >= (sectionTop - 200)) current = section.getAttribute('id');
+    });
+
+    document.querySelectorAll('.nav-tabs a').forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href')?.slice(1) === current) link.classList.add('active');
+    });
+  });
+
+  // ---------- Upside automático ----------
+  function parseMoney(text) {
+    const cleaned = String(text).replace(/[^\d.,-]/g, '').replace(',', '.');
+    const value = Number(cleaned);
+    return Number.isFinite(value) ? value : NaN;
+  }
+
+  function formatPct(value) {
+    const sign = value >= 0 ? '+' : '';
+    return `${sign}${value.toFixed(1).replace(".", ",")}%`;
+  }
+
+  function updateUpside() {
+    const elPrice = document.getElementById('priceCurrent');
+    const elFair = document.getElementById('fairValue');
+    const elUps = document.getElementById('upsidePct');
+    if (!elPrice || !elFair || !elUps) return;
+
+    const price = parseMoney(elPrice.textContent);
+    const fair = parseMoney(elFair.textContent);
+
+    if (!Number.isFinite(price) || !Number.isFinite(fair) || price <= 0) {
+      elUps.textContent = '—';
+      elUps.classList.remove('green', 'red');
+      return;
+    }
+
+    const upside = ((fair / price) - 1) * 100;
+    elUps.textContent = formatPct(upside);
+    elUps.classList.toggle('green', upside >= 0);
+    elUps.classList.toggle('red', upside < 0);
+  }
+
+  // Si algún día cambias el precio via DOM, esto lo recalcula automáticamente
+  const priceNode = document.getElementById('priceCurrent');
+  const fairNode = document.getElementById('fairValue');
+  if (priceNode) new MutationObserver(updateUpside).observe(priceNode, { childList: true, subtree: true, characterData: true });
+  if (fairNode) new MutationObserver(updateUpside).observe(fairNode, { childList: true, subtree: true, characterData: true });
+
+
+  // ---------- Countdown a la decisión del Board ----------
+  (function () {
+    const el = document.getElementById('countdown');
+    if (!el) return;
+    const deadline = new Date('2026-10-19T09:00:00+11:00');
+    const days = Math.ceil((deadline - new Date()) / 86400000);
+    if (days > 0) el.textContent = 'Faltan ' + days + (days === 1 ? ' día' : ' días') + ' (deadline de Warburg)';
+    else el.textContent = 'Fecha límite vencida: revisar el anuncio del Board';
+  })();
+
+  // ---------- Modelo de escenarios (mismos inputs que el Excel) ----------
+  const M = { price: 4.08, up: 5.30, brk: 4.00, rival: 5.60, noPeet: 4.20, pClose: 0.8033, pRival: 0.04, pPeet: 0.85 };
+  function evRet(p, down) {
+    const ev = p * (M.pClose * M.up + (1 - M.pClose) * M.brk) + M.pRival * M.rival
+             + (1 - p - M.pRival) * (M.pPeet * down + (1 - M.pPeet) * M.noPeet);
+    return ev / M.price - 1;
+  }
+  const sensP = [0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50];
+  const sensD = [3.40, 3.55, 3.70, 3.85, 4.00];
+  (function buildSens() {
+    const tb = document.getElementById('sensBody');
+    if (!tb) return;
+    sensP.forEach(p => {
+      const tr = document.createElement('tr');
+      let html = '<td><strong>' + Math.round(p * 100) + '%</strong></td>';
+      sensD.forEach(d => {
+        const r = evRet(p, d);
+        const cls = r > 0.03 ? 's-pos' : (r >= 0 ? 's-mid' : 's-neg');
+        const base = (p === 0.40 && d === 3.70) ? ' s-base' : '';
+        html += '<td class="' + cls + base + '">' + (r >= 0 ? '+' : '−') + Math.abs(r * 100).toFixed(1).replace('.', ',') + '%</td>';
+      });
+      tr.innerHTML = html;
+      tb.appendChild(tr);
+    });
+  })();
+
+  // ---------- Charts ----------
+  function getCtx(id) {
+    const el = document.getElementById(id);
+    if (!el) return null;
+    return (el.getContext && el.getContext('2d')) || null;
+  }
+
+  function initCharts() {
+    if (typeof Chart === 'undefined') { console.warn('Chart.js no está cargado.'); return; }
+    Chart.defaults.color = '#b0c4de';
+    Chart.defaults.borderColor = '#2d3d4d';
+    const titleOpt = t => ({ display: true, text: t, color: '#ffffff', font: { size: 14, weight: 'bold' } });
+
+    // 1. Precio vs ofertas
+    const ctxP = getCtx('priceChart');
+    if (ctxP) {
+      const labels = ['21-ago', '25-ago', '26-ago', '27-ago', '28-ago', '1-sep', '4-sep', '7-sep', '25-sep', '28-sep', '5-oct', '13-oct', '14-oct', '15-oct'];
+      const px = [4.26, 4.26, 3.99, 3.85, 3.69, 3.59, 3.65, 4.15, 4.50, 4.76, 4.92, 4.75, 4.58, 4.08];
+      const flat = v => labels.map(() => v);
+      new Chart(ctxP, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            { label: 'Precio INA (A$)', data: px, borderColor: '#00d7ff', backgroundColor: 'rgba(0,215,255,0.1)', borderWidth: 3, fill: true, tension: 0.25, pointBackgroundColor: '#00d7ff', pointBorderColor: '#ffffff', pointBorderWidth: 2, pointRadius: 5 },
+            { label: 'Warburg A$5,25 (best & final)', data: flat(5.25), borderColor: '#90ee90', borderWidth: 2, pointRadius: 0, fill: false },
+            { label: 'Warburg A$5,05 (rechazada)', data: flat(5.05), borderColor: 'rgba(144,238,144,0.5)', borderDash: [6, 4], borderWidth: 1.5, pointRadius: 0, fill: false },
+            { label: 'Warburg A$4,75 (rechazada)', data: flat(4.75), borderColor: 'rgba(144,238,144,0.35)', borderDash: [2, 4], borderWidth: 1.5, pointRadius: 0, fill: false },
+            { label: 'NTA FY26 A$4,28', data: flat(4.28), borderColor: '#ffa500', borderDash: [8, 4], borderWidth: 1.5, pointRadius: 0, fill: false }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: '#b0c4de', font: { size: 11 } } },
+            title: titleOpt('INA: precio vs. propuestas de Warburg'),
+            tooltip: { callbacks: { label: c => c.dataset.label + ': A$' + c.parsed.y.toFixed(2).replace('.', ',') } }
+          },
+          scales: {
+            y: { min: 3.4, max: 5.4, grid: { color: '#2d3d4d' }, ticks: { color: '#b0c4de', callback: v => 'A$' + v.toFixed(2).replace('.', ',') } },
+            x: { grid: { display: false }, ticks: { color: '#b0c4de' } }
+          }
+        }
+      });
+    }
+
+    const scen = ['S1 Cierre WP', 'S2 Ruptura', 'S3 Rival', 'S4 WP se va + Peet', 'S5 WP se va, sin Peet'];
+    const cols = ['rgba(144,238,144,0.7)', 'rgba(255,165,0,0.7)', 'rgba(0,215,255,0.7)', 'rgba(255,107,107,0.7)', 'rgba(74,139,155,0.7)'];
+    const bcols = ['#90ee90', '#ffa500', '#00d7ff', '#ff6b6b', '#4A8B9B'];
+
+    // 2. Probabilidad por escenario
+    const ctxS = getCtx('scenarioProb');
+    if (ctxS) {
+      new Chart(ctxS, {
+        type: 'bar',
+        data: { labels: scen, datasets: [{ label: 'Probabilidad', data: [32.4, 7.9, 4.0, 47.3, 8.4], backgroundColor: cols, borderColor: bcols, borderWidth: 2 }] },
+        options: {
+          indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false }, title: titleOpt('Probabilidad por escenario'),
+                     tooltip: { callbacks: { label: c => c.parsed.x.toFixed(1).replace('.', ',') + '%' } } },
+          scales: { x: { beginAtZero: true, max: 50, grid: { color: '#2d3d4d' }, ticks: { color: '#b0c4de', callback: v => v + '%' } },
+                    y: { grid: { display: false }, ticks: { color: '#b0c4de' } } }
+        }
+      });
+    }
+
+    // 3. Retorno por escenario
+    const ctxR = getCtx('scenarioRet');
+    if (ctxR) {
+      new Chart(ctxR, {
+        type: 'bar',
+        data: { labels: scen, datasets: [{ label: 'Retorno vs A$4,08', data: [29.9, -2.0, 37.3, -9.3, 2.9], backgroundColor: cols, borderColor: bcols, borderWidth: 2 }] },
+        options: {
+          indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false }, title: titleOpt('Retorno por escenario (EV +6,9%)'),
+                     tooltip: { callbacks: { label: c => (c.parsed.x >= 0 ? '+' : '') + c.parsed.x.toFixed(1).replace('.', ',') + '%' } } },
+          scales: { x: { min: -15, max: 40, grid: { color: '#2d3d4d' }, ticks: { color: '#b0c4de', callback: v => v + '%' } },
+                    y: { grid: { display: false }, ticks: { color: '#b0c4de' } } }
+        }
+      });
+    }
+
+    // 4. Sensibilidad
+    const ctxSe = getCtx('sensChart');
+    if (ctxSe) {
+      const lineCols = ['#ff6b6b', '#ffa500', '#00d7ff', '#4A8B9B', '#90ee90'];
+      new Chart(ctxSe, {
+        type: 'line',
+        data: {
+          labels: sensP.map(p => Math.round(p * 100) + '%'),
+          datasets: sensD.map((d, i) => ({
+            label: 'S4 = A$' + d.toFixed(2).replace('.', ','),
+            data: sensP.map(p => +(evRet(p, d) * 100).toFixed(2)),
+            borderColor: lineCols[i], backgroundColor: 'transparent', borderWidth: d === 3.70 ? 3 : 2,
+            pointRadius: d === 3.70 ? 5 : 3, pointBackgroundColor: lineCols[i], tension: 0.2
+          }))
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: '#b0c4de' } }, title: titleOpt('Retorno esperado vs P(vía Warburg)'),
+                     tooltip: { callbacks: { label: c => c.dataset.label + ': ' + (c.parsed.y >= 0 ? '+' : '') + c.parsed.y.toFixed(1).replace('.', ',') + '%' } } },
+          scales: { y: { grid: { color: '#2d3d4d' }, ticks: { color: '#b0c4de', callback: v => v + '%' } },
+                    x: { title: { display: true, text: 'Probabilidad de la vía Warburg', color: '#b0c4de' }, grid: { display: false }, ticks: { color: '#b0c4de' } } }
+        }
+      });
+    }
+  }
+
+  updateUpside();
+  initCharts();
+</script>
+</body>
+</html>
