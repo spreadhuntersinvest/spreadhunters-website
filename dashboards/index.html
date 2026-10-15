@@ -2523,6 +2523,35 @@ async function loadAllPrices() {
                 closeReturnAnnualized: '',  // Rentabilidad anualizada
                 closeComment: '' // Tesis activa: campos de cierre (closeDate, closeReason, closeReturn...) pendientes de completar cuando cierre.
             },
+             {
+               id: 'INA',
+                path: './ina/index.html',
+                type: 'takeover',
+                ticker: 'INA',
+                company: 'Ingenia Communities Group',
+                sector: 'Real Estate',
+                logo: 'company-logos/ina.png',
+                thesisDate: '2026-10-15',
+                thesisPrice: 'A$4.08',
+                fairValue: 'A$4.36',
+                fairValueRaw: 4.36,
+                upsideInitial: '+6.9%',
+                ticker_finnhub: 'INA.AX',
+                ticker_fincept: 'INA.AX',
+                currentPrice: 'A$4.08',
+                currency: 'A$',
+                upsideActual: '+6.9%',
+                priceSource: 'manual',
+                riskLevel: 'Alto',
+                // ← CAMPOS DE CIERRE
+                status: 'active',           // 'active' | 'closed_success' | 'closed_fail' | 'closed_neutral'
+                closeDate: '',
+                closePrice: '',
+                closeReason: '',
+                closeReturn: '',
+                closeReturnAnnualized: '',
+                closeComment: '' // Tesis activa. Punto binario: decisión del Board sobre el ultimátum de Warburg (19-oct-2026). Si cierra el scheme: A$5,30 (A$5,25 + 5c de distribución).
+            },
             
             
             
